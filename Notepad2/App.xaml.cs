@@ -19,12 +19,17 @@ namespace Notepad2
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow mWnd;
-            string parms = string.Join(" ", e.Args);
-            string[] arguments = parms.Split('\"');
-            if (arguments.Length > 0)
+            if (e.Args.Length > 0)
+            {
+                string parms = string.Join(" ", e.Args);
+                string[] arguments = parms.Split('\"');
                 mWnd = new MainWindow(arguments);
+            }
             else
+            {
                 mWnd = new MainWindow();
+            }
+
             MainWindow = mWnd;
             mWnd.Show();
             mWnd.LoadSettings();

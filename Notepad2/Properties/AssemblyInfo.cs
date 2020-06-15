@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SharpPad")]
-[assembly: AssemblyDescription("Notepad but with a dark theme and tabs and stuff")]
+[assembly: AssemblyDescription("Notepad but with a dark theme, tabs and other stuff")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TheR")]
 [assembly: AssemblyProduct("SharpPad")]
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.2.2")]
+[assembly: AssemblyVersion("1.6.2.4")]
 [assembly: AssemblyFileVersion("1.6.2.2")]

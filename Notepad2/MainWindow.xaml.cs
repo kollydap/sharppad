@@ -54,7 +54,9 @@ namespace Notepad2
                 foreach (string path in filePaths)
                 {
                     if (path.IsFile())
-                        ViewModel.OpenNotepadFileFromPath(path);
+                    {
+                        ViewModel.OpenNotepadFileFromPath(path, true);
+                    }
                     if (path.IsDirectory())
                     {
                         MessageBoxResult a =
@@ -99,16 +101,6 @@ namespace Notepad2
             Title = "SharpPad";
         }
 
-        public MainWindow(NotepadListItem fileItem, bool enableSettingsSave)
-        {
-            BeforeInitComponents();
-            InitializeComponent();
-            InitWindow();
-            ViewModel.AddNotepadItem(fileItem);
-            IsDuplicatedWindow = enableSettingsSave;
-            Title = "SharpPad";
-        }
-
         #endregion
 
         public void BeforeInitComponents()
@@ -122,7 +114,6 @@ namespace Notepad2
             this.DataContext = ViewModel;
             ViewModel.HightlightCallback = Hightlight;
             ViewModel.AnimateAddCallback = this.AnimateControl;
-            ViewModel.AddStartupItem();
             InitialiseTreeFileExplorer();
         }
 

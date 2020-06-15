@@ -10,17 +10,17 @@
              MouseDoubleClick="UserControl_MouseDoubleClick"
              Foreground="{DynamicResource ControlDefaultForeground}">
     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-        <StackPanel MinWidth="40" Margin="0 0 5 0">
+        <StackPanel MinWidth="30" Margin="0 0 5 0">
             <TextBlock Text="Start" HorizontalAlignment="Center"/>
             <Separator/>
             <TextBlock Text="{Binding StartIndex, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </StackPanel>
-        <StackPanel MinWidth="40" Margin="0 0 5 0">
+        <StackPanel MinWidth="38" Margin="0 0 5 0">
             <TextBlock Text="Length" HorizontalAlignment="Center"/>
             <Separator/>
             <TextBlock Text="{Binding WordLength, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </StackPanel>
-        <StackPanel MinWidth="150">
+        <StackPanel MinWidth="124">
             <TextBlock Text="Preview of Near by Text" HorizontalAlignment="Center"/>
             <Separator/>
             <TextBlock Text="{Binding PreviewFoundText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Visibility="Visible"/>

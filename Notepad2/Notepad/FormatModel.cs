@@ -10,7 +10,7 @@ namespace Notepad2.Notepad
         private double _size;
         private FontStyle _style;
         private FontWeight _weight;
-        private TextDecorationCollection _decoration = new TextDecorationCollection();
+        private TextDecorationCollection _decoration;
         private FontFamily _family;
         private TextWrapping _wrap;
         private bool _isWrapped;
@@ -61,11 +61,12 @@ namespace Notepad2.Notepad
             }
         }
 
-        public FormatModel()
-        {
-        }
-
         public Action<double> FontSizeChanged { get; set; }
         public Action<FontFamily> FontFamilyChanged { get; set; }
+
+        public FormatModel()
+        {
+            Decoration = null;
+        }
     }
 }

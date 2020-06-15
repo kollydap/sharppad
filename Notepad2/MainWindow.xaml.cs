@@ -68,7 +68,7 @@ namespace Notepad2
                             {
                                 foreach (string file in Directory.GetFiles(path))
                                 {
-                                    ViewModel.OpenNotepadFileFromPath(file);
+                                    ViewModel.OpenNotepadFileFromPath(file, true);
                                 }
                             }
                             catch (Exception e)
@@ -122,6 +122,7 @@ namespace Notepad2
             this.DataContext = ViewModel;
             ViewModel.HightlightCallback = Hightlight;
             ViewModel.AnimateAddCallback = this.AnimateControl;
+            ViewModel.AddStartupItem();
             InitialiseTreeFileExplorer();
         }
 
@@ -402,6 +403,18 @@ namespace Notepad2
         private void ShowLineThing_Checked(object sender, RoutedEventArgs e)
         {
             DrawRectangleAtCaret();
+        }
+
+        private void ChangeResolutionClick(object sender, RoutedEventArgs e)
+        {
+            switch(int.Parse(((FrameworkElement)sender).Uid))
+            {
+                case 0: Width = 1024; Height = 576; break;
+                case 1: Width = 1152; Height = 648; break;
+                case 2: Width = 1280; Height = 720; break;
+                case 3: Width = 1706; Height = 960; break;
+                case 4: Width = 1096; Height = 664; break;
+            }
         }
     }
 }

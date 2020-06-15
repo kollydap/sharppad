@@ -431,7 +431,7 @@ namespace Notepad2.ViewModels
                     for (i = 0; i < ofd.FileNames.Length; i++)
                     {
                         string paths = ofd.FileNames[i];
-                        OpenNotepadFileFromPath(paths);
+                        OpenNotepadFileFromPath(paths, true);
                     }
                     Information.Show($"Opened {i} files", InfoTypes.FileIO);
                 }
@@ -476,19 +476,18 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void OpenNotepadFileFromPath(string path)
+        public void OpenNotepadFileFromPath(string path, bool selectFile = false)
         {
             try
             {
                 if (File.Exists(path))
                 {
                     string text = NotepadActions.ReadFile(path);
-                    AddNotepadItem(
-                        CreateDefaultStyleNotepadItem(
-                           text,
-                           Path.GetFileName(path),
-                           path));
+                    NotepadListItem item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
+                    AddNotepadItem(item);
                     Information.Show($"Opened file: {path}", InfoTypes.FileIO);
+                    if (selectFile && item != null)
+                        SelectedNotepadItem = item;
                 }
             }
             catch (Exception e) { Information.Show(e.Message, "Error while opening file from path"); }

@@ -11,10 +11,11 @@
         xmlns:converters="clr-namespace:Notepad2.Converters"
         xmlns:local="clr-namespace:Notepad2" 
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels" 
-        xmlns:simpleeditor="clr-namespace:Notepad2.SimpleEditor" xmlns:controls="clr-namespace:Notepad2.Controls"
+        xmlns:se="clr-namespace:Notepad2.SimpleEditor" xmlns:controls="clr-namespace:Notepad2.Controls"
         mc:Ignorable="d" 
-        Title="SharpPad (Main Window)"
+        Title="SharpPad (MainWindow)"
         Height="576" Width="1024"
+        MinHeight="532" MinWidth="872"
         Closing="Window_Closing" 
         Style="{DynamicResource CustomWindowStyle}"
         BorderBrush="{DynamicResource ControlDefaultBackground}"
@@ -132,6 +133,11 @@
                         <Image Source="Resources/openInNewWindow.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="Set resolution to 576p" Click="ChangeResolutionClick" Uid="0" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set resolution to 648p" Click="ChangeResolutionClick" Uid="1" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set resolution to 720p" Click="ChangeResolutionClick" Uid="2" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set resolution to 960p" Click="ChangeResolutionClick" Uid="3" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set to recommended resolution" Click="ChangeResolutionClick" Uid="4" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
             <MenuItem Header="Help" Cursor="Help">
                 <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource SingleDropDownMenuItem}" Cursor="Help">
@@ -234,7 +240,7 @@
                         <win:TextDecorationCollection>Baseline</win:TextDecorationCollection>
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="Decorations Type" TextDecorations="{Binding}"/>
+                                <TextBlock Text="Decorations" TextDecorations="{Binding}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -242,7 +248,6 @@
                               ToolTip="Text Wrapping: stops text exceeding the max width of textbox, aka never have to horizontally scrol."
                               IsChecked="{Binding Notepad.DocumentFormat.IsWrapped, UpdateSourceTrigger=PropertyChanged}" 
                               Height="Auto" Width="52"/>
-                    <Separator Style="{DynamicResource VerticalSeparator}"/>
                     <CheckBox x:Name="showLineThing"
                               Margin="5,0,0,0" Content="Show Caret Position Line Outline" 
                               ToolTip="The Border around the seleced line (aka caret index) of the text editor"
@@ -434,9 +439,8 @@
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="Text Input" VerticalAlignment="Center"/>
-                                        <Separator Style="{DynamicResource VerticalSeparator}" Margin="10,0"/>
-                                        <TextBlock Text="Shortcut Buttons" VerticalAlignment="Center" Margin="0 0 0 0"/>
-                                        <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="5,0,2,0" Focusable="False" Width="28">
+                                        <Separator Style="{DynamicResource VerticalSeparator}" Margin="5,0"/>
+                                        <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
                                             <Image Source="Resources/cut.png"/>
                                         </Button>
                                         <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
@@ -451,6 +455,9 @@
                                         <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,0,0" Focusable="False" Width="28">
                                             <Image Source="Resources/redo.png"/>
                                         </Button>
+                                        <CheckBox Margin="5 0 0 0" Content="Auto-word Selection" 
+                                                  IsChecked="{Binding ElementName=MainTextBox, Path=AutoWordSelection}"
+                                                  ToolTip="Auto-selected the next word when you select other words"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <Grid Margin="0,0,0,0">
@@ -465,7 +472,7 @@
                                                             </TextBlock.LayoutTransform>
                                                         </TextBlock>
                                                     </Expander.Header>
-                                                    <GroupBox Header="Find text in the Text Input (on left)" Width="300">
+                                                    <GroupBox Header="Find text in the Text Input (on left)" Width="240">
                                                         <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
                                                             <Grid.InputBindings>
                                                                 <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
@@ -480,7 +487,7 @@
                                                                       Margin="5,39,5,0"
                                                                       Height="24"
                                                                       Content="Match case (Capitalisation)" VerticalAlignment="Top"/>
-                                                            <Label Content="Found Results. (Double click to highlight)" VerticalAlignment="Top" Margin="5,68,5,0"/>
+                                                            <Label Content="Found Results. (double-click to highlight)" Padding="0 5" VerticalAlignment="Top" Margin="5,68,5,0"/>
                                                             <ListBox Margin="5,94,5,5"
                                                                      x:Name="findList"
                                                                      ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}"
@@ -515,34 +522,33 @@
                                                                            HorizontalAlignment="Left" DockPanel.Dock="Left" 
                                                                            MinWidth="16" TextAlignment="Center" Margin="2 0"/>
                                                                 -->
-                                                        <simpleeditor:SimpleTextEditor 
-                                                                    x:Name="MainTextBox"
-                                                                    FontFamily="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
-                                                                    FontSize="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
-                                                                    FontStyle="{Binding Notepad.DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
-                                                                    FontWeight="{Binding Notepad.DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
-                                                                    TextDecorations="{Binding Notepad.DocumentFormat.Decoration, UpdateSourceTrigger=PropertyChanged}"
-                                                                    TextWrapping="{Binding Notepad.DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
-                                                                    Text="{Binding Notepad.Document.Text, UpdateSourceTrigger=PropertyChanged}"
-                                                                    ScrollViewer.PanningMode="Both"
-                                                                    AutoWordSelection="True"
-                                                                    IsInactiveSelectionHighlightEnabled="True"
-                                                                    BorderThickness="1"
-                                                                    Focusable="True" 
-                                                                    AcceptsReturn="True"
-                                                                    AcceptsTab="True"
-                                                                    HorizontalScrollBarVisibility="Visible"
-                                                                    VerticalScrollBarVisibility="Visible"
-                                                                    Language="en"
-                                                                    SpellCheck.SpellingReform="Postreform"
-                                                                    utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
-                                                                    Visibility="Visible" 
-                                                                    UndoLimit="500"
-                                                                    PreviewMouseWheel="TextBox_MouseWheel"
-                                                                    SelectionChanged="MainTextBox_SelectionChanged"
-                                                                    SizeChanged="MainTextBox_SizeChanged"
-                                                                    >
-                                                            <simpleeditor:SimpleTextEditor.ContextMenu>
+                                                        <se:SimpleTextEditor 
+                                                            x:Name="MainTextBox"
+                                                            FontFamily="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
+                                                            FontSize="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
+                                                            FontStyle="{Binding Notepad.DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
+                                                            FontWeight="{Binding Notepad.DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
+                                                            TextDecorations="{Binding Notepad.DocumentFormat.Decoration, UpdateSourceTrigger=PropertyChanged}"
+                                                            TextWrapping="{Binding Notepad.DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
+                                                            Text="{Binding Notepad.Document.Text, UpdateSourceTrigger=PropertyChanged}"
+                                                            ScrollViewer.PanningMode="Both"
+                                                            AutoWordSelection="False"
+                                                            IsInactiveSelectionHighlightEnabled="True"
+                                                            BorderThickness="1"
+                                                            Focusable="True" 
+                                                            AcceptsReturn="True"
+                                                            AcceptsTab="True"
+                                                            HorizontalScrollBarVisibility="Visible"
+                                                            VerticalScrollBarVisibility="Visible"
+                                                            Language="en"
+                                                            SpellCheck.SpellingReform="Postreform"
+                                                            utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
+                                                            Visibility="Visible" 
+                                                            UndoLimit="500"
+                                                            PreviewMouseWheel="TextBox_MouseWheel"
+                                                            SelectionChanged="MainTextBox_SelectionChanged"
+                                                            SizeChanged="MainTextBox_SizeChanged">
+                                                            <se:SimpleTextEditor.ContextMenu>
                                                                 <ContextMenu OverridesDefaultStyle="False">
                                                                     <MenuItem Header="Cut"   Command="ApplicationCommands.Cut" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
                                                                     <MenuItem Header="Copy"  Command="ApplicationCommands.Copy" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
@@ -551,11 +557,11 @@
                                                                     <MenuItem Header="Undo"  Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
                                                                     <MenuItem Header="Redo" InputGestureText="Ctrl+Shift+Z or Ctrl+Y" Command="ApplicationCommands.Redo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
                                                                 </ContextMenu>
-                                                            </simpleeditor:SimpleTextEditor.ContextMenu>
-                                                            <simpleeditor:SimpleTextEditor.InputBindings>
+                                                            </se:SimpleTextEditor.ContextMenu>
+                                                            <se:SimpleTextEditor.InputBindings>
                                                                 <KeyBinding Key="Z" Modifiers="Ctrl+Shift" Command="ApplicationCommands.Redo"/>
-                                                            </simpleeditor:SimpleTextEditor.InputBindings>
-                                                        </simpleeditor:SimpleTextEditor>
+                                                            </se:SimpleTextEditor.InputBindings>
+                                                        </se:SimpleTextEditor>
                                                         <Border x:Name="aditionalSelection"
                                                                 BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                                                                 Opacity="1"

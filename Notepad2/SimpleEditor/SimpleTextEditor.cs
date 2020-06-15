@@ -10,6 +10,7 @@ namespace Notepad2.SimpleEditor
     {
         public SimpleTextEditor()
         {
+
         }
 
         public int GetLinesCount()

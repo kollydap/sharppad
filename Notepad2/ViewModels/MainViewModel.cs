@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Notepad2.Finding;
+using System;
 using Notepad2.FileExplorer;
 
 namespace Notepad2.ViewModels

@@ -1,6 +1,7 @@
 ﻿using Notepad2.Finding;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -99,7 +100,7 @@ namespace Notepad2.ViewModels
                     FindSettings settings = MatchCase ? FindSettings.CaseSensitive : FindSettings.None;
                     foreach (FindResult result in text.FindTextOccurrences(FindWhatText, settings))
                     {
-                        result.PreviewFoundText = result.PreviewFoundText.Replace('\n', ' ');
+                        result.PreviewFoundText = result.PreviewFoundText.Replace(Environment.NewLine, @"[\n]");
                         FindResultItem fri = new FindResultItem(result)
                         {
                             HighlightCallback = Hightlight

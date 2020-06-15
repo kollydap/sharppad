@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("SharpPad")]
 [assembly: AssemblyDescription("Notepad but with a dark theme and tabs and stuff")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Kettlesimulator")]
+[assembly: AssemblyCompany("TheR")]
 [assembly: AssemblyProduct("SharpPad")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

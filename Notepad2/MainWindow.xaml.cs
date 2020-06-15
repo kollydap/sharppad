@@ -123,6 +123,8 @@ namespace Notepad2
             ViewModel.HightlightCallback = Hightlight;
             ViewModel.AnimateAddCallback = this.AnimateControl;
             InitialiseTreeFileExplorer();
+            string e = CharacterFinder.GetRegionOfText("123456789", 4, 6, 2, 2);
+            MessageBox.Show(e);
         }
 
         public void LoadSettings()

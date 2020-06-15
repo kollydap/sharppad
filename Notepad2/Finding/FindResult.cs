@@ -12,11 +12,6 @@ namespace Notepad2.Finding
         public int WordLength { get; set; }
         public string PreviewFoundText { get; set; }
 
-        public FindResult(int start, int end, int length)
-        {
-            StartIndex = start;
-            WordLength = length;
-        }
         public FindResult(int start, int end)
         {
             StartIndex = start;

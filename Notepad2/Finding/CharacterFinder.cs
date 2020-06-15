@@ -9,11 +9,6 @@ namespace Notepad2.Finding
 {
     public static class CharacterFinder
     {
-        public enum FindSettings
-        {
-            None,
-            CaseSensitive,
-        }
         /// <summary>
         /// Finds every occourance of a word and returns a list of FindResults
         /// </summary>
@@ -65,17 +60,18 @@ namespace Notepad2.Finding
         /// Extracts a region of text from within some other text. If the region tries to go lower
         /// than 0 or after the text's length, it will conpensate for that.
         /// </summary>
-        /// <param name="text">The text</param>
-        /// <param name="startIndex">The start index of the text you already have</param>
-        /// <param name="textBefore">the number of chars to get before the text you already have</param>
-        /// <param name="textAfter">the number of chars to get after the text your already have</param>
+        /// <param name="text">The text you have</param>
+        /// <param name="startPos">The start position of your selected text. e.g, abcde, start pos = 2, will start at b</param>
+        /// <param name="endPos">The end position of your selected. e.g, abcde, start pos = 2, will start at b</param>
+        /// <param name="textBefore"></param>
+        /// <param name="textAfter"></param>
         /// <returns></returns>
-        public static string GetRegionOfText(this string text, int startIndex, int endIndex, int textBefore, int textAfter)
+        public static string GetRegionOfText(this string text, int startPos, int endPos, int textBefore, int textAfter)
         {
-            string before = GetBeforeText(text, startIndex, textBefore);
-            string after = GetAfterText(text, endIndex, textAfter);
+            string before = GetBeforeText(text, startPos, textBefore);
+            string after = GetAfterText(text, endPos, textAfter);
             string word;
-            try { word = text.Substring(startIndex, endIndex - startIndex); }
+            try { word = text.Substring(startPos, endPos - startPos); }
             catch { word = "[ERROR]"; }
 
             return $"{before}{word}{after}";
@@ -91,12 +87,14 @@ namespace Notepad2.Finding
             return ReverseString(before);
         }
 
-        public static string GetAfterText(string text, int endIndex, int numberOfCharsAfter)
+        public static string GetAfterText(string text, int index, int numberOfCharsAfter)
         {
             string after = "";
             for (int i = 0; i < numberOfCharsAfter; i++)
             {
-                if ((endIndex + i) < text.Length) try { after += text[endIndex + i]; } catch { }
+                if ((index + i) < text.Length)
+                    try { after += text[index + i]; }
+                    catch { }
             }
             return after;
         }

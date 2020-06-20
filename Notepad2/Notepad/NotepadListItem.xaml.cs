@@ -4,12 +4,10 @@ using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Shapes;
 using Path = System.IO.Path;
 
 namespace Notepad2.Notepad
@@ -85,7 +83,7 @@ namespace Notepad2.Notepad
                         }
                         else
                         {
-                            string tempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), notepad.Document.FileName);
+                            string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
                             File.WriteAllText(tempFilePath, notepad.Document.Text);
                             string[] path = new string[1] { tempFilePath };
                             SetDraggingStatus(true);
@@ -103,7 +101,7 @@ namespace Notepad2.Notepad
         {
             if (isDragging)
             {
-                BorderThickness = new Thickness(2);
+                BorderThickness = new Thickness(1);
                 Information.Show($"Started dragging", "DragDrop");
             }
             else
@@ -122,24 +120,7 @@ namespace Notepad2.Notepad
         {
             string notepadName = Notepad.Document.FileName;
             string extension = ((MenuItem)sender).Uid;
-            bool hasExtension = false;
-            foreach (string extensionThing in GlobalPreferences.PRESET_EXTENSIONS)
-            {
-                if (notepadName.Contains(extensionThing))
-                {
-                    hasExtension = true;
-                    break;
-                }
-            }
-            if (hasExtension)
-            {
-                string[] dotSplits = notepadName.Split('.');
-                int charsToRemoveCount = dotSplits[dotSplits.Length - 1].Length + 1;
-                string fileNameNoExtension = notepadName.Substring(0, notepadName.Length - charsToRemoveCount);
-                Notepad.Document.FileName = fileNameNoExtension + extension;
-            }
-            else
-                Notepad.Document.FileName += extension;
+            Notepad.Document.FileName = FileExtensionsHelper.GetFileExtension(notepadName, extension);
         }
     }
 }

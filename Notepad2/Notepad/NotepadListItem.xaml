@@ -11,8 +11,9 @@
              Focusable="True"
              mc:Ignorable="d" 
              d:DesignWidth="185" 
-             d:DesignHeight="56" 
-             MaxHeight="180"
+             Height="54" 
+             MaxHeight="54"
+             MinHeight="54"
              BorderThickness="0">
     <UserControl.Resources>
         <converters:TextChangedToUnsavedIndicatorConverter x:Key="tchanunsave"/>
@@ -46,7 +47,7 @@
     </UserControl.ContextMenu>
     <Grid Background="Transparent">
         <Rectangle Margin="0,4" 
-                   x:Name="grip"
+                   Name="grip"
                    HorizontalAlignment="Left" 
                    Width="7" 
                    MouseMove="gripMouseMove" 
@@ -64,23 +65,26 @@
             </Rectangle.Fill>
         </Rectangle>
         <Grid Margin="10,0,0,0">
-            <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
-                       Background="Transparent"
-                       Margin="2,2,0,31" 
-                       MaxHeight="60"
-                       TextWrapping="Wrap"
-                       FontSize="14" HorizontalAlignment="Left" Width="145" />
-            <Grid Margin="4,0,2,3" Height="15" VerticalAlignment="Bottom">
+            <Border Margin="2,2,23,0" Height="20" VerticalAlignment="Top" Name="e">
+                <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
+                           Background="Transparent" 
+                           TextWrapping="Wrap"
+                           FontSize="14"
+                           TextTrimming="CharacterEllipsis"
+                           MaxWidth="{Binding ElementName=e, Path=ActualWidth}"
+                           ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="149"/>
+            </Border>
+            <Grid Margin="3,0,3,3" Height="15" VerticalAlignment="Bottom">
                 <Grid.Background>
                     <SolidColorBrush Color="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}}" Opacity="0.2"/>
                 </Grid.Background>
                 <TextBlock Text="Chars:" VerticalAlignment="Bottom" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
-                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="32,0,0,0" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="62" Height="15"/>
-                <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
+                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="32,0,0,0" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="62"/>
+                <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,1,16,1" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
                 <TextBlock Text="KB" Margin="0,0,3,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
             </Grid>
             <Button Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="18" Height="18" Click="Button_Click" FontSize="10" BorderThickness="1"/>
-            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="4,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10"/>
+            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="3,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10" Height="15"/>
         </Grid>
     </Grid>
 </UserControl>

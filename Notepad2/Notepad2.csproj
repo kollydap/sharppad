@@ -143,6 +143,7 @@
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\CommandParam.cs" />
     <Compile Include="InformationStuff\Information.cs" />
+    <Compile Include="Utilities\FileExtensionsHelper.cs" />
     <Compile Include="Utilities\GlobalPreferences.cs" />
     <Compile Include="Utilities\ScrollViewerHelper.cs" />
     <Compile Include="Utilities\TextBoxLineNumbers.cs" />

@@ -9,17 +9,15 @@
         xmlns:utils="clr-namespace:Notepad2.Utilities"
         xmlns:fileExplorerShell="clr-namespace:Notepad2.FileExplorer.ShellClasses"
         xmlns:converters="clr-namespace:Notepad2.Converters"
-        xmlns:local="clr-namespace:Notepad2" 
-        xmlns:viewmodels="clr-namespace:Notepad2.ViewModels" 
-        xmlns:se="clr-namespace:Notepad2.SimpleEditor" xmlns:controls="clr-namespace:Notepad2.Controls"
+        xmlns:se="clr-namespace:Notepad2.SimpleEditor"
         mc:Ignorable="d" 
-        Title="SharpPad (MainWindow)"
-        Height="576" Width="1024"
-        MinHeight="532" MinWidth="872"
         Closing="Window_Closing" 
         Style="{DynamicResource CustomWindowStyle}"
         BorderBrush="{DynamicResource ControlDefaultBackground}"
-        Icon="Resources/sharpPadIcon.png">
+        MinHeight="532" MinWidth="872"
+        Height="576" Width="1024"
+        Icon="Resources/sharpPadIcon.png"
+        Title="SharpPad (MainWindow)">
     <Window.Resources>
         <converters:InvertedBoolToVisibilityConverter x:Key="invertedBoolToVis"/>
         <DropShadowBitmapEffect x:Key="NormalShadow" ShadowDepth="2" Softness="0.2" Opacity="0.64"/>
@@ -580,10 +578,10 @@
                                                 <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1" Margin="0,0,175,0"/>
                                                 <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                                 <TextBox VerticalAlignment="Center"
-                                                 BorderBrush="Transparent"
-                                                 DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
-                                                 Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" 
-                                                 Background="Transparent" Margin="99,1,9,2" Height="17"/>
+                                                         BorderBrush="Transparent"
+                                                         DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
+                                                         Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" 
+                                                         Background="Transparent" Margin="99,1,9,2" Height="17"/>
                                                 <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="5,3,0,4" Height="13" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
                                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10"/>
                                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>

@@ -262,6 +262,17 @@ namespace Notepad2.ViewModels
         /// <param name="nli">The <see cref="NotepadListItem"/> to be removed</param>
         public void CloseNotepadItem(NotepadListItem nli)
         {
+            if (nli.Notepad.HasMadeChanges)
+            {
+                MessageBoxResult mbr = MessageBox.Show(
+                    "You have unsaved work. Do you want to save it/them?",
+                    "Unsaved Work",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (mbr == MessageBoxResult.Yes)
+                    SaveNotepad(nli.Notepad);
+            }
             //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             NotepadItems.Remove(nli);
             Information.Show($"Removed FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);

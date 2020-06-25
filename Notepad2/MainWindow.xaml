@@ -67,7 +67,7 @@
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AutoShowFindMenuCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAllCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenDirectoryCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="Delete" Command="{Binding CloseSelectedNotepadCommand}"/>
     </Window.InputBindings>

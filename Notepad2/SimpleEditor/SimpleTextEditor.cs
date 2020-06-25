@@ -19,27 +19,54 @@ namespace Notepad2.SimpleEditor
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
+                if (Keyboard.IsKeyDown(Key.LeftShift))
+                {
+                    switch (e.Key)
+                    {
+                        case Key.A:
+                            int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+                            int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
+                            int lineLength = GetLineLength(lineIdx);
+                            SelectionStart = start;
+                            SelectionLength = lineLength;
+                            break;
+                    }
+                }
                 switch (e.Key)
                 {
                     case Key.X:
+                        if (SelectedText == "")
+                        {
+                            int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+                            int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
+                            int lineLength = GetLineLength(lineIdx);
+                            SelectionStart = start;
+                            SelectionLength = lineLength;
+                            //SelectedText.Substring(0, SelectedText.IndexOf(Environment.NewLine) + 1);
+                        }
+                        break;
                     case Key.C:
                         if (SelectedText == "")
                         {
-                            var start = Text.LastIndexOf(Environment.NewLine, CaretIndex);
-                            var lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
-                            var lineLength = GetLineLength(lineIdx);
-                            SelectionStart = start + 1;
+                            int prevCaretIndex = CaretIndex;
+                            int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+                            int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
+                            int lineLength = GetLineLength(lineIdx);
+                            SelectionStart = start;
                             SelectionLength = lineLength;
-                            SelectedText.Substring(0, SelectedText.IndexOf(Environment.NewLine) + 1);
+                            try { Clipboard.SetDataObject(SelectedText); }
+                            catch { }
+                            CaretIndex = prevCaretIndex;
+                            e.Handled = true;
                         }
                         break;
-                        //case Key.Tab:
-                        //    string tab = new string(' ', 4);
-                        //    int caretPosition = base.CaretIndex;
-                        //    base.Text = base.Text.Insert(caretPosition, tab);
-                        //    base.CaretIndex = caretPosition + 4 + 1;
-                        //    e.Handled = true;
-                        //    break;
+
+                    case Key.Down:
+                        LineDown(); 
+                        break;
+                    case Key.Up: 
+                        LineUp(); 
+                        break;
                 }
             }
         }

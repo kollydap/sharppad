@@ -26,9 +26,13 @@ namespace Notepad2.Utilities
                 throw new Exception("Attached property must be used with UIElement.");
 
             if ((bool)e.NewValue)
+            {
                 element.PreviewMouseWheel += OnPreviewMouseWheel;
+            }
             else
+            {
                 element.PreviewMouseWheel -= OnPreviewMouseWheel;
+            }
         }
 
         private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs args)

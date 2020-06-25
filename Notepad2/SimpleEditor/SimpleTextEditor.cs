@@ -1,7 +1,9 @@
 ﻿using Notepad2.Finding;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Notepad2.SimpleEditor
@@ -11,6 +13,35 @@ namespace Notepad2.SimpleEditor
         public SimpleTextEditor()
         {
 
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                switch (e.Key)
+                {
+                    case Key.X:
+                    case Key.C:
+                        if (SelectedText == "")
+                        {
+                            var start = Text.LastIndexOf(Environment.NewLine, CaretIndex);
+                            var lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
+                            var lineLength = GetLineLength(lineIdx);
+                            SelectionStart = start + 1;
+                            SelectionLength = lineLength;
+                            SelectedText.Substring(0, SelectedText.IndexOf(Environment.NewLine) + 1);
+                        }
+                        break;
+                        //case Key.Tab:
+                        //    string tab = new string(' ', 4);
+                        //    int caretPosition = base.CaretIndex;
+                        //    base.Text = base.Text.Insert(caretPosition, tab);
+                        //    base.CaretIndex = caretPosition + 4 + 1;
+                        //    e.Handled = true;
+                        //    break;
+                }
+            }
         }
 
         public int GetLinesCount()

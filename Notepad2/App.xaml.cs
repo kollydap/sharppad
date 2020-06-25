@@ -5,8 +5,10 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Notepad2
 {
@@ -33,6 +35,14 @@ namespace Notepad2
             MainWindow = mWnd;
             mWnd.Show();
             mWnd.LoadSettings();
+        }
+
+        // i think this fixes an issue with the clipboard going completely mad when spamming it
+        private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            COMException comException = e.Exception as COMException;
+            if (comException != null && comException.ErrorCode == -2147221040)
+                e.Handled = true;
         }
     }
 }

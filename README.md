@@ -3,7 +3,7 @@ Window's notepad is blindingly light themed, so i decided to make my own dark th
 BTW, if you want to, you could improve the "messyness" of the code, cus i just splat things randomly into classes and never clean them up (most of the times). And, i dont think this program 100% follow the MVVM standards (maybe 90%), but who cares anyway ;)
 Here's a snapshot of the program, showing the infolist at the bottom, file explorer on the right, multiple NotepadListItems and loads of text.
 
-![](exampleImage.png)
+![](exampleImage.jpg)
 
 ## Info on how to use this program
 NotepadListItems are the things on the left of the program, containing file and style info.

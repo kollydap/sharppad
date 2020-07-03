@@ -14,8 +14,6 @@ namespace Notepad2.Notepad
         private string _filePath;
         private string _fileName;
         private double _fileSize;
-        private double _width;
-        private double _height;
 
         public string Text
         {
@@ -56,18 +54,6 @@ namespace Notepad2.Notepad
 
                 return false;
             }
-        }
-
-        public double Width
-        {
-            get => _width;
-            set => RaisePropertyChanged(ref _width, value);
-        }
-
-        public double Height
-        {
-            get => _height;
-            set => RaisePropertyChanged(ref _height, value);
         }
     }
 }

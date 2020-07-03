@@ -11,6 +11,7 @@ namespace Notepad2.Notepad
         private FontStyle _style;
         private FontWeight _weight;
         private TextDecorationCollection _decoration;
+        private string _strDecoration;
         private FontFamily _family;
         private TextWrapping _wrap;
         private bool _isWrapped;
@@ -18,7 +19,11 @@ namespace Notepad2.Notepad
         public double Size
         {
             get => _size;
-            set => RaisePropertyChanged(ref _size, value, FontSizeChanged);
+            set
+            {
+                if (value <= GlobalPreferences.MAX_FONT_SIZE)
+                    RaisePropertyChanged(ref _size, value, FontSizeChanged);
+            }
         }
 
         public FontStyle Style
@@ -37,6 +42,21 @@ namespace Notepad2.Notepad
         {
             get => _decoration;
             set => RaisePropertyChanged(ref _decoration, value);
+        }
+        public string StrDecoration
+        {
+            get => _strDecoration;
+            set => RaisePropertyChanged(ref _strDecoration, value, () =>
+            {
+                switch (value.ToString())
+                {
+                    case "None": Decoration = null; break;
+                    case "Underline": Decoration = TextDecorations.Underline; break;
+                    case "Strikethrough": Decoration = TextDecorations.Strikethrough; break;
+                    case "OverLine": Decoration = TextDecorations.OverLine; break;
+                    case "Baseline": Decoration = TextDecorations.Baseline; break;
+                }
+            });
         }
 
         public FontFamily Family
@@ -66,7 +86,7 @@ namespace Notepad2.Notepad
 
         public FormatModel()
         {
-            Decoration = null;
+            StrDecoration = "None";
         }
     }
 }

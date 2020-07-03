@@ -1,6 +1,9 @@
-﻿using Notepad2.Finding;
+﻿using Notepad2.CClipboard;
+using Notepad2.Finding;
+using Notepad2.ViewModels;
 using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -42,7 +45,6 @@ namespace Notepad2.SimpleEditor
                             int lineLength = GetLineLength(lineIdx);
                             SelectionStart = start;
                             SelectionLength = lineLength;
-                            //SelectedText.Substring(0, SelectedText.IndexOf(Environment.NewLine) + 1);
                         }
                         break;
                     case Key.C:
@@ -54,8 +56,7 @@ namespace Notepad2.SimpleEditor
                             int lineLength = GetLineLength(lineIdx);
                             SelectionStart = start;
                             SelectionLength = lineLength;
-                            try { Clipboard.SetDataObject(SelectedText); }
-                            catch { }
+                            CustomClipboard.SetObject(SelectedText);
                             CaretIndex = prevCaretIndex;
                             e.Handled = true;
                         }

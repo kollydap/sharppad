@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Notepad2.Finding;
 using Notepad2.FileExplorer;
+using Notepad2.CClipboard;
 
 namespace Notepad2.ViewModels
 {
@@ -94,7 +95,7 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// A window used for finding text within the selected Notepad
+        /// A ViewModel for the Finding Panel for finding text within the selected Notepad
         /// </summary>
         public FindViewModel Find
         {
@@ -106,6 +107,12 @@ namespace Notepad2.ViewModels
         /// A ViewModel for dealing with showing help
         /// </summary>
         public HelpViewModel Help { get; set; }
+
+        //unexpected communism
+        /// <summary>
+        /// A ViewModel used for binding to the clipboard
+        /// </summary>
+        public ClipboardViewModel OurClipboard { get; set; }
 
         #endregion
 
@@ -146,6 +153,7 @@ namespace Notepad2.ViewModels
         public MainViewModel()
         {
             Help = new HelpViewModel();
+            OurClipboard = new ClipboardViewModel();
             NotepadItems = new ObservableCollection<NotepadListItem>();
             InfoStatusErrorsItems = new ObservableCollection<InformationModel>();
             Information.InformationAdded += Information_InformationAdded;
@@ -205,9 +213,11 @@ namespace Notepad2.ViewModels
         public bool CheckHasMadeChanges()
         {
             foreach (NotepadListItem nli in NotepadItems)
+            {
                 if (nli != null && nli.DataContext is NotepadViewModel fivm)
                     if (fivm != null && fivm.HasMadeChanges)
                         return true;
+            }
             return false;
         }
 
@@ -218,7 +228,7 @@ namespace Notepad2.ViewModels
         #region Adding Notepads
 
         /// <summary>
-        /// Adds a new (sort of) dummy Notepad Item
+        /// Adds a new default Notepad Item
         /// </summary>
         public void NewNotepad()
         {

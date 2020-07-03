@@ -4,26 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Notepad2.Finding"
-             mc:Ignorable="d" 
-             Height="40" 
+             mc:Ignorable="d"
+             MaxWidth="202"
+             MinHeight="40"
+             MaxHeight="120"
              Background="Transparent"
              MouseDoubleClick="UserControl_MouseDoubleClick"
              Foreground="{DynamicResource ControlDefaultForeground}">
     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-        <StackPanel MinWidth="30" Margin="0 0 5 0">
+        <StackPanel MaxWidth="30" Margin="0 0 5 0">
             <TextBlock Text="Start" HorizontalAlignment="Center"/>
             <Separator/>
-            <TextBlock Text="{Binding StartIndex, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding StartIndex, UpdateSourceTrigger=PropertyChanged}" TextTrimming="WordEllipsis" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </StackPanel>
-        <StackPanel MinWidth="38" Margin="0 0 5 0">
+        <StackPanel MaxWidth="38" Margin="0 0 5 0">
             <TextBlock Text="Length" HorizontalAlignment="Center"/>
             <Separator/>
-            <TextBlock Text="{Binding WordLength, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding WordLength, UpdateSourceTrigger=PropertyChanged}" TextTrimming="WordEllipsis" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </StackPanel>
-        <StackPanel MinWidth="124">
-            <TextBlock Text="Preview of Near by Text" HorizontalAlignment="Center"/>
-            <Separator/>
-            <TextBlock Text="{Binding PreviewFoundText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Visibility="Visible"/>
-        </StackPanel>
+        <Grid MaxWidth="125">
+            <TextBlock Text="Preview of Near by Text" VerticalAlignment="Top"/>
+            <Separator VerticalAlignment="Top" Margin="0,18,0,0"/>
+            <TextBlock Text="{Binding PreviewFoundText, UpdateSourceTrigger=PropertyChanged}" TextTrimming="WordEllipsis" TextWrapping="Wrap" Visibility="Visible" Margin="0,21,0,0" HorizontalAlignment="Left" Width="124"/>
+        </Grid>
     </StackPanel>
 </UserControl>

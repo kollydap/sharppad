@@ -11,14 +11,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using Path = System.IO.Path;
 using Point = System.Windows.Point;
 using Rectangle = System.Windows.Shapes.Rectangle;
-using System.Windows.Threading;
-using System.Xml;
-using Microsoft.Win32;
-using System.Collections.Generic;
 using Notepad2.FileExplorer;
 
 namespace Notepad2
@@ -215,7 +210,7 @@ namespace Notepad2
                 DriveInfo[] drives = DriveInfo.GetDrives();
                 DriveInfo.GetDrives().ToList().ForEach(drive =>
                 {
-                    var fileSystemObject = new FileSystemObjectInfo(drive);
+                    FileSystemObjectInfo fileSystemObject = new FileSystemObjectInfo(drive);
                     fileSystemObject.BeforeExplore += FileSystemObject_BeforeExplore;
                     fileSystemObject.AfterExplore += FileSystemObject_AfterExplore;
                     treeView.Items.Add(fileSystemObject);
@@ -223,7 +218,7 @@ namespace Notepad2
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Failed to initialise File Explorer: {e.Message}");
+                MessageBox.Show($"Failed to initialise File Explorer. Error: {e.Message}");
             }
         }
 
@@ -400,12 +395,18 @@ namespace Notepad2
         {
             switch(int.Parse(((FrameworkElement)sender).Uid))
             {
-                case 0: Width = 1024; Height = 576; break;
-                case 1: Width = 1152; Height = 648; break;
-                case 2: Width = 1280; Height = 720; break;
-                case 3: Width = 1706; Height = 960; break;
+                case 0: Width = 1024; Height = 576 + GlobalPreferences.WINDOW_TITLEBAR_HEIGHT; break;
+                case 1: Width = 1152; Height = 648 + GlobalPreferences.WINDOW_TITLEBAR_HEIGHT; break;
+                case 2: Width = 1280; Height = 720 + GlobalPreferences.WINDOW_TITLEBAR_HEIGHT; break;
+                case 3: Width = 1706; Height = 960 + GlobalPreferences.WINDOW_TITLEBAR_HEIGHT; break;
                 case 4: Width = 1096; Height = 664; break;
             }
+        }
+
+        // this is kinda useless tbh but oh well
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.OurClipboard.ShowClipboardWindow();
         }
     }
 }

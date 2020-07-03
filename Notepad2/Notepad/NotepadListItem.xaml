@@ -10,10 +10,11 @@
              MouseDown="ElePar_MouseDown" 
              Focusable="True"
              mc:Ignorable="d" 
-             d:DesignWidth="185" 
+             d:DesignWidth="180" 
              Height="54" 
              MaxHeight="54"
              MinHeight="54"
+             Padding="0"
              BorderThickness="0">
     <UserControl.Resources>
         <converters:TextChangedToUnsavedIndicatorConverter x:Key="tchanunsave"/>
@@ -72,7 +73,7 @@
                            FontSize="14"
                            TextTrimming="CharacterEllipsis"
                            MaxWidth="{Binding ElementName=e, Path=ActualWidth}"
-                           ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="149"/>
+                           ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="145"/>
             </Border>
             <Grid Margin="3,0,3,3" Height="15" VerticalAlignment="Bottom">
                 <Grid.Background>

@@ -3,13 +3,13 @@ Window's notepad is blindingly light themed, so i decided to make my own dark th
 BTW, if you want to, you could improve the "messyness" of the code, cus i just splat things randomly into classes and never clean them up (most of the times). And, i dont think this program 100% follow the MVVM standards (maybe 90%), but who cares anyway ;)
 Here's a snapshot of the program, showing the infolist at the bottom, file explorer on the right, multiple NotepadListItems and loads of text.
 
-![](latestSharpPadUpdate.png)
+![](exampleImage.png)
 
 ## Info on how to use this program
 NotepadListItems are the things on the left of the program, containing file and style info.
 - Starting from the top, the titlebar. it does everything you'd expect.
 - There's menus below that (file, theme, etc). File allows opening/saving/closing of NotepadListItems. Theme allows you to change the application theme (dark/light). Windows lets you open the selected NotepadListItems in another window. Help... shows help :)
-- Below, is some buttons. New File, Open File, Save, Save as, Close selected NotepadListItem, Close all NotepadListItems, Cut, Copy, Paste, Undo, Redo, Print selected file and Find.
+- Below, is some buttons. New File, Open File, Save, Save as, Close selected NotepadListItem, Close all NotepadListItems, Cut, Copy, Paste, Undo, Redo, Print selected file and Find. There's also the windows clipboard, in the Consolas font (right side of "Windows Clipboard:". This automatically updates whenever the windows clipboard changes, which is kind of a useless feature... but it doesn't cause any lag so might as well have it :) Clicking on the text opens a window containing the entire clipboard, incase you copied too much text to be displayed.
 - Below that, for the NotepadListItem, the Font, FontSize, Thingy... Normal/Italic/Oblique, Normal/Bold/ExtraBold, and textdecorations like underlining and strikethrough, text wrapping (it also hides horizontal scrollbar) and the ability to hide the Selected Line Outline (more on that later when taking about the Text Editor)
 - Then you have the notepads list to the left, containing NotepadListItem, aka files. Those NotepadListItem have a name, Saved/Unsaved tag, Character count and filesize in kb. There's a close button to the very right top, which will close/remove the NotepadListItem. There's also a grip on the left of the item; click and move your mouse to start dragging the item. this allows you to drag the file like you would in file explorer. At the bottom of the list is a button to clear all items. it has the same functionality as the button at the top.
 - In the middle is the TextBox, i'll call the Text Editor. This is where all the text goes. Right click for a menu of standard functions, like Copy/Paste/Cut/Undo/Redo. Below the TextBox is the ammount you've zoomed in/out (hold ctrl and scroll to zoom), which is actually just the fontsize :/, to the right is the FileName (in a textbox so you can change it), and next is the file's path (also editable).
@@ -19,6 +19,8 @@ NotepadListItems are the things on the left of the program, containing file and 
 - Finally below is the Information list, containing a list of info regarding things that have happened in the program (like Info, Statuses and errors). An example of info is creating a new file, opening one, saving one, Draging the NotepadListItem, or breaking the program somehow because i forgot to check if the file exists when saving or something lol
 
 ## Latest Updates
+- Fixed TextDecorations not displaying properly in the ComboBox. Now it works :) Also, the FindResult panel has majestically shortened for some reason. To counter that, the items now have a maximum height of 120px, allowing multiple preview lines to me displayed. Its still a bit buggy but it should be okay.
+- The windows clipboard is displayed at the top next to "Windows Clipboard:" and always updates with any change to the clipboard in or out of the program. will also display if the data is null... aka the data isnt a string (an image for example)
 - There's a border around the line which the carex is on (aka the selected line outline). it's a bit buggy when vertically scrolling. There's a checkbox to disabled it (at the top next to wrapping). Also, the Text Editor is now it's own control... which inherits from TextBox. soon i might make my own texbox, but that'd take quite a long time.
 - Added a file explorer (to the right) for fun, in case you want to navigate somewhere to drag a file. There's a grip on the right side of files (a checkerboard sort of thing, like with NotepadListItems). Click and move your mouse to drag it to the NotepadListItems list
 - Also fixed DragDropping slightly. Before, you could drag the entire NotepadListItems. Now, you have to drag the grip (on the left of the item). This is makes sure you dont accidentally start dragging by accident

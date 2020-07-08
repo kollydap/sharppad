@@ -2,7 +2,9 @@
 using Notepad2.Notepad;
 using Notepad2.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using static Notepad2.Finding.CharacterFinder;
@@ -45,14 +47,14 @@ namespace Notepad2.ViewModels
 
         public bool HasSearched { get; set; }
 
-        public ICommand FindNextCommand { get; set; }
+        public ICommand FindOccourancesCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
         public FindViewModel(DocumentModel document)
         {
             FoundItems = new ObservableCollection<FindResultItem>();
-            FindNextCommand = new Command(StartFind);
-            CancelCommand = new Command(Close);
+            FindOccourancesCommand = new Command(StartFind);
+            CancelCommand = new Command(Cancel);
             Document = document;
         }
 
@@ -62,7 +64,7 @@ namespace Notepad2.ViewModels
             FetchAllResults();
         }
 
-        public void Close()
+        public void Cancel()
         {
             ClearItems();
             HasSearched = false;
@@ -92,9 +94,14 @@ namespace Notepad2.ViewModels
 
         public void FetchAllResults()
         {
-            if (Document != null)
+            FetchResultsInDocument(Document);
+        }
+
+        public void FetchResultsInDocument(DocumentModel doc)
+        {
+            if (doc != null)
             {
-                string text = Document.Text;
+                string text = doc.Text;
                 if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(FindWhatText))
                 {
                     FindSettings settings = MatchCase ? FindSettings.CaseSensitive : FindSettings.None;

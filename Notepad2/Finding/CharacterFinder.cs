@@ -47,7 +47,7 @@ namespace Notepad2.Finding
                             new FindResult(
                                 index,
                                 index + tofind.Length,
-                                heap.GetRegionOfText(index, index + tofind.Length, 5, 5));
+                                heap.GetRegionOfText(index - 1, index + tofind.Length, 5, 5));
                         indexes.Add(fr);
                     }
                     catch { return indexes; }
@@ -80,7 +80,7 @@ namespace Notepad2.Finding
         public static string GetBeforeText(string text, int startIndex, int numberOfCharsBefore)
         {
             string before = "";
-            for (int i = startIndex; i > startIndex - numberOfCharsBefore; i--)
+            for (int i = startIndex - 1; i > startIndex - numberOfCharsBefore - 1; i--)
             {
                 if (i - 1 >= 0) try { before += text[i - 1]; } catch { }
             }

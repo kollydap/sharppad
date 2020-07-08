@@ -216,10 +216,12 @@
                                VerticalAlignment="Center" 
                                Margin="0,6.02,0,5.98" 
                                TextTrimming="WordEllipsis" 
+                               TextWrapping="NoWrap"
                                FontSize="12"
                                FontFamily="Consolas"
                                ToolTip="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
-                               MouseDown="TextBlock_MouseDown">
+                               MouseDown="TextBlock_MouseDown"
+                               Cursor="Hand">
                     </TextBlock>
                 </StackPanel>
                 <StackPanel IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" 
@@ -453,9 +455,9 @@
                             <GroupBox Header="Notepad Items" HorizontalAlignment="Left" MaxWidth="225" Width="225" Background="{DynamicResource BackgroundColour}">
                                 <Grid>
                                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
-                                             x:Name="notepadLstBox" 
                                              SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
+                                             x:Name="notepadLstBox" 
                                              HorizontalContentAlignment="Stretch" 
                                              AllowDrop="True" 
                                              Drop="ListBox_Drop" Margin="0,0,0,40" Background="{DynamicResource BackgroundColour}">
@@ -500,7 +502,9 @@
                                     <Grid>
                                         <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
                                             <DockPanel>
-                                                <Expander IsExpanded="{Binding FindExpanded, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" ExpandDirection="Left" HorizontalAlignment="Right" Margin="4,-1, 0 -1">
+                                                <Expander IsExpanded="{Binding FindExpanded, UpdateSourceTrigger=PropertyChanged}" 
+                                                          DockPanel.Dock="Right" ExpandDirection="Left" 
+                                                          HorizontalAlignment="Right" Margin="4,-1, 0 -1">
                                                     <Expander.Header>
                                                         <TextBlock Text="Find Text" FontSize="13">
                                                             <TextBlock.LayoutTransform>
@@ -508,24 +512,25 @@
                                                             </TextBlock.LayoutTransform>
                                                         </TextBlock>
                                                     </Expander.Header>
-                                                    <GroupBox Header="Find text in the Text Input (on left)" MaxWidth="260">
+                                                    <GroupBox Header="Find text in the Text Input (on left)" MaxWidth="244" MinWidth="244">
                                                         <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
                                                             <Grid.InputBindings>
                                                                 <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
-                                                                <KeyBinding Key="Enter" Command="{Binding FindNextCommand}"/>
+                                                                <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
                                                             </Grid.InputBindings>
-                                                            <TextBlock HorizontalAlignment="Left" Margin="5,14,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
-                                                            <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" Focusable="True" Padding="2" Height="24" Margin="64,10,85,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                                                            <Button Command="{Binding FindNextCommand}" HorizontalAlignment="Right" Margin="0,10,5,0" VerticalAlignment="Top" Width="75" Height="24">
+                                                            <TextBlock HorizontalAlignment="Left" Margin="5,11,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
+                                                            <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Focusable="True" Padding="2" Height="28" Margin="64,5,70,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                                                            <Button Command="{Binding FindOccourancesCommand}" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="60" Height="28">
                                                                 <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind All"/></TextBlock>
                                                             </Button>
                                                             <CheckBox IsChecked="{Binding MatchCase, UpdateSourceTrigger=PropertyChanged}" 
-                                                                      Margin="5,39,5,0"
-                                                                      Height="24"
-                                                                      Content="Match case (Capitalisation)" VerticalAlignment="Top"/>
-                                                            <Label Content="Found Results. (double-click to highlight)" Padding="0 5" VerticalAlignment="Top" Margin="5,68,5,0"/>
-                                                            <ListBox Margin="5,94,5,5"
+                                                                      Margin="5,38,5,0"
+                                                                      Height="16"
+                                                                      Content="Match Capitalisation" VerticalAlignment="Top"/>
+                                                            <Label Content="Found Results. (double-click to highlight)" Padding="0 5" VerticalAlignment="Top" Margin="5,55,5,0"/>
+                                                            <ListBox Margin="5,81,5,5"
                                                                      x:Name="findList"
+                                                                     HorizontalContentAlignment="Stretch"
                                                                      ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}"
                                                                      SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                                                                      SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"/>

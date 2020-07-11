@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Notepad2.Preferences;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -37,12 +38,15 @@ namespace Notepad2.Utilities
 
         private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs args)
         {
+            if (Keyboard.Modifiers != ModifierKeys.Shift)
+                return;
+
+            if (!PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL)
+                return;
+
             var scrollViewer = ((UIElement)sender).FindDescendant<ScrollViewer>();
 
             if (scrollViewer == null)
-                return;
-
-            if (Keyboard.Modifiers != ModifierKeys.Shift)
                 return;
 
             if (args.Delta < 0)

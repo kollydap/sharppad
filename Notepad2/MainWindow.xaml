@@ -114,6 +114,12 @@
                             <Image Source="Resources/closeFile.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
+                    <Separator Style="{DynamicResource MenuItemSeparator}" />
+                    <MenuItem Header="Preferences..." Command="{Binding Preference.ShowPreferencesCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/preferencesIcon.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Theme">
                     <MenuItem Header="Light" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="0">

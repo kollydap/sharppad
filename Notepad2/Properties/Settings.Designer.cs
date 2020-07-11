@@ -118,5 +118,89 @@ namespace Notepad2.Properties {
                 this["allowCaretLineOutline"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool horzScrlCtrlArrKy {
+            get {
+                return ((bool)(this["horzScrlCtrlArrKy"]));
+            }
+            set {
+                this["horzScrlCtrlArrKy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool horzScrlShfMWhl {
+            get {
+                return ((bool)(this["horzScrlShfMWhl"]));
+            }
+            set {
+                this["horzScrlShfMWhl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool cutLnCtrlX {
+            get {
+                return ((bool)(this["cutLnCtrlX"]));
+            }
+            set {
+                this["cutLnCtrlX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool cpyLnCtrlC {
+            get {
+                return ((bool)(this["cpyLnCtrlC"]));
+            }
+            set {
+                this["cpyLnCtrlC"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SlctLnCtrSftA {
+            get {
+                return ((bool)(this["SlctLnCtrSftA"]));
+            }
+            set {
+                this["SlctLnCtrSftA"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool vertScrlCtrlArrKy {
+            get {
+                return ((bool)(this["vertScrlCtrlArrKy"]));
+            }
+            set {
+                this["vertScrlCtrlArrKy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool zoomCtrlMWhel {
+            get {
+                return ((bool)(this["zoomCtrlMWhel"]));
+            }
+            set {
+                this["zoomCtrlMWhel"] = value;
+            }
+        }
     }
 }

@@ -15,6 +15,7 @@ using Path = System.IO.Path;
 using Point = System.Windows.Point;
 using Rectangle = System.Windows.Shapes.Rectangle;
 using Notepad2.FileExplorer;
+using Notepad2.Preferences;
 
 namespace Notepad2
 {
@@ -114,6 +115,7 @@ namespace Notepad2
 
         public void LoadSettings()
         {
+            PreferencesG.LoadFromProperties();
             this.Top = Properties.Settings.Default.Top;
             this.Left = Properties.Settings.Default.Left;
             this.Height = Properties.Settings.Default.Height;
@@ -265,6 +267,7 @@ namespace Notepad2
             {
                 try
                 {
+                    PreferencesG.SaveToProperties();
                     if (WindowState == WindowState.Maximized)
                     {
                         // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
@@ -365,14 +368,17 @@ namespace Notepad2
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             DrawRectangleAtCaret();
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            if (PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL)
             {
-                int fontChange = e.Delta / 100;
-                if (ViewModel.Notepad.DocumentFormat.Size > 1)
-                    ViewModel.Notepad.DocumentFormat.Size += fontChange;
-                if (ViewModel.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
-                    ViewModel.Notepad.DocumentFormat.Size += fontChange;
-                e.Handled = true;
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    int fontChange = e.Delta / 100;
+                    if (ViewModel.Notepad.DocumentFormat.Size > 1)
+                        ViewModel.Notepad.DocumentFormat.Size += fontChange;
+                    if (ViewModel.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
+                        ViewModel.Notepad.DocumentFormat.Size += fontChange;
+                    e.Handled = true;
+                }
             }
         }
         

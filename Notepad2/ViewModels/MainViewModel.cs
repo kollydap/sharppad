@@ -14,6 +14,7 @@ using System.Windows.Media;
 using Notepad2.Finding;
 using Notepad2.FileExplorer;
 using Notepad2.CClipboard;
+using Notepad2.Preferences.Views;
 
 namespace Notepad2.ViewModels
 {
@@ -114,6 +115,12 @@ namespace Notepad2.ViewModels
         /// </summary>
         public ClipboardViewModel OurClipboard { get; set; }
 
+        /// <summary>
+        /// A ViewModel for dealing/altering with application 
+        /// properties/preferences in an easily accessible way
+        /// </summary>
+        public PreferencesViewModel Preference { get; set; }
+
         #endregion
 
         #region Commands
@@ -152,6 +159,7 @@ namespace Notepad2.ViewModels
         #region Constructor
         public MainViewModel()
         {
+            Preference = new PreferencesViewModel();
             Help = new HelpViewModel();
             OurClipboard = new ClipboardViewModel();
             NotepadItems = new ObservableCollection<NotepadListItem>();

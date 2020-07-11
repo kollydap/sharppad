@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="clr-namespace:Notepad2.Controls"
         mc:Ignorable="d" Closing="Window_Closing"
-        Title="Help" Height="670" Width="800"
+        Title="Help" Height="600" Width="990"
         Style="{DynamicResource CustomToolWindowStyle}" Foreground="{DynamicResource ControlDefaultForeground}">
     <Grid>
-        <Grid Margin="25">
+        <Grid Margin="15">
             <ScrollViewer Margin="0,0,0,125">
                 <StackPanel>
                     <TextBlock Text="SharpPad" FontSize="28" HorizontalAlignment="Center" FontWeight="Bold"/>
@@ -18,7 +18,7 @@
                     <TextBlock TextWrapping="Wrap" Text="Notepad but with tabs, allowing you to switch between them. also has multiple light/dark themes" FontSize="13"/>
                     <Separator/>
                     <TextBlock FontSize="20" FontWeight="SemiBold" Text="How to Use"/>
-                    <TextBlock TextWrapping="Wrap" FontSize="13"><Run Text="The textbox has a few cool features: one being holding shift while moving the mouse wheel will scroll the text horizontally. not holding shift scrolls it vertically."/><LineBreak/><Run Text="You can drop files "/><Run Text="from"/><Run Text=" your desktop, file explorer, etc, into the notepad list (on the left). You can also drop NotepadItems inside the notepad list on"/><Run Text="to your desktop or file explorer or something. "/><Run Text="Just selected the item, then drag it as you would normally."/><LineBreak/><Run Text="You can right click the NotepadItems and it shows some buttons, like Open in FileExplorer, Close, etc. There's also the Set File Extension, which allows you to set the file's extension very easily."/><LineBreak/><Run Text="Typical expected shortcuts (Ctrl + S to save)"/><Run Text=" work also"/><Run Text=". When files get beyond"/><Run Text=" 100kb, an orange marker appears on the "/><Run Text="NotepadItem."/><Run Text=" if it goes past 250kb, it turns red. this is just to alert you that the program will become laggy if the market occours."/><LineBreak/><Run Text="At the bottom of the big textbox on the right, there's filename/path. you can change these if you want and the program will save to that specific location (and will override any file without warning... i think)"/><Run Text=". that's also where you can change the file name."/><LineBreak/><Run Text="At the bottom is a"/><Run Text="n expander. click it and a "/><Run Text="list containing information/statuses/errors about the program"/><Run Text=" appears"/><Run Text=". "/><Run Text="it's just "/><Run Text="a log of what's happening (like saving, opening files"/><Run Text=", etc)"/><Run Text=" if you care"/></TextBlock>
+                    <TextBlock TextWrapping="Wrap" FontSize="13"><Run Text="The textbox has a few cool features: one being holding shift while moving the mouse wheel will scroll the text horizontally. not holding shift scrolls it vertically."/><LineBreak/><Run Text="You can drop files "/><Run Text="from"/><Run Text=" your desktop, file explorer, etc, into the notepad list (on the left). You can also drop NotepadItems inside the notepad list on"/><Run Text="to your desktop or file explorer or something. "/><Run Text="Just selected the"/><Run Text=" grid to the left of the"/><Run Text=" "/><Run Text="notepad item"/><Run Text=", then drag it as you would normally."/><LineBreak/><Run Text="You can right click the NotepadItems and it shows some buttons, like Open in FileExplorer, Close, etc. There's also the Set File Extension, which allows you to set the file's extension very easily."/><LineBreak/><Run Text="Typical expected shortcuts (Ctrl + S to save)"/><Run Text=" work also"/><Run Text=". When files get beyond"/><Run Text=" 100kb, an orange marker appears on the "/><Run Text="NotepadItem."/><Run Text=" if it goes past 250kb, it turns red. this is just to alert you that the program will become laggy if the market occours."/><LineBreak/><Run Text="At the bottom of the big textbox on the right, there's filename/path. you can change these if you want and the program will save to that specific location (and will override any file without warning... i think)"/><Run Text=". that's also where you can change the file name."/><LineBreak/><Run Text="At the bottom is a"/><Run Text="n expander. click it and a "/><Run Text="list containing information/statuses/errors about the program"/><Run Text=" appears"/><Run Text=". "/><Run Text="it's just "/><Run Text="a log of what's happening (like saving, opening files"/><Run Text=", etc)"/><Run Text=" if you care"/><Run Text="."/><LineBreak/><Run Text="To the "/><Run Text="very right is an expander for a file explorer. it's a tree based explorer. it may not be useful but i ran out of ideas on what to add"/><Run Text=" so it's staying lol :), also to the right is another expander for Find. this allows you to find text within the currently open/selected notepad"/><Run Text=". Unfortunately you cannot search through every file for a string... yet. you'll have to do it manually."/></TextBlock>
                 </StackPanel>
             </ScrollViewer>
             <ScrollViewer FontSize="12" FontFamily="Consolas" Height="125" VerticalAlignment="Bottom">
@@ -33,13 +33,15 @@
                         <TextBlock Text="CTRL + Shift + O - Open all files in a folder"/>
                         <TextBlock Text="CTRL + Delete    - Close Selected File"/>
                     </StackPanel>
-                    <StackPanel>
+                    <StackPanel Margin="20 0 0 0">
                         <TextBlock Text="Base Text Editor HotKeys"/>
-                        <TextBlock Text="CTRL + X          - Cut Text or Line" ToolTip="Dont select any text to cut the entire line"/>
-                        <TextBlock Text="CTRL + C          - Copy Text or Line" ToolTip="Dont select any text to copy the entire line"/>
-                        <TextBlock Text="CTRL + Shift + A  - Select entire Line"/>
-                        <TextBlock Text="CTRL + Up Arrow   - Scroll Up"/>
-                        <TextBlock Text="CTRL + Down Arrow - Scroll Down"/>
+                        <TextBlock Text="CTRL + X           - Cut Text or Line" ToolTip="Dont select any text to cut the entire line"/>
+                        <TextBlock Text="CTRL + C           - Copy Text or Line" ToolTip="Dont select any text to copy the entire line"/>
+                        <TextBlock Text="CTRL + Shift + A   - Select entire Line"/>
+                        <TextBlock Text="CTRL + Up Arrow    - Scroll Up"/>
+                        <TextBlock Text="CTRL + Down Arrow  - Scroll Down"/>
+                        <TextBlock Text="CTRL + Left Arrow  - Scroll Left"/>
+                        <TextBlock Text="CTRL + Right Arrow - Scroll Right"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

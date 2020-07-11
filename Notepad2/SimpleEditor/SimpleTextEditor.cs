@@ -1,13 +1,11 @@
 ﻿using Notepad2.CClipboard;
 using Notepad2.Finding;
-using Notepad2.ViewModels;
+using Notepad2.InformationStuff;
+using Notepad2.Preferences;
 using System;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Notepad2.SimpleEditor
 {
@@ -27,6 +25,8 @@ namespace Notepad2.SimpleEditor
                     switch (e.Key)
                     {
                         case Key.A:
+                            if (!PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A)
+                                break;
                             int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
                             int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
                             int lineLength = GetLineLength(lineIdx);
@@ -38,6 +38,8 @@ namespace Notepad2.SimpleEditor
                 switch (e.Key)
                 {
                     case Key.X:
+                        if (!PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X)
+                            break;
                         if (SelectedText == "")
                         {
                             int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
@@ -48,6 +50,8 @@ namespace Notepad2.SimpleEditor
                         }
                         break;
                     case Key.C:
+                        if (!PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C)
+                            break;
                         if (SelectedText == "")
                         {
                             int prevCaretIndex = CaretIndex;
@@ -62,14 +66,37 @@ namespace Notepad2.SimpleEditor
                         }
                         break;
 
-                    case Key.Down:
-                        LineDown(); 
+                    case Key.Up:
+                        if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
+                            break;
+                        LineUp(); e.Handled = true; 
                         break;
-                    case Key.Up: 
-                        LineUp(); 
+                    case Key.Down:
+                        if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
+                            break; 
+                        LineDown(); e.Handled = true; 
+                        break;
+                    case Key.Left:
+                        if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)
+                            break;
+                        LineLeft(); e.Handled = true;
+                        break;
+                    case Key.Right:
+                        if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)
+                            break;
+                        LineRight(); e.Handled = true;
                         break;
                 }
             }
+            // Cant do because holding alt apparently blocks the keydown events...
+            //if (Keyboard.Modifiers == ModifierKeys.Alt)
+            //{
+            //    switch (e.Key)
+            //    {
+            //        case Key.Left: LineLeft(); e.Handled = true; break;
+            //        case Key.Right: LineRight(); e.Handled = true; break;
+            //    }
+            //}
         }
 
         public int GetLinesCount()

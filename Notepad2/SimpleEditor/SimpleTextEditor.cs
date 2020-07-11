@@ -42,11 +42,9 @@ namespace Notepad2.SimpleEditor
                             break;
                         if (SelectedText == "")
                         {
-                            int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
-                            int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
-                            int lineLength = GetLineLength(lineIdx);
-                            SelectionStart = start;
-                            SelectionLength = lineLength;
+                            SelectEntireCurrentLine();
+                            // not altering e.Handled lets the
+                            // textbox base cut the line automatically.
                         }
                         break;
                     case Key.C:
@@ -54,16 +52,15 @@ namespace Notepad2.SimpleEditor
                             break;
                         if (SelectedText == "")
                         {
-                            int prevCaretIndex = CaretIndex;
-                            int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
-                            int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
-                            int lineLength = GetLineLength(lineIdx);
-                            SelectionStart = start;
-                            SelectionLength = lineLength;
-                            CustomClipboard.SetObject(SelectedText);
-                            CaretIndex = prevCaretIndex;
+                            CopyEntireCurrentLine();
                             e.Handled = true;
                         }
+                        break;
+
+                    case Key.Enter:
+                        if (!PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER)
+                            break;
+                        AddNewLineBelowCurrentLine();
                         break;
 
                     case Key.Up:
@@ -97,6 +94,45 @@ namespace Notepad2.SimpleEditor
             //        case Key.Right: LineRight(); e.Handled = true; break;
             //    }
             //}
+        }
+
+        /// <summary>
+        /// A a new line above the line you're currently on.
+        /// </summary>
+        public void AddNewLineAboveCurrentLine()
+        {
+            int startOfNewLineIndex = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+            SelectionStart = startOfNewLineIndex;
+            SelectedText = Environment.NewLine;
+            SelectionLength = 0;
+            CaretIndex += 2;
+        }
+
+        public void AddNewLineBelowCurrentLine()
+        {
+            int startOfNewLineIndex = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+            SelectionStart = startOfNewLineIndex;
+            int prevCaretIndex = CaretIndex;
+            SelectedText = Environment.NewLine;
+            SelectionLength = 0;
+            CaretIndex = prevCaretIndex;
+        }
+
+        public void CopyEntireCurrentLine()
+        {
+            SelectEntireCurrentLine();
+            string newLineText = SelectedText;
+            CaretIndex = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+            CustomClipboard.SetObject(newLineText);
+        }
+
+        public void SelectEntireCurrentLine()
+        {
+            int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+            int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
+            int lineLength = GetLineLength(lineIdx);
+            SelectionStart = start;
+            SelectionLength = lineLength;
         }
 
         public int GetLinesCount()

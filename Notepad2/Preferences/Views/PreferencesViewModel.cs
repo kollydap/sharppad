@@ -14,6 +14,7 @@ namespace Notepad2.Preferences.Views
         private bool _cutLineCtrlX;
         private bool _copyLineCtrlC;
         private bool _selectLineCtrlShiftA;
+        private bool _addLineCtrlEnter;
 
         private bool _zoomEditorCtrlMWheel;
 
@@ -54,6 +55,13 @@ namespace Notepad2.Preferences.Views
             get => _selectLineCtrlShiftA;
             set => RaisePropertyChanged(ref _selectLineCtrlShiftA, value);
         }
+
+        public bool AddEntireLineCtrlEnter
+        {
+            get => _addLineCtrlEnter;
+            set => RaisePropertyChanged(ref _addLineCtrlEnter, value);
+        }
+
 
         public bool ZoomEditorCtrlScrollwheel
         {
@@ -102,7 +110,8 @@ namespace Notepad2.Preferences.Views
             CutEntireLineCtrlX                = PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X;
             CopyEntireLineCtrlC               = PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C;
             SelectEntireLineCtrlShiftA        = PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
-                                              
+            AddEntireLineCtrlEnter            = PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER;
+
             ZoomEditorCtrlScrollwheel         = PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL;
         }
 
@@ -115,6 +124,7 @@ namespace Notepad2.Preferences.Views
             PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X              = CutEntireLineCtrlX;
             PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C             = CopyEntireLineCtrlC;
             PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A     = SelectEntireLineCtrlShiftA;
+            PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER          = AddEntireLineCtrlEnter;
 
             PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL             = ZoomEditorCtrlScrollwheel;
         }

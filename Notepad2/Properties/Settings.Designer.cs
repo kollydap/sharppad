@@ -202,5 +202,17 @@ namespace Notepad2.Properties {
                 this["zoomCtrlMWhel"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool newLnCtrlEntr {
+            get {
+                return ((bool)(this["newLnCtrlEntr"]));
+            }
+            set {
+                this["newLnCtrlEntr"] = value;
+            }
+        }
     }
 }

@@ -83,7 +83,7 @@ namespace Notepad2.ViewModels
         public bool FindExpanded
         {
             get => _findExpanded;
-            set => RaisePropertyChanged(ref _findExpanded, value);
+            set => RaisePropertyChanged(ref _findExpanded, value, FocusFindInputCallback);
         }
 
         /// <summary>
@@ -153,6 +153,11 @@ namespace Notepad2.ViewModels
         /// highlight a specific region of text contained within a <see cref="FindResult"/>
         /// </summary>
         public Action<FindResult> HightlightCallback { get; set; }
+
+        /// <summary>
+        /// A callback to focus either the maintextbox or the find input
+        /// </summary>
+        public Action<bool> FocusFindInputCallback { get; set; }
 
         #endregion
 
@@ -341,7 +346,7 @@ namespace Notepad2.ViewModels
             {
                 Family = font,
                 Size = fontSize,
-                IsWrapped = true
+                IsWrapped = false
             };
             return CreateNotepadItem(text, itemName, itemPath, fm);
         }

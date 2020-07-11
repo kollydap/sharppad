@@ -21,13 +21,14 @@
             </TabItem>
             <TabItem Header="Text Editor">
                 <StackPanel>
-                    <CheckBox Content="Scroll vertically with Ctrl + Arrow Keys"    IsChecked="{Binding ScrollVerticallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Scroll vertically with Ctrl + Arrow Keys"                      IsChecked="{Binding ScrollVerticallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox Content="Scroll horizontally with Ctrl + Arrow Keys (not recommended)"  IsChecked="{Binding ScrollHorizontallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Scroll horizontally with Shift + Mouse Wheel" IsChecked="{Binding ScrollHorizontallyShiftMouseWheel, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Scroll horizontally with Shift + Mouse Wheel"                  IsChecked="{Binding ScrollHorizontallyShiftMouseWheel, UpdateSourceTrigger=PropertyChanged}"/>
                     <Separator/>
                     <CheckBox Content="Cut entire line with Ctrl + X (when no text selected)"  IsChecked="{Binding CutEntireLineCtrlX, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox Content="Copy entire line with Ctrl + C (when no text selected)" IsChecked="{Binding CopyEntireLineCtrlC, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox Content="Select entire line with Ctrl + Shift + A"               IsChecked="{Binding SelectEntireLineCtrlShiftA, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Add entire line below current one with Ctrl + Enter"    IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
                     <Separator/>
                     <CheckBox Content="Zoom editor with Ctrl + Mouse Wheel up/down" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>

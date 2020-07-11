@@ -71,7 +71,7 @@
             <sys:String>OverLine</sys:String>
             <sys:String>Baseline</sys:String>
         </x:Array>
-        
+
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCommand}"/>
@@ -169,67 +169,63 @@
         </Grid>
         <DockPanel Margin="5,18,5,5" Background="{DynamicResource BackgroundColour}">
             <StackPanel DockPanel.Dock="Top" Background="{DynamicResource BackgroundColour}">
-                <StackPanel Orientation="Horizontal" Height="28" HorizontalAlignment="Left">
+                <Grid HorizontalAlignment="Stretch" Height="28">
                     <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" 
-                                BorderBrush="Transparent" Background="Transparent" 
-                            Margin="0,0,2,0" Focusable="False">
+                        BorderBrush="Transparent" Background="Transparent" 
+                        Focusable="False" HorizontalAlignment="Left" Width="28">
                         <Image Margin="2" Source="Resources/newFile.png"/>
                     </Button>
                     <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer"
-                                BorderBrush="Transparent" Background="Transparent" 
-                            Margin="0,0,2,0" Focusable="False">
+                        BorderBrush="Transparent" Background="Transparent" 
+                        Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
                         <Image Margin="2" Source="Resources/openFile.png"/>
                     </Button>
-                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" >
+                    <Grid IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Margin="60,0,0,0" HorizontalAlignment="Left" Width="186">
                         <Button Command="{Binding SaveCommand}" 
-                                ToolTip="Save current File" BorderBrush="Transparent" 
-                                Background="Transparent" Margin="0,0,2,0" Focusable="False">
+                            ToolTip="Save current File" BorderBrush="Transparent" 
+                            Background="Transparent" Focusable="False" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="Resources/saveFile.png"/>
                         </Button>
                         <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." 
-                                BorderBrush="Transparent" Background="Transparent" 
-                                Margin="0,0,2,0" Focusable="False">
+                            BorderBrush="Transparent" Background="Transparent" 
+                            Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="Resources/saveFileAs.png"/>
                         </Button>
                         <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" 
-                                BorderBrush="Transparent" Background="Transparent" 
-                                Margin="0,0,2,0" Focusable="False">
+                            BorderBrush="Transparent" Background="Transparent" 
+                            Focusable="False" Margin="60,0,0,0" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="Resources/closeFile.png"/>
                         </Button>
                         <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" 
-                                BorderBrush="Transparent" Background="Transparent" 
-                                Margin="0,0,2,0" Focusable="False">
+                            BorderBrush="Transparent" Background="Transparent" 
+                            Focusable="False" Margin="90,0,0,0" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="Resources/closeAllFiles.png"/>
                         </Button>
                         <Button Command="{Binding PrintFileCommand}" IsEnabled="True" 
-                                BorderBrush="Transparent" Background="Transparent"
-                                ToolTip="Print text" Margin="0,0,2,0" Focusable="False" Width="35">
+                            BorderBrush="Transparent" Background="Transparent"
+                            ToolTip="Print text" Focusable="False" Margin="120,0,0,0" HorizontalAlignment="Left" Width="32">
                             <Image Margin="2" Source="Resources/printIcon.png"/>
                         </Button>
                         <Button Command="{Binding AutoShowFindMenuCommand}" IsEnabled="True"
-                                BorderBrush="Transparent" Background="Transparent"
-                                ToolTip="Find text in notepad (works okayish, not fully reliable)"  
-                                Margin="0,0,2,0" Focusable="False" Width="35">
+                            BorderBrush="Transparent" Background="Transparent"
+                            ToolTip="Find text in notepad (works okayish, not fully reliable)"  
+                            Focusable="False" Margin="154,0,0,0" HorizontalAlignment="Left" Width="32">
                             <Image Margin="2" Source="Resources/findReplace.png"/>
                         </Button>
-                    </StackPanel>
-                    <Separator Style="{DynamicResource VerticalSeparator}"/>
-                    <TextBlock Text="Windows Clipboard:" Padding="4" VerticalAlignment="Center" FontSize="12"
-                               ToolTip="To the right will show whatever is currently in the clipboard"/>
+                    </Grid>
+                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="246,2,0,2" Width="2" HorizontalAlignment="Left"/>
+                    <TextBlock Text="Windows Clipboard:" Padding="4" VerticalAlignment="Center" FontSize="12" ToolTip="To the right will show whatever is currently in the clipboard" Margin="253,2,0,2" HorizontalAlignment="Left" Width="115"/>
                     <TextBlock Text="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
                                Padding="4"
-                               MaxWidth="460" Width="460"
                                VerticalAlignment="Center" 
-                               Margin="0,6.02,0,5.98" 
                                TextTrimming="WordEllipsis" 
                                TextWrapping="NoWrap"
                                FontSize="12"
                                FontFamily="Consolas"
                                ToolTip="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
                                MouseDown="TextBlock_MouseDown"
-                               Cursor="Hand">
-                    </TextBlock>
-                </StackPanel>
+                               Cursor="Hand" Margin="368,3,0,3"/>
+                </Grid>
                 <StackPanel IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" 
                             Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Left" Height="28">
                     <ComboBox Width="157" 
@@ -518,14 +514,18 @@
                                                             </TextBlock.LayoutTransform>
                                                         </TextBlock>
                                                     </Expander.Header>
-                                                    <GroupBox Header="Find text in the Text Input (on left)" MaxWidth="244" MinWidth="244">
+                                                    <GroupBox Header="Find text in the Text Input (on left)" MaxWidth="244" MinWidth="244" Margin="0 0 2 0">
                                                         <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
                                                             <Grid.InputBindings>
                                                                 <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
                                                                 <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
                                                             </Grid.InputBindings>
                                                             <TextBlock HorizontalAlignment="Left" Margin="5,11,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
-                                                            <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Focusable="True" Padding="2" Height="28" Margin="64,5,70,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                                                            <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
+                                                                     x:Name="findInputBox"
+                                                                     VerticalContentAlignment="Center" Focusable="True" 
+                                                                     Padding="2" Height="28" Margin="64,5,70,0" 
+                                                                     TextWrapping="Wrap" VerticalAlignment="Top"/>
                                                             <Button Command="{Binding FindOccourancesCommand}" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="60" Height="28">
                                                                 <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind All"/></TextBlock>
                                                             </Button>

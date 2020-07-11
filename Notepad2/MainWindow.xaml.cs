@@ -110,6 +110,7 @@ namespace Notepad2
             this.DataContext = ViewModel;
             ViewModel.HightlightCallback = Hightlight;
             ViewModel.AnimateAddCallback = this.AnimateControl;
+            ViewModel.FocusFindInputCallback = FocusFindInputBox;
             InitialiseTreeFileExplorer();
         }
 
@@ -178,6 +179,14 @@ namespace Notepad2
                     }
                 }
             }
+        }
+
+        public void FocusFindInputBox(bool focusFind)
+        {
+            if (focusFind)
+                findInputBox.Focus();
+            else
+                MainTextBox.Focus();
         }
 
         /// <summary>

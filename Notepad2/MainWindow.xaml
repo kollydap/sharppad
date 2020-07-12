@@ -255,7 +255,7 @@
                               ToolTip="Font Styles (e.g, italics)"
                               SelectedIndex="0"
                               SelectedItem="{Binding Notepad.DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
-                              Margin="5 0 0 0" Width="75">
+                              Margin="5 0 0 0" Width="85">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" FontStyle="{Binding}"/>
@@ -266,7 +266,7 @@
                               ToolTip="Font Weight (e.g, bold)"
                               SelectedIndex="0"
                               SelectedItem="{Binding Notepad.DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
-                              Margin="5,0,0,0">
+                              Margin="5,0,0,0" Width="88">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" FontWeight="{Binding}"/>
@@ -277,7 +277,7 @@
                               ItemsSource="{Binding Source={StaticResource TextDeocrationOptions}}"
                               ToolTip="Text Decorations (e.g, underline, strikethrough)"
                               SelectedItem="{Binding Notepad.DocumentFormat.StrDecoration, UpdateSourceTrigger=PropertyChanged}"
-                              Margin="5,0,0,0">
+                              Margin="5,0,0,0" Width="110">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" TextDecorations="{Binding Converter={StaticResource textDecoConverter}}"/>

@@ -79,13 +79,6 @@
       <DependentUpon>ClipboardWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CClipboard\CustomClipboard.cs" />
-    <Compile Include="Controls\LabelledItemSelector.xaml.cs">
-      <DependentUpon>LabelledItemSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\NumberCounterControl.xaml.cs">
-      <DependentUpon>NumberCounterControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\NumberRange.cs" />
     <Compile Include="Converters\InvertedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\FileSizeToColourConverter.cs" />
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
@@ -168,14 +161,6 @@
       <DependentUpon>HelpBox.xaml</DependentUpon>
     </Compile>
     <Page Include="CClipboard\ClipboardWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\LabelledItemSelector.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\NumberCounterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

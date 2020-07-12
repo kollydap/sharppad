@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Notepad2.FileExplorer.Enums;
+using Notepad2.InformationStuff;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Notepad2.FileExplorer.Enums;
-using Notepad2.InformationStuff;
 
 namespace Notepad2.FileExplorer.ShellClasses
 {

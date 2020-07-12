@@ -1,10 +1,6 @@
 ﻿using Notepad2.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -19,7 +15,7 @@ namespace Notepad2.Converters
                 if (fileSizeKB < GlobalPreferences.WARN_FILE_SIZE_KB)
                     return Colors.Transparent;
                 else if (
-                    fileSizeKB > GlobalPreferences.WARN_FILE_SIZE_KB && 
+                    fileSizeKB > GlobalPreferences.WARN_FILE_SIZE_KB &&
                     fileSizeKB < GlobalPreferences.ALERT_FILE_SIZE_KB)
                     return GlobalPreferences.WARN_FILE_TOO_BIG_COLOUR;
                 else if (fileSizeKB > GlobalPreferences.ALERT_FILE_SIZE_KB)

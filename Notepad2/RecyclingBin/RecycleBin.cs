@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notepad2.RecyclingBin
 {
@@ -43,8 +39,8 @@ namespace Notepad2.RecyclingBin
         public static bool Send(string path)
         {
             return Send(
-                path, 
-                FileOperationFlags.FOF_NOCONFIRMATION | 
+                path,
+                FileOperationFlags.FOF_NOCONFIRMATION |
                 FileOperationFlags.FOF_WANTNUKEWARNING);
         }
 
@@ -55,9 +51,9 @@ namespace Notepad2.RecyclingBin
         public static bool SilentSend(string path)
         {
             return Send(
-                path, 
-                FileOperationFlags.FOF_NOCONFIRMATION | 
-                FileOperationFlags.FOF_NOERRORUI | 
+                path,
+                FileOperationFlags.FOF_NOCONFIRMATION |
+                FileOperationFlags.FOF_NOERRORUI |
                 FileOperationFlags.FOF_SILENT);
         }
 
@@ -89,7 +85,7 @@ namespace Notepad2.RecyclingBin
         {
             return DeleteFile(
                 path,
-                FileOperationFlags.FOF_NOCONFIRMATION | 
+                FileOperationFlags.FOF_NOCONFIRMATION |
                 FileOperationFlags.FOF_NOERRORUI |
                 FileOperationFlags.FOF_SILENT);
         }

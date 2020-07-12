@@ -1,12 +1,5 @@
-﻿using Notepad2.CClipboard;
-using Notepad2.Utilities;
+﻿using Notepad2.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 
 namespace Notepad2.CClipboard
 {
@@ -54,6 +47,11 @@ namespace Notepad2.CClipboard
         public void ShowClipboardWindow()
         {
             ClipboardWin.ShowWindow();
+        }
+
+        public void ShutdownUpdaterHook()
+        {
+            ClipboardNotification.ClipboardUpdate -= ClipboardNotification_ClipboardUpdate;
         }
     }
 }

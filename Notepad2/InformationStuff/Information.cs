@@ -1,7 +1,4 @@
-﻿using Notepad2.Views;
-using System;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System;
 
 namespace Notepad2.InformationStuff
 {

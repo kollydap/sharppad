@@ -1,8 +1,8 @@
-﻿using System.Drawing;
+﻿using Notepad2.FileExplorer.Enums;
+using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Notepad2.FileExplorer.Enums;
 
 namespace Notepad2.FileExplorer
 {

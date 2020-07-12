@@ -1,5 +1,5 @@
-﻿using Notepad2.Utilities;
-using Notepad2.Notepad;
+﻿using Notepad2.Notepad;
+using Notepad2.Utilities;
 
 namespace Notepad2.ViewModels
 {

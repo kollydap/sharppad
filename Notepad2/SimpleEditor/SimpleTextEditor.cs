@@ -1,6 +1,5 @@
 ﻿using Notepad2.CClipboard;
 using Notepad2.Finding;
-using Notepad2.InformationStuff;
 using Notepad2.Preferences;
 using System;
 using System.Windows;
@@ -66,12 +65,12 @@ namespace Notepad2.SimpleEditor
                     case Key.Up:
                         if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
                             break;
-                        LineUp(); e.Handled = true; 
+                        LineUp(); e.Handled = true;
                         break;
                     case Key.Down:
                         if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
-                            break; 
-                        LineDown(); e.Handled = true; 
+                            break;
+                        LineDown(); e.Handled = true;
                         break;
                     case Key.Left:
                         if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)

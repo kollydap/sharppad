@@ -1,6 +1,5 @@
 ﻿using Notepad2.InformationStuff;
 using Notepad2.Utilities;
-using System.Security.Policy;
 using System.Windows.Input;
 
 namespace Notepad2.Preferences.Views

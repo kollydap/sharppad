@@ -1,7 +1,11 @@
 ﻿using Microsoft.Win32;
-using Notepad2.Utilities;
+using Notepad2.CClipboard;
+using Notepad2.FileExplorer;
+using Notepad2.Finding;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
+using Notepad2.Preferences.Views;
+using Notepad2.Utilities;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -11,10 +15,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using Notepad2.Finding;
-using Notepad2.FileExplorer;
-using Notepad2.CClipboard;
-using Notepad2.Preferences.Views;
 
 namespace Notepad2.ViewModels
 {
@@ -338,9 +338,9 @@ namespace Notepad2.ViewModels
             FontFamily font = string.IsNullOrEmpty(Properties.Settings.Default.DefaultFont)
                 ? new FontFamily("Consolas")
                 : new FontFamily(Properties.Settings.Default.DefaultFont);
-            double fontSize = 
-                Properties.Settings.Default.DefaultFontSize > 0 
-                ? Properties.Settings.Default.DefaultFontSize 
+            double fontSize =
+                Properties.Settings.Default.DefaultFontSize > 0
+                ? Properties.Settings.Default.DefaultFontSize
                 : 16;
             FormatModel fm = new FormatModel()
             {
@@ -475,7 +475,7 @@ namespace Notepad2.ViewModels
 
         public void OpenDirectory()
         {
-            System.Windows.Forms.FolderBrowserDialog ofd = 
+            System.Windows.Forms.FolderBrowserDialog ofd =
                 new System.Windows.Forms.FolderBrowserDialog();
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -517,11 +517,27 @@ namespace Notepad2.ViewModels
                 if (File.Exists(path))
                 {
                     string text = NotepadActions.ReadFile(path);
-                    NotepadListItem item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
-                    AddNotepadItem(item);
-                    Information.Show($"Opened file: {path}", InfoTypes.FileIO);
-                    if (selectFile && item != null)
-                        SelectedNotepadItem = item;
+                    bool doOpenFile;
+                    if (text.Length > (GlobalPreferences.WARN_FILE_SIZE_KB * 1000 /* kb to byte */))
+                    {
+                        doOpenFile = 
+                            MessageBox.Show(
+                                "The file is very big in size and might lag the program. Continue to open?",
+                                "File very big. Open anyway?",
+                                MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
+                    }
+                    else
+                        doOpenFile = true;
+
+
+                    if (doOpenFile)
+                    {
+                        NotepadListItem item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
+                        AddNotepadItem(item);
+                        Information.Show($"Opened file: {path}", InfoTypes.FileIO);
+                        if (selectFile && item != null)
+                            SelectedNotepadItem = item;
+                    }
                 }
             }
             catch (Exception e) { Information.Show(e.Message, "Error while opening file from path"); }
@@ -734,6 +750,7 @@ namespace Notepad2.ViewModels
         public void ShutdownInformationHook() //idec this method name is bad xd
         {
             Information.InformationAdded -= Information_InformationAdded;
+            OurClipboard.ShutdownUpdaterHook();
         }
     }
 }

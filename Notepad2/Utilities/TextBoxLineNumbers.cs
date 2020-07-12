@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -82,7 +78,7 @@ namespace Notepad2.Utilities
                 //string[] lines = lineCounter.Split('\n');
                 //Task.Run(() =>
                 //{
-                Task.Run(async() =>
+                Task.Run(async () =>
                 {
                     for (int line = 0; line < lineCount; line++)
                     {

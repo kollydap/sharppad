@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Notepad2.FileExplorer.Structs;
+using System;
 using System.Runtime.InteropServices;
-using Notepad2.FileExplorer.Structs;
 
 namespace Notepad2.FileExplorer
 {

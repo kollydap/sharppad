@@ -2,9 +2,7 @@
 using Notepad2.Notepad;
 using Notepad2.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using static Notepad2.Finding.CharacterFinder;

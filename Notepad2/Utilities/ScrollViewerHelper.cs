@@ -16,7 +16,7 @@ namespace Notepad2.Utilities
                 typeof(bool),
                 typeof(ScrollViewerHelper),
                 new PropertyMetadata(
-                    false, 
+                    false,
                     UseHorizontalScrollingChangedCallback));
 
         private static void UseHorizontalScrollingChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -50,17 +50,17 @@ namespace Notepad2.Utilities
                 return;
 
             if (args.Delta < 0)
-                for(int i = 1; i <= SystemInformation.MouseWheelScrollLines; i++) 
+                for (int i = 1; i <= SystemInformation.MouseWheelScrollLines; i++)
                     scrollViewer.LineRight();
             else
-                for (int i = 1; i <= SystemInformation.MouseWheelScrollLines; i++) 
+                for (int i = 1; i <= SystemInformation.MouseWheelScrollLines; i++)
                     scrollViewer.LineLeft();
             args.Handled = true;
         }
 
-        public static void SetShiftWheelScrollsHorizontally(Control element, bool value) 
+        public static void SetShiftWheelScrollsHorizontally(Control element, bool value)
             => element.SetValue(ShiftWheelScrollsHorizontallyProperty, value);
-        public static bool GetShiftWheelScrollsHorizontally(Control element) 
+        public static bool GetShiftWheelScrollsHorizontally(Control element)
             => (bool)element.GetValue(ShiftWheelScrollsHorizontallyProperty);
 
         private static T FindDescendant<T>(this DependencyObject d) where T : DependencyObject

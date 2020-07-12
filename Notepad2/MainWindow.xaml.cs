@@ -108,7 +108,7 @@ namespace Notepad2
         {
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
-            ViewModel.HightlightCallback = Hightlight;
+            ViewModel.HightlightTextCallback = Hightlight;
             ViewModel.AnimateAddCallback = this.AnimateControl;
             ViewModel.FocusFindInputCallback = FocusFindInputBox;
             InitialiseTreeFileExplorer();
@@ -311,6 +311,7 @@ namespace Notepad2
                     Properties.Settings.Default.Save();
                 }
                 catch { }
+                ViewModel?.ShutdownInformationHook();
             }
         }
 

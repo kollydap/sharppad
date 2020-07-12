@@ -152,7 +152,7 @@ namespace Notepad2.ViewModels
         /// A callback from the <see cref="FindTextWindow"/>, used for telling the MainWindow to 
         /// highlight a specific region of text contained within a <see cref="FindResult"/>
         /// </summary>
-        public Action<FindResult> HightlightCallback { get; set; }
+        public Action<FindResult> HightlightTextCallback { get; set; }
 
         /// <summary>
         /// A callback to focus either the maintextbox or the find input
@@ -671,7 +671,7 @@ namespace Notepad2.ViewModels
 
         public void HighlightText(FindResult result)
         {
-            HightlightCallback?.Invoke(result);
+            HightlightTextCallback?.Invoke(result);
         }
 
         private void Find_OnNextTextFound(FindResult result)
@@ -726,5 +726,14 @@ namespace Notepad2.ViewModels
         }
 
         #endregion
+
+        /// <summary>
+        /// Unattach the static event from the information thingy. i think
+        /// this stops a memory leak occouring.
+        /// </summary>
+        public void ShutdownInformationHook() //idec this method name is bad xd
+        {
+            Information.InformationAdded -= Information_InformationAdded;
+        }
     }
 }

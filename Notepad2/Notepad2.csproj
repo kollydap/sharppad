@@ -85,6 +85,9 @@
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
     <Compile Include="Finding\FindSettings.cs" />
+    <Compile Include="History\HistoryControl.xaml.cs">
+      <DependentUpon>HistoryControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Preferences\PreferencesG.cs" />
     <Compile Include="Preferences\Views\PreferencesWindow.xaml.cs">
       <DependentUpon>PreferencesWindow.xaml</DependentUpon>
@@ -152,6 +155,7 @@
     <Compile Include="CClipboard\ClipboardViewModel.cs" />
     <Compile Include="ViewModels\FindViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
+    <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Preferences\Views\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\TextEditorLinesViewModel.cs" />
@@ -161,6 +165,10 @@
       <DependentUpon>HelpBox.xaml</DependentUpon>
     </Compile>
     <Page Include="CClipboard\ClipboardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="History\HistoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

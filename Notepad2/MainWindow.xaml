@@ -80,7 +80,7 @@
         <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AutoShowFindMenuCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAllCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenDirectoryCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="Delete" Command="{Binding CloseSelectedNotepadCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding History.ReopenLastFileCommand}"/>
     </Window.InputBindings>
     <Grid Background="{DynamicResource BackgroundColour}">
         <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{DynamicResource BackgroundColour}">
@@ -298,27 +298,44 @@
             <DockPanel Margin="0,5,0,0" Background="{DynamicResource BackgroundColour}">
                 <DockPanel>
                     <Expander ExpandDirection="Up" 
-                              Header="Information, Statuses and errors" 
+                              Header="Information and History" 
                               VerticalAlignment="Bottom"
                               DockPanel.Dock="Bottom">
-                        <GroupBox Height="150" Margin="-1 -1 -1 1">
-                            <GroupBox.Header>
-                                <StackPanel Orientation="Horizontal" Height="24">
-                                    <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
-                                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                    <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" Width="75" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
-                                </StackPanel>
-                            </GroupBox.Header>
-                            <ListView ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
-                                        <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Type}"/>
-                                        <GridViewColumn Header="Message" Width="550" DisplayMemberBinding="{Binding Message}"/>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                        </GroupBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Height="150" Margin="-1,-1,5,1">
+                                <GroupBox.Header>
+                                    <StackPanel Orientation="Horizontal" Height="24">
+                                        <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
+                                        <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
+                                        <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" Width="75" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
+                                    </StackPanel>
+                                </GroupBox.Header>
+                                <ListView ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
+                                            <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Type}"/>
+                                            <GridViewColumn Header="Message" Width="310" DisplayMemberBinding="{Binding Message}"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </GroupBox>
+                            <GroupBox Height="150" DataContext="{Binding History}" Grid.Column="1">
+                                <GroupBox.Header>
+                                    <StackPanel Orientation="Horizontal" Height="24">
+                                        <TextBlock Text="History" VerticalAlignment="Center"/>
+                                        <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
+                                        <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
+                                    </StackPanel>
+                                </GroupBox.Header>
+                                <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
+                                         HorizontalContentAlignment="Stretch"/>
+                            </GroupBox>
+                        </Grid>
                     </Expander>
                     <DockPanel Margin="0,0,0,5">
                         <Expander DockPanel.Dock="Right" ExpandDirection="Left" HorizontalAlignment="Right" Margin="4,-1, 0 -1">
@@ -525,7 +542,11 @@
                                                                      x:Name="findInputBox"
                                                                      VerticalContentAlignment="Center" Focusable="True" 
                                                                      Padding="2" Height="28" Margin="64,5,70,0" 
-                                                                     TextWrapping="Wrap" VerticalAlignment="Top"/>
+                                                                     TextWrapping="Wrap" VerticalAlignment="Top">
+                                                                <TextBox.InputBindings>
+                                                                    <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
+                                                                </TextBox.InputBindings>
+                                                            </TextBox>
                                                             <Button Command="{Binding FindOccourancesCommand}" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="60" Height="28">
                                                                 <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind All"/></TextBlock>
                                                             </Button>

@@ -2,6 +2,7 @@
 using Notepad2.CClipboard;
 using Notepad2.FileExplorer;
 using Notepad2.Finding;
+using Notepad2.History;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Preferences;
@@ -122,6 +123,11 @@ namespace Notepad2.ViewModels
         /// </summary>
         public PreferencesViewModel Preference { get; set; }
 
+        /// <summary>
+        /// A ViewModel for dealing with the history of recently closed files.
+        /// </summary>
+        public HistoryViewModel History { get; set; }
+
         #endregion
 
         #region Commands
@@ -165,12 +171,15 @@ namespace Notepad2.ViewModels
         #region Constructor
         public MainViewModel()
         {
+            History = new HistoryViewModel();
             Preference = new PreferencesViewModel();
             Help = new HelpViewModel();
             OurClipboard = new ClipboardViewModel();
             NotepadItems = new ObservableCollection<NotepadListItem>();
             InfoStatusErrorsItems = new ObservableCollection<InformationModel>();
+
             Information.InformationAdded += Information_InformationAdded;
+            History.OpenFileCallback = ReopenNotepadFromHistory;
 
             NewCommand = new Command(NewNotepad);
             OpenCommand = new Command(OpenNotepadFileFromFileExplorer);
@@ -275,6 +284,13 @@ namespace Notepad2.ViewModels
             SelectedNotepadItem = nli;
         }
 
+        public void AddNotepadFromVM(NotepadViewModel notepad)
+        {
+            NotepadListItem nli = CreateNotepadItemFromVM(notepad);
+            AddNotepadItem(nli);
+            SelectedNotepadItem = nli;
+        }
+
         #endregion
 
         #region Closing Notepads
@@ -299,6 +315,7 @@ namespace Notepad2.ViewModels
             }
             //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             NotepadItems.Remove(nli);
+            History.FileClosed(nli.Notepad);
             Information.Show($"Removed FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
             UpdateSelectedNotepad();
         }
@@ -317,8 +334,8 @@ namespace Notepad2.ViewModels
         /// </summary>
         private void CloseAllNotepads()
         {
-            Information.Show($"Cleared {NotepadItems.Count} NotepadItems", InfoTypes.FileIO);
             NotepadItems.Clear();
+            Information.Show($"Cleared {NotepadItems.Count} NotepadItems", InfoTypes.FileIO);
             Notepad = null;
         }
 
@@ -376,6 +393,16 @@ namespace Notepad2.ViewModels
             nli.Close = this.CloseNotepadItem;
             //fivm.DocumentFormat.Size = fm.Size;
 
+            return nli;
+        }
+
+        public NotepadListItem CreateNotepadItemFromVM(NotepadViewModel notepad)
+        {
+            NotepadListItem nli = new NotepadListItem();
+            nli.DataContext = notepad;
+            nli.OpenInFileExplorer = this.OpenInFileExplorer;
+            nli.Open = this.OpenNotepadItem;
+            nli.Close = this.CloseNotepadItem;
             return nli;
         }
 
@@ -445,7 +472,7 @@ namespace Notepad2.ViewModels
 
         public void OpenNotepadItem(NotepadListItem notepadItem)
         {
-            if (notepadItem.Notepad != null)
+            if (notepadItem.Notepad != null )
             {
                 Notepad = notepadItem?.Notepad;
             }
@@ -542,6 +569,12 @@ namespace Notepad2.ViewModels
                 }
             }
             catch (Exception e) { Information.Show(e.Message, "Error while opening file from path"); }
+        }
+
+        public void ReopenNotepadFromHistory(NotepadViewModel notepad)
+        {
+            Information.Show($"Reopening {notepad.Document.FileName} from history", "History");
+            AddNotepadFromVM(notepad);
         }
 
         #endregion

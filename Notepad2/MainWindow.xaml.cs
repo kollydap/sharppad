@@ -271,6 +271,7 @@ namespace Notepad2
                     ViewModel.SaveAllNotepadItems();
                 if (mbr == MessageBoxResult.Cancel)
                     e.Cancel = true;
+                return;
             }
             if (!IsDuplicatedWindow)
             {

@@ -16,6 +16,7 @@ using Point = System.Windows.Point;
 using Rectangle = System.Windows.Shapes.Rectangle;
 using Notepad2.FileExplorer;
 using Notepad2.Preferences;
+using System.Threading.Tasks;
 
 namespace Notepad2
 {
@@ -37,7 +38,15 @@ namespace Notepad2
             BeforeInitComponents();
             InitializeComponent();
             InitWindow();
-            ViewModel.AddStartupItem();
+            // assuming it takes maybe 10ms to load the properties info
+            Task.Run(async () =>
+            {
+                await Task.Delay(10);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    ViewModel.AddStartupItem();
+                });
+            });
         }
 
         public MainWindow(string[] filePaths)

@@ -13,7 +13,7 @@ namespace Notepad2.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -25,7 +25,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
         public double Top {
             get {
                 return ((double)(this["Top"]));
@@ -37,7 +37,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
         public double Left {
             get {
                 return ((double)(this["Left"]));
@@ -49,7 +49,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("640")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1024")]
         public double Height {
             get {
                 return ((double)(this["Height"]));
@@ -61,7 +61,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1024")]
+        [global::System.Configuration.DefaultSettingValueAttribute("606")]
         public double Width {
             get {
                 return ((double)(this["Width"]));
@@ -133,7 +133,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool horzScrlShfMWhl {
             get {
                 return ((bool)(this["horzScrlShfMWhl"]));
@@ -145,7 +145,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool cutLnCtrlX {
             get {
                 return ((bool)(this["cutLnCtrlX"]));
@@ -157,7 +157,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool cpyLnCtrlC {
             get {
                 return ((bool)(this["cpyLnCtrlC"]));
@@ -169,7 +169,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool SlctLnCtrSftA {
             get {
                 return ((bool)(this["SlctLnCtrSftA"]));
@@ -181,7 +181,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool vertScrlCtrlArrKy {
             get {
                 return ((bool)(this["vertScrlCtrlArrKy"]));
@@ -193,7 +193,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool zoomCtrlMWhel {
             get {
                 return ((bool)(this["zoomCtrlMWhel"]));
@@ -205,13 +205,25 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool newLnCtrlEntr {
             get {
                 return ((bool)(this["newLnCtrlEntr"]));
             }
             set {
                 this["newLnCtrlEntr"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool wrapByDefault {
+            get {
+                return ((bool)(this["wrapByDefault"]));
+            }
+            set {
+                this["wrapByDefault"] = value;
             }
         }
     }

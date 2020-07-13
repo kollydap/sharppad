@@ -24,5 +24,22 @@ namespace Notepad2.Preferences.Views
             e.Cancel = true;
             this.Hide();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is PreferencesViewModel prefs)
+            {
+                prefs.ScrollVerticallyCtrlArrowKeys = true;
+                prefs.ScrollHorizontallyShiftMouseWheel = true;
+                prefs.CutEntireLineCtrlX = true;
+                prefs.CopyEntireLineCtrlC = true;
+                prefs.SelectEntireLineCtrlShiftA = true;
+                prefs.AddEntireLineCtrlEnter = true;
+                prefs.ZoomEditorCtrlScrollwheel = true;
+                prefs.WrapTextByDefault = true;
+
+                prefs.SavePreferences();
+            }
+        }
     }
 }

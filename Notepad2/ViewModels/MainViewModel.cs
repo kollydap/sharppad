@@ -4,6 +4,7 @@ using Notepad2.FileExplorer;
 using Notepad2.Finding;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
+using Notepad2.Preferences;
 using Notepad2.Preferences.Views;
 using Notepad2.Utilities;
 using System;
@@ -346,7 +347,7 @@ namespace Notepad2.ViewModels
             {
                 Family = font,
                 Size = fontSize,
-                IsWrapped = false
+                IsWrapped = PreferencesG.WRAP_TEXT_BY_DEFAULT
             };
             return CreateNotepadItem(text, itemName, itemPath, fm);
         }

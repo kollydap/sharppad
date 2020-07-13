@@ -16,6 +16,8 @@
 
         public static bool CAN_ZOOM_EDITOR_CTRL_MWHEEL { get; set; }
 
+        public static bool WRAP_TEXT_BY_DEFAULT { get; set; }
+
         public static void SaveToProperties()
         {
             Properties.Settings.Default.horzScrlShfMWhl   = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
@@ -28,6 +30,8 @@
             Properties.Settings.Default.newLnCtrlEntr     = CAN_ADD_ENTIRE_LINE_CTRL_ENTER;
 
             Properties.Settings.Default.zoomCtrlMWhel     = CAN_ZOOM_EDITOR_CTRL_MWHEEL;
+
+            Properties.Settings.Default.wrapByDefault     = WRAP_TEXT_BY_DEFAULT;
 
             Properties.Settings.Default.Save();
         }
@@ -44,6 +48,8 @@
             CAN_ADD_ENTIRE_LINE_CTRL_ENTER          = Properties.Settings.Default.newLnCtrlEntr;
 
             CAN_ZOOM_EDITOR_CTRL_MWHEEL             = Properties.Settings.Default.zoomCtrlMWhel;
+
+            WRAP_TEXT_BY_DEFAULT                    = Properties.Settings.Default.wrapByDefault;
         }
     }
 }

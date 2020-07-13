@@ -30,6 +30,8 @@
                     <CheckBox Content="Add entire line below current one with Ctrl + Enter"    IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
                     <Separator/>
                     <CheckBox Content="Zoom editor with Ctrl + Mouse Wheel up/down" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Separator/>
+                    <CheckBox Content="Wrap text by default (when opening new notepads)" IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Window (coming soon)">
@@ -49,5 +51,7 @@
         <Button Command="{Binding RefreshCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Refresh" Margin="5,0,0,5" Height="24" Width="65"/>
         <Button Command="{Binding SavePreferencesCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="OK" Margin="0,0,75,5" Height="24" Width="65"/>
         <Button Command="{Binding CancelCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Cancel" Margin="0,0,5,5" Height="24" Width="65"/>
+        <Button VerticalAlignment="Bottom"  HorizontalAlignment="Left" Content="Set Recommended" 
+                Margin="75,0,0,5" Height="24" Width="120" ToolTip="Set preferences to the recommended values" Click="Button_Click"/>
     </Grid>
 </Window>

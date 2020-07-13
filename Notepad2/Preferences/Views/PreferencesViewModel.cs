@@ -17,6 +17,7 @@ namespace Notepad2.Preferences.Views
 
         private bool _zoomEditorCtrlMWheel;
 
+        private bool _wrapTextByDefault;
 
         public bool ScrollVerticallyCtrlArrowKeys
         {
@@ -68,6 +69,13 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _zoomEditorCtrlMWheel, value);
         }
 
+
+        public bool WrapTextByDefault
+        {
+            get => _wrapTextByDefault;
+            set => RaisePropertyChanged(ref _wrapTextByDefault, value);
+        }
+
         public PreferencesWindow PreferencesView { get; set; }
 
         public ICommand RefreshCommand { get; private set; }
@@ -112,6 +120,8 @@ namespace Notepad2.Preferences.Views
             AddEntireLineCtrlEnter            = PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER;
 
             ZoomEditorCtrlScrollwheel         = PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL;
+
+            WrapTextByDefault                 = PreferencesG.WRAP_TEXT_BY_DEFAULT;
         }
 
         public void UpdatePreferenceVariables()
@@ -126,6 +136,8 @@ namespace Notepad2.Preferences.Views
             PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER          = AddEntireLineCtrlEnter;
 
             PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL             = ZoomEditorCtrlScrollwheel;
+
+            PreferencesG.WRAP_TEXT_BY_DEFAULT                    = WrapTextByDefault;
         }
 
         public void SavePreferences()

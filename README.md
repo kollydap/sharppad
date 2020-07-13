@@ -3,7 +3,7 @@ Window's notepad is blindingly light themed, so i decided to make my own dark th
 BTW, if you want to, you could improve the "messyness" of the code, cus i just splat things randomly into classes and never clean them up (most of the times). And, i dont think this program 100% follow the MVVM standards (maybe 90%), but who cares anyway ;)
 Here's a snapshot of the program, showing the infolist at the bottom, file explorer on the right, multiple NotepadListItems and loads of text. The find, file explorer and infolist can be closed/opened to take up less space also.
 
-![](exampleImage.jpg)
+![](latestUpdatedImage.jpg)
 
 ## Info on how to use this program
 NotepadListItems are the things on the left of the program, containing file and style info.
@@ -19,6 +19,7 @@ NotepadListItems are the things on the left of the program, containing file and 
 - Finally below is the Information list, containing a list of info regarding things that have happened in the program (like Info, Statuses and errors). An example of info is creating a new file, opening one, saving one, Draging the NotepadListItem, or breaking the program somehow because i forgot to check if the file exists when saving or something lol
 
 ## Latest Updates
+- Added a new history system. If you close a file by accident, press Ctrl+Shift+T to reopen it. You can also reopen files manually by opening the Information and History expander at the bottom, and on the right are some items. Click Reopen or double click the items to reopen them.
 - Added a properties window (File>Preferences) for editing things like whether holding shift + scrolling mouse wheel scrolls the text editor horizontally.
 - Fixed TextDecorations not displaying properly in the ComboBox. Now it works :) Also, the FindResult panel has majestically shortened for some reason. To counter that, the items now have a maximum height of 120px, allowing multiple preview lines to me displayed. Its still a bit buggy but it should be okay.
 - The windows clipboard is displayed at the top next to "Windows Clipboard:" and always updates with any change to the clipboard in or out of the program. will also display if the data is null... aka the data isnt a string (an image for example)

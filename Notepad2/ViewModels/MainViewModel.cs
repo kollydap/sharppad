@@ -601,6 +601,7 @@ namespace Notepad2.ViewModels
                             MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
                             SaveFile(fivm.Document.FilePath, fivm.Document.Text);
+                            fivm.HasMadeChanges = false;
                             File.Move(fivm.Document.FilePath, newFilePath);
                             fivm.Document.FileName = newFileName;
                             fivm.Document.FilePath = newFilePath;
@@ -609,6 +610,7 @@ namespace Notepad2.ViewModels
                     else
                     {
                         SaveFile(fivm.Document.FilePath, fivm.Document.Text);
+                        fivm.HasMadeChanges = false;
                         fivm.Document.FileName = newFileName;
                         fivm.Document.FilePath = newFilePath;
                     }
@@ -703,7 +705,6 @@ namespace Notepad2.ViewModels
             {
                 NotepadActions.SaveFile(path, text);
                 Information.Show($"Successfully saved {path}", InfoTypes.FileIO);
-                Notepad.HasMadeChanges = false;
             }
             catch (Exception e) { Information.Show(e.Message, "Error while saving text to file."); }
         }

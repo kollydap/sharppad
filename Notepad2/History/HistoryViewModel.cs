@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows.Input;
 
 namespace Notepad2.History
@@ -13,6 +14,7 @@ namespace Notepad2.History
         public ObservableCollection<HistoryControl> HistoryItems { get; set; }
 
         public ICommand ReopenLastFileCommand { get; private set; }
+        public ICommand ClearItemsCommand { get; private set; }
 
         public Action<NotepadViewModel> OpenFileCallback { get; set; }
 
@@ -20,6 +22,7 @@ namespace Notepad2.History
         {
             HistoryItems = new ObservableCollection<HistoryControl>();
             ReopenLastFileCommand = new Command(ReopenLastFile);
+            ClearItemsCommand = new Command(ClearItems);
         }
 
         public void Push(HistoryControl hc)
@@ -76,6 +79,11 @@ namespace Notepad2.History
                 DataContext = notepad
             };
             return hc;
+        }
+
+        public void ClearItems()
+        {
+            HistoryItems.Clear();
         }
     }
 }

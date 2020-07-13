@@ -330,6 +330,7 @@
                                         <TextBlock Text="History" VerticalAlignment="Center"/>
                                         <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
                                         <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
+                                        <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"

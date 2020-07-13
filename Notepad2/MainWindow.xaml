@@ -306,7 +306,7 @@
                                 <ColumnDefinition Width="6*"/>
                                 <ColumnDefinition Width="3*"/>
                             </Grid.ColumnDefinitions>
-                            <GroupBox Height="150" Margin="-1,-1,5,1">
+                            <GroupBox Height="150" Margin="-1,-1,5,2">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
@@ -314,12 +314,12 @@
                                         <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" Width="75" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
                                     </StackPanel>
                                 </GroupBox.Header>
-                                <ListView ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
+                                <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
                                             <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Type}"/>
-                                            <GridViewColumn Header="Message" Width="310" DisplayMemberBinding="{Binding Message}"/>
+                                            <GridViewColumn Header="Message" Width="400" DisplayMemberBinding="{Binding Message}"/>
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
@@ -334,6 +334,7 @@
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
+                                         utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
                                          HorizontalContentAlignment="Stretch"/>
                             </GroupBox>
                         </Grid>
@@ -646,7 +647,7 @@
                                             </DockPanel>
                                         </Border>
                                         <DockPanel DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Height="20" VerticalAlignment="Bottom">
-                                            <Grid MinWidth="200" Width="232">
+                                            <Grid MinWidth="232">
                                                 <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1" Margin="57,0,0,0"/>
                                                 <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1" Margin="0,0,175,0"/>
                                                 <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -654,7 +655,7 @@
                                                          BorderBrush="Transparent"
                                                          DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
                                                          Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" 
-                                                         Background="Transparent" Margin="99,1,9,2" Height="17"/>
+                                                         Background="Transparent" Margin="99,1,5,2" Height="17" MaxWidth="225"/>
                                                 <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="4,0,0,0" Height="14" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
                                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10.5"/>
                                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>

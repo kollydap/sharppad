@@ -7,7 +7,7 @@
              xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
              xmlns:converters="clr-namespace:Notepad2.Converters" 
              Foreground="{DynamicResource ControlDefaultForeground}"
-             MouseDown="ElePar_MouseDown" 
+             MouseDown="ControlMouseDown" 
              Focusable="True"
              mc:Ignorable="d" 
              d:DesignWidth="180" 
@@ -51,8 +51,8 @@
                    Name="grip"
                    HorizontalAlignment="Left" 
                    Width="7" 
-                   MouseMove="gripMouseMove" 
-                   MouseLeftButtonDown="gripLeftMouseButtonDown"
+                   MouseMove="GripMouseMove" 
+                   MouseLeftButtonDown="GripLeftMouseButtonDown"
                    ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or something" Cursor="SizeAll">
             <Rectangle.Fill>
                 <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">

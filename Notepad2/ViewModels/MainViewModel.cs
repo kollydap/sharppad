@@ -12,6 +12,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -140,6 +141,7 @@ namespace Notepad2.ViewModels
         public ICommand SaveAllCommand { get; private set; }
         public ICommand CloseSelectedNotepadCommand { get; private set; }
         public ICommand CloseAllNotepadsCommand { get; private set; }
+        public ICommand MoveItemCommand { get; private set; }
         public ICommand OpenInNewWindowCommand { get; private set; }
         public ICommand PrintFileCommand { get; private set; }
         public ICommand ClearInfoItemsCommand { get; private set; }
@@ -166,6 +168,11 @@ namespace Notepad2.ViewModels
         /// </summary>
         public Action<bool> FocusFindInputCallback { get; set; }
 
+        /// <summary>
+        /// Scrolls the selected notepaditem into view
+        /// </summary>
+        public Action ScrollItemIntoView { get; set; }
+
         #endregion
 
         #region Constructor
@@ -189,6 +196,7 @@ namespace Notepad2.ViewModels
             SaveAllCommand = new Command(SaveAllNotepadItems);
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
             CloseAllNotepadsCommand = new Command(CloseAllNotepads);
+            MoveItemCommand = new CommandParam(MoveItem);
             OpenInNewWindowCommand = new Command(OpenInNewWindow);
             PrintFileCommand = new Command(PrintFile);
             AutoShowFindMenuCommand = new Command(OpenFindWindow);
@@ -732,6 +740,47 @@ namespace Notepad2.ViewModels
 
         #endregion
 
+        #region Moving Items
+
+        public void MoveItem(object direction)
+        {
+            if (SelectedNotepadItem != null) {
+                if (direction.ToString() == "up")
+                        MoveItemUp(SelectedNotepadItem);
+
+                if (direction.ToString() == "down")
+                    MoveItemDown(SelectedNotepadItem);
+            }
+        }
+
+        //public void MoveItem(NotepadListItem item, string direction)
+        //{
+        //    if (direction == "up")
+        //        MoveItemUp(item);
+        //    else if (direction == "down")
+        //        MoveItemDown(item);
+        //}
+
+        public void MoveItemUp(NotepadListItem item)
+        {
+            if (SelectedIndex > 0)
+            {
+                NotepadItems.Move(SelectedIndex, SelectedIndex - 1);
+                ScrollItemIntoView?.Invoke();
+            }
+        }
+
+        public void MoveItemDown(NotepadListItem item)
+        {
+            if (SelectedIndex + 1 < NotepadItems.Count)
+            {
+                NotepadItems.Move(SelectedIndex, SelectedIndex + 1);
+                ScrollItemIntoView?.Invoke();
+            }
+        }
+
+        #endregion
+
         // Private Methods
 
         #region InfoStatusErrors
@@ -757,7 +806,7 @@ namespace Notepad2.ViewModels
                 if (File.Exists(Notepad.Document.FilePath))
                 {
                     MainWindow mWnd = new MainWindow(Notepad.Document.FilePath, false);
-                    mWnd.LoadSettings();
+                    mWnd.LoadSettings(false, false);
                     mWnd.Show();
                     Information.Show($"Opened {Notepad.Document.FileName} in another window", InfoTypes.Information);
                     CloseSelectedNotepad();
@@ -767,7 +816,7 @@ namespace Notepad2.ViewModels
                     string tempFilePath = Path.Combine(Path.GetTempPath(), Notepad.Document.FileName);
                     File.WriteAllText(tempFilePath, Notepad.Document.Text);
                     MainWindow mWnd = new MainWindow(tempFilePath, false);
-                    mWnd.LoadSettings();
+                    mWnd.LoadSettings(false, false);
                     mWnd.Show();
                     Information.Show($"Opened {Notepad.Document.FileName} in another window", InfoTypes.Information);
                     CloseSelectedNotepad();

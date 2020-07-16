@@ -164,6 +164,13 @@
     <Compile Include="Views\HelpBox.xaml.cs">
       <DependentUpon>HelpBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WordCompletion\WordCompletionControl.xaml.cs">
+      <DependentUpon>WordCompletionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WordCompletion\Words\WordItemControl.xaml.cs">
+      <DependentUpon>WordItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WordCompletion\WorldCompletionViewModel.cs" />
     <Page Include="CClipboard\ClipboardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -221,6 +228,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HelpBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WordCompletion\WordCompletionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WordCompletion\Words\WordItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,6 +321,7 @@
   <ItemGroup>
     <Resource Include="Resources\preferencesIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

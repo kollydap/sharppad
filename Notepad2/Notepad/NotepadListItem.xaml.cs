@@ -22,6 +22,13 @@ namespace Notepad2.Notepad
         public Action<NotepadListItem> OpenInFileExplorer { get; set; }
         public NotepadViewModel Notepad { get => DataContext as NotepadViewModel; }
 
+        // Stores the point within the grid
+        private Point GripMouseStartPoint;
+
+        // Stores the point within the entire control
+        private Point MouseStartPoint;
+        private bool IsTryingToDrag { get; set; }
+
         public NotepadListItem()
         {
             InitializeComponent();
@@ -36,7 +43,6 @@ namespace Notepad2.Notepad
             catch { }
         }
 
-        private Point MouseDownPoint;
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -54,21 +60,27 @@ namespace Notepad2.Notepad
             Close?.Invoke(this);
         }
 
-        private void ElePar_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ControlMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 Close?.Invoke(this);
+
+            if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
+            {
+                MouseStartPoint = e.GetPosition(this);
+                IsTryingToDrag = true;
+            }
         }
 
-        private void gripLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
+        private void GripLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-                MouseDownPoint = e.GetPosition(null);
+                GripMouseStartPoint = e.GetPosition(null);
         }
 
-        private void gripMouseMove(object sender, MouseEventArgs e)
+        private void GripMouseMove(object sender, MouseEventArgs e)
         {
-            if (MouseDownPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
+            if (GripMouseStartPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
             {
                 if (DataContext is NotepadViewModel notepad)
                 {

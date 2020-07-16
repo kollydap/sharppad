@@ -17,6 +17,7 @@ using Rectangle = System.Windows.Shapes.Rectangle;
 using Notepad2.FileExplorer;
 using Notepad2.Preferences;
 using System.Threading.Tasks;
+using System.Security.Policy;
 
 namespace Notepad2
 {
@@ -120,23 +121,30 @@ namespace Notepad2
             ViewModel.HightlightTextCallback = Hightlight;
             ViewModel.AnimateAddCallback = this.AnimateControl;
             ViewModel.FocusFindInputCallback = FocusFindInputBox;
+            ViewModel.ScrollItemIntoView = ScrollItemIntoView;
             InitialiseTreeFileExplorer();
         }
 
-        public void LoadSettings()
+        public void LoadSettings(bool loadTheme = true, bool loadPosition = true)
         {
             PreferencesG.LoadFromProperties();
-            this.Top = Properties.Settings.Default.Top;
-            this.Left = Properties.Settings.Default.Left;
+            if (loadPosition)
+            {
+                this.Top = Properties.Settings.Default.Top;
+                this.Left = Properties.Settings.Default.Left;
+            }
             this.Height = Properties.Settings.Default.Height;
             this.Width = Properties.Settings.Default.Width;
             showLineThing.IsChecked = Properties.Settings.Default.allowCaretLineOutline;
-            switch (Properties.Settings.Default.Theme)
+            if (loadTheme)
             {
-                case 1: SetTheme(ThemeTypes.Light); break;
-                case 2: SetTheme(ThemeTypes.Dark); break;
-                case 3: SetTheme(ThemeTypes.ColourfulLight); break;
-                case 4: SetTheme(ThemeTypes.ColourfulDark); break;
+                switch (Properties.Settings.Default.Theme)
+                {
+                    case 1: SetTheme(ThemeTypes.Light); break;
+                    case 2: SetTheme(ThemeTypes.Dark); break;
+                    case 3: SetTheme(ThemeTypes.ColourfulLight); break;
+                    case 4: SetTheme(ThemeTypes.ColourfulDark); break;
+                }
             }
         }
 
@@ -196,6 +204,12 @@ namespace Notepad2
                 findInputBox.Focus();
             else
                 MainTextBox.Focus();
+        }
+
+        public void ScrollItemIntoView()
+        {
+            if (notepadLstBox.SelectedItem != null)
+                notepadLstBox.ScrollIntoView(notepadLstBox.SelectedItem);
         }
 
         /// <summary>

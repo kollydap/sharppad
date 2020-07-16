@@ -9,7 +9,7 @@
         xmlns:utils="clr-namespace:Notepad2.Utilities"
         xmlns:fileExplorerShell="clr-namespace:Notepad2.FileExplorer.ShellClasses"
         xmlns:converters="clr-namespace:Notepad2.Converters"
-        xmlns:se="clr-namespace:Notepad2.SimpleEditor" xmlns:i="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+        xmlns:se="clr-namespace:Notepad2.SimpleEditor"
         mc:Ignorable="d" 
         Closing="Window_Closing" 
         Style="{DynamicResource CustomWindowStyle}"
@@ -486,12 +486,21 @@
                                             <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Del"/>
                                         </ListBox.InputBindings>
                                     </ListBox>
-                                    <Button Command="{Binding CloseAllNotepadsCommand}" 
-                                            BorderThickness="1 0 1 1" 
+                                    <Button Command="{Binding CloseAllNotepadsCommand}"  Margin="0,0,75,0"
+                                            BorderThickness="1 0 0 1" 
                                             Content="Clear List" 
                                             VerticalAlignment="Bottom" 
-                                            Height="40" 
-                                            BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
+                                            Height="40" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
+                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="up"  Margin="138,0,0,20"
+                                            BorderThickness="1 0 1 1" Content="Move Up" 
+                                            VerticalAlignment="Bottom" 
+                                            Height="20" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                            ToolTip="Move the selected NotepadItem upwards in the list"/>
+                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="down" Margin="138,0,0,0"
+                                            BorderThickness="1 0 1 1" Content="Move Down" 
+                                            VerticalAlignment="Bottom" 
+                                            Height="20" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                            ToolTip="Move the selected NotepadItem downwards in the list"/>
                                 </Grid>
                             </GroupBox>
                             <GroupBox Focusable="True" FocusManager.IsFocusScope="True" Margin="230,0,0,0" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}">

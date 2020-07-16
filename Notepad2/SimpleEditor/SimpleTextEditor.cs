@@ -26,11 +26,7 @@ namespace Notepad2.SimpleEditor
                         case Key.A:
                             if (!PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A)
                                 break;
-                            int start = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
-                            int lineIdx = GetLineIndexFromCharacterIndex(CaretIndex);
-                            int lineLength = GetLineLength(lineIdx);
-                            SelectionStart = start;
-                            SelectionLength = lineLength;
+                            SelectEntireCurrentLine();
                             break;
                     }
                 }
@@ -95,9 +91,20 @@ namespace Notepad2.SimpleEditor
             //}
         }
 
-        /// <summary>
-        /// A a new line above the line you're currently on.
-        /// </summary>
+        public void InsertText(string text, int charIndex, bool setCaretAfterText = false)
+        {
+            SelectionStart = charIndex;
+            SelectedText = text;
+            SelectionLength = 0;
+            if (setCaretAfterText)
+                CaretIndex += text.Length;
+        }
+
+        public void InsetNewLineAtCaret()
+        {
+            InsertText("\n", CaretIndex, true);
+        }
+
         public void AddNewLineAboveCurrentLine()
         {
             int startOfNewLineIndex = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;

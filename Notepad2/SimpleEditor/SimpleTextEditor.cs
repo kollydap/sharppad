@@ -129,7 +129,7 @@ namespace Notepad2.SimpleEditor
             SelectEntireCurrentLine();
             string newLineText = SelectedText;
             CaretIndex = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
-            CustomClipboard.SetObject(newLineText);
+            CustomClipboard.SetTextObject(newLineText);
         }
 
         public void SelectEntireCurrentLine()

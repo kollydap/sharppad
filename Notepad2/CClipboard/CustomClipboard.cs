@@ -6,11 +6,11 @@ namespace Notepad2.CClipboard
 {
     public static class CustomClipboard
     {
-        public static void SetObject(object obj)
+        public static void SetTextObject(object obj)
         {
             try
             {
-                Clipboard.SetDataObject(obj);
+                Clipboard.SetData(DataFormats.Text, obj);
             }
             catch (Exception e)
             {
@@ -18,11 +18,11 @@ namespace Notepad2.CClipboard
             }
         }
 
-        public static object GetObject()
+        public static object GetTextObject()
         {
             try
             {
-                return Clipboard.GetDataObject().GetData(typeof(string));
+                return Clipboard.GetDataObject()?.GetData(typeof(string));
             }
             catch (Exception e)
             {

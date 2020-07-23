@@ -1,5 +1,7 @@
 ﻿using Notepad2.Utilities;
 using System;
+using System.Linq;
+using System.Windows;
 
 namespace Notepad2.CClipboard
 {
@@ -37,7 +39,7 @@ namespace Notepad2.CClipboard
 
         public void GetClipboard()
         {
-            object data = CustomClipboard.GetObject();
+            object data = CustomClipboard.GetTextObject();
             if (data != null)
                 ClipboardText = data.ToString();
             else
@@ -51,6 +53,7 @@ namespace Notepad2.CClipboard
 
         public void ShutdownUpdaterHook()
         {
+            ClipboardNotification.ShutdownListener();
             ClipboardNotification.ClipboardUpdate -= ClipboardNotification_ClipboardUpdate;
         }
     }

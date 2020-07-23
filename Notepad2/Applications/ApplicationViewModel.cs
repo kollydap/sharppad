@@ -4,6 +4,7 @@ using Notepad2.ViewModels;
 using Notepad2.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Notepad2.Applications
@@ -39,7 +40,7 @@ namespace Notepad2.Applications
             {
                 string parms = string.Join(" ", appArgs);
                 string[] arguments = parms.Split('\"');
-                CreateNotepadWindowAndPreview(arguments);
+                CreateBlankNotepadWindowAndPreview(arguments);
             }
 
             else
@@ -93,19 +94,19 @@ namespace Notepad2.Applications
             return window;
         }
 
-        public NotepadWindow CreateStartupMainNotepadWindow(string[] fileNames)
+        public NotepadWindow CreateStartupMainNotepadWindow(string[] fileNames, bool loadGlobalTheme = true, bool loadWindowPosition = true)
         {
             NotepadWindow window = new NotepadWindow(fileNames);
             window.AddStartupNotepad();
-            SetupNotepadWindow(window, true, true);
+            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition);
             return window;
         }
 
-        public NotepadWindow CreateStartupMainNotepadWindow()
+        public NotepadWindow CreateStartupMainNotepadWindow(bool loadGlobalTheme = true, bool loadWindowPosition = true)
         {
             NotepadWindow window = new NotepadWindow();
             window.AddStartupNotepad();
-            SetupNotepadWindow(window, true, true);
+            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition);
             return window;
         }
 
@@ -144,6 +145,15 @@ namespace Notepad2.Applications
         public void CreateNotepadWindowAndPreview()
         {
             NotepadWindow window = CreateStartupMainNotepadWindow();
+            WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
+            AddPreviewWindow(wpc);
+            AddWindow(window);
+            ShowWindow(window);
+        }
+
+        public void CreateBlankNotepadWindowAndPreview(string[] args)
+        {
+            NotepadWindow window = CreateNotepadWindowAndOpenFiles(args);
             WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewWindow(wpc);
             AddWindow(window);

@@ -74,6 +74,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Applications\Controls\WindowPreviewControl.xaml.cs">
+      <DependentUpon>WindowPreviewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\ThisApplication.cs" />
+    <Compile Include="Applications\WindowsPrviewWindow.xaml.cs">
+      <DependentUpon>WindowsPrviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CClipboard\ClipboardNotification.cs" />
     <Compile Include="CClipboard\ClipboardWindow.xaml.cs">
       <DependentUpon>ClipboardWindow.xaml</DependentUpon>
@@ -156,13 +163,18 @@
     <Compile Include="ViewModels\FindViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Applications\ApplicationViewModel.cs" />
     <Compile Include="Preferences\Views\PreferencesViewModel.cs" />
-    <Compile Include="ViewModels\TextEditorLinesViewModel.cs" />
     <Compile Include="ViewModels\NotepadViewModel.cs" />
+    <Compile Include="ViewModels\TextEditorLinesViewModel.cs" />
+    <Compile Include="ViewModels\TextDocumentViewModel.cs" />
     <Compile Include="ViewModels\RichNotepadViewModel.cs" />
     <Compile Include="Views\HelpBox.xaml.cs">
       <DependentUpon>HelpBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\NewWinPrefs.cs" />
+    <Compile Include="Views\NotepadWindow.xaml.cs">
+      <DependentUpon>NotepadWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WordCompletion\WordCompletionControl.xaml.cs">
       <DependentUpon>WordCompletionControl.xaml</DependentUpon>
@@ -171,6 +183,14 @@
       <DependentUpon>WordItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WordCompletion\WorldCompletionViewModel.cs" />
+    <Page Include="Applications\Controls\WindowPreviewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Applications\WindowsPrviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CClipboard\ClipboardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -195,16 +215,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Notepad\NotepadListItem.xaml">
@@ -228,6 +240,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HelpBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NotepadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -321,7 +337,15 @@
   <ItemGroup>
     <Resource Include="Resources\preferencesIcon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\openInNewWindow2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\previewWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\focusWindow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

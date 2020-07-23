@@ -18,39 +18,48 @@ using Notepad2.FileExplorer;
 using Notepad2.Preferences;
 using System.Threading.Tasks;
 using System.Security.Policy;
+using Notepad2.Applications;
 
-namespace Notepad2
+namespace Notepad2.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for NotepadWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class NotepadWindow : Window
     {
-        private Point MouseDownPoint;
+        private Point MouseDownPoint { get; set; }
 
-        public bool IsDuplicatedWindow { get; set; }
-        public bool DarkThemeEnabled { get; set; }
-        public MainViewModel ViewModel { get; set; }
+        public bool CanSavePreferences { get; set; }
 
-        #region Constructors
+        public NotepadViewModel Notepad
+        {
+            get => this.DataContext as NotepadViewModel;
+            set => this.DataContext = value;
+        }
 
-        public MainWindow()
+        public Action<NotepadWindow> WindowFocusedCallback { get; set; }
+        public Action<NotepadWindow> WindowShownCallback { get; set; }
+        public Action<NotepadWindow> WindowClosedCallback { get; set; }
+
+        public NotepadWindow(NewWinPrefs prefs = NewWinPrefs.OpenBlankWindow)
         {
             BeforeInitComponents();
             InitializeComponent();
             InitWindow();
-            // assuming it takes maybe 10ms to load the properties info
-            Task.Run(async () =>
+            if (prefs == NewWinPrefs.OpenDefaultNotepadAfterLaunch)
             {
-                await Task.Delay(10);
-                Application.Current.Dispatcher.Invoke(() =>
+                Task.Run(async () =>
                 {
-                    ViewModel.AddStartupItem();
+                    await Task.Delay(10);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Notepad.AddStartupItem();
+                    });
                 });
-            });
+            }
         }
 
-        public MainWindow(string[] filePaths)
+        public NotepadWindow(string[] filePaths, NewWinPrefs prefs = NewWinPrefs.OpenFilesInParams)
         {
             BeforeInitComponents();
             InitializeComponent();
@@ -61,7 +70,7 @@ namespace Notepad2
                 {
                     if (path.IsFile())
                     {
-                        ViewModel.OpenNotepadFileFromPath(path, true);
+                        Notepad.OpenNotepadFileFromPath(path, true);
                     }
                     if (path.IsDirectory())
                     {
@@ -76,7 +85,7 @@ namespace Notepad2
                             {
                                 foreach (string file in Directory.GetFiles(path))
                                 {
-                                    ViewModel.OpenNotepadFileFromPath(file, true);
+                                    Notepad.OpenNotepadFileFromPath(file, true);
                                 }
                             }
                             catch (Exception e)
@@ -97,31 +106,28 @@ namespace Notepad2
             }
         }
 
-        public MainWindow(string filePath, bool enableSettingsSave)
+        public void AddStartupNotepad()
         {
-            BeforeInitComponents();
-            InitializeComponent();
-            InitWindow();
-            ViewModel.OpenNotepadFileFromPath(filePath);
-            IsDuplicatedWindow = enableSettingsSave;
-            Title = "SharpPad";
+            Notepad?.AddStartupItem();
         }
-
-        #endregion
 
         public void BeforeInitComponents()
         {
+            Loaded += NotepadWindow_Loaded;
+        }
 
+        private void NotepadWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            WindowShownCallback?.Invoke(this);
         }
 
         public void InitWindow()
         {
-            ViewModel = new MainViewModel();
-            this.DataContext = ViewModel;
-            ViewModel.HightlightTextCallback = Hightlight;
-            ViewModel.AnimateAddCallback = this.AnimateControl;
-            ViewModel.FocusFindInputCallback = FocusFindInputBox;
-            ViewModel.ScrollItemIntoView = ScrollItemIntoView;
+            Notepad = new NotepadViewModel();
+            Notepad.HightlightTextCallback = Hightlight;
+            Notepad.AnimateAddCallback = this.AnimateControl;
+            Notepad.FocusFindInputCallback = FocusFindInputBox;
+            Notepad.ScrollItemIntoView = ScrollItemIntoView;
             InitialiseTreeFileExplorer();
         }
 
@@ -173,7 +179,7 @@ namespace Notepad2
                     //Task.Run(async () =>
                     //{
                     //    await Task.Delay(TimeSpan.FromSeconds(AnimationSpeedSeconds));
-                    //    await Application.Current.Dispatcher.InvokeAsync(() => { ViewModel.NotepadItems.Remove(nli); });
+                    //    await Application.Current.Dispatcher.InvokeAsync(() => { Notepad.NotepadItems.Remove(nli); });
                     //});
                     break;
             }
@@ -181,15 +187,15 @@ namespace Notepad2
 
         public void NotepadListItemDropped(DragEventArgs e)
         {
-            if (ViewModel != null && e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (Notepad != null && e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 if (e.Data.GetData(DataFormats.FileDrop) is string[] droppedItemArray)
                 {
                     foreach (string path in droppedItemArray)
                     {
                         string text = File.ReadAllText(path);
-                        ViewModel.AddNotepadItem(
-                            ViewModel.CreateDefaultStyleNotepadItem(
+                        Notepad.AddNotepadItem(
+                            Notepad.CreateDefaultStyleNotepadItem(
                                 text,
                                 Path.GetFileName(path),
                                 path));
@@ -282,7 +288,7 @@ namespace Notepad2
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (ViewModel.CheckHasMadeChanges())
+            if (Notepad.CheckHasMadeChanges())
             {
                 MessageBoxResult mbr = MessageBox.Show(
                     "You have unsaved work. Do you want to save it/them?",
@@ -291,12 +297,12 @@ namespace Notepad2
                     MessageBoxImage.Information);
 
                 if (mbr == MessageBoxResult.Yes)
-                    ViewModel.SaveAllNotepadItems();
+                    Notepad.SaveAllNotepadItems();
                 if (mbr == MessageBoxResult.Cancel)
                     e.Cancel = true;
                 return;
             }
-            if (!IsDuplicatedWindow)
+            if (CanSavePreferences)
             {
                 try
                 {
@@ -323,20 +329,22 @@ namespace Notepad2
                         case ThemeTypes.ColourfulLight: Properties.Settings.Default.Theme = 3; break;
                         case ThemeTypes.ColourfulDark: Properties.Settings.Default.Theme = 4; break;
                     }
-                    if (!this.ViewModel.CheckNotepadNull())
+                    if (!this.Notepad.CheckNotepadNull())
                     {
-                        if (ViewModel.Notepad.DocumentFormat != null)
+                        if (Notepad.Notepad.DocumentFormat != null)
                         {
-                            Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
-                            Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+                            Properties.Settings.Default.DefaultFont = this.Notepad.Notepad.DocumentFormat.Family.ToString();
+                            Properties.Settings.Default.DefaultFontSize = this.Notepad.Notepad.DocumentFormat.Size;
                         }
                     }
                     Properties.Settings.Default.allowCaretLineOutline = showLineThing.IsChecked ?? true;
                     Properties.Settings.Default.Save();
                 }
                 catch { }
-                ViewModel?.ShutdownInformationHook();
+                Notepad?.ShutdownInformationHook();
             }
+
+            WindowClosedCallback?.Invoke(this);
         }
 
         private void ListBox_Drop(object sender, DragEventArgs e)
@@ -396,9 +404,9 @@ namespace Notepad2
             else
                 aditionalSelection.Visibility = Visibility.Collapsed;
         }
-        
-        
-        
+
+
+
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             DrawRectangleAtCaret();
@@ -407,20 +415,20 @@ namespace Notepad2
                 if (Keyboard.IsKeyDown(Key.LeftCtrl))
                 {
                     int fontChange = e.Delta / 100;
-                    if (ViewModel.Notepad.DocumentFormat.Size > 1)
-                        ViewModel.Notepad.DocumentFormat.Size += fontChange;
-                    if (ViewModel.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
-                        ViewModel.Notepad.DocumentFormat.Size += fontChange;
+                    if (Notepad.Notepad.DocumentFormat.Size > 1)
+                        Notepad.Notepad.DocumentFormat.Size += fontChange;
+                    if (Notepad.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
+                        Notepad.Notepad.DocumentFormat.Size += fontChange;
                     e.Handled = true;
                 }
             }
         }
-        
+
         private void MainTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             DrawRectangleAtCaret();
         }
-        
+
         private void MainTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             DrawRectangleAtCaret();
@@ -433,7 +441,7 @@ namespace Notepad2
 
         private void ChangeResolutionClick(object sender, RoutedEventArgs e)
         {
-            switch(int.Parse(((FrameworkElement)sender).Uid))
+            switch (int.Parse(((FrameworkElement)sender).Uid))
             {
                 case 0: Width = 1024; Height = 576 + GlobalPreferences.WINDOW_TITLEBAR_HEIGHT; break;
                 case 1: Width = 1152; Height = 648 + GlobalPreferences.WINDOW_TITLEBAR_HEIGHT; break;
@@ -446,7 +454,12 @@ namespace Notepad2
         // this is kinda useless tbh but oh well
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ViewModel.OurClipboard.ShowClipboardWindow();
+            Notepad.OurClipboard.ShowClipboardWindow();
+        }
+
+        private void OpenWindowPreviews(object sender, RoutedEventArgs e)
+        {
+            ThisApplication.ShowWindowPreviewsWindow();
         }
     }
 }

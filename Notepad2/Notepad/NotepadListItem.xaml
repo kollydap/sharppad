@@ -66,14 +66,14 @@
             </Rectangle.Fill>
         </Rectangle>
         <Grid Margin="10,0,0,0">
-            <Border Margin="2,2,23,0" Height="20" VerticalAlignment="Top" Name="e">
+            <Border Margin="2,2,43,0" Height="20" VerticalAlignment="Top" Name="e">
                 <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
                            Background="Transparent" 
                            TextWrapping="Wrap"
                            FontSize="14"
                            TextTrimming="CharacterEllipsis"
                            MaxWidth="{Binding ElementName=e, Path=ActualWidth}"
-                           ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="145"/>
+                           ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="122"/>
             </Border>
             <Grid Margin="3,0,3,3" Height="15" VerticalAlignment="Bottom">
                 <Grid.Background>
@@ -84,8 +84,13 @@
                 <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,1,16,1" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
                 <TextBlock Text="KB" Margin="0,0,3,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
             </Grid>
-            <Button Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="18" Height="18" Click="Button_Click" FontSize="10" BorderThickness="1"/>
+            <Button Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Margin="0,2,1,0" VerticalAlignment="Top" Width="20" Height="20" Click="Button_Click" FontSize="13" BorderThickness="1">
+                <TextBlock Text="X" VerticalAlignment="Top" Margin="0 1 0 0" FontSize="11"/>
+            </Button>
             <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="3,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10" Height="15"/>
+            <Button Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Margin="0,2,21,0" VerticalAlignment="Top" Width="20" Height="20" Click="OpenInAnotherWindow" FontSize="10" BorderThickness="1">
+                <Image Margin="-1" Source="/SharpPad;component/Resources/openInNewWindow2.png"/>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

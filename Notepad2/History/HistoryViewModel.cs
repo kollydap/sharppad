@@ -16,7 +16,7 @@ namespace Notepad2.History
         public ICommand ReopenLastFileCommand { get; private set; }
         public ICommand ClearItemsCommand { get; private set; }
 
-        public Action<NotepadViewModel> OpenFileCallback { get; set; }
+        public Action<TextDocumentViewModel> OpenFileCallback { get; set; }
 
         public HistoryViewModel()
         {
@@ -41,7 +41,7 @@ namespace Notepad2.History
         /// Pushes a file (that has just closed) to the history
         /// </summary>
         /// <param name="path"></param>
-        public void FileClosed(NotepadViewModel notepad)
+        public void FileClosed(TextDocumentViewModel notepad)
         {
             HistoryControl item = CreateHistoryItem(notepad);
             Push(item);
@@ -71,7 +71,7 @@ namespace Notepad2.History
             OpenFileCallback?.Invoke(hc.Model);
         }
 
-        public HistoryControl CreateHistoryItem(NotepadViewModel notepad)
+        public HistoryControl CreateHistoryItem(TextDocumentViewModel notepad)
         {
             HistoryControl hc = new HistoryControl()
             {

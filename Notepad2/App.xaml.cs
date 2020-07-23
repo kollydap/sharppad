@@ -1,4 +1,6 @@
-﻿using Notepad2.ViewModels;
+﻿using Notepad2.Applications;
+using Notepad2.ViewModels;
+using Notepad2.Views;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,28 +22,13 @@ namespace Notepad2
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow mWnd;
-            if (e.Args.Length > 0)
-            {
-                string parms = string.Join(" ", e.Args);
-                string[] arguments = parms.Split('\"');
-                mWnd = new MainWindow(arguments);
-            }
-            else
-            {
-                mWnd = new MainWindow();
-            }
-
-            MainWindow = mWnd;
-            mWnd.Show();
-            mWnd.LoadSettings();
+            ThisApplication.Startup(e.Args);
         }
 
         // i think this fixes an issue with the clipboard going completely mad when spamming it
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            COMException comException = e.Exception as COMException;
-            if (comException != null && comException.ErrorCode == -2147221040)
+            if (e.Exception is COMException comException && comException.ErrorCode == -2147221040)
                 e.Handled = true;
         }
     }

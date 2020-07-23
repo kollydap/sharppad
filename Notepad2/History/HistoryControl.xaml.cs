@@ -21,9 +21,9 @@ namespace Notepad2.History
     /// </summary>
     public partial class HistoryControl : UserControl
     {
-        public NotepadViewModel Model
+        public TextDocumentViewModel Model
         {
-            get => this.DataContext as NotepadViewModel;
+            get => this.DataContext as TextDocumentViewModel;
             set => this.DataContext = value;
         }
 

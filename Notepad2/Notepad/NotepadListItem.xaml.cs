@@ -20,7 +20,7 @@ namespace Notepad2.Notepad
         public Action<NotepadListItem> Close { get; set; }
         public Action<NotepadListItem> Open { get; set; }
         public Action<NotepadListItem> OpenInFileExplorer { get; set; }
-        public NotepadViewModel Notepad { get => DataContext as NotepadViewModel; }
+        public TextDocumentViewModel Notepad { get => DataContext as TextDocumentViewModel; }
 
         // Stores the point within the grid
         private Point GripMouseStartPoint;
@@ -28,6 +28,8 @@ namespace Notepad2.Notepad
         // Stores the point within the entire control
         private Point MouseStartPoint;
         private bool IsTryingToDrag { get; set; }
+
+        public Action<NotepadListItem> OpenInNewWindowCallback { get; set; }
 
         public NotepadListItem()
         {
@@ -82,7 +84,7 @@ namespace Notepad2.Notepad
         {
             if (GripMouseStartPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
             {
-                if (DataContext is NotepadViewModel notepad)
+                if (DataContext is TextDocumentViewModel notepad)
                 {
                     try
                     {
@@ -133,6 +135,11 @@ namespace Notepad2.Notepad
             string notepadName = Notepad.Document.FileName;
             string extension = ((MenuItem)sender).Uid;
             Notepad.Document.FileName = FileExtensionsHelper.GetFileExtension(notepadName, extension);
+        }
+
+        private void OpenInAnotherWindow(object sender, RoutedEventArgs e)
+        {
+            OpenInNewWindowCallback?.Invoke(this);
         }
     }
 }

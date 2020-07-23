@@ -24,7 +24,7 @@ namespace Notepad2.ViewModels
             Document = new DocumentModel();
         }
 
-        public void SetNotepad(NotepadViewModel fivm)
+        public void SetNotepad(TextDocumentViewModel fivm)
         {
             this.DocumentFormat = fivm.DocumentFormat;
             this.Document = fivm.Document;

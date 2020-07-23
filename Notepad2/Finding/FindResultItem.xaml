@@ -5,19 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Notepad2.Finding"
              mc:Ignorable="d"
-             MinWidth="200"
-             MaxWidth="200"
+             MinWidth="190"
+             MaxWidth="190"
              MinHeight="50"
              MaxHeight="120"
              Background="Transparent"
              MouseDoubleClick="UserControl_MouseDoubleClick"
              Foreground="{DynamicResource ControlDefaultForeground}">
     <Grid Background="Transparent">
-        <TextBlock Text="Start Index:" VerticalAlignment="Top" HorizontalAlignment="Left" Width="64" Margin="0,2,0,0"/>
+        <TextBlock Text="Start Index:" VerticalAlignment="Top" HorizontalAlignment="Left" Width="60" Margin="0,2,0,0"/>
         <TextBlock Text="{Binding StartIndex}"
                    TextTrimming="WordEllipsis" TextWrapping="Wrap" 
-                   Margin="0,17,0,2" HorizontalAlignment="Left" Width="64"/>
-        <Grid Margin="64,2,0,2" HorizontalAlignment="Left" Width="136">
+                   Margin="0,18,0,2" HorizontalAlignment="Left" Width="60" TextAlignment="Center"/>
+        <Grid Margin="62,2,0,2" HorizontalAlignment="Left" Width="128">
             <TextBlock Text="Preview of Text" VerticalAlignment="Top" HorizontalAlignment="Center"/>
             <TextBlock Text="{Binding PreviewFoundText}" TextAlignment="Center" TextTrimming="WordEllipsis" TextWrapping="Wrap" Visibility="Visible" HorizontalAlignment="Left" Width="136" Margin="0,16,0,0"/>
         </Grid>

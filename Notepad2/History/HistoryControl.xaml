@@ -9,10 +9,10 @@
              MaxHeight="39" MinHeight="39" d:DesignWidth="200"
              MouseDoubleClick="UserControl_MouseDoubleClick" Foreground="{DynamicResource ControlDefaultForeground}">
     <Grid Background="Transparent">
-        <TextBlock Text="Name:" VerticalAlignment="Top" Margin="0,2,0,0" HorizontalAlignment="Left"/>
-        <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="37,2,52,0"/>
-        <TextBlock Text="Path:" VerticalAlignment="Top" Margin="0,21,0,0" HorizontalAlignment="Left"/>
-        <TextBlock Text="{Binding Document.FilePath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="37,21,52,0"/>
-        <Button Content="Reopen" VerticalAlignment="Center" Height="33" HorizontalAlignment="Right" Margin="0" Width="50" Click="Button_Click"/>
+        <Button Content="Reopen" VerticalAlignment="Top" Height="33" HorizontalAlignment="Left" Margin="0,3,0,0" Width="48" Click="Button_Click"/>
+        <TextBlock Text="Name:" VerticalAlignment="Top" Margin="53,2,0,0" HorizontalAlignment="Left"/>
+        <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="90,2,2,0"/>
+        <TextBlock Text="Path:" VerticalAlignment="Top" Margin="53,21,0,0" HorizontalAlignment="Left"/>
+        <TextBlock Text="{Binding Document.FilePath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="90,21,2,0"/>
     </Grid>
 </UserControl>

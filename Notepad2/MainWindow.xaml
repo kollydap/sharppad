@@ -306,7 +306,7 @@
                                 <ColumnDefinition Width="6*"/>
                                 <ColumnDefinition Width="3*"/>
                             </Grid.ColumnDefinitions>
-                            <GroupBox Height="150" Margin="-1,-1,5,2">
+                            <GroupBox Height="175" Margin="-1,-1,5,2">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
@@ -314,7 +314,8 @@
                                         <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" Width="75" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
                                     </StackPanel>
                                 </GroupBox.Header>
-                                <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
+                                <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" 
+                                          ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
@@ -324,7 +325,7 @@
                                     </ListView.View>
                                 </ListView>
                             </GroupBox>
-                            <GroupBox Height="150" DataContext="{Binding History}" Grid.Column="1">
+                            <GroupBox Height="175" DataContext="{Binding History}" Grid.Column="1">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="History" VerticalAlignment="Center"/>

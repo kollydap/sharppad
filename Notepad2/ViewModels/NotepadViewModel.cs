@@ -705,6 +705,7 @@ namespace Notepad2.ViewModels
                     SaveFile(newFilePath, fivm.Document.Text);
                     fivm.Document.FileName = Path.GetFileName(newFilePath);
                     fivm.Document.FilePath = newFilePath;
+                    fivm.HasMadeChanges = false;
                 }
             }
             catch (Exception e) { Information.Show(e.Message, "Error while saving (manual) notepaditem as..."); }

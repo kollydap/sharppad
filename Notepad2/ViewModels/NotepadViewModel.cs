@@ -440,9 +440,9 @@ namespace Notepad2.ViewModels
             fivm.FindResults.OnNextTextFound += Find_OnNextTextFound;
             fivm.HasMadeChanges = false;
             nli.DataContext = fivm;
-            nli.OpenInFileExplorer = this.OpenInFileExplorer;
-            nli.Open = this.OpenNotepadItem;
-            nli.Close = this.CloseNotepadItem;
+            nli.OpenInFileExplorer = OpenInFileExplorer;
+            nli.Open = OpenNotepadItem;
+            nli.Close = CloseNotepadItem;
             nli.OpenInNewWindowCallback = OpenInNewWindow;
             //fivm.DocumentFormat.Size = fm.Size;
 
@@ -453,9 +453,10 @@ namespace Notepad2.ViewModels
         {
             NotepadListItem nli = new NotepadListItem();
             nli.DataContext = notepad;
-            nli.OpenInFileExplorer = this.OpenInFileExplorer;
-            nli.Open = this.OpenNotepadItem;
-            nli.Close = this.CloseNotepadItem;
+            nli.OpenInFileExplorer = OpenInFileExplorer;
+            nli.Open = OpenNotepadItem;
+            nli.Close = CloseNotepadItem;
+            nli.OpenInNewWindowCallback = OpenInNewWindow;
             return nli;
         }
 

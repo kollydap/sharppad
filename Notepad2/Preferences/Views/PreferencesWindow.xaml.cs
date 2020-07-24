@@ -37,6 +37,7 @@ namespace Notepad2.Preferences.Views
                 prefs.AddEntireLineCtrlEnter = true;
                 prefs.ZoomEditorCtrlScrollwheel = true;
                 prefs.WrapTextByDefault = true;
+                prefs.CanCloseWindowsWithCtrlWAndShift = true;
 
                 prefs.SavePreferences();
             }

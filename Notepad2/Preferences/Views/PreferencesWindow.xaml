@@ -34,18 +34,10 @@
                     <CheckBox Content="Wrap text by default (when opening new notepads)" IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Window (coming soon)">
-                <Grid IsEnabled="False">
-                    <Label Content="Top" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Label Content="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="179,0,0,0"/>
-                    <Label Content="Height" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,31,0,0"/>
-                    <Label Content="Width" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="179,31,0,0"/>
-                    <TextBox Text="6969lolxddKettleSimulator" Padding="4" HorizontalAlignment="Left" Margin="54,0,0,0" VerticalAlignment="Top" Width="120"/>
-                    <TextBox Text="6969lolxddKettleSimulator" Padding="4" HorizontalAlignment="Left" Margin="222,0,0,0" VerticalAlignment="Top" Width="120"/>
-                    <TextBox Text="6969lolxddKettleSimulator" Padding="4" HorizontalAlignment="Left" Margin="54,31,0,0" VerticalAlignment="Top" Width="120"/>
-                    <TextBox Text="6969lolxddKettleSimulator" Padding="4" HorizontalAlignment="Left" Margin="222,31,0,0" VerticalAlignment="Top" Width="120"/>
-
-                </Grid>
+            <TabItem Header="Window">
+                <StackPanel IsEnabled="True">
+                    <CheckBox Content="Close windows with Ctrl + W (shutdown app with shift too)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
             </TabItem>
         </TabControl>
         <Button Command="{Binding RefreshCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Refresh" Margin="5,0,0,5" Height="24" Width="65"/>

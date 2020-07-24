@@ -18,6 +18,8 @@
 
         public static bool WRAP_TEXT_BY_DEFAULT { get; set; }
 
+        public static bool CAN_CLOSE_WIN_WITH_CTRL_W { get; set; }
+
         public static void SaveToProperties()
         {
             Properties.Settings.Default.horzScrlShfMWhl   = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
@@ -32,6 +34,8 @@
             Properties.Settings.Default.zoomCtrlMWhel     = CAN_ZOOM_EDITOR_CTRL_MWHEEL;
 
             Properties.Settings.Default.wrapByDefault     = WRAP_TEXT_BY_DEFAULT;
+
+            Properties.Settings.Default.closeWinWithCtrlW = CAN_CLOSE_WIN_WITH_CTRL_W;
 
             Properties.Settings.Default.Save();
         }
@@ -50,6 +54,8 @@
             CAN_ZOOM_EDITOR_CTRL_MWHEEL             = Properties.Settings.Default.zoomCtrlMWhel;
 
             WRAP_TEXT_BY_DEFAULT                    = Properties.Settings.Default.wrapByDefault;
+
+            CAN_CLOSE_WIN_WITH_CTRL_W               = Properties.Settings.Default.closeWinWithCtrlW;
         }
     }
 }

@@ -219,13 +219,15 @@ namespace Notepad2.ViewModels
 
         public void CloseWindow()
         {
-            ThisApplication.CloseWindowFromDataContext(this);
+            if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
+                ThisApplication.CloseWindowFromDataContext(this);
         }
 
         public void CloseAllWindow()
         {
             // easier and faster than manually closing all windows.
-            ThisApplication.ShutdownApplication();
+            if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
+                ThisApplication.ShutdownApplication();
         }
 
         /// <summary>

@@ -40,12 +40,12 @@ namespace Notepad2.Applications
             {
                 string parms = string.Join(" ", appArgs);
                 string[] arguments = parms.Split('\"');
-                CreateBlankNotepadWindowAndPreview(arguments);
+                CreateStartupBlankNotepadWindowAndPreview(arguments);
             }
 
             else
             {
-                CreateNotepadWindowAndPreview();
+                CreateStartupNotepadWindowAndPreview();
             }
         }
 
@@ -87,10 +87,10 @@ namespace Notepad2.Applications
             return window;
         }
 
-        public NotepadWindow CreateNotepadWindowAndOpenFiles(string[] fileNames)
+        public NotepadWindow CreateNotepadWindowAndOpenFiles(string[] fileNames, bool loadGlobalTheme = false, bool loadWindowPosition = false)
         {
             NotepadWindow window = new NotepadWindow(fileNames);
-            SetupNotepadWindow(window);
+            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition);
             return window;
         }
 
@@ -142,7 +142,7 @@ namespace Notepad2.Applications
             ShowWindow(window);
         }
 
-        public void CreateNotepadWindowAndPreview()
+        public void CreateStartupNotepadWindowAndPreview()
         {
             NotepadWindow window = CreateStartupMainNotepadWindow();
             WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
@@ -151,9 +151,9 @@ namespace Notepad2.Applications
             ShowWindow(window);
         }
 
-        public void CreateBlankNotepadWindowAndPreview(string[] args)
+        public void CreateStartupBlankNotepadWindowAndPreview(string[] args)
         {
-            NotepadWindow window = CreateNotepadWindowAndOpenFiles(args);
+            NotepadWindow window = CreateNotepadWindowAndOpenFiles(args, true, true);
             WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewWindow(wpc);
             AddWindow(window);

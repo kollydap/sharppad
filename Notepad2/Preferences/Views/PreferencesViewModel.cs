@@ -19,6 +19,8 @@ namespace Notepad2.Preferences.Views
 
         private bool _wrapTextByDefault;
 
+        private bool _canCloseWinWithCtrlWShift;
+
         public bool ScrollVerticallyCtrlArrowKeys
         {
             get => _scrollVerticalCtrlArrows;
@@ -76,6 +78,13 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _wrapTextByDefault, value);
         }
 
+
+        public bool CanCloseWindowsWithCtrlWAndShift
+        {
+            get => _canCloseWinWithCtrlWShift;
+            set => RaisePropertyChanged(ref _canCloseWinWithCtrlWShift, value);
+        }
+
         public PreferencesWindow PreferencesView { get; set; }
 
         public ICommand RefreshCommand { get; private set; }
@@ -111,17 +120,19 @@ namespace Notepad2.Preferences.Views
         public void LoadPreferencesVariables()
         {
             ScrollHorizontallyShiftMouseWheel = PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
-            ScrollHorizontallyCtrlArrowKeys   = PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
-            ScrollVerticallyCtrlArrowKeys     = PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS;
-                                              
-            CutEntireLineCtrlX                = PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X;
-            CopyEntireLineCtrlC               = PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C;
-            SelectEntireLineCtrlShiftA        = PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
-            AddEntireLineCtrlEnter            = PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER;
+            ScrollHorizontallyCtrlArrowKeys = PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
+            ScrollVerticallyCtrlArrowKeys = PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS;
 
-            ZoomEditorCtrlScrollwheel         = PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL;
+            CutEntireLineCtrlX = PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X;
+            CopyEntireLineCtrlC = PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C;
+            SelectEntireLineCtrlShiftA = PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
+            AddEntireLineCtrlEnter = PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER;
 
-            WrapTextByDefault                 = PreferencesG.WRAP_TEXT_BY_DEFAULT;
+            ZoomEditorCtrlScrollwheel = PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL;
+
+            WrapTextByDefault = PreferencesG.WRAP_TEXT_BY_DEFAULT;
+
+            CanCloseWindowsWithCtrlWAndShift = PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W;
         }
 
         public void UpdatePreferenceVariables()
@@ -138,6 +149,8 @@ namespace Notepad2.Preferences.Views
             PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL             = ZoomEditorCtrlScrollwheel;
 
             PreferencesG.WRAP_TEXT_BY_DEFAULT                    = WrapTextByDefault;
+
+            PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W               = CanCloseWindowsWithCtrlWAndShift;
         }
 
         public void SavePreferences()

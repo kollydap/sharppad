@@ -226,5 +226,17 @@ namespace Notepad2.Properties {
                 this["wrapByDefault"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool closeWinWithCtrlW {
+            get {
+                return ((bool)(this["closeWinWithCtrlW"]));
+            }
+            set {
+                this["closeWinWithCtrlW"] = value;
+            }
+        }
     }
 }

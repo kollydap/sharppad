@@ -18,7 +18,7 @@
         MinWidth="872"
         Height="576" 
         Width="900"
-        Icon="/SharpPad;component/Resources/saveFileAs.png"
+        Icon="/SharpPad;component/notepadIcon.ico"
         Title="SharpPad">
     <Window.Resources>
         <converters:InvertedBoolToVisibilityConverter x:Key="invertedBoolToVis"/>

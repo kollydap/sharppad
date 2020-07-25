@@ -4,6 +4,7 @@ using Notepad2.ViewModels;
 using Notepad2.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Security.Policy;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -116,11 +117,16 @@ namespace Notepad2.Applications
 
         public void SetupNotepadWindow(NotepadWindow window, bool loadGlobalTheme = false, bool loadWindowPosition = false)
         {
+            SetupNotepadWindowCallbacks(window);
+            window.LoadSettings(loadGlobalTheme, loadWindowPosition);
+            window.CanSavePreferences = true;
+        }
+
+        public void SetupNotepadWindowCallbacks(NotepadWindow window)
+        {
             window.WindowFocusedCallback = WindowFocused;
             window.WindowShownCallback = WindowShown;
             window.WindowClosedCallback = WindowClosed;
-            window.LoadSettings(loadGlobalTheme, loadWindowPosition);
-            window.CanSavePreferences = true;
         }
 
         #endregion
@@ -129,6 +135,7 @@ namespace Notepad2.Applications
         {
             WindowPreviewControl wpc = CreatePreviewControlFromDataContext(notepad.Notepad);
             AddPreviewWindow(wpc);
+            SetupNotepadWindowCallbacks(notepad);
             AddWindow(notepad);
             ShowWindow(notepad);
         }

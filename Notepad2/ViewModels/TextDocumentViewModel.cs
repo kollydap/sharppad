@@ -1,4 +1,5 @@
-﻿using Notepad2.Notepad;
+﻿using Notepad2.Finding;
+using Notepad2.Notepad;
 using Notepad2.Utilities;
 
 namespace Notepad2.ViewModels

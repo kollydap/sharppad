@@ -156,7 +156,9 @@ namespace Notepad2.SimpleEditor
                 try
                 {
                     Focus();
-                    ScrollToLine(GetLineIndexFromCharacterIndex(result.StartIndex));
+                    int actualLine = GetLineIndexFromCharacterIndex(result.StartIndex);
+                    //int finalLine = actualLine + ((int) Math.Round((ActualHeight / FontSize) / 2, 0) ) ;
+                    ScrollToLine(actualLine);
                     Select(result.StartIndex, result.WordLength);
                 }
                 catch { }

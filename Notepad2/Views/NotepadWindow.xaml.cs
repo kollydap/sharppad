@@ -297,10 +297,14 @@ namespace Notepad2.Views
                     MessageBoxImage.Information);
 
                 if (mbr == MessageBoxResult.Yes)
+                {
                     Notepad.SaveAllNotepadItems();
+                }
                 if (mbr == MessageBoxResult.Cancel)
+                {
                     e.Cancel = true;
-                return;
+                    return;
+                }
             }
             if (CanSavePreferences)
             {

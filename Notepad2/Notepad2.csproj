@@ -160,7 +160,7 @@
     <Compile Include="Utilities\ScrollViewerHelper.cs" />
     <Compile Include="Utilities\TextBoxLineNumbers.cs" />
     <Compile Include="CClipboard\ClipboardViewModel.cs" />
-    <Compile Include="ViewModels\FindViewModel.cs" />
+    <Compile Include="Finding\FindViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="Applications\ApplicationViewModel.cs" />

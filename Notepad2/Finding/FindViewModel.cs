@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using static Notepad2.Finding.CharacterFinder;
 
-namespace Notepad2.ViewModels
+namespace Notepad2.Finding
 {
     public class FindViewModel : BaseViewModel
     {

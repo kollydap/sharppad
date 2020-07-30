@@ -21,14 +21,15 @@
         Icon="/SharpPad;component/notepadIcon.ico"
         Title="SharpPad">
     <Window.Resources>
+        <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
         <converters:InvertedBoolToVisibilityConverter x:Key="invertedBoolToVis"/>
         <DropShadowBitmapEffect x:Key="NormalShadow" ShadowDepth="2" Softness="0.2" Opacity="0.64"/>
         <ObjectDataProvider x:Key="FontFamilyOptions"
-                            ObjectType="{x:Type media:Fonts}"
+                            ObjectType="{x:Type Fonts}"
                             MethodName="get_SystemFontFamilies"/>
         <converters:TextToFontDecorationConverter x:Key="textDecoConverter"/>
         <x:Array x:Key="FontSizeOptions"
-                 Type="sys:Double">
+                 Type="{x:Type sys:Double}">
             <sys:Double>2</sys:Double>
             <sys:Double>4</sys:Double>
             <sys:Double>6</sys:Double>
@@ -52,17 +53,17 @@
             <sys:Double>100</sys:Double>
             <sys:Double>144</sys:Double>
         </x:Array>
-        <x:Array x:Key="FontWeightOptions" Type="win:FontWeight">
-            <win:FontWeight>Normal</win:FontWeight>
-            <win:FontWeight>Bold</win:FontWeight>
-            <win:FontWeight>ExtraBold</win:FontWeight>
+        <x:Array x:Key="FontWeightOptions" Type="{x:Type FontWeight}">
+            <FontWeight>Normal</FontWeight>
+            <FontWeight>Bold</FontWeight>
+            <FontWeight>ExtraBold</FontWeight>
         </x:Array>
-        <x:Array x:Key="FontStyleOptions" Type="win:FontStyle">
-            <win:FontStyle>Normal</win:FontStyle>
-            <win:FontStyle>Italic</win:FontStyle>
-            <win:FontStyle>Oblique</win:FontStyle>
+        <x:Array x:Key="FontStyleOptions" Type="{x:Type FontStyle}">
+            <FontStyle>Normal</FontStyle>
+            <FontStyle>Italic</FontStyle>
+            <FontStyle>Oblique</FontStyle>
         </x:Array>
-        <x:Array x:Key="TextDeocrationOptions" Type="sys:String">
+        <x:Array x:Key="TextDeocrationOptions" Type="{x:Type sys:String}">
             <sys:String>None</sys:String>
             <sys:String>Underline</sys:String>
             <sys:String>Strikethrough</sys:String>
@@ -221,7 +222,7 @@
                 </Grid>
                 <StackPanel IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" 
                             Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Left" Height="28">
-                    <ComboBox Width="157" 
+                    <ComboBox Width="157"
                               ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}" 
                               SelectedItem="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}" 
                               ToolTip="Font"
@@ -282,10 +283,10 @@
                               IsChecked="{Binding Notepad.DocumentFormat.IsWrapped, UpdateSourceTrigger=PropertyChanged}" 
                               Height="Auto" Width="80"/>
                     <CheckBox x:Name="showLineThing"
-                              Margin="5,0,0,0" Content="Show Border around Current Line" 
+                              Margin="5,0,0,0" Content="Show Line Border" 
                               ToolTip="The Border around the seleced line (aka caret index) of the text editor"
                               Height="Auto"
-                              Checked="ShowLineThing_Checked" Unchecked="ShowLineThing_Checked" Width="200"/>
+                              Checked="ShowLineThing_Checked" Unchecked="ShowLineThing_Checked" Width="117"/>
                 </StackPanel>
             </StackPanel>
             <DockPanel Margin="0,5,0,0" Background="{DynamicResource BackgroundColour}">
@@ -544,10 +545,11 @@
                                                             </Grid.InputBindings>
                                                             <TextBlock HorizontalAlignment="Left" Margin="5,11,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
                                                             <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
-                                                                     x:Name="findInputBox"
-                                                                     VerticalContentAlignment="Center" Focusable="True" 
+                                                                     x:Name="findInputBox" Focusable="True"
+                                                                     VerticalContentAlignment="Center"
                                                                      Padding="2" Height="28" Margin="64,5,70,0" 
-                                                                     TextWrapping="Wrap" VerticalAlignment="Top">
+                                                                     TextWrapping="Wrap" VerticalAlignment="Top"
+                                                                     Loaded="findInputBox_Loaded">
                                                                 <TextBox.InputBindings>
                                                                     <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
                                                                 </TextBox.InputBindings>

@@ -19,6 +19,7 @@ using Notepad2.Preferences;
 using System.Threading.Tasks;
 using System.Security.Policy;
 using Notepad2.Applications;
+using Notepad2.InformationStuff;
 
 namespace Notepad2.Views
 {
@@ -193,12 +194,65 @@ namespace Notepad2.Views
                 {
                     foreach (string path in droppedItemArray)
                     {
-                        string text = File.ReadAllText(path);
-                        Notepad.AddNotepadItem(
-                            Notepad.CreateDefaultStyleNotepadItem(
-                                text,
-                                Path.GetFileName(path),
-                                path));
+                        if (Directory.Exists(path))
+                        {
+                            if (MessageBox.Show(
+                                "You dropped a folder. Open all files in this folder?",
+                                "Open files in dropped folder",
+                                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            {
+                                foreach (string file in Directory.GetFiles(path))
+                                {
+                                    try
+                                    {
+                                        string text = File.ReadAllText(file);
+                                        Notepad.AddNotepadItem(
+                                            Notepad.CreateDefaultStyleNotepadItem(
+                                                text,
+                                                Path.GetFileName(file),
+                                                file));
+                                    }
+                                    catch (Exception ee) { Information.Show(ee.Message, "DroppedFile"); }
+                                }
+                            }
+                        }
+
+                        if (ExplorerHelper.CheckPathIsShortcutFile(path, out string shortcutPath))
+                        {
+                            string shortcutLinkName = Path.GetFileName(shortcutPath);
+                            MessageBoxResult results = MessageBox.Show(
+                                $"You dropped a shortcut to a file. Open the path it goes to ({shortcutLinkName})? " +
+                                $"or open the raw shortcut file (.lnk file)?",
+                                "Open shortcut file or actual file",
+                                MessageBoxButton.YesNoCancel);
+                            if (results == MessageBoxResult.Yes)
+                            {
+                                string text = File.ReadAllText(shortcutPath);
+                                Notepad.AddNotepadItem(
+                                    Notepad.CreateDefaultStyleNotepadItem(
+                                        text,
+                                        Path.GetFileName(shortcutPath),
+                                        shortcutPath));
+                            }
+                            else if (results == MessageBoxResult.No)
+                            {
+                                string text = File.ReadAllText(path);
+                                Notepad.AddNotepadItem(
+                                    Notepad.CreateDefaultStyleNotepadItem(
+                                        text,
+                                        Path.GetFileName(path),
+                                        path));
+                            }
+                        }
+                        else if (File.Exists(path))
+                        {
+                            string text = File.ReadAllText(path);
+                            Notepad.AddNotepadItem(
+                                Notepad.CreateDefaultStyleNotepadItem(
+                                    text,
+                                    Path.GetFileName(path),
+                                    path));
+                        }
                     }
                 }
             }
@@ -464,6 +518,11 @@ namespace Notepad2.Views
         private void OpenWindowPreviews(object sender, RoutedEventArgs e)
         {
             ThisApplication.ShowWindowPreviewsWindow();
+        }
+
+        private void findInputBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            findInputBox.Focus();
         }
     }
 }

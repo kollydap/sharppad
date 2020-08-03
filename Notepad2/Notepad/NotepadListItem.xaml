@@ -22,38 +22,38 @@
     </UserControl.Resources>
     <UserControl.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Open"  Uid="0" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Close" Uid="1" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Open in File Explorer" Uid="2" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
+            <MenuItem Header="Open in New Window" Uid="4" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
             <MenuItem Header="Delete File" Uid="3" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
             <MenuItem Header="Set File Extension" Template="{DynamicResource DropDownMenuItemStyle}">
-                <MenuItem Header="PlainText "         Uid=".txt" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="Text..? ish"        Uid=".text" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C#File "            Uid=".cs" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C File "            Uid=".c" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C++ File "          Uid=".cpp" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C/C++ Header File " Uid=".h" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="XAML File "         Uid=".xaml" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="XML File "          Uid=".xml" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="HTM File "          Uid=".htm" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="HTML File "         Uid=".html" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="CSS File "          Uid=".css" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="JS  File "          Uid=".js" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="EXE File "          Uid=".exe" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="All files"          Uid="." Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Plain Text"         InputGestureText=".txt"     Uid=".txt"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Fake Text?"         InputGestureText=".text"    Uid=".text"  Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C# File"            InputGestureText=".cs"      Uid=".cs"    Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C File"             InputGestureText=".c"       Uid=".c"     Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C++ File"           InputGestureText=".cpp"     Uid=".cpp"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C/C++ Header"       InputGestureText=".h"       Uid=".h"     Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="XAML File"          InputGestureText=".xaml"    Uid=".xaml"  Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="XML File"           InputGestureText=".xml"     Uid=".xml"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="HTM File"           InputGestureText=".htm"     Uid=".htm"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="HTML File"          InputGestureText=".html"    Uid=".html"  Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="CSS File"           InputGestureText=".css"     Uid=".css"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="JavaScript File"    InputGestureText=".js"      Uid=".js"    Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="EXE File"           InputGestureText=".exe"     Uid=".exe"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="All files"          InputGestureText="."        Uid="."      Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid Background="Transparent">
-        <Rectangle Margin="0,4" 
-                   Name="grip"
-                   HorizontalAlignment="Left" 
+        <Rectangle Margin="0,3,0,4" 
                    Width="7" 
+                   HorizontalAlignment="Left" 
                    MouseMove="GripMouseMove" 
                    MouseLeftButtonDown="GripLeftMouseButtonDown"
-                   ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or something" Cursor="SizeAll">
+                   ToolTip="Click and drag to start DragDropping, allowing you to drop this item on your desktop or something" 
+                   Cursor="Hand">
             <Rectangle.Fill>
                 <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">
                     <DrawingBrush.Drawing>
@@ -66,28 +66,35 @@
             </Rectangle.Fill>
         </Rectangle>
         <Grid Margin="10,0,0,0">
-            <Border Margin="2,2,43,0" Height="20" VerticalAlignment="Top" Name="e">
-                <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
-                           Background="Transparent" 
-                           TextWrapping="Wrap"
-                           FontSize="14"
-                           TextTrimming="CharacterEllipsis"
-                           MaxWidth="{Binding ElementName=e, Path=ActualWidth}"
-                           ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="122"/>
-            </Border>
+            <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
+                       ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}"
+                       TextWrapping="NoWrap"
+                       FontSize="14"
+                       TextTrimming="CharacterEllipsis"
+                       Background="Transparent" 
+                       Margin="2,2,0,0" Height="19" VerticalAlignment="Top" HorizontalAlignment="Left" Width="127"/>
+            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}"
+                       Width="60" 
+                       HorizontalAlignment="Left" 
+                       Margin="3,0,0,18" 
+                       FontSize="10" Height="15" VerticalAlignment="Bottom" />
             <Grid Margin="3,0,3,3" Height="15" VerticalAlignment="Bottom">
                 <Grid.Background>
                     <SolidColorBrush Color="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}}" Opacity="0.2"/>
                 </Grid.Background>
-                <TextBlock Text="Chars:" VerticalAlignment="Bottom" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
-                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="32,0,0,0" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="62"/>
-                <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,1,16,1" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
-                <TextBlock Text="KB" Margin="0,0,3,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
+                <TextBlock Text="Chars:" VerticalAlignment="Center" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
+                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="32,0,0,0" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="57"/>
+                <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,0,16,0" FontSize="10" HorizontalAlignment="Right" Width="57" TextAlignment="Right"/>
+                <TextBlock Text="KB" Margin="0,0,3,0" VerticalAlignment="Center" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
             </Grid>
             <Button Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Margin="0,2,1,0" VerticalAlignment="Top" Width="20" Height="20" Click="Button_Click" FontSize="13" BorderThickness="1">
-                <TextBlock Text="X" VerticalAlignment="Top" Margin="0 1 0 0" FontSize="11"/>
+                <Path SnapsToDevicePixels="False"
+                      Width="10" Height="10" Margin="0,0,0,0" 
+                      HorizontalAlignment="Center" VerticalAlignment="Center" 
+                      Stretch="Fill" 
+                      Data="F1 M 26.9166,22.1667L 37.9999,33.25L 49.0832,22.1668L 53.8332,26.9168L 42.7499,38L 53.8332,49.0834L 49.0833,53.8334L 37.9999,42.75L 26.9166,53.8334L 22.1666,49.0833L 33.25,38L 22.1667,26.9167L 26.9166,22.1667 Z " 
+                      Fill="#FFE82020" />
             </Button>
-            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="3,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10" Height="15"/>
             <Button Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Margin="0,2,21,0" VerticalAlignment="Top" Width="20" Height="20" Click="OpenInAnotherWindow" FontSize="10" BorderThickness="1">
                 <Image Margin="-1" Source="/SharpPad;component/Resources/openInNewWindow2.png"/>
             </Button>

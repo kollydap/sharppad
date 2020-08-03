@@ -17,7 +17,6 @@ using Rectangle = System.Windows.Shapes.Rectangle;
 using Notepad2.FileExplorer;
 using Notepad2.Preferences;
 using System.Threading.Tasks;
-using System.Security.Policy;
 using Notepad2.Applications;
 using Notepad2.InformationStuff;
 
@@ -71,7 +70,7 @@ namespace Notepad2.Views
                 {
                     if (path.IsFile())
                     {
-                        Notepad.OpenNotepadFileFromPath(path, true);
+                        Notepad.OpenNotepadFromPath(path, true);
                     }
                     if (path.IsDirectory())
                     {
@@ -86,7 +85,7 @@ namespace Notepad2.Views
                             {
                                 foreach (string file in Directory.GetFiles(path))
                                 {
-                                    Notepad.OpenNotepadFileFromPath(file, true);
+                                    Notepad.OpenNotepadFromPath(file, true);
                                 }
                             }
                             catch (Exception e)
@@ -342,7 +341,7 @@ namespace Notepad2.Views
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Notepad.CheckHasMadeChanges())
+            if (Notepad.HasAnyNotepadMadeChanges())
             {
                 MessageBoxResult mbr = MessageBox.Show(
                     "You have unsaved work. Do you want to save it/them?",
@@ -387,7 +386,7 @@ namespace Notepad2.Views
                         case ThemeTypes.ColourfulLight: Properties.Settings.Default.Theme = 3; break;
                         case ThemeTypes.ColourfulDark: Properties.Settings.Default.Theme = 4; break;
                     }
-                    if (!this.Notepad.CheckNotepadNull())
+                    if (!this.Notepad.IsNotepadNull())
                     {
                         if (Notepad.Notepad.DocumentFormat != null)
                         {
@@ -399,7 +398,7 @@ namespace Notepad2.Views
                     Properties.Settings.Default.Save();
                 }
                 catch { }
-                Notepad?.ShutdownInformationHook();
+                //Notepad?.ShutdownInformationHook();
             }
 
             WindowClosedCallback?.Invoke(this);

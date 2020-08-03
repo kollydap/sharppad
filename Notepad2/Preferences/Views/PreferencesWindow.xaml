@@ -13,10 +13,11 @@
     </Window.InputBindings>
     <Grid>
         <TabControl Margin="0,5,0,34" SelectedIndex="1">
-            <TabItem Header="General">
-                <Grid>
-                    <Label Content="Coming soon :)"/>
-                </Grid>
+            <TabItem Header="Window">
+                <StackPanel IsEnabled="True">
+                    <CheckBox Content="Close windows with Ctrl + W (shutdown app with shift too)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Reopen window with Ctrl + Shift + T" IsChecked="{Binding CanReopenWindowWithCtrlShiftT, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Text Editor">
                 <StackPanel>
@@ -32,11 +33,6 @@
                     <CheckBox Content="Zoom editor with Ctrl + Mouse Wheel up/down" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
                     <Separator/>
                     <CheckBox Content="Wrap text by default (when opening new notepads)" IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Window">
-                <StackPanel IsEnabled="True">
-                    <CheckBox Content="Close windows with Ctrl + W (shutdown app with shift too)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </TabItem>
         </TabControl>

@@ -1,4 +1,5 @@
 ﻿using Notepad2.Finding;
+using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
 using System;
@@ -11,30 +12,31 @@ namespace Notepad2.Finding
 {
     public class FindViewModel : BaseViewModel
     {
-        public delegate void FindResultEventArgs(FindResult result);
-        public event FindResultEventArgs OnNextTextFound;
-
         private int _selectedIndex;
         private FindResultItem _selectedItem;
         private string _findWhatText;
         private bool _matchCase;
 
         public ObservableCollection<FindResultItem> FoundItems { get; set; }
+
         public int SelectedIndex
         {
             get => _selectedIndex;
             set => RaisePropertyChanged(ref _selectedIndex, value);
         }
+
         public FindResultItem SelectedItem
         {
             get => _selectedItem;
             set => RaisePropertyChanged(ref _selectedItem, value);
         }
+
         public string FindWhatText
         {
             get => _findWhatText;
             set => RaisePropertyChanged(ref _findWhatText, value);
         }
+
         public bool MatchCase
         {
             get => _matchCase;
@@ -47,6 +49,8 @@ namespace Notepad2.Finding
 
         public ICommand FindOccourancesCommand { get; set; }
         public ICommand CancelCommand { get; set; }
+
+        public Action<FindResult> NextTextFoundCallback { get; set; }
 
         public FindViewModel(DocumentModel document)
         {
@@ -74,21 +78,21 @@ namespace Notepad2.Finding
             FoundItems?.Clear();
         }
 
-        public int ItemsCount
-        {
-            get => FoundItems.Count;
-        }
+        //public int ItemsCount
+        //{
+        //    get => FoundItems.Count;
+        //}
 
-        public void ResetSelection()
-        {
-            SelectedIndex = 0;
-        }
+        //public void ResetSelection()
+        //{
+        //    SelectedIndex = 0;
+        //}
 
-        public void Reset()
-        {
-            ClearItems();
-            HasSearched = false;
-        }
+        //public void Reset()
+        //{
+        //    ClearItems();
+        //    HasSearched = false;
+        //}
 
         public void FetchAllResults()
         {
@@ -110,18 +114,18 @@ namespace Notepad2.Finding
                         {
                             HighlightCallback = Hightlight
                         };
-                        FoundItems?.Add(fri);
+                        FoundItems.Add(fri);
                     }
                     HasSearched = true;
                     return;
                 }
-                MessageBox.Show("Notepad Text or ToFind text is empty");
+                Information.Show("Notepad Text or ToFind text is empty", "History");
             }
         }
 
         private void Hightlight(FindResultItem fri)
         {
-            OnNextTextFound?.Invoke(fri.Result);
+            NextTextFoundCallback?.Invoke(fri.Result);
         }
     }
 }

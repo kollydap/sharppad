@@ -238,5 +238,17 @@ namespace Notepad2.Properties {
                 this["closeWinWithCtrlW"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool canOpnWndCtrlShftT {
+            get {
+                return ((bool)(this["canOpnWndCtrlShftT"]));
+            }
+            set {
+                this["canOpnWndCtrlShftT"] = value;
+            }
+        }
     }
 }

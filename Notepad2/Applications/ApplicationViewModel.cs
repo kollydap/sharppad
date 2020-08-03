@@ -1,4 +1,5 @@
 ﻿using Notepad2.Applications.Controls;
+using Notepad2.History;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
@@ -22,15 +23,24 @@ namespace Notepad2.Applications
             set => RaisePropertyChanged(ref _focusedWindow, value);
         }
 
+        public WindowHistoryViewModel History { get; set; }
+
         public ICommand ShutdownApplicationCommand { get; set; }
 
         public ApplicationViewModel(string[] appArgs)
         {
             NotepadWindows = new List<NotepadWindow>();
             WindowPreviews = new ObservableCollection<WindowPreviewControl>();
+            History = new WindowHistoryViewModel();
+            History.OpenWindowCallback = CreateAndShowWindowFromViewModel;
             ParseParameters(appArgs);
 
-            ShutdownApplicationCommand = new Command(ThisApplication.ShutdownApplication);
+            ShutdownApplicationCommand = new Command(ShutdownApp);
+        }
+
+        private void ShutdownApp()
+        {
+            ThisApplication.ShutdownApplication();
         }
 
         public void ParseParameters(string[] appArgs)
@@ -48,6 +58,11 @@ namespace Notepad2.Applications
             {
                 CreateStartupNotepadWindowAndPreview();
             }
+        }
+
+        public void ReopenLastWindow()
+        {
+            History.ReopenLastWindow();
         }
 
 
@@ -111,9 +126,23 @@ namespace Notepad2.Applications
             return window;
         }
 
+        public void CreateAndShowWindowFromViewModel(NotepadViewModel notepad)
+        {
+            NotepadWindow window = CreateWindowFromViewModel(notepad);
+            AddNewNotepadAndPreviewWindowFromWindow(window);
+        }
+
         #endregion
 
         #region Setting up windows
+
+        public NotepadWindow CreateWindowFromViewModel(NotepadViewModel notepad)
+        {
+            NotepadWindow window = new NotepadWindow();
+            window.Notepad = notepad;
+            SetupNotepadWindow(window);
+            return window;
+        }
 
         public void SetupNotepadWindow(NotepadWindow window, bool loadGlobalTheme = false, bool loadWindowPosition = false)
         {
@@ -218,7 +247,9 @@ namespace Notepad2.Applications
             {
                 WindowPreviewControl wpc = GetPreviewControlFromDataContext(notepad);
                 if (wpc != null)
+                {
                     CloseWindowAndRemovePreviewFromPreview(wpc);
+                }
             }
         }
 
@@ -274,6 +305,7 @@ namespace Notepad2.Applications
         public void WindowClosed(NotepadWindow window)
         {
             RemoveWindowAndPreviewFromWindow(window);
+            History.WindowClosed(window.Notepad);
 
             if (NotepadWindows.Count == 0)
                 ThisApplication.ShutdownApplication();

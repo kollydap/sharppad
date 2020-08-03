@@ -24,7 +24,7 @@ namespace Notepad2.Utilities
             QuadraticEase EP = new QuadraticEase();
             EP.EasingMode = EasingMode.EaseOut;
 
-            var DirY = new DoubleAnimation
+            DoubleAnimation DirY = new DoubleAnimation
             {
                 Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
                 From = From,
@@ -50,7 +50,7 @@ namespace Notepad2.Utilities
             QuinticEase EP = new QuinticEase();
             EP.EasingMode = EasingMode.EaseOut;
 
-            var DirX = new DoubleAnimation
+            DoubleAnimation DirX = new DoubleAnimation
             {
                 Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
                 From = From,
@@ -67,7 +67,7 @@ namespace Notepad2.Utilities
             QuinticEase EP = new QuinticEase();
             EP.EasingMode = EasingMode.EaseOut;
 
-            var Dir = new DoubleAnimation
+            DoubleAnimation Dir = new DoubleAnimation
             {
                 Duration = new Duration(TimeSpan.FromSeconds(TimeSecond)),
                 From = From,

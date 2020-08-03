@@ -47,5 +47,11 @@ namespace Notepad2.Applications
             ClipboardNotification.ShutdownListener();
             Application.Current?.Shutdown();
         }
+
+        public static void ReopenLastWindow()
+        {
+            Information.Show("Opening last window...", "Window");
+            App.ReopenLastWindow();
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Notepad2.History
             HistoryItems.Insert(0, hc);
         }
 
-        public HistoryControl Pop()
+        private HistoryControl Pop()
         {
             HistoryControl hc = HistoryItems[0];
             HistoryItems.Remove(hc);
@@ -65,18 +65,18 @@ namespace Notepad2.History
             OpenFileCallback?.Invoke(hc.Model);
         }
 
-        public void UserReopenFile(HistoryControl hc)
+        private void UserReopenFile(HistoryControl hc)
         {
             HistoryItems.Remove(hc);
             OpenFileCallback?.Invoke(hc.Model);
         }
 
-        public HistoryControl CreateHistoryItem(TextDocumentViewModel notepad)
+        private HistoryControl CreateHistoryItem(TextDocumentViewModel notepad)
         {
             HistoryControl hc = new HistoryControl()
             {
                 ReopenFileCallback = UserReopenFile,
-                DataContext = notepad
+                Model = notepad
             };
             return hc;
         }

@@ -33,6 +33,13 @@
                         <TextBlock Text="CTRL + Shift + O - Open all files in a folder"/>
                         <TextBlock Text="CTRL + Delete    - Close Selected File"/>
                     </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="More Global HotKeys"/>
+                        <TextBlock Text="CTRL + T         - Re-open last closed file"/>
+                        <TextBlock Text="CTRL + W         - Close Window"/>
+                        <TextBlock Text="CTRL Shift + W   - Close ALL Window"/>
+                        <TextBlock Text="CTRL Shift + T   - Re-open last window"/>
+                    </StackPanel>
                     <StackPanel Margin="20 0 0 0">
                         <TextBlock Text="Base Text Editor HotKeys"/>
                         <TextBlock Text="CTRL + X           - Cut Text or Line" ToolTip="Dont select any text to cut the entire line"/>

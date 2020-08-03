@@ -8,11 +8,11 @@ namespace Notepad2.Notepad
     public class FormatModel : BaseViewModel
     {
         private double _size;
+        private FontFamily _family;
         private FontStyle _style;
         private FontWeight _weight;
         private TextDecorationCollection _decoration;
         private string _strDecoration;
-        private FontFamily _family;
         private TextWrapping _wrap;
         private bool _isWrapped;
 
@@ -22,7 +22,7 @@ namespace Notepad2.Notepad
             set
             {
                 if (value <= GlobalPreferences.MAX_FONT_SIZE)
-                    RaisePropertyChanged(ref _size, value, FontSizeChanged);
+                    RaisePropertyChanged(ref _size, value /*, FontSizeChanged*/);
             }
         }
 
@@ -30,6 +30,12 @@ namespace Notepad2.Notepad
         {
             get => _style;
             set => RaisePropertyChanged(ref _style, value);
+        }
+
+        public FontFamily Family
+        {
+            get => _family;
+            set => RaisePropertyChanged(ref _family, value /*, FontFamilyChanged*/);
         }
 
         public FontWeight Weight
@@ -43,6 +49,7 @@ namespace Notepad2.Notepad
             get => _decoration;
             set => RaisePropertyChanged(ref _decoration, value);
         }
+
         public string StrDecoration
         {
             get => _strDecoration;
@@ -59,12 +66,9 @@ namespace Notepad2.Notepad
             });
         }
 
-        public FontFamily Family
-        {
-            get => _family;
-            set => RaisePropertyChanged(ref _family, value, FontFamilyChanged);
-        }
-
+        /// <summary>
+        /// Binding only. Change <see cref="IsWrapped"/> to change wrapping
+        /// </summary>
         public TextWrapping Wrap
         {
             get => _wrap;
@@ -81,8 +85,10 @@ namespace Notepad2.Notepad
             }
         }
 
-        public Action<double> FontSizeChanged { get; set; }
-        public Action<FontFamily> FontFamilyChanged { get; set; }
+        // Only used for TextEditorLinesViewModel, which isn't used due to lag
+        // and inconsistency (aka doesn't work well when scrolling :[ )
+        //public Action<double> FontSizeChanged { get; set; }
+        //public Action<FontFamily> FontFamilyChanged { get; set; }
 
         public FormatModel()
         {

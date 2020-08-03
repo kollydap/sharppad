@@ -26,9 +26,8 @@ namespace Notepad2.Utilities
         {
             POINT mPos;
             if (GetCursorPos(out mPos))
-            {
                 return new Point(mPos.X, mPos.Y);
-            }
+
             return new Point(0, 0);
         }
     }

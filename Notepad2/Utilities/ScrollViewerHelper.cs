@@ -19,21 +19,28 @@ namespace Notepad2.Utilities
                     false,
                     UseHorizontalScrollingChangedCallback));
 
+        public static void SetShiftWheelScrollsHorizontally(Control element, bool value)
+        {
+            element.SetValue(ShiftWheelScrollsHorizontallyProperty, value);
+        }
+
+        public static bool GetShiftWheelScrollsHorizontally(Control element)
+        {
+            return (bool)element.GetValue(ShiftWheelScrollsHorizontallyProperty);
+        }
+
         private static void UseHorizontalScrollingChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            UIElement element = d as UIElement;
-
-            if (element == null)
-                throw new Exception("Attached property must be used with UIElement.");
-
-            if ((bool)e.NewValue)
+            if (d is UIElement element)
             {
-                element.PreviewMouseWheel += OnPreviewMouseWheel;
+                if ((bool)e.NewValue)
+                    element.PreviewMouseWheel += OnPreviewMouseWheel;
+                else
+                    element.PreviewMouseWheel -= OnPreviewMouseWheel;
             }
+
             else
-            {
-                element.PreviewMouseWheel -= OnPreviewMouseWheel;
-            }
+                throw new Exception("Attached property must be used with UIElement.");
         }
 
         private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs args)
@@ -44,7 +51,7 @@ namespace Notepad2.Utilities
             if (!PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL)
                 return;
 
-            var scrollViewer = ((UIElement)sender).FindDescendant<ScrollViewer>();
+            ScrollViewer scrollViewer = ((UIElement)sender).FindDescendant<ScrollViewer>();
 
             if (scrollViewer == null)
                 return;
@@ -55,27 +62,21 @@ namespace Notepad2.Utilities
             else
                 for (int i = 1; i <= SystemInformation.MouseWheelScrollLines; i++)
                     scrollViewer.LineLeft();
+
             args.Handled = true;
         }
-
-        public static void SetShiftWheelScrollsHorizontally(Control element, bool value)
-            => element.SetValue(ShiftWheelScrollsHorizontallyProperty, value);
-        public static bool GetShiftWheelScrollsHorizontally(Control element)
-            => (bool)element.GetValue(ShiftWheelScrollsHorizontallyProperty);
 
         private static T FindDescendant<T>(this DependencyObject d) where T : DependencyObject
         {
             if (d == null)
                 return null;
 
-            var childCount = VisualTreeHelper.GetChildrenCount(d);
+            int childCount = VisualTreeHelper.GetChildrenCount(d);
 
             for (var i = 0; i < childCount; i++)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(d, i);
-
                 T result = child as T ?? FindDescendant<T>(child);
-
                 if (result != null)
                     return result;
             }

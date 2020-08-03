@@ -50,18 +50,20 @@ namespace Notepad2.Utilities
         private static bool ProcessLineCounter;
         private static void OnHasBindableLineCountChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            TextBox textBox = (TextBox)o;
-            if ((e.NewValue as bool?) == true)
+            if (o is TextBox textBox)
             {
-                ProcessLineCounter = true;
-                textBox.TextChanged += TextBox_TextChanged;
-                textBox.SetValue(BindableLineCountProperty, textBox.LineCount.ToString());
-            }
-            else
-            {
-                ProcessLineCounter = false;
-                textBox.SetValue(BindableLineCountProperty, "");
-                textBox.TextChanged -= TextBox_TextChanged;
+                if ((e.NewValue as bool?) == true)
+                {
+                    ProcessLineCounter = true;
+                    textBox.TextChanged += TextBox_TextChanged;
+                    textBox.SetValue(BindableLineCountProperty, textBox.LineCount.ToString());
+                }
+                else
+                {
+                    ProcessLineCounter = false;
+                    textBox.SetValue(BindableLineCountProperty, "");
+                    textBox.TextChanged -= TextBox_TextChanged;
+                }
             }
         }
 

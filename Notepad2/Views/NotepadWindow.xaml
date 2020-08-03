@@ -77,9 +77,10 @@
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AutoShowFindMenuCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding CloseWindowCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding History.ReopenLastFileCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding ReopenLastWindowCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAllCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenDirectoryCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding History.ReopenLastFileCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="W" Command="{Binding CloseAllWindowsCommand}"/>
     </Window.InputBindings>
     <Grid Background="{DynamicResource BackgroundColour}">
@@ -144,6 +145,9 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Windows">
+                    <MenuItem Header="Close this window" Command="{Binding CloseWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                    <MenuItem Header="Re-open last window" Command="{Binding ReopenLastWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                    <Separator Style="{DynamicResource MenuItemSeparator}"/>
                     <MenuItem Header="Set resolution to 576p" Click="ChangeResolutionClick" Uid="0" Template="{DynamicResource SingleDropDownMenuItem}"/>
                     <MenuItem Header="Set resolution to 648p" Click="ChangeResolutionClick" Uid="1" Template="{DynamicResource SingleDropDownMenuItem}"/>
                     <MenuItem Header="Set resolution to 720p" Click="ChangeResolutionClick" Uid="2" Template="{DynamicResource SingleDropDownMenuItem}"/>
@@ -473,28 +477,28 @@
                                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
-                                             x:Name="notepadLstBox" 
+                                             Name="notepadLstBox" 
                                              HorizontalContentAlignment="Stretch" 
                                              AllowDrop="True" 
-                                             Drop="ListBox_Drop" Margin="0,0,0,42" Background="{DynamicResource BackgroundColour}">
+                                             Drop="ListBox_Drop" Margin="0,0,0,46" Background="{DynamicResource BackgroundColour}">
                                         <ListBox.InputBindings>
-                                            <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Del"/>
+                                            <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Ctrl+Del"/>
                                         </ListBox.InputBindings>
                                     </ListBox>
                                     <Button Command="{Binding CloseAllNotepadsCommand}"  Margin="0,0,75,0"
                                             BorderThickness="1 0 0 1" 
                                             Content="Clear List" 
                                             VerticalAlignment="Bottom" 
-                                            Height="42" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
-                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="up"  Margin="138,0,0,21"
+                                            Height="46" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
+                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="up"  Margin="138,0,0,23"
                                             BorderThickness="1 0 1 1" Content="Move Up" 
                                             VerticalAlignment="Bottom" 
-                                            Height="21" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                            Height="23" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                                             ToolTip="Move the selected NotepadItem upwards in the list"/>
                                     <Button Command="{Binding MoveItemCommand}" CommandParameter="down" Margin="138,0,0,0"
                                             BorderThickness="1 0 1 1" Content="Move Down" 
                                             VerticalAlignment="Bottom" 
-                                            Height="21" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                            Height="23" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                                             ToolTip="Move the selected NotepadItem downwards in the list"/>
                                 </Grid>
                             </GroupBox>

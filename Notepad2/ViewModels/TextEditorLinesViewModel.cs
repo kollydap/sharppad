@@ -92,9 +92,9 @@ namespace Notepad2.ViewModels
             {
                 Document = dm;
                 DocumentFormat = fm;
-                DocumentFormat.FontFamilyChanged = FontChanged;
-                DocumentFormat.FontSizeChanged = FontSizeChanged;
-                Document.TextChanged += Document_TextChanged;
+                //DocumentFormat.FontFamilyChanged = FontChanged;
+                //DocumentFormat.FontSizeChanged = FontSizeChanged;
+                //Document.TextChanged += Document_TextChanged;
                 Render();
             }
         }

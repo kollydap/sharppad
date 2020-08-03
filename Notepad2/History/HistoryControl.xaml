@@ -7,7 +7,8 @@
              mc:Ignorable="d" 
              Background="Transparent"
              MaxHeight="39" MinHeight="39" d:DesignWidth="200"
-             MouseDoubleClick="UserControl_MouseDoubleClick" Foreground="{DynamicResource ControlDefaultForeground}">
+             MouseDoubleClick="UserControl_MouseDoubleClick" 
+             Foreground="{DynamicResource ControlDefaultForeground}">
     <Grid Background="Transparent">
         <Button Content="Reopen" VerticalAlignment="Top" Height="33" HorizontalAlignment="Left" Margin="0,3,0,0" Width="48" Click="Button_Click"/>
         <TextBlock Text="Name:" VerticalAlignment="Top" Margin="53,2,0,0" HorizontalAlignment="Left"/>

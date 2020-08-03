@@ -8,18 +8,43 @@
         Title="All currently open windows" 
         MinHeight="160"
         Height="320"
-        MinWidth ="332" MaxWidth="332"
-        Width="332"
+        MinWidth ="332" 
+        MaxWidth="640"
+        Width="640"
         Closing="Window_Closing"
         Topmost="True"
         Style="{DynamicResource CustomWindowStyle}">
-    <Grid>
-        <ListBox x:Name="mn" ItemsSource="{Binding WindowPreviews, UpdateSourceTrigger=PropertyChanged}"
-                 HorizontalContentAlignment="Stretch" Margin="0,0,0,39"/>
-        <Button HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
-                Command="{Binding ShutdownApplicationCommand}"
-                Content="Close all windows (shutdown app)" Height="39" 
-                BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                BorderThickness="1 0 1 1"/>
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0,0,2,0">
+            <ListBox ItemsSource="{Binding WindowPreviews, UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalContentAlignment="Stretch" Margin="0,0,0,39"/>
+            <Button VerticalAlignment="Bottom" 
+                    Command="{Binding ShutdownApplicationCommand}"
+                    Content="Close all windows (shutdown app)" Height="39" 
+                    BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                    BorderThickness="1 0 1 1"/>
+        </Grid>
+        <Grid Grid.Column="1" Margin="2,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding History.HistoryItems, UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalContentAlignment="Stretch" Margin="0,0,0,39" Grid.ColumnSpan="2"/>
+            <Button VerticalAlignment="Bottom" 
+                    Command="{Binding History.ClearItemsCommand}"
+                    Content="Clear History" Height="39" 
+                    BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                    BorderThickness="1 0 1 1" Grid.Column="1" Margin="2,0,0,0"/>
+            <Button VerticalAlignment="Bottom" 
+                    Command="{Binding History.ReopenLastWindowCommand}"
+                    Content="Re-open Last Window" Height="39" 
+                    BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                    BorderThickness="1 0 1 1" Margin="0,0,2,0"/>
+        </Grid>
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using Notepad2.RecyclingBin;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,42 +19,31 @@ namespace Notepad2.Notepad
     public partial class NotepadListItem : UserControl
     {
         public Action<NotepadListItem> Close { get; set; }
-        public Action<NotepadListItem> Open { get; set; }
         public Action<NotepadListItem> OpenInFileExplorer { get; set; }
-        public TextDocumentViewModel Notepad { get => DataContext as TextDocumentViewModel; }
-
-        // Stores the point within the grid
-        private Point GripMouseStartPoint;
-
-        // Stores the point within the entire control
-        private Point MouseStartPoint;
-        private bool IsTryingToDrag { get; set; }
-
         public Action<NotepadListItem> OpenInNewWindowCallback { get; set; }
+
+        public TextDocumentViewModel Notepad
+        {
+            get => DataContext as TextDocumentViewModel;
+            set => DataContext = value;
+        }
+
+        // Stores the point within the grip
+        private Point GripMouseStartPoint;
 
         public NotepadListItem()
         {
             InitializeComponent();
         }
 
-        ~NotepadListItem()
-        {
-            try
-            {
-                Notepad.Document.Text = string.Empty;
-            }
-            catch { }
-        }
-
-
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             switch (int.Parse(((MenuItem)sender).Uid))
             {
-                case 0: Open?.Invoke(this); break;
                 case 1: Close?.Invoke(this); break;
                 case 2: OpenInFileExplorer?.Invoke(this); break;
                 case 3: DeleteFile(); break;
+                case 4: OpenInNewWindowCallback?.Invoke(this); break;
             }
         }
 
@@ -66,12 +56,6 @@ namespace Notepad2.Notepad
         {
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 Close?.Invoke(this);
-
-            if (e.ChangedButton == MouseButton.Left && e.ButtonState == MouseButtonState.Pressed)
-            {
-                MouseStartPoint = e.GetPosition(this);
-                IsTryingToDrag = true;
-            }
         }
 
         private void GripLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
@@ -119,7 +103,10 @@ namespace Notepad2.Notepad
                 Information.Show($"Started dragging", "DragDrop");
             }
             else
+            {
                 BorderThickness = new Thickness(0);
+                Information.Show($"Drag Drop completed", "DragDrop");
+            }
         }
 
         public void DeleteFile()
@@ -133,7 +120,7 @@ namespace Notepad2.Notepad
         private void SetFileExtensionsClicks(object sender, RoutedEventArgs e)
         {
             string notepadName = Notepad.Document.FileName;
-            string extension = ((MenuItem)sender).Uid;
+            string extension = ((FrameworkElement)sender).Uid;
             Notepad.Document.FileName = FileExtensionsHelper.GetFileExtension(notepadName, extension);
         }
 

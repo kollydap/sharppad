@@ -18,19 +18,25 @@ namespace Notepad2.ViewModels
         public FormatModel DocumentFormat
         {
             get => _documentFormat;
-            set => RaisePropertyChanged(ref _documentFormat, value, Update);
+            set => RaisePropertyChanged(ref _documentFormat, value /*, Update*/);
         }
 
         public DocumentModel Document
         {
             get => _document;
-            set => RaisePropertyChanged(ref _document, value, Update);
+            set => RaisePropertyChanged(ref _document, value /*, Update*/);
         }
 
         public FindViewModel FindResults
         {
             get => _findResults;
             set => RaisePropertyChanged(ref _findResults, value);
+        }
+
+        public bool HasMadeChanges
+        {
+            get => _hasMadeChanges;
+            set => RaisePropertyChanged(ref _hasMadeChanges, value);
         }
 
         ///// <summary>
@@ -42,17 +48,12 @@ namespace Notepad2.ViewModels
         //    set => RaisePropertyChanged(ref _linesCounter, value);
         //}
 
-        public bool HasMadeChanges
-        {
-            get => _hasMadeChanges; set => RaisePropertyChanged(ref _hasMadeChanges, value);
-        }
-
-        public void Update()
-        {
-            //LinesCounter.Document = Document;
-            //LinesCounter.DocumentFormat = DocumentFormat;
-            //LinesCounter.UpdateDocuments(Document, DocumentFormat);
-        }
+        //public void Update()
+        //{
+        //    LinesCounter.Document = Document;
+        //    LinesCounter.DocumentFormat = DocumentFormat;
+        //    LinesCounter.UpdateDocuments(Document, DocumentFormat);
+        //}
 
         public TextDocumentViewModel()
         {

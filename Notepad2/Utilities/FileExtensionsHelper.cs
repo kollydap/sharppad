@@ -14,6 +14,7 @@
                     break;
                 }
             }
+
             if (hasExtension)
             {
                 string[] dotSplits = fileName.Split('.');

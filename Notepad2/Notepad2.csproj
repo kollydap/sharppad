@@ -96,6 +96,10 @@
     <Compile Include="History\HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="History\WindowHistoryControl.xaml.cs">
+      <DependentUpon>WindowHistoryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="History\WindowHistoryViewModel.cs" />
     <Compile Include="Preferences\PreferencesG.cs" />
     <Compile Include="Preferences\Views\PreferencesWindow.xaml.cs">
       <DependentUpon>PreferencesWindow.xaml</DependentUpon>
@@ -197,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="History\HistoryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="History\WindowHistoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

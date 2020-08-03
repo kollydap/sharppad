@@ -10,7 +10,7 @@ namespace Notepad2.Utilities
 
         /// <summary>
         /// Raises a propertychanged event, allowing the view to be updated. Pass in your private property, new value, 
-        /// and also the property name, but that's usually done for you.
+        /// can also pass the property name but that's done for you.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="property">the private field that is used for "setting"</param>
@@ -24,7 +24,7 @@ namespace Notepad2.Utilities
 
         /// <summary>
         /// Raises a propertychanged event, allowing the view to be updated. Pass in your private property, new value,
-        /// and a callback method containing the new value as a param if you want, and also the property name, but that's usually done for you.
+        /// and a callback method containing the new value as a param if you want, can also pass the property name but that's done for you.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="property">the private field that is used for "setting"</param>
@@ -39,7 +39,7 @@ namespace Notepad2.Utilities
         }
         /// <summary>
         /// Raises a propertychanged event, allowing the view to be updated. Pass in your private property, new value,
-        /// and a callback method, and also the property name, but that's usually done for you.
+        /// and a callback method, can also pass the property name but that's done for you.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="property">the private field that is used for "setting"</param>

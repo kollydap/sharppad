@@ -15,12 +15,14 @@ namespace Notepad2.Applications
     public static class ThisApplication
     {
         public static ApplicationViewModel App { get; set; }
-        public static WindowsPrviewWindow WindowPreviews { get; set; }
+        public static WindowManager WindowPreviews { get; set; }
+        public static HelpBox Help { get; set; }
 
         public static void Startup(string[] args)
         {
+            Help = new HelpBox();
             App = new ApplicationViewModel(args);
-            WindowPreviews = new WindowsPrviewWindow();
+            WindowPreviews = new WindowManager();
             WindowPreviews.ThisApp = App;
         }
 
@@ -41,6 +43,11 @@ namespace Notepad2.Applications
             App.OpenFileInNewWindow(path);
         }
 
+        public static void OpenNewBlankWindow()
+        {
+            App.CreateStartupBlankNotepadWindowAndPreview();
+        }
+
         public static void ShutdownApplication()
         {
             Information.Show("Shutting down application", "App");
@@ -52,6 +59,11 @@ namespace Notepad2.Applications
         {
             Information.Show("Opening last window...", "Window");
             App.ReopenLastWindow();
+        }
+
+        public static void ShowHelp()
+        {
+            Help?.Show();
         }
     }
 }

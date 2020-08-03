@@ -33,9 +33,10 @@
                         <TextBlock Text="CTRL + Shift + O - Open all files in a folder"/>
                         <TextBlock Text="CTRL + Delete    - Close Selected File"/>
                     </StackPanel>
-                    <StackPanel>
+                    <StackPanel Margin="5 0 0 0">
                         <TextBlock Text="More Global HotKeys"/>
-                        <TextBlock Text="CTRL + T         - Re-open last closed file"/>
+                        <TextBlock Text="CTRL + LeftArrow - Re-open last closed file"/>
+                        <TextBlock Text="CTRL + T         - New Window"/>
                         <TextBlock Text="CTRL + W         - Close Window"/>
                         <TextBlock Text="CTRL Shift + W   - Close ALL Window"/>
                         <TextBlock Text="CTRL Shift + T   - Re-open last window"/>

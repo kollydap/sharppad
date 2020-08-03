@@ -22,11 +22,27 @@
     </UserControl.Resources>
     <UserControl.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Close" Uid="1" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
-            <MenuItem Header="Open in File Explorer" Uid="2" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
-            <MenuItem Header="Open in New Window" Uid="4" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
+            <MenuItem Header="Close" Uid="1" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <TextBlock Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFE82020"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Open in File Explorer" Uid="2" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <Image Source="/SharpPad;component/Resources/openFile.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Open in New Window" Uid="4" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <Image Source="/SharpPad;component/Resources/openInNewWindow2.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
-            <MenuItem Header="Delete File" Uid="3" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
+            <MenuItem Header="Delete File" Uid="3" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <Image Source="/SharpPad;component/Resources/binCan.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
             <MenuItem Header="Set File Extension" Template="{DynamicResource DropDownMenuItemStyle}">
                 <MenuItem Header="Plain Text"         InputGestureText=".txt"     Uid=".txt"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>

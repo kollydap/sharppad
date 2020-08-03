@@ -5,8 +5,6 @@ using Notepad2.ViewModels;
 using Notepad2.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Security.Policy;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Notepad2.Applications
@@ -196,6 +194,15 @@ namespace Notepad2.Applications
             ShowWindow(window);
         }
 
+        public void CreateStartupBlankNotepadWindowAndPreview()
+        {
+            NotepadWindow window = CreateStartupMainNotepadWindow(true, false);
+            WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
+            AddPreviewWindow(wpc);
+            AddWindow(window);
+            ShowWindow(window);
+        }
+
         public WindowPreviewControl CreatePreviewControlFromDataContext(NotepadViewModel notepad)
         {
             WindowPreviewControl winPrev = new WindowPreviewControl(notepad);
@@ -305,9 +312,15 @@ namespace Notepad2.Applications
         public void WindowClosed(NotepadWindow window)
         {
             RemoveWindowAndPreviewFromWindow(window);
-            History.WindowClosed(window.Notepad);
 
-            if (NotepadWindows.Count == 0)
+            int count = NotepadWindows.Count;
+            if (count > 0)
+            {
+                History.WindowClosed(window.Notepad);
+
+                NotepadWindows[count - 1]?.Focus();
+            }
+            else
                 ThisApplication.ShutdownApplication();
         }
     }

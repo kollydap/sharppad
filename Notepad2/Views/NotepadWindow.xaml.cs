@@ -1,6 +1,9 @@
-﻿using Notepad2.FileExplorer.ShellClasses;
+﻿using Notepad2.FileExplorer;
+using Notepad2.FileExplorer.ShellClasses;
 using Notepad2.Finding;
+using Notepad2.InformationStuff;
 using Notepad2.Notepad;
+using Notepad2.Preferences;
 using Notepad2.Themes;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
@@ -8,17 +11,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Path = System.IO.Path;
-using Point = System.Windows.Point;
 using Rectangle = System.Windows.Shapes.Rectangle;
-using Notepad2.FileExplorer;
-using Notepad2.Preferences;
-using System.Threading.Tasks;
-using Notepad2.Applications;
-using Notepad2.InformationStuff;
 
 namespace Notepad2.Views
 {
@@ -40,6 +37,8 @@ namespace Notepad2.Views
         public Action<NotepadWindow> WindowFocusedCallback { get; set; }
         public Action<NotepadWindow> WindowShownCallback { get; set; }
         public Action<NotepadWindow> WindowClosedCallback { get; set; }
+
+        #region Constructors
 
         public NotepadWindow(NewWinPrefs prefs = NewWinPrefs.OpenBlankWindow)
         {
@@ -106,19 +105,13 @@ namespace Notepad2.Views
             }
         }
 
-        public void AddStartupNotepad()
-        {
-            Notepad?.AddStartupItem();
-        }
+        #endregion
+
+        #region Window Initialisation
 
         public void BeforeInitComponents()
         {
             Loaded += NotepadWindow_Loaded;
-        }
-
-        private void NotepadWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            WindowShownCallback?.Invoke(this);
         }
 
         public void InitWindow()
@@ -154,9 +147,16 @@ namespace Notepad2.Views
             }
         }
 
-        public void SetTheme(ThemeTypes theme)
+        #endregion
+
+        public void AddStartupNotepad()
         {
-            ThemesController.SetTheme(theme);
+            Notepad?.AddStartupItem();
+        }
+
+        private void NotepadWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            WindowShownCallback?.Invoke(this);
         }
 
         public void AnimateControl(NotepadListItem nli, AnimationFlag af)
@@ -184,6 +184,8 @@ namespace Notepad2.Views
                     break;
             }
         }
+
+        #region Notepad items list
 
         public void NotepadListItemDropped(DragEventArgs e)
         {
@@ -257,18 +259,27 @@ namespace Notepad2.Views
             }
         }
 
+        public void ScrollItemIntoView()
+        {
+            if (notepadLstBox.SelectedItem != null)
+                notepadLstBox.ScrollIntoView(notepadLstBox.SelectedItem);
+        }
+
+        private void ListBox_Drop(object sender, DragEventArgs e)
+        {
+            NotepadListItemDropped(e);
+        }
+
+        #endregion
+
+        #region Text Editor and Finding
+
         public void FocusFindInputBox(bool focusFind)
         {
             if (focusFind)
                 findInputBox.Focus();
             else
                 MainTextBox.Focus();
-        }
-
-        public void ScrollItemIntoView()
-        {
-            if (notepadLstBox.SelectedItem != null)
-                notepadLstBox.ScrollIntoView(notepadLstBox.SelectedItem);
         }
 
         /// <summary>
@@ -295,6 +306,62 @@ namespace Notepad2.Views
                 MessageBox.Show($"Failed to highlight text: {e.Message}");
             }
         }
+
+        public void DrawRectangleAtCaret()
+        {
+            if (MainTextBox != null && showLineThing.IsChecked == true)
+            {
+                Rect p = MainTextBox.GetCaretLocation();
+                Thickness t = new Thickness(0, p.Y - 1, 17, MainTextBox.ActualHeight - p.Bottom - 1); ;
+                if (t.Top >= 0 && t.Bottom >= 0)
+                {
+                    aditionalSelection.Visibility = Visibility.Visible;
+                    aditionalSelection.Margin = t;
+                }
+                else
+                    aditionalSelection.Visibility = Visibility.Collapsed;
+            }
+            else
+                aditionalSelection.Visibility = Visibility.Collapsed;
+        }
+
+
+
+        private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            DrawRectangleAtCaret();
+            if (PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL)
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    int fontChange = e.Delta / 100;
+                    if (Notepad.Notepad.DocumentFormat.Size > 1)
+                        Notepad.Notepad.DocumentFormat.Size += fontChange;
+                    if (Notepad.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
+                        Notepad.Notepad.DocumentFormat.Size += fontChange;
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void MainTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            DrawRectangleAtCaret();
+        }
+
+        private void MainTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            DrawRectangleAtCaret();
+        }
+
+        private void ShowLineThing_Checked(object sender, RoutedEventArgs e)
+        {
+            DrawRectangleAtCaret();
+        }
+
+        #endregion
+
+        #region File Explorer
 
         private void InitialiseTreeFileExplorer()
         {
@@ -323,6 +390,48 @@ namespace Notepad2.Views
         private void FileSystemObject_BeforeExplore(object sender, System.EventArgs e)
         {
             Cursor = Cursors.Wait;
+        }
+
+        #region Dragging items
+
+        private void TreeViewItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                MouseDownPoint = e.GetPosition(null);
+        }
+
+        private void TreeViewItem_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (MouseDownPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (sender is Rectangle grip && grip.Parent is StackPanel fileItem)
+                {
+                    if (fileItem.DataContext is FileSystemObjectInfo file)
+                    {
+                        try
+                        {
+                            if (File.Exists(file.FileSystemInfo.FullName))
+                            {
+                                string[] path1 = new string[1] { file.FileSystemInfo.FullName };
+                                DragDrop.DoDragDrop(
+                                    this,
+                                    new DataObject(DataFormats.FileDrop, path1),
+                                    DragDropEffects.Copy);
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        public void SetTheme(ThemeTypes theme)
+        {
+            ThemesController.SetTheme(theme);
         }
 
         //could put in mainviewmodel but eh
@@ -404,98 +513,6 @@ namespace Notepad2.Views
             WindowClosedCallback?.Invoke(this);
         }
 
-        private void ListBox_Drop(object sender, DragEventArgs e)
-        {
-            NotepadListItemDropped(e);
-        }
-
-
-        private void TreeViewItem_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                MouseDownPoint = e.GetPosition(null);
-        }
-
-        private void TreeViewItem_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (MouseDownPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
-            {
-                if (sender is Rectangle grip && grip.Parent is StackPanel fileItem)
-                {
-                    if (fileItem.DataContext is FileSystemObjectInfo file)
-                    {
-                        try
-                        {
-                            if (File.Exists(file.FileSystemInfo.FullName))
-                            {
-                                string[] path1 = new string[1] { file.FileSystemInfo.FullName };
-                                DragDrop.DoDragDrop(
-                                    this,
-                                    new DataObject(
-                                        DataFormats.FileDrop,
-                                        path1),
-                                    DragDropEffects.Copy);
-                            }
-                        }
-                        catch { }
-                    }
-                }
-            }
-        }
-
-
-        public void DrawRectangleAtCaret()
-        {
-            if (MainTextBox != null && showLineThing.IsChecked == true)
-            {
-                Rect p = MainTextBox.GetCaretLocation();
-                Thickness t = new Thickness(0, p.Y - 1, 17, MainTextBox.ActualHeight - p.Bottom - 1); ;
-                if (t.Top >= 0 && t.Bottom >= 0)
-                {
-                    aditionalSelection.Visibility = Visibility.Visible;
-                    aditionalSelection.Margin = t;
-                }
-                else
-                    aditionalSelection.Visibility = Visibility.Collapsed;
-            }
-            else
-                aditionalSelection.Visibility = Visibility.Collapsed;
-        }
-
-
-
-        private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            DrawRectangleAtCaret();
-            if (PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL)
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    int fontChange = e.Delta / 100;
-                    if (Notepad.Notepad.DocumentFormat.Size > 1)
-                        Notepad.Notepad.DocumentFormat.Size += fontChange;
-                    if (Notepad.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
-                        Notepad.Notepad.DocumentFormat.Size += fontChange;
-                    e.Handled = true;
-                }
-            }
-        }
-
-        private void MainTextBox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            DrawRectangleAtCaret();
-        }
-
-        private void MainTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            DrawRectangleAtCaret();
-        }
-
-        private void ShowLineThing_Checked(object sender, RoutedEventArgs e)
-        {
-            DrawRectangleAtCaret();
-        }
-
         private void ChangeResolutionClick(object sender, RoutedEventArgs e)
         {
             switch (int.Parse(((FrameworkElement)sender).Uid))
@@ -509,19 +526,20 @@ namespace Notepad2.Views
         }
 
         // this is kinda useless tbh but oh well
+        // Clipboard thing
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Notepad.OurClipboard.ShowClipboardWindow();
         }
 
-        private void OpenWindowPreviews(object sender, RoutedEventArgs e)
-        {
-            ThisApplication.ShowWindowPreviewsWindow();
-        }
-
         private void findInputBox_Loaded(object sender, RoutedEventArgs e)
         {
             findInputBox.Focus();
+        }
+
+        private void Window_GotFocus(object sender, RoutedEventArgs e)
+        {
+            WindowFocusedCallback?.Invoke(this);
         }
     }
 }

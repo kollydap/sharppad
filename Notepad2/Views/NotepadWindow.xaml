@@ -12,6 +12,7 @@
         xmlns:se="clr-namespace:Notepad2.SimpleEditor"
         mc:Ignorable="d"
         Closing="Window_Closing"
+        GotFocus="Window_GotFocus"
         Style="{DynamicResource CustomWindowStyle}"
         BorderBrush="{DynamicResource ControlDefaultBackground}"
         MinHeight="532" 
@@ -24,12 +25,9 @@
         <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
         <converters:InvertedBoolToVisibilityConverter x:Key="invertedBoolToVis"/>
         <DropShadowBitmapEffect x:Key="NormalShadow" ShadowDepth="2" Softness="0.2" Opacity="0.64"/>
-        <ObjectDataProvider x:Key="FontFamilyOptions"
-                            ObjectType="{x:Type Fonts}"
-                            MethodName="get_SystemFontFamilies"/>
+        <ObjectDataProvider x:Key="FontFamilyOptions" ObjectType="{x:Type Fonts}" MethodName="get_SystemFontFamilies"/>
         <converters:TextToFontDecorationConverter x:Key="textDecoConverter"/>
-        <x:Array x:Key="FontSizeOptions"
-                 Type="{x:Type sys:Double}">
+        <x:Array x:Key="FontSizeOptions" Type="{x:Type sys:Double}">
             <sys:Double>2</sys:Double>
             <sys:Double>4</sys:Double>
             <sys:Double>6</sys:Double>
@@ -77,160 +75,182 @@
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AutoShowFindMenuCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding CloseWindowCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding History.ReopenLastFileCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding NewWindowCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Left" Command="{Binding History.ReopenLastFileCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding ReopenLastWindowCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAllCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenDirectoryCommand}"/>
         <KeyBinding Modifiers="Ctrl+Shift" Key="W" Command="{Binding CloseAllWindowsCommand}"/>
     </Window.InputBindings>
     <Grid Background="{DynamicResource BackgroundColour}">
-        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{DynamicResource BackgroundColour}">
-            <Menu>
-                <MenuItem Header="File">
-                    <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N">
-                        <MenuItem.Icon>
-                            <Image Source="/SharpPad;component/Resources/newFile.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O">
-                        <MenuItem.Icon>
-                            <Image Source="/SharpPad;component/Resources/openFile.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Open Folder" Command="{Binding OpenDirectoryCommand}" InputGestureText="Ctrl Shift + O" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                    <MenuItem Header="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S">
-                        <MenuItem.Icon>
-                            <Image Source="/SharpPad;component/Resources/saveFile.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}">
-                        <MenuItem.Icon>
-                            <Image Source="/SharpPad;component/Resources/saveFileAs.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Save all" Command="{Binding SaveAllCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + Shift + S"/>
-                    <Separator Style="{DynamicResource MenuItemSeparator}" />
-                    <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" InputGestureText="Del" Template="{DynamicResource SingleDropDownMenuItem}">
-                        <MenuItem.Icon>
-                            <Image Source="/SharpPad;component/Resources/closeFile.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <Separator Style="{DynamicResource MenuItemSeparator}" />
-                    <MenuItem Header="Preferences..." Command="{Binding Preference.ShowPreferencesCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
-                        <MenuItem.Icon>
-                            <Image Source="/SharpPad;component/Resources/preferencesIcon.png"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
+        <Menu VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{DynamicResource BackgroundColour}">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/newFile.png"/>
+                    </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Theme">
-                    <MenuItem Header="Light" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="0">
-                        <MenuItem.Icon>
-                            <Rectangle Stroke="#FF848484" Fill="#FFE8E8E8" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Colourful Light" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="1">
-                        <MenuItem.Icon>
-                            <Rectangle Stroke="#FF2C7FF5" Fill="#FFE8E8E8" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Dark" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="2">
-                        <MenuItem.Icon>
-                            <Rectangle Stroke="#FF404040" Fill="#FF1B1B1B" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Colourful Dark" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="3">
-                        <MenuItem.Icon>
-                            <Rectangle Stroke="#FF2C7FF5" Fill="#FF1B1B1B" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
+                <MenuItem Header="New Window" Command="{Binding NewWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + T">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/openInNewWindow.png"/>
+                    </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Windows">
-                    <MenuItem Header="Close this window" Command="{Binding CloseWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                    <MenuItem Header="Re-open last window" Command="{Binding ReopenLastWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                    <Separator Style="{DynamicResource MenuItemSeparator}"/>
-                    <MenuItem Header="Set resolution to 576p" Click="ChangeResolutionClick" Uid="0" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                    <MenuItem Header="Set resolution to 648p" Click="ChangeResolutionClick" Uid="1" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                    <MenuItem Header="Set resolution to 720p" Click="ChangeResolutionClick" Uid="2" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                    <MenuItem Header="Set resolution to 960p" Click="ChangeResolutionClick" Uid="3" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                    <MenuItem Header="Set to recommended resolution" Click="ChangeResolutionClick" Uid="4" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/openFile.png"/>
+                    </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="About" Cursor="Help" Command="{Binding Help.HelpCommand}"/>
-            </Menu>
-        </Grid>
+                <MenuItem Header="Open Folder" Command="{Binding OpenDirectoryCommand}" InputGestureText="Ctrl Shift + O" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/openFolder.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/saveFile.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/saveFileAs.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save all" Command="{Binding SaveAllCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + Shift + S">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/saveAll.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator Style="{DynamicResource MenuItemSeparator}" />
+                <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" InputGestureText="Ctrl + Delete" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/closeFile.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator Style="{DynamicResource MenuItemSeparator}" />
+                <MenuItem Header="Preferences..." Command="{Binding Preference.ShowPreferencesCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/preferencesIcon.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Theme">
+                <MenuItem Header="Light" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="0">
+                    <MenuItem.Icon>
+                        <Rectangle Stroke="#FF848484" Fill="#FFE8E8E8" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Colourful Light" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="1">
+                    <MenuItem.Icon>
+                        <Rectangle Stroke="#FF2C7FF5" Fill="#FFE8E8E8" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Dark" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="2">
+                    <MenuItem.Icon>
+                        <Rectangle Stroke="#FF404040" Fill="#FF1B1B1B" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Colourful Dark" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="3">
+                    <MenuItem.Icon>
+                        <Rectangle Stroke="#FF2C7FF5" Fill="#FF1B1B1B" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Windows">
+                <MenuItem Header="Close this window" Command="{Binding CloseWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFE82020"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Re-open last window" Command="{Binding ReopenLastWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/openInNewWindow2.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator Style="{DynamicResource MenuItemSeparator}"/>
+                <MenuItem Header="Set resolution to 576p" Click="ChangeResolutionClick" Uid="0" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set resolution to 648p" Click="ChangeResolutionClick" Uid="1" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set resolution to 720p" Click="ChangeResolutionClick" Uid="2" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set resolution to 960p" Click="ChangeResolutionClick" Uid="3" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Set to recommended resolution" Click="ChangeResolutionClick" Uid="4" Template="{DynamicResource SingleDropDownMenuItem}"/>
+            </MenuItem>
+            <MenuItem Header="About" Cursor="Help" Command="{Binding ShowHelpCommand}"/>
+        </Menu>
         <DockPanel Margin="5,18,5,5" Background="{DynamicResource BackgroundColour}">
             <StackPanel DockPanel.Dock="Top" Background="{DynamicResource BackgroundColour}">
                 <Grid HorizontalAlignment="Stretch" Height="28">
-                    <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" 
-                        BorderBrush="Transparent" Background="Transparent" 
-                        Focusable="False" HorizontalAlignment="Left" Width="28">
+                    <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File (Ctrl + N)" 
+                            BorderBrush="Transparent" Background="Transparent" 
+                            Focusable="False" HorizontalAlignment="Left" Width="28">
                         <Image Margin="2" Source="/SharpPad;component/Resources/newFile.png"/>
                     </Button>
-                    <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer"
-                        BorderBrush="Transparent" Background="Transparent" 
-                        Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
+                    <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer (Ctrl + O)"
+                            BorderBrush="Transparent" Background="Transparent" 
+                            Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
                         <Image Margin="2" Source="/SharpPad;component/Resources/openFile.png"/>
                     </Button>
                     <Grid IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Margin="60,0,0,0" HorizontalAlignment="Left" Width="186">
-                        <Button Command="{Binding SaveCommand}" 
-                            ToolTip="Save current File" BorderBrush="Transparent" 
-                            Background="Transparent" Focusable="False" HorizontalAlignment="Left" Width="28">
+                        <Button Command="{Binding SaveCommand}" ToolTip="Save current File (Ctrl + S)" 
+                                BorderBrush="Transparent" 
+                                Background="Transparent" Focusable="False" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="/SharpPad;component/Resources/saveFile.png"/>
                         </Button>
                         <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." 
-                            BorderBrush="Transparent" Background="Transparent" 
-                            Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
+                                BorderBrush="Transparent" Background="Transparent" 
+                                Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="/SharpPad;component/Resources/saveFileAs.png"/>
                         </Button>
                         <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" 
-                            BorderBrush="Transparent" Background="Transparent" 
-                            Focusable="False" Margin="60,0,0,0" HorizontalAlignment="Left" Width="28">
+                                BorderBrush="Transparent" Background="Transparent" 
+                                Focusable="False" Margin="60,0,0,0" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="/SharpPad;component/Resources/closeFile.png"/>
                         </Button>
                         <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" 
-                            BorderBrush="Transparent" Background="Transparent" 
-                            Focusable="False" Margin="90,0,0,0" HorizontalAlignment="Left" Width="28">
+                                BorderBrush="Transparent" Background="Transparent" 
+                                Focusable="False" Margin="90,0,0,0" HorizontalAlignment="Left" Width="28">
                             <Image Margin="2" Source="/SharpPad;component/Resources/closeAllFiles.png"/>
                         </Button>
                         <Button Command="{Binding PrintFileCommand}" IsEnabled="True" 
-                            BorderBrush="Transparent" Background="Transparent"
-                            ToolTip="Print text" Focusable="False" Margin="120,0,0,0" HorizontalAlignment="Left" Width="32">
+                                BorderBrush="Transparent" Background="Transparent"
+                                ToolTip="Print text" Focusable="False" Margin="120,0,0,0" HorizontalAlignment="Left" Width="32">
                             <Image Margin="2" Source="/SharpPad;component/Resources/printIcon.png"/>
                         </Button>
                         <Button Command="{Binding AutoShowFindMenuCommand}" IsEnabled="True"
-                            BorderBrush="Transparent" Background="Transparent"
-                            ToolTip="Find text in notepad (works okayish, not fully reliable)"  
-                            Focusable="False" Margin="154,0,0,0" HorizontalAlignment="Left" Width="32">
+                                BorderBrush="Transparent" Background="Transparent"
+                                ToolTip="Find text in notepad (works okayish, not fully reliable)"  
+                                Focusable="False" Margin="154,0,0,0" HorizontalAlignment="Left" Width="32">
                             <Image Margin="2" Source="/SharpPad;component/Resources/findReplace.png"/>
                         </Button>
                     </Grid>
-                    <Button Click="OpenWindowPreviews" IsEnabled="True"
-                                BorderBrush="Transparent" Background="Transparent"
-                                ToolTip="Open the window containing a preview of every other window that's opened."  
-                                Focusable="False" Margin="246,0,0,0" HorizontalAlignment="Left" Width="32">
+                    <Button Command="{Binding ShowWindowManagerCommand}"
+                            IsEnabled="True"
+                            BorderBrush="Transparent" Background="Transparent"
+                            ToolTip="Open the window containing a preview of every other window that's opened."  
+                            Focusable="False" Margin="246,0,0,0" HorizontalAlignment="Left" Width="32">
                         <Image Margin="1" Source="/SharpPad;component/Resources/previewWindow.png"/>
                     </Button>
                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="280,2,0,2" Width="2" HorizontalAlignment="Left"/>
                     <Grid Margin="287,0,0,0">
-                        <TextBlock Text="Windows Clipboard:" Padding="4" VerticalAlignment="Center" FontSize="12" ToolTip="To the right will show whatever is currently in the clipboard" Margin="0,0,0,0" HorizontalAlignment="Left" Width="115"/>
+                        <TextBlock Text="Windows Clipboard:" Padding="4" VerticalAlignment="Center" FontSize="12"
+                                   ToolTip="To the right will show whatever is currently in the clipboard" 
+                                   Margin="0,0,0,0" HorizontalAlignment="Left" Width="115"/>
                         <TextBlock Text="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
-                               Padding="4"
-                               VerticalAlignment="Center" 
-                               TextTrimming="WordEllipsis" 
-                               TextWrapping="NoWrap"
-                               FontSize="12"
-                               FontFamily="Consolas"
-                               ToolTip="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
-                               MouseDown="TextBlock_MouseDown"
-                               Cursor="Hand" Margin="115,3,0,3"/>
+                                   Padding="4"
+                                   VerticalAlignment="Center" 
+                                   TextTrimming="WordEllipsis" 
+                                   TextWrapping="NoWrap"
+                                   FontSize="12"
+                                   FontFamily="Consolas"
+                                   ToolTip="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
+                                   MouseDown="TextBlock_MouseDown"
+                                   Cursor="Hand" Margin="115,3,0,3"/>
                     </Grid>
                 </Grid>
                 <StackPanel IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" 
                             Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Left" Height="28">
-                    <ComboBox Width="157"
-                              ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}" 
+                    <ComboBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}" 
                               SelectedItem="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}" 
-                              ToolTip="Font"
-                              SelectedIndex="0" HorizontalAlignment="Left" IsEditable="True">
+                              ToolTip="Font" IsEditable="True" SelectedIndex="0" 
+                              HorizontalAlignment="Left" Width="157">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
@@ -242,7 +262,8 @@
                               SelectedIndex="9"
                               SelectedItem="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
                               ToolTip="Font Size"
-                              HorizontalAlignment="Left" Margin="5 0 0 0">
+                              HorizontalAlignment="Left"
+                              Margin="5 0 0 0">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}"/>
@@ -290,7 +311,8 @@
                               Margin="5,0,0,0" Content="Show Line Border" 
                               ToolTip="The Border around the seleced line (aka caret index) of the text editor"
                               Height="Auto"
-                              Checked="ShowLineThing_Checked" Unchecked="ShowLineThing_Checked" Width="117"/>
+                              Checked="ShowLineThing_Checked" 
+                              Unchecked="ShowLineThing_Checked" Width="117"/>
                 </StackPanel>
             </StackPanel>
             <DockPanel Margin="0,5,0,0" Background="{DynamicResource BackgroundColour}">
@@ -309,7 +331,10 @@
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
                                         <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                        <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" Width="75" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
+                                        <Button Content="Clear List" 
+                                                Command="{Binding ClearInfoItemsCommand}" Width="75"
+                                                Background="{DynamicResource ContainerBackground}" 
+                                                BorderBrush="{DynamicResource ContainerBorder}"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" 
@@ -326,10 +351,14 @@
                             <GroupBox Height="175" DataContext="{Binding History}" Grid.Column="1">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
-                                        <TextBlock Text="History" VerticalAlignment="Center"/>
+                                        <TextBlock Text="File History" VerticalAlignment="Center"/>
                                         <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                        <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
-                                        <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60" Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ContainerBorder}"/>
+                                        <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100" 
+                                                Background="{DynamicResource ContainerBackground}" 
+                                                BorderBrush="{DynamicResource ContainerBorder}"/>
+                                        <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60" 
+                                                Background="{DynamicResource ContainerBackground}"
+                                                BorderBrush="{DynamicResource ContainerBorder}"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
@@ -339,7 +368,8 @@
                         </Grid>
                     </Expander>
                     <DockPanel Margin="0,0,0,5">
-                        <Expander DockPanel.Dock="Right" ExpandDirection="Left" HorizontalAlignment="Right" Margin="4,-1, 0 -1">
+                        <Expander DockPanel.Dock="Right" ExpandDirection="Left" 
+                                  HorizontalAlignment="Right" Margin="4,-1, 0 -1">
                             <Expander.Header>
                                 <TextBlock Text="File Explorer" FontSize="13">
                                     <TextBlock.LayoutTransform>
@@ -352,7 +382,8 @@
                                       Background="{DynamicResource ContainerBackground}" 
                                       Width="200">
                                 <Grid>
-                                    <TreeView Name="treeView" utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" BorderBrush="{DynamicResource ContainerBackground}">
+                                    <TreeView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" Name="treeView" 
+                                              BorderBrush="{DynamicResource ContainerBackground}">
                                         <TreeView.ItemContainerStyle>
                                             <Style TargetType="{x:Type TreeViewItem}">
                                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -484,6 +515,12 @@
                                         <ListBox.InputBindings>
                                             <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Ctrl+Del"/>
                                         </ListBox.InputBindings>
+                                        <ListBox.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Sort by File Name" CommandParameter="fn" Command="{Binding SortListCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                <MenuItem Header="Sort by File Size" CommandParameter="fs" Command="{Binding SortListCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                            </ContextMenu>
+                                        </ListBox.ContextMenu>
                                     </ListBox>
                                     <Button Command="{Binding CloseAllNotepadsCommand}"  Margin="0,0,75,0"
                                             BorderThickness="1 0 0 1" 
@@ -502,7 +539,8 @@
                                             ToolTip="Move the selected NotepadItem downwards in the list"/>
                                 </Grid>
                             </GroupBox>
-                            <GroupBox Focusable="True" FocusManager.IsFocusScope="True" Margin="230,0,0,0" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}">
+                            <GroupBox Focusable="True" FocusManager.IsFocusScope="True" Margin="230,0,0,0" 
+                                      IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="Text Input" VerticalAlignment="Center"/>
@@ -612,20 +650,20 @@
                                                             TextDecorations="{Binding Notepad.DocumentFormat.Decoration, UpdateSourceTrigger=PropertyChanged}"
                                                             TextWrapping="{Binding Notepad.DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
                                                             Text="{Binding Notepad.Document.Text, UpdateSourceTrigger=PropertyChanged}"
-                                                            ScrollViewer.PanningMode="Both"
                                                             AutoWordSelection="False"
                                                             IsInactiveSelectionHighlightEnabled="True"
-                                                            BorderThickness="1"
-                                                            Focusable="True" 
                                                             AcceptsReturn="True"
                                                             AcceptsTab="True"
+                                                            SpellCheck.SpellingReform="Postreform"
+                                                            Language="en"
+                                                            UndoLimit="500"
+                                                            ScrollViewer.PanningMode="Both"
                                                             HorizontalScrollBarVisibility="Visible"
                                                             VerticalScrollBarVisibility="Visible"
-                                                            Language="en"
-                                                            SpellCheck.SpellingReform="Postreform"
                                                             utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
+                                                            BorderThickness="1"
+                                                            Focusable="True" 
                                                             Visibility="Visible" 
-                                                            UndoLimit="500"
                                                             PreviewMouseWheel="TextBox_MouseWheel"
                                                             SelectionChanged="MainTextBox_SelectionChanged"
                                                             SizeChanged="MainTextBox_SizeChanged">

@@ -78,8 +78,8 @@
       <DependentUpon>WindowPreviewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Applications\ThisApplication.cs" />
-    <Compile Include="Applications\WindowsPrviewWindow.xaml.cs">
-      <DependentUpon>WindowsPrviewWindow.xaml</DependentUpon>
+    <Compile Include="Applications\WindowManager.xaml.cs">
+      <DependentUpon>WindowManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="CClipboard\ClipboardNotification.cs" />
     <Compile Include="CClipboard\ClipboardWindow.xaml.cs">
@@ -166,7 +166,6 @@
     <Compile Include="Utilities\TextBoxLineNumbers.cs" />
     <Compile Include="CClipboard\ClipboardViewModel.cs" />
     <Compile Include="Finding\FindViewModel.cs" />
-    <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="Applications\ApplicationViewModel.cs" />
     <Compile Include="Preferences\Views\PreferencesViewModel.cs" />
@@ -192,7 +191,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Applications\WindowsPrviewWindow.xaml">
+    <Page Include="Applications\WindowManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -365,6 +364,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\openFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\saveAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\binCan.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

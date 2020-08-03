@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Notepad2.Applications;
 using Notepad2.CClipboard;
 using Notepad2.FileExplorer;
@@ -18,6 +9,17 @@ using Notepad2.Notepad;
 using Notepad2.Preferences;
 using Notepad2.Preferences.Views;
 using Notepad2.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 
 
 namespace Notepad2.ViewModels
@@ -111,11 +113,6 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _find, value);
         }
 
-        /// <summary>
-        /// A ViewModel for dealing with showing help
-        /// </summary>
-        public HelpViewModel Help { get; set; }
-
         //unexpected communism
         /// <summary>
         /// A ViewModel used for binding to the clipboard
@@ -150,10 +147,17 @@ namespace Notepad2.ViewModels
         public ICommand PrintFileCommand { get; private set; }
         public ICommand ClearInfoItemsCommand { get; private set; }
         public ICommand AutoShowFindMenuCommand { get; private set; }
+        public ICommand ShowHelpCommand { get; private set; }
 
+        public ICommand NewWindowCommand { get; private set; }
         public ICommand ReopenLastWindowCommand { get; private set; }
         public ICommand CloseWindowCommand { get; private set; }
         public ICommand CloseAllWindowsCommand { get; private set; }
+
+        public ICommand ShowWindowManagerCommand { get; private set; }
+
+        public ICommand SortListCommand { get; private set; }
+
 
         #endregion
 
@@ -188,7 +192,6 @@ namespace Notepad2.ViewModels
         {
             History = new HistoryViewModel();
             Preference = new PreferencesViewModel();
-            Help = new HelpViewModel();
             OurClipboard = new ClipboardViewModel();
             NotepadItems = new ObservableCollection<NotepadListItem>();
             InfoStatusErrorsItems = new ObservableCollection<InformationModel>();
@@ -209,36 +212,58 @@ namespace Notepad2.ViewModels
             PrintFileCommand = new Command(PrintFile);
             AutoShowFindMenuCommand = new Command(OpenFindWindow);
             ClearInfoItemsCommand = new Command(ClearInfoItems);
+            ShowHelpCommand = new Command(ThisApplication.ShowHelp);
 
+            NewWindowCommand = new Command(NewWindow);
             ReopenLastWindowCommand = new Command(ReopenLastWindow);
             CloseWindowCommand = new Command(CloseWindow);
             CloseAllWindowsCommand = new Command(CloseAllWindow);
+
+            ShowWindowManagerCommand = new Command(ShowWindowManager);
+
+            SortListCommand = new CommandParam(SortItems);
 
             Information.Show("Program loaded", InfoTypes.Information);
         }
 
         #endregion
 
+        #region Sorting
+
+        public void SortItems(object sortBy)
+        {
+            switch (sortBy.ToString())
+            {
+                case "fn":
+                    {
+                        List<NotepadListItem> sortedNames = NotepadItems.OrderBy(a => a.Notepad.Document.FileName).ToList();
+                        int index = SelectedIndex;
+                        NotepadItems.Clear();
+                        foreach (NotepadListItem item in sortedNames)
+                        {
+                            NotepadItems.Add(item);
+                        }
+                        SelectedIndex = index;
+                    }
+                    break;
+                case "fs":
+                    {
+                        List<NotepadListItem> sortedSizes = NotepadItems.OrderBy(a => a.Notepad.Document.FileSize).ToList();
+                        int index = SelectedIndex;
+                        NotepadItems.Clear();
+                        foreach (NotepadListItem item in sortedSizes)
+                        {
+                            NotepadItems.Add(item);
+                        }
+                        SelectedIndex = index;
+                    }
+                    break;
+            }
+        }
+
+        #endregion
+
         #region Helpers
-
-        public void ReopenLastWindow()
-        {
-            if (PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T)
-                ThisApplication.ReopenLastWindow();
-        }
-
-        public void CloseWindow()
-        {
-            if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
-                ThisApplication.CloseWindowFromDataContext(this);
-        }
-
-        public void CloseAllWindow()
-        {
-            // easier and faster than manually closing all windows.
-            if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
-                ThisApplication.ShutdownApplication();
-        }
 
         /// <summary>
         /// Returns whether the currently selected 
@@ -418,7 +443,7 @@ namespace Notepad2.ViewModels
 
         public FontFamily GetDefaultFont()
         {
-            return 
+            return
                 !string.IsNullOrEmpty(Properties.Settings.Default.DefaultFont)
                     ? new FontFamily(Properties.Settings.Default.DefaultFont)
                     : new FontFamily("Consolas");
@@ -830,26 +855,24 @@ namespace Notepad2.ViewModels
             if (SelectedNotepadItem != null)
             {
                 if (direction.ToString() == "up")
-                    MoveItemUp(SelectedNotepadItem);
+                    MoveSelectedItemUp();
 
                 if (direction.ToString() == "down")
-                    MoveItemDown(SelectedNotepadItem);
+                    MoveSelectedItemDown();
             }
         }
 
-        public void MoveItemUp(NotepadListItem item)
+        public void MoveSelectedItemUp()
         {
             if (SelectedIndex > 0)
             {
                 int newIndex = SelectedIndex - 1;
-
                 MoveControl(SelectedIndex, newIndex);
                 ScrollItemIntoView?.Invoke();
-                //SelectedIndex = newIndex;
             }
         }
 
-        public void MoveItemDown(NotepadListItem item)
+        public void MoveSelectedItemDown()
         {
             if (SelectedIndex + 1 < NotepadItems.Count)
             {
@@ -860,9 +883,9 @@ namespace Notepad2.ViewModels
 
         public void MoveControl(int oldIndex, int newIndex)
         {
-            if (NotepadItems.Count > 0 && 
-                oldIndex >= 0 && 
-                oldIndex < NotepadItems.Count && 
+            if (NotepadItems.Count > 0 &&
+                oldIndex >= 0 &&
+                oldIndex < NotepadItems.Count &&
                 newIndex >= 0 &&
                 newIndex < NotepadItems.Count)
             {
@@ -891,7 +914,36 @@ namespace Notepad2.ViewModels
 
         #endregion
 
-        #region Open in new window
+        #region Windows
+
+        private void NewWindow()
+        {
+            ThisApplication.OpenNewBlankWindow();
+        }
+
+        private void ShowWindowManager()
+        {
+            ThisApplication.ShowWindowPreviewsWindow();
+        }
+
+        public void ReopenLastWindow()
+        {
+            if (PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T)
+                ThisApplication.ReopenLastWindow();
+        }
+
+        public void CloseWindow()
+        {
+            if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
+                ThisApplication.CloseWindowFromDataContext(this);
+        }
+
+        public void CloseAllWindow()
+        {
+            // easier and faster than manually closing all windows.
+            if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
+                ThisApplication.ShutdownApplication();
+        }
 
         public void OpenSelectedNotepadInNewWindow()
         {

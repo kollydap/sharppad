@@ -250,5 +250,17 @@ namespace Notepad2.Properties {
                 this["canOpnWndCtrlShftT"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool closeNLstOnStrt {
+            get {
+                return ((bool)(this["closeNLstOnStrt"]));
+            }
+            set {
+                this["closeNLstOnStrt"] = value;
+            }
+        }
     }
 }

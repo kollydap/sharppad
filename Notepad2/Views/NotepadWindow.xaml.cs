@@ -4,17 +4,19 @@ using Notepad2.Finding;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Preferences;
-using Notepad2.Themes;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TheRThemes;
+using static TheRThemes.ThemesController;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace Notepad2.Views
@@ -124,9 +126,10 @@ namespace Notepad2.Views
             InitialiseTreeFileExplorer();
         }
 
-        public void LoadSettings(bool loadTheme = true, bool loadPosition = true)
+        public void LoadSettings(bool loadTheme = true, bool loadPosition = true, bool loadGlobalPreferencesG = true)
         {
-            PreferencesG.LoadFromProperties();
+            if (loadGlobalPreferencesG)
+                PreferencesG.LoadFromProperties();
             if (loadPosition)
             {
                 this.Top = Properties.Settings.Default.Top;
@@ -134,6 +137,7 @@ namespace Notepad2.Views
             }
             this.Height = Properties.Settings.Default.Height;
             this.Width = Properties.Settings.Default.Width;
+            //nListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
             showLineThing.IsChecked = Properties.Settings.Default.allowCaretLineOutline;
             if (loadTheme)
             {

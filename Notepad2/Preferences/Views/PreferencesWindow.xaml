@@ -17,6 +17,8 @@
                 <StackPanel IsEnabled="True">
                     <CheckBox Content="Close windows with Ctrl + W (shutdown app with shift too)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox Content="Reopen window with Ctrl + Shift + T" IsChecked="{Binding CanReopenWindowWithCtrlShiftT, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Separator Style="{DynamicResource MenuItemSeparator}"/>
+                    <CheckBox Content="(NOT USED) Close/Hide Notepads List (on left) by default" IsChecked="{Binding CloseNotepadListByDefault, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Text Editor">

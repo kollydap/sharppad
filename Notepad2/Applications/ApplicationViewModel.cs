@@ -116,16 +116,17 @@ namespace Notepad2.Applications
             return window;
         }
 
-        public NotepadWindow CreateStartupMainNotepadWindow(bool loadGlobalTheme = true, bool loadWindowPosition = true)
+        public NotepadWindow CreateStartupMainNotepadWindow(bool loadGlobalTheme = true, bool loadWindowPosition = true, bool loadGlobalPreferencesG = true)
         {
             NotepadWindow window = new NotepadWindow();
+            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition, loadGlobalPreferencesG);
             window.AddStartupNotepad();
-            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition);
             return window;
         }
 
         public void CreateAndShowWindowFromViewModel(NotepadViewModel notepad)
         {
+            notepad.SetupInformationHook();
             NotepadWindow window = CreateWindowFromViewModel(notepad);
             AddNewNotepadAndPreviewWindowFromWindow(window);
         }
@@ -142,10 +143,14 @@ namespace Notepad2.Applications
             return window;
         }
 
-        public void SetupNotepadWindow(NotepadWindow window, bool loadGlobalTheme = false, bool loadWindowPosition = false)
+        public void SetupNotepadWindow(
+            NotepadWindow window,
+            bool loadGlobalTheme = false,
+            bool loadWindowPosition = false,
+            bool loadGlobalPreferenesG = true)
         {
             SetupNotepadWindowCallbacks(window);
-            window.LoadSettings(loadGlobalTheme, loadWindowPosition);
+            window.LoadSettings(loadGlobalTheme, loadWindowPosition, loadGlobalPreferenesG);
             window.CanSavePreferences = true;
         }
 
@@ -196,7 +201,7 @@ namespace Notepad2.Applications
 
         public void CreateStartupBlankNotepadWindowAndPreview()
         {
-            NotepadWindow window = CreateStartupMainNotepadWindow(true, false);
+            NotepadWindow window = CreateStartupMainNotepadWindow(true, false, true);
             WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewWindow(wpc);
             AddWindow(window);
@@ -311,6 +316,7 @@ namespace Notepad2.Applications
 
         public void WindowClosed(NotepadWindow window)
         {
+            window?.Notepad?.ShutdownInformationHook();
             RemoveWindowAndPreviewFromWindow(window);
 
             int count = NotepadWindows.Count;
@@ -321,7 +327,9 @@ namespace Notepad2.Applications
                 NotepadWindows[count - 1]?.Focus();
             }
             else
+            {
                 ThisApplication.ShutdownApplication();
+            }
         }
     }
 }

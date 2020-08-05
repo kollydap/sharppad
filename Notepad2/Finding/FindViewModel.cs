@@ -78,22 +78,6 @@ namespace Notepad2.Finding
             FoundItems?.Clear();
         }
 
-        //public int ItemsCount
-        //{
-        //    get => FoundItems.Count;
-        //}
-
-        //public void ResetSelection()
-        //{
-        //    SelectedIndex = 0;
-        //}
-
-        //public void Reset()
-        //{
-        //    ClearItems();
-        //    HasSearched = false;
-        //}
-
         public void FetchAllResults()
         {
             FetchResultsInDocument(Document);

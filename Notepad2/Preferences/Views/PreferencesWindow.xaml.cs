@@ -39,6 +39,7 @@ namespace Notepad2.Preferences.Views
                 prefs.WrapTextByDefault = true;
                 prefs.CanCloseWindowsWithCtrlWAndShift = true;
                 prefs.CanReopenWindowWithCtrlShiftT = true;
+                prefs.CloseNotepadListByDefault = false;
 
                 prefs.SavePreferences();
             }

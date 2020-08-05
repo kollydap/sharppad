@@ -1,4 +1,6 @@
-﻿namespace Notepad2.Preferences
+﻿using Microsoft.SqlServer.Server;
+
+namespace Notepad2.Preferences
 {
     /// <summary>
     /// A static class for holding application-wide preferences.
@@ -21,6 +23,8 @@
         public static bool CAN_CLOSE_WIN_WITH_CTRL_W { get; set; }
         public static bool CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T { get; set; }
 
+        public static bool CLOSE_NOTEPADLIST_BY_DEFAULT { get; set; }
+
         public static void SaveToProperties()
         {
             Properties.Settings.Default.horzScrlShfMWhl    = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
@@ -38,6 +42,8 @@
                                                            
             Properties.Settings.Default.closeWinWithCtrlW  = CAN_CLOSE_WIN_WITH_CTRL_W;
             Properties.Settings.Default.canOpnWndCtrlShftT = CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T;
+
+            Properties.Settings.Default.closeNLstOnStrt    = CLOSE_NOTEPADLIST_BY_DEFAULT;
 
             Properties.Settings.Default.Save();
         }
@@ -59,6 +65,8 @@
 
             CAN_CLOSE_WIN_WITH_CTRL_W               = Properties.Settings.Default.closeWinWithCtrlW;
             CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T        = Properties.Settings.Default.canOpnWndCtrlShftT;
+
+            CLOSE_NOTEPADLIST_BY_DEFAULT            = Properties.Settings.Default.closeNLstOnStrt;
         }
     }
 }

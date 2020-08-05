@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -196,32 +197,31 @@ namespace Notepad2.ViewModels
             NotepadItems = new ObservableCollection<NotepadListItem>();
             InfoStatusErrorsItems = new ObservableCollection<InformationModel>();
 
-            Information.InformationAdded += Information_InformationAdded;
+            SetupInformationHook();
             History.OpenFileCallback = ReopenNotepadFromHistory;
 
-            NewCommand = new Command(AddDefaultNotepadItem);
-            OpenCommand = new Command(OpenNotepadFromFileExplorer);
-            OpenDirectoryCommand = new Command(OpenNotepadsFromDirectoryExplorer);
-            SaveCommand = new Command(SaveSelectedNotepad);
-            SaveAsCommand = new Command(SaveSelectedNotepadAs);
-            SaveAllCommand = new Command(SaveAllNotepadItems);
+            NewCommand                  = new Command(AddDefaultNotepadItem);
+            OpenCommand                 = new Command(OpenNotepadFromFileExplorer);
+            OpenDirectoryCommand        = new Command(OpenNotepadsFromDirectoryExplorer);
+            SaveCommand                 = new Command(SaveSelectedNotepad);
+            SaveAsCommand               = new Command(SaveSelectedNotepadAs);
+            SaveAllCommand              = new Command(SaveAllNotepadItems);
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
-            CloseAllNotepadsCommand = new Command(CloseAllNotepads);
-            MoveItemCommand = new CommandParam(MoveItem);
-            OpenInNewWindowCommand = new Command(OpenSelectedNotepadInNewWindow);
-            PrintFileCommand = new Command(PrintFile);
-            AutoShowFindMenuCommand = new Command(OpenFindWindow);
-            ClearInfoItemsCommand = new Command(ClearInfoItems);
-            ShowHelpCommand = new Command(ThisApplication.ShowHelp);
+            CloseAllNotepadsCommand     = new Command(CloseAllNotepads);
+            MoveItemCommand             = new CommandParam<string>(MoveItem);
+            OpenInNewWindowCommand      = new Command(OpenSelectedNotepadInNewWindow);
+            PrintFileCommand            = new Command(PrintFile);
+            AutoShowFindMenuCommand     = new Command(OpenFindWindow);
+            ClearInfoItemsCommand       = new Command(ClearInfoItems);
+            ShowHelpCommand             = new Command(ThisApplication.ShowHelp);
 
-            NewWindowCommand = new Command(NewWindow);
-            ReopenLastWindowCommand = new Command(ReopenLastWindow);
-            CloseWindowCommand = new Command(CloseWindow);
-            CloseAllWindowsCommand = new Command(CloseAllWindow);
-
+            NewWindowCommand         = new Command(NewWindow);
+            ReopenLastWindowCommand  = new Command(ReopenLastWindow);
+            CloseWindowCommand       = new Command(CloseWindow);
+            CloseAllWindowsCommand   = new Command(CloseAllWindow);
             ShowWindowManagerCommand = new Command(ShowWindowManager);
 
-            SortListCommand = new CommandParam(SortItems);
+            SortListCommand = new CommandParam<string>(SortItems);
 
             Information.Show("Program loaded", InfoTypes.Information);
         }
@@ -230,7 +230,7 @@ namespace Notepad2.ViewModels
 
         #region Sorting
 
-        public void SortItems(object sortBy)
+        public void SortItems(string sortBy)
         {
             switch (sortBy.ToString())
             {
@@ -850,7 +850,7 @@ namespace Notepad2.ViewModels
 
         #region Moving Items
 
-        public void MoveItem(object direction)
+        public void MoveItem(string direction)
         {
             if (SelectedNotepadItem != null)
             {
@@ -935,7 +935,10 @@ namespace Notepad2.ViewModels
         public void CloseWindow()
         {
             if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
+            {
+                ShutdownInformationHook();
                 ThisApplication.CloseWindowFromDataContext(this);
+            }
         }
 
         public void CloseAllWindow()
@@ -990,6 +993,11 @@ namespace Notepad2.ViewModels
         }
 
         #endregion
+
+        public void SetupInformationHook()
+        {
+            Information.InformationAdded += Information_InformationAdded;
+        }
 
         /// <summary>
         /// Unattach the static event from the information thingy. i think

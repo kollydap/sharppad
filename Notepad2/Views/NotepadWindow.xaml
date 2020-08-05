@@ -9,7 +9,7 @@
         xmlns:utils="clr-namespace:Notepad2.Utilities"
         xmlns:fileExplorerShell="clr-namespace:Notepad2.FileExplorer.ShellClasses"
         xmlns:converters="clr-namespace:Notepad2.Converters"
-        xmlns:se="clr-namespace:Notepad2.SimpleEditor"
+        xmlns:se="clr-namespace:Notepad2.SimpleEditor" xmlns:notepad="clr-namespace:Notepad2.Notepad"
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
@@ -250,14 +250,14 @@
                     <ComboBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}" 
                               SelectedItem="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}" 
                               ToolTip="Font" IsEditable="True" SelectedIndex="0" 
-                              HorizontalAlignment="Left" Width="157">
+                              HorizontalAlignment="Left" Width="155">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <ComboBox Width="63" 
+                    <ComboBox Width="65" 
                               ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
                               SelectedIndex="9"
                               SelectedItem="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
@@ -315,26 +315,26 @@
                               Unchecked="ShowLineThing_Checked" Width="117"/>
                 </StackPanel>
             </StackPanel>
-            <DockPanel Margin="0,5,0,0" Background="{DynamicResource BackgroundColour}">
+            <DockPanel Margin="0,4,0,0" Background="{DynamicResource BackgroundColour}">
                 <DockPanel>
                     <Expander ExpandDirection="Up" 
                               Header="Information and History" 
                               VerticalAlignment="Bottom"
-                              DockPanel.Dock="Bottom">
-                        <Grid>
+                              DockPanel.Dock="Bottom"
+                              IsExpanded="False"
+                              Margin="0 0 0 0">
+                        <Grid Margin="-1 1 -1 2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="6*"/>
                                 <ColumnDefinition Width="3*"/>
                             </Grid.ColumnDefinitions>
-                            <GroupBox Height="175" Margin="-1,-1,5,2">
+                            <GroupBox Height="180" Margin="0,0,4,0">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
                                         <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
                                         <Button Content="Clear List" 
-                                                Command="{Binding ClearInfoItemsCommand}" Width="75"
-                                                Background="{DynamicResource ContainerBackground}" 
-                                                BorderBrush="{DynamicResource ContainerBorder}"/>
+                                                Command="{Binding ClearInfoItemsCommand}" Width="75"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" 
@@ -348,17 +348,14 @@
                                     </ListView.View>
                                 </ListView>
                             </GroupBox>
-                            <GroupBox Height="175" DataContext="{Binding History}" Grid.Column="1">
+                            <GroupBox Height="180" DataContext="{Binding History}" 
+                                      Grid.Column="1" Margin="0">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
                                         <TextBlock Text="File History" VerticalAlignment="Center"/>
                                         <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                        <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100" 
-                                                Background="{DynamicResource ContainerBackground}" 
-                                                BorderBrush="{DynamicResource ContainerBorder}"/>
-                                        <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60" 
-                                                Background="{DynamicResource ContainerBackground}"
-                                                BorderBrush="{DynamicResource ContainerBorder}"/>
+                                        <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100"/>
+                                        <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
@@ -367,9 +364,9 @@
                             </GroupBox>
                         </Grid>
                     </Expander>
-                    <DockPanel Margin="0,0,0,5">
+                    <DockPanel Margin="0,0,0,2">
                         <Expander DockPanel.Dock="Right" ExpandDirection="Left" 
-                                  HorizontalAlignment="Right" Margin="4,-1, 0 -1">
+                                  HorizontalAlignment="Right" Margin="2 0 0 0">
                             <Expander.Header>
                                 <TextBlock Text="File Explorer" FontSize="13">
                                     <TextBlock.LayoutTransform>
@@ -377,7 +374,7 @@
                                     </TextBlock.LayoutTransform>
                                 </TextBlock>
                             </Expander.Header>
-                            <GroupBox Margin="0 0 2 0" 
+                            <GroupBox Margin="1 -1 2 -1" 
                                       Header="File Explorer" 
                                       Background="{DynamicResource ContainerBackground}" 
                                       Width="200">
@@ -502,16 +499,33 @@
                                 </Grid>
                             </GroupBox>
                         </Expander>
-                        <Grid>
-                            <GroupBox Header="Notepad Items" HorizontalAlignment="Left" MaxWidth="225" Width="225" Background="{DynamicResource BackgroundColour}">
+                        <DockPanel>
+                            <!--
+                            Groupbox margin:: Margin="2 -1 2 -1"
+                            <Expander IsExpanded="True" Name="nListExpander"
+                                      DockPanel.Dock="Left" ExpandDirection="Right" 
+                                      HorizontalAlignment="Left" Margin="0">
+                                <Expander.Header>
+                                    <TextBlock Text="Notepad Items" FontSize="13">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="90"/>
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
+                                </Expander.Header>
+                            </Expander>
+                            -->
+                            <GroupBox Header="Notepad Items" HorizontalAlignment="Left" 
+                                          Margin="0 0 3 0"
+                                          MaxWidth="225" Width="225" 
+                                          Background="{DynamicResource BackgroundColour}">
                                 <Grid>
                                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
-                                             SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
-                                             SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
-                                             Name="notepadLstBox" 
-                                             HorizontalContentAlignment="Stretch" 
-                                             AllowDrop="True" 
-                                             Drop="ListBox_Drop" Margin="0,0,0,46" Background="{DynamicResource BackgroundColour}">
+                                                 SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
+                                                 SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
+                                                 Name="notepadLstBox" 
+                                                 HorizontalContentAlignment="Stretch" 
+                                                 AllowDrop="True" 
+                                                 Drop="ListBox_Drop" Margin="0,0,0,46" Background="{DynamicResource BackgroundColour}">
                                         <ListBox.InputBindings>
                                             <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Ctrl+Del"/>
                                         </ListBox.InputBindings>
@@ -539,7 +553,7 @@
                                             ToolTip="Move the selected NotepadItem downwards in the list"/>
                                 </Grid>
                             </GroupBox>
-                            <GroupBox Focusable="True" FocusManager.IsFocusScope="True" Margin="230,0,0,0" 
+                            <GroupBox Focusable="True" FocusManager.IsFocusScope="True" Margin="1,0,0,0" 
                                       IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}">
                                 <GroupBox.Header>
                                     <StackPanel Orientation="Horizontal" Height="24">
@@ -571,7 +585,7 @@
                                             <DockPanel>
                                                 <Expander IsExpanded="{Binding FindExpanded, UpdateSourceTrigger=PropertyChanged}" 
                                                           DockPanel.Dock="Right" ExpandDirection="Left" 
-                                                          HorizontalAlignment="Right" Margin="4,-1, 0 -1">
+                                                          HorizontalAlignment="Right" Margin="2 0 0 0">
                                                     <Expander.Header>
                                                         <TextBlock Text="Find Text" FontSize="13">
                                                             <TextBlock.LayoutTransform>
@@ -579,7 +593,8 @@
                                                             </TextBlock.LayoutTransform>
                                                         </TextBlock>
                                                     </Expander.Header>
-                                                    <GroupBox Header="Find text in the Text Input (on left)" MaxWidth="244" MinWidth="244" Margin="0 0 2 0">
+                                                    <GroupBox Header="Find text in the Text Input (on left)" 
+                                                              MaxWidth="244" MinWidth="244" Margin="1 -1 2 -1">
                                                         <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
                                                             <Grid.InputBindings>
                                                                 <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
@@ -727,7 +742,7 @@
                                     </Grid>
                                 </Grid>
                             </GroupBox>
-                        </Grid>
+                        </DockPanel>
                     </DockPanel>
                 </DockPanel>
             </DockPanel>

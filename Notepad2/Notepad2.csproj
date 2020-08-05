@@ -152,7 +152,6 @@
       <DependentUpon>LightTheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\ThemesController.cs" />
-    <Compile Include="Themes\ThemeTypes.cs" />
     <Compile Include="Utilities\AnimationFlag.cs" />
     <Compile Include="Utilities\AnimationLib.cs" />
     <Compile Include="Utilities\BaseViewModel.cs" />

@@ -22,6 +22,8 @@ namespace Notepad2.Preferences.Views
         private bool _canCloseWinWithCtrlWShift;
         private bool _canReOpenWinWithCtrlShiftT;
 
+        private bool _closeNotepadListByDefault;
+
         public bool ScrollVerticallyCtrlArrowKeys
         {
             get => _scrollVerticalCtrlArrows;
@@ -92,6 +94,12 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _canReOpenWinWithCtrlShiftT, value);
         }
 
+        public bool CloseNotepadListByDefault
+        {
+            get => _closeNotepadListByDefault;
+            set => RaisePropertyChanged(ref _closeNotepadListByDefault, value);
+        }
+
         public PreferencesWindow PreferencesView { get; set; }
 
         public ICommand RefreshCommand { get; private set; }
@@ -141,6 +149,8 @@ namespace Notepad2.Preferences.Views
 
             CanCloseWindowsWithCtrlWAndShift = PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W;
             CanReopenWindowWithCtrlShiftT    = PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T;
+
+            CloseNotepadListByDefault        = PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT;
         }
 
         public void UpdatePreferenceVariables()
@@ -160,6 +170,8 @@ namespace Notepad2.Preferences.Views
 
             PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W               = CanCloseWindowsWithCtrlWAndShift;
             PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T        = CanReopenWindowWithCtrlShiftT;
+
+            PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT            = CloseNotepadListByDefault;
         }
 
         public void SavePreferences()

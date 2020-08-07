@@ -1,5 +1,6 @@
 ﻿using Notepad2.CClipboard;
 using Notepad2.InformationStuff;
+using Notepad2.Notepad.FileProperties;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System;
@@ -14,15 +15,17 @@ namespace Notepad2.Applications
 {
     public static class ThisApplication
     {
-        public static ApplicationViewModel App { get; set; }
-        public static WindowManager WindowPreviews { get; set; }
-        public static HelpBox Help { get; set; }
+        public static ApplicationViewModel App { get; private set; }
+        public static WindowManager WindowPreviews { get; private set; }
+        public static FilePropertiesWindow PropertiesView { get; private set; }
+        public static HelpBox Help { get; private set; }
 
         public static void Startup(string[] args)
         {
             Help = new HelpBox();
             App = new ApplicationViewModel(args);
             WindowPreviews = new WindowManager();
+            PropertiesView = new FilePropertiesWindow();
             WindowPreviews.ThisApp = App;
         }
 

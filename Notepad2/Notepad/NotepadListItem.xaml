@@ -60,6 +60,12 @@
                 <MenuItem Header="EXE File"           InputGestureText=".exe"     Uid=".exe"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="All files"          InputGestureText="."        Uid="."      Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
+            <Separator Style="{DynamicResource MenuItemSeparator}"/>
+            <MenuItem Header="Show Properties" Click="ShowPropertiesClick" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <Image Source="/SharpPad;component/Resources/preferencesIcon.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid Background="Transparent">

@@ -86,6 +86,8 @@
       <DependentUpon>ClipboardWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CClipboard\CustomClipboard.cs" />
+    <Compile Include="Converters\FileExistsToBoolConverter.cs" />
+    <Compile Include="Converters\FileSizeFormatConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\InvertedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\FileSizeToColourConverter.cs" />
@@ -100,6 +102,13 @@
       <DependentUpon>WindowHistoryControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="History\WindowHistoryViewModel.cs" />
+    <Compile Include="Interfaces\IMainView.cs" />
+    <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="Notepad\FilePropertiesHelper.cs" />
+    <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
+    <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">
+      <DependentUpon>FilePropertiesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Preferences\PreferencesG.cs" />
     <Compile Include="Preferences\Views\PreferencesWindow.xaml.cs">
       <DependentUpon>PreferencesWindow.xaml</DependentUpon>
@@ -203,6 +212,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="History\WindowHistoryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notepad\FileProperties\FilePropertiesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

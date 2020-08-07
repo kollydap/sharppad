@@ -2,6 +2,7 @@
 using Notepad2.FileExplorer.ShellClasses;
 using Notepad2.Finding;
 using Notepad2.InformationStuff;
+using Notepad2.Interfaces;
 using Notepad2.Notepad;
 using Notepad2.Preferences;
 using Notepad2.Utilities;
@@ -10,7 +11,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +24,7 @@ namespace Notepad2.Views
     /// <summary>
     /// Interaction logic for NotepadWindow.xaml
     /// </summary>
-    public partial class NotepadWindow : Window
+    public partial class NotepadWindow : Window, IMainView
     {
         private Point MouseDownPoint { get; set; }
 
@@ -118,11 +118,7 @@ namespace Notepad2.Views
 
         public void InitWindow()
         {
-            Notepad = new NotepadViewModel();
-            Notepad.HightlightTextCallback = Hightlight;
-            Notepad.AnimateAddCallback = this.AnimateControl;
-            Notepad.FocusFindInputCallback = FocusFindInputBox;
-            Notepad.ScrollItemIntoView = ScrollItemIntoView;
+            Notepad = new NotepadViewModel(this);
             InitialiseTreeFileExplorer();
         }
 
@@ -163,35 +159,9 @@ namespace Notepad2.Views
             WindowShownCallback?.Invoke(this);
         }
 
-        public void AnimateControl(NotepadListItem nli, AnimationFlag af)
-        {
-            switch (af)
-            {
-                case AnimationFlag.NotepadItemOPEN:
-                    AnimationLib.OpacityControl(nli, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
-                    AnimationLib.MoveToTargetX(nli, 0, -ActualWidth, GlobalPreferences.ANIMATION_SPEED_SEC);
-                    break;
-
-                //Cant really do this. Animations are async so i'd have to have a timed delay when
-                //removing the item from the NotepadList, which would be... a bit complex.
-                //If anyone wants to try and add that delay (using tasks maybe, have a go)
-                //(and msg me or something with the code, and ill add it)
-                case AnimationFlag.NotepadItemCLOSE:
-                    //AnimationLib.OpacityControl(nli, 1, 0, AnimationSpeedSeconds);
-                    //AnimationLib.MoveToTargetX(nli, -ActualWidth, 0, AnimationSpeedSeconds * 15);
-                    //
-                    //Task.Run(async () =>
-                    //{
-                    //    await Task.Delay(TimeSpan.FromSeconds(AnimationSpeedSeconds));
-                    //    await Application.Current.Dispatcher.InvokeAsync(() => { Notepad.NotepadItems.Remove(nli); });
-                    //});
-                    break;
-            }
-        }
-
         #region Notepad items list
 
-        public void NotepadListItemDropped(DragEventArgs e)
+        private void ListBox_Drop(object sender, DragEventArgs e)
         {
             if (Notepad != null && e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -263,53 +233,9 @@ namespace Notepad2.Views
             }
         }
 
-        public void ScrollItemIntoView()
-        {
-            if (notepadLstBox.SelectedItem != null)
-                notepadLstBox.ScrollIntoView(notepadLstBox.SelectedItem);
-        }
-
-        private void ListBox_Drop(object sender, DragEventArgs e)
-        {
-            NotepadListItemDropped(e);
-        }
-
         #endregion
 
         #region Text Editor and Finding
-
-        public void FocusFindInputBox(bool focusFind)
-        {
-            if (focusFind)
-                findInputBox.Focus();
-            else
-                MainTextBox.Focus();
-        }
-
-        /// <summary>
-        /// Hightlight text using a <see cref="FindResult"/>'s Start/length
-        /// </summary>
-        /// <param name="result"></param>
-        public void Hightlight(FindResult result)
-        {
-            try
-            {
-                if (findList.ItemsSource is ObservableCollection<FindResultItem> items)
-                {
-                    if (findList.SelectedItem is FindResultItem fri)
-                    {
-                        int itemIndex = findList.SelectedIndex;
-                        items.Remove(fri);
-                        items.Insert(itemIndex, fri);
-                        MainTextBox.HighlightSearchResult(result);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Failed to highlight text: {e.Message}");
-            }
-        }
 
         public void DrawRectangleAtCaret()
         {
@@ -328,8 +254,6 @@ namespace Notepad2.Views
             else
                 aditionalSelection.Visibility = Visibility.Collapsed;
         }
-
-
 
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -544,6 +468,67 @@ namespace Notepad2.Views
         private void Window_GotFocus(object sender, RoutedEventArgs e)
         {
             WindowFocusedCallback?.Invoke(this);
+        }
+
+        public void AnimateNotepadItem(NotepadListItem nli, AnimationFlag flag)
+        {
+            switch (flag)
+            {
+                case AnimationFlag.NotepadItemOPEN:
+                    AnimationLib.OpacityControl(nli, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
+                    AnimationLib.MoveToTargetX(nli, 0, -ActualWidth, GlobalPreferences.ANIMATION_SPEED_SEC);
+                    break;
+
+                //Cant really do this. Animations are async so i'd have to have a timed delay when
+                //removing the item from the NotepadList, which would be... a bit complex.
+                //If anyone wants to try and add that delay (using tasks maybe, have a go)
+                //(and msg me or something with the code, and ill add it)
+                case AnimationFlag.NotepadItemCLOSE:
+                    //AnimationLib.OpacityControl(nli, 1, 0, AnimationSpeedSeconds);
+                    //AnimationLib.MoveToTargetX(nli, -ActualWidth, 0, AnimationSpeedSeconds * 15);
+                    //
+                    //Task.Run(async () =>
+                    //{
+                    //    await Task.Delay(TimeSpan.FromSeconds(AnimationSpeedSeconds));
+                    //    await Application.Current.Dispatcher.InvokeAsync(() => { Notepad.NotepadItems.Remove(nli); });
+                    //});
+                    break;
+            }
+        }
+
+        public void HighlightFindResult(FindResult result)
+        {
+            try
+            {
+                if (findList.ItemsSource is ObservableCollection<FindResultItem> items)
+                {
+                    if (findList.SelectedItem is FindResultItem fri)
+                    {
+                        int itemIndex = findList.SelectedIndex;
+                        items.Remove(fri);
+                        items.Insert(itemIndex, fri);
+                        MainTextBox.HighlightSearchResult(result);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Failed to highlight text: {e.Message}");
+            }
+        }
+
+        public void FocusFindInput(bool focusOrNot)
+        {
+            if (focusOrNot)
+                findInputBox.Focus();
+            else
+                MainTextBox.Focus();
+        }
+
+        public void ScrollItemsIntoView()
+        {
+            if (notepadLstBox.SelectedItem != null)
+                notepadLstBox.ScrollIntoView(notepadLstBox.SelectedItem);
         }
     }
 }

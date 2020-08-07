@@ -5,6 +5,7 @@ using Notepad2.FileExplorer;
 using Notepad2.Finding;
 using Notepad2.History;
 using Notepad2.InformationStuff;
+using Notepad2.Interfaces;
 using Notepad2.Notepad;
 using Notepad2.Preferences;
 using Notepad2.Preferences.Views;
@@ -15,7 +16,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -93,7 +93,7 @@ namespace Notepad2.ViewModels
         public bool FindExpanded
         {
             get => _findExpanded;
-            set => RaisePropertyChanged(ref _findExpanded, value, FocusFindInputCallback);
+            set => RaisePropertyChanged(ref _findExpanded, value, FocusFind);
         }
 
         /// <summary>
@@ -135,62 +135,41 @@ namespace Notepad2.ViewModels
 
         #region Commands
 
-        public ICommand NewCommand { get; private set; }
-        public ICommand OpenCommand { get; private set; }
-        public ICommand OpenDirectoryCommand { get; private set; }
-        public ICommand SaveCommand { get; private set; }
-        public ICommand SaveAsCommand { get; private set; }
-        public ICommand SaveAllCommand { get; private set; }
-        public ICommand CloseSelectedNotepadCommand { get; private set; }
-        public ICommand CloseAllNotepadsCommand { get; private set; }
-        public ICommand MoveItemCommand { get; private set; }
-        public ICommand OpenInNewWindowCommand { get; private set; }
-        public ICommand PrintFileCommand { get; private set; }
-        public ICommand ClearInfoItemsCommand { get; private set; }
-        public ICommand AutoShowFindMenuCommand { get; private set; }
-        public ICommand ShowHelpCommand { get; private set; }
+        public ICommand NewCommand { get; }
+        public ICommand OpenCommand { get; }
+        public ICommand OpenDirectoryCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand SaveAsCommand { get; }
+        public ICommand SaveAllCommand { get; }
+        public ICommand CloseSelectedNotepadCommand { get; }
+        public ICommand CloseAllNotepadsCommand { get; }
+        public ICommand MoveItemCommand { get; }
+        public ICommand OpenInNewWindowCommand { get; }
+        public ICommand PrintFileCommand { get; }
+        public ICommand ClearInfoItemsCommand { get; }
+        public ICommand AutoShowFindMenuCommand { get; }
+        public ICommand ShowHelpCommand { get; }
 
-        public ICommand NewWindowCommand { get; private set; }
-        public ICommand ReopenLastWindowCommand { get; private set; }
-        public ICommand CloseWindowCommand { get; private set; }
-        public ICommand CloseAllWindowsCommand { get; private set; }
+        public ICommand NewWindowCommand { get; }
+        public ICommand ReopenLastWindowCommand { get; }
+        public ICommand CloseWindowCommand { get; }
+        public ICommand CloseAllWindowsCommand { get; }
 
-        public ICommand ShowWindowManagerCommand { get; private set; }
+        public ICommand ShowWindowManagerCommand { get; }
 
-        public ICommand SortListCommand { get; private set; }
+        public ICommand SortListCommand { get; }
 
-
-        #endregion
-
-        #region Callbacks 
-
-        /// <summary>
-        /// A callback, used for animating <see cref="NotepadListItem"/>s
-        /// being added to the list on the left
-        /// </summary>
-        public Action<NotepadListItem, AnimationFlag> AnimateAddCallback { get; set; }
-
-        /// <summary>
-        /// A callback from the <see cref="FindTextWindow"/>, used for telling the NotepadWindow to 
-        /// highlight a specific region of text contained within a <see cref="FindResult"/>
-        /// </summary>
-        public Action<FindResult> HightlightTextCallback { get; set; }
-
-        /// <summary>
-        /// A callback to focus either the maintextbox or the find input
-        /// </summary>
-        public Action<bool> FocusFindInputCallback { get; set; }
-
-        /// <summary>
-        /// Scrolls the selected notepaditem into view
-        /// </summary>
-        public Action ScrollItemIntoView { get; set; }
 
         #endregion
+
+        public IMainView View { get; }
 
         #region Constructor
-        public NotepadViewModel()
+
+        public NotepadViewModel(IMainView view)
         {
+            View = view;
+
             History = new HistoryViewModel();
             Preference = new PreferencesViewModel();
             OurClipboard = new ClipboardViewModel();
@@ -200,25 +179,25 @@ namespace Notepad2.ViewModels
             SetupInformationHook();
             History.OpenFileCallback = ReopenNotepadFromHistory;
 
-            NewCommand                  = new Command(AddDefaultNotepadItem);
-            OpenCommand                 = new Command(OpenNotepadFromFileExplorer);
-            OpenDirectoryCommand        = new Command(OpenNotepadsFromDirectoryExplorer);
-            SaveCommand                 = new Command(SaveSelectedNotepad);
-            SaveAsCommand               = new Command(SaveSelectedNotepadAs);
-            SaveAllCommand              = new Command(SaveAllNotepadItems);
+            NewCommand = new Command(AddDefaultNotepadItem);
+            OpenCommand = new Command(OpenNotepadFromFileExplorer);
+            OpenDirectoryCommand = new Command(OpenNotepadsFromDirectoryExplorer);
+            SaveCommand = new Command(SaveSelectedNotepad);
+            SaveAsCommand = new Command(SaveSelectedNotepadAs);
+            SaveAllCommand = new Command(SaveAllNotepadItems);
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
-            CloseAllNotepadsCommand     = new Command(CloseAllNotepads);
-            MoveItemCommand             = new CommandParam<string>(MoveItem);
-            OpenInNewWindowCommand      = new Command(OpenSelectedNotepadInNewWindow);
-            PrintFileCommand            = new Command(PrintFile);
-            AutoShowFindMenuCommand     = new Command(OpenFindWindow);
-            ClearInfoItemsCommand       = new Command(ClearInfoItems);
-            ShowHelpCommand             = new Command(ThisApplication.ShowHelp);
+            CloseAllNotepadsCommand = new Command(CloseAllNotepads);
+            MoveItemCommand = new CommandParam<string>(MoveItem);
+            OpenInNewWindowCommand = new Command(OpenSelectedNotepadInNewWindow);
+            PrintFileCommand = new Command(PrintFile);
+            AutoShowFindMenuCommand = new Command(OpenFindWindow);
+            ClearInfoItemsCommand = new Command(ClearInfoItems);
+            ShowHelpCommand = new Command(ThisApplication.ShowHelp);
 
-            NewWindowCommand         = new Command(NewWindow);
-            ReopenLastWindowCommand  = new Command(ReopenLastWindow);
-            CloseWindowCommand       = new Command(CloseWindow);
-            CloseAllWindowsCommand   = new Command(CloseAllWindow);
+            NewWindowCommand = new Command(NewWindow);
+            ReopenLastWindowCommand = new Command(ReopenLastWindow);
+            CloseWindowCommand = new Command(CloseWindow);
+            CloseAllWindowsCommand = new Command(CloseAllWindow);
             ShowWindowManagerCommand = new Command(ShowWindowManager);
 
             SortListCommand = new CommandParam<string>(SortItems);
@@ -334,7 +313,7 @@ namespace Notepad2.ViewModels
                 nli.Notepad.HasMadeChanges = false;
                 NotepadItems.Add(nli);
                 Information.Show($"Added FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
-                AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemOPEN);
+                View.AnimateNotepadItem(nli, AnimationFlag.NotepadItemOPEN);
             }
         }
 
@@ -831,6 +810,11 @@ namespace Notepad2.ViewModels
 
         #region Finding Text
 
+        public void FocusFind()
+        {
+            View.FocusFindInput(FindExpanded);
+        }
+
         public void OpenFindWindow()
         {
             FindExpanded = !FindExpanded;
@@ -838,7 +822,7 @@ namespace Notepad2.ViewModels
 
         public void HighlightText(FindResult result)
         {
-            HightlightTextCallback?.Invoke(result);
+            View.HighlightFindResult(result);
         }
 
         private void OnNextTextFound(FindResult result)
@@ -868,7 +852,7 @@ namespace Notepad2.ViewModels
             {
                 int newIndex = SelectedIndex - 1;
                 MoveControl(SelectedIndex, newIndex);
-                ScrollItemIntoView?.Invoke();
+                View.ScrollItemsIntoView();
             }
         }
 
@@ -877,7 +861,7 @@ namespace Notepad2.ViewModels
             if (SelectedIndex + 1 < NotepadItems.Count)
             {
                 MoveControl(SelectedIndex, SelectedIndex + 1);
-                ScrollItemIntoView?.Invoke();
+                View.ScrollItemsIntoView();
             }
         }
 
@@ -1009,3 +993,8 @@ namespace Notepad2.ViewModels
         }
     }
 }
+
+
+
+
+// hehe 1000 lines 

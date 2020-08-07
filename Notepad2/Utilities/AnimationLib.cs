@@ -8,8 +8,7 @@ namespace Notepad2.Utilities
 {
     public class AnimationLib
     {
-
-        //Made by ADeltaX :P
+        //Made by ADeltaX i think
 
         /// <summary>
         /// Use this method to make an animation for a control in Y axis

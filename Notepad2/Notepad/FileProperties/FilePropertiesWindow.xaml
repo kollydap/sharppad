@@ -1,0 +1,57 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad2.Notepad.FileProperties"
+        xmlns:Converters="clr-namespace:Notepad2.Converters" x:Class="Notepad2.Notepad.FileProperties.FilePropertiesWindow"
+        mc:Ignorable="d"
+        Title="FilePropertiesWindow" 
+        Height="470" Width="332"
+        Style="{DynamicResource CustomToolWindowStyle}">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
+        <KeyBinding Key="Enter" Command="{Binding CloseViewCommand}"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <Converters:FileSizeFormatConverter x:Key="FileSizeFormatConverter"/>
+        <Converters:FileExistsToBoolConverter x:Key="FileExistsToBoolConverter"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl Margin="5,5,5,35">
+            <TabItem Header="General">
+                <Grid Margin="3">
+                    <TextBox Text="{Binding FileNameWithoutExtension, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="80,0,0,0" IsReadOnly="True"/>
+                    <Label Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Content="Full Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,31,0,0"/>
+                    <TextBox Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="80,31,0,0" IsReadOnly="True"/>
+
+                    <Separator VerticalAlignment="Top" Margin="0,62,0,0"/>
+
+                    <Label Content="Location:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,68,0,0"/>
+                    <TextBox Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="80,68,0,0" IsReadOnly="True"/>
+                    <Label Content="Size (Bytes):" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,99,0,0"/>
+                    <Label Content="Size on Disk (Bytes):" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,130,0,0"/>
+                    <TextBox Text="{Binding FileSize, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="80,99,0,0" IsReadOnly="True"/>
+                    <TextBox Text="{Binding FileSizeDisk, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="120,130,0,0" IsReadOnly="True"/>
+                    <Separator VerticalAlignment="Top" Margin="0,161,0,0"/>
+                    <Label Content="Created:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,167,0,0"/>
+                    <TextBox Text="{Binding DateCreated, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="80,167,0,0" IsReadOnly="True"/>
+                    <Label Content="Modified:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,198,0,0"/>
+                    <TextBox Text="{Binding DateModified, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="80,198,0,0" IsReadOnly="True"/>
+                    <Label Content="Accessed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,229,0,0"/>
+                    <TextBox Text="{Binding DateAccessed, UpdateSourceTrigger=PropertyChanged}" Padding="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="80,229,0,0" IsReadOnly="True"/>
+                    <Separator VerticalAlignment="Top" Margin="0,260,0,0"/>
+                    <Label Content="Attributes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,266,0,0"/>
+                    <CheckBox Content="Read-only" IsChecked="{Binding IsReadOnlyAttribute, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" HorizontalAlignment="Left" Margin="80,266,0,0" VerticalAlignment="Top" Height="26" Width="80" Focusable="False"/>
+                    <CheckBox Content="Hidden"    IsChecked="{Binding IsHiddenAttribute, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="165,266,0,0" VerticalAlignment="Top" Height="26" Focusable="False"/>
+                    <Button Command="{Binding ShowAdditionalInfoCommand}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}}" Content="Show Additional Info (Windows version)" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="32" Width="228"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <!-- these literally do the same thing lol -->
+        <Button Command="{Binding CloseViewCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,0,85,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
+        <Button Command="{Binding CloseViewCommand}" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,5,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
+        <Button Command="{Binding RefreshInfoCommand}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}}" Content="Refresh Info" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="80" Height="25"/>
+    </Grid>
+</Window>

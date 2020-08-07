@@ -1,4 +1,6 @@
-﻿using Notepad2.InformationStuff;
+﻿using Notepad2.Applications;
+using Notepad2.FileExplorer;
+using Notepad2.InformationStuff;
 using Notepad2.RecyclingBin;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
@@ -127,6 +129,22 @@ namespace Notepad2.Notepad
         private void OpenInAnotherWindow(object sender, RoutedEventArgs e)
         {
             OpenInNewWindowCallback?.Invoke(this);
+        }
+
+        private void ShowPropertiesClick(object sender, RoutedEventArgs e)
+        {
+            if (Notepad?.Document != null)
+            {
+                ThisApplication.PropertiesView.Properties.Show();
+                if (Notepad.Document.FilePath.IsFile())
+                {
+                    ThisApplication.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
+                }
+                else
+                {
+                    ThisApplication.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
+                }
+            }
         }
     }
 }

@@ -7,6 +7,10 @@ namespace Notepad2.InformationStuff
         public delegate void InformationEventArgs(InformationModel e);
         public static event InformationEventArgs InformationAdded;
 
+        public static void Show(string text)
+        {
+            InformationAdded?.Invoke(new InformationModel("Info", DateTime.Now, text));
+        }
         public static void Show(string text, string type)
         {
             InformationAdded?.Invoke(new InformationModel(type, DateTime.Now, text));

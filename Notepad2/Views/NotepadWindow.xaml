@@ -698,7 +698,7 @@
                                                         </se:SimpleTextEditor>
                                                         <Border x:Name="aditionalSelection"
                                                                 BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                                                                Opacity="1"
+                                                                Opacity="0.7"
                                                                 BorderThickness="2"
                                                                 CornerRadius="2"
                                                                 HorizontalAlignment="Stretch" 

@@ -316,162 +316,162 @@
                 </StackPanel>
             </StackPanel>
             <DockPanel Margin="0,4,0,0" Background="{DynamicResource BackgroundColour}">
-                <DockPanel>
-                    <Expander ExpandDirection="Up" 
+                <Expander ExpandDirection="Up" 
                               Header="Information and History" 
                               VerticalAlignment="Bottom"
                               DockPanel.Dock="Bottom"
                               IsExpanded="False"
                               Margin="0 0 0 0">
-                        <Grid Margin="-1 1 -1 2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="3*"/>
-                            </Grid.ColumnDefinitions>
-                            <GroupBox Height="180" Margin="0,0,4,0">
-                                <GroupBox.Header>
-                                    <StackPanel Orientation="Horizontal" Height="24">
-                                        <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
-                                        <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                        <Button Content="Clear List" 
+                    <Grid Margin="-1 1 -1 2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Height="180" Margin="0,0,4,0">
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal" Height="24">
+                                    <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
+                                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
+                                    <Button Content="Clear List" 
                                                 Command="{Binding ClearInfoItemsCommand}" Width="75"/>
-                                    </StackPanel>
-                                </GroupBox.Header>
-                                <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" 
+                                </StackPanel>
+                            </GroupBox.Header>
+                            <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" 
                                           ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
-                                            <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Type}"/>
-                                            <GridViewColumn Header="Message" Width="400" DisplayMemberBinding="{Binding Message}"/>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </GroupBox>
-                            <GroupBox Height="180" DataContext="{Binding History}" 
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
+                                        <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Type}"/>
+                                        <GridViewColumn Header="Message" Width="400" DisplayMemberBinding="{Binding Message}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </GroupBox>
+                        <GroupBox Height="180" DataContext="{Binding History}" 
                                       Grid.Column="1" Margin="0">
-                                <GroupBox.Header>
-                                    <StackPanel Orientation="Horizontal" Height="24">
-                                        <TextBlock Text="File History" VerticalAlignment="Center"/>
-                                        <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                        <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100"/>
-                                        <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60"/>
-                                    </StackPanel>
-                                </GroupBox.Header>
-                                <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal" Height="24">
+                                    <TextBlock Text="File History" VerticalAlignment="Center"/>
+                                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
+                                    <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100"/>
+                                    <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60"/>
+                                </StackPanel>
+                            </GroupBox.Header>
+                            <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
                                          utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          HorizontalContentAlignment="Stretch"/>
-                            </GroupBox>
-                        </Grid>
-                    </Expander>
-                    <DockPanel Margin="0,0,0,2">
-                        <Expander DockPanel.Dock="Right" ExpandDirection="Left" 
+                        </GroupBox>
+                    </Grid>
+                </Expander>
+                <DockPanel Margin="0,0,0,2">
+                    <Expander DockPanel.Dock="Right" ExpandDirection="Left" 
                                   HorizontalAlignment="Right" Margin="2 0 0 0">
-                            <Expander.Header>
-                                <TextBlock Text="File Explorer" FontSize="13">
-                                    <TextBlock.LayoutTransform>
-                                        <RotateTransform Angle="90"/>
-                                    </TextBlock.LayoutTransform>
-                                </TextBlock>
-                            </Expander.Header>
-                            <GroupBox Margin="1 -1 2 -1" 
+                        <Expander.Header>
+                            <TextBlock Text="File Explorer" FontSize="13">
+                                <TextBlock.LayoutTransform>
+                                    <RotateTransform Angle="90"/>
+                                </TextBlock.LayoutTransform>
+                            </TextBlock>
+                        </Expander.Header>
+                        <GroupBox Margin="1 -1 2 -1" 
                                       Header="File Explorer" 
                                       Background="{DynamicResource ContainerBackground}" 
                                       Width="200">
-                                <Grid>
-                                    <TreeView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" Name="treeView" 
+                            <Grid>
+                                <TreeView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" Name="treeView" 
                                               BorderBrush="{DynamicResource ContainerBackground}">
-                                        <TreeView.ItemContainerStyle>
-                                            <Style TargetType="{x:Type TreeViewItem}">
-                                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                                <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
-                                                <Setter Property="Background" Value="Transparent"/>
-                                                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                                                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                                                <Setter Property="Padding" Value="1,0,0,0"/>
-                                                <Setter Property="Foreground" Value="{DynamicResource ControlDefaultForeground}"/>
-                                                <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type TreeViewItem}">
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition MinWidth="19" Width="Auto"/>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="Auto"/>
-                                                                    <RowDefinition/>
-                                                                </Grid.RowDefinitions>
-                                                                <ToggleButton x:Name="Expander" 
+                                    <TreeView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type TreeViewItem}">
+                                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                            <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                                            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                                            <Setter Property="Padding" Value="1,0,0,0"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource ControlDefaultForeground}"/>
+                                            <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition MinWidth="19" Width="Auto"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
+                                                            <ToggleButton x:Name="Expander" 
                                                                       ClickMode="Press" 
                                                                       IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
                                                                       Style="{DynamicResource ExpandCollapseToggleStyle}"/>
-                                                                <Border x:Name="Bd" 
+                                                            <Border x:Name="Bd" 
                                                                         BorderBrush="{TemplateBinding BorderBrush}" 
                                                                         BorderThickness="{TemplateBinding BorderThickness}" 
                                                                         Background="{TemplateBinding Background}" 
                                                                         Grid.Column="1" 
                                                                         Padding="{TemplateBinding Padding}" 
                                                                         SnapsToDevicePixels="true">
-                                                                    <ContentPresenter x:Name="PART_Header"
+                                                                <ContentPresenter x:Name="PART_Header"
                                                                               ContentSource="Header" 
                                                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                                                </Border>
-                                                                <ItemsPresenter x:Name="ItemsHost" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
-                                                            </Grid>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsExpanded" Value="false">
-                                                                    <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed"/>
-                                                                </Trigger>
-                                                                <Trigger Property="HasItems" Value="false">
-                                                                    <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
-                                                                </Trigger>
-                                                                <MultiTrigger>
-                                                                    <MultiTrigger.Conditions>
-                                                                        <Condition Property="IsMouseOver" Value="True"/>
-                                                                    </MultiTrigger.Conditions>
-                                                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource ControlMouseOverBackground}"/>
-                                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ControlMouseOverBorderBrush}"/>
-                                                                </MultiTrigger>
-                                                                <Trigger Property="IsSelected" Value="true">
-                                                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource ControlSelectedBackground}"/>
-                                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ControlSelectedBorderBrush}"/>
-                                                                </Trigger>
-                                                                <MultiTrigger>
-                                                                    <MultiTrigger.Conditions>
-                                                                        <Condition Property="IsSelected" Value="true"/>
-                                                                        <Condition Property="IsSelectionActive" Value="false"/>
-                                                                    </MultiTrigger.Conditions>
-                                                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource ControlDefaultBackground}"/>
-                                                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ControlDefaultBorderBrush}"/>
-                                                                </MultiTrigger>
-                                                                <Trigger Property="IsEnabled" Value="false">
-                                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Style.Triggers>
-                                                    <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
-                                                        <Setter Property="ItemsPanel">
-                                                            <Setter.Value>
-                                                                <ItemsPanelTemplate>
-                                                                    <VirtualizingStackPanel/>
-                                                                </ItemsPanelTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TreeView.ItemContainerStyle>
-                                        <TreeView.Resources>
-                                            <HierarchicalDataTemplate DataType="{x:Type fileExplorerShell:FileSystemObjectInfo}" ItemsSource="{Binding Path=Children}">
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                                    <Rectangle Margin="0 0 5 0" 
+                                                            </Border>
+                                                            <ItemsPresenter x:Name="ItemsHost" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
+                                                        </Grid>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsExpanded" Value="false">
+                                                                <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed"/>
+                                                            </Trigger>
+                                                            <Trigger Property="HasItems" Value="false">
+                                                                <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
+                                                            </Trigger>
+                                                            <MultiTrigger>
+                                                                <MultiTrigger.Conditions>
+                                                                    <Condition Property="IsMouseOver" Value="True"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource ControlMouseOverBackground}"/>
+                                                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ControlMouseOverBorderBrush}"/>
+                                                            </MultiTrigger>
+                                                            <Trigger Property="IsSelected" Value="true">
+                                                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource ControlSelectedBackground}"/>
+                                                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ControlSelectedBorderBrush}"/>
+                                                            </Trigger>
+                                                            <MultiTrigger>
+                                                                <MultiTrigger.Conditions>
+                                                                    <Condition Property="IsSelected" Value="true"/>
+                                                                    <Condition Property="IsSelectionActive" Value="false"/>
+                                                                </MultiTrigger.Conditions>
+                                                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource ControlDefaultBackground}"/>
+                                                                <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ControlDefaultBorderBrush}"/>
+                                                            </MultiTrigger>
+                                                            <Trigger Property="IsEnabled" Value="false">
+                                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+                                                    <Setter Property="ItemsPanel">
+                                                        <Setter.Value>
+                                                            <ItemsPanelTemplate>
+                                                                <VirtualizingStackPanel/>
+                                                            </ItemsPanelTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                    <TreeView.Resources>
+                                        <HierarchicalDataTemplate DataType="{x:Type fileExplorerShell:FileSystemObjectInfo}" ItemsSource="{Binding Path=Children}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                                <Rectangle Margin="0 0 5 0" 
                                                        HorizontalAlignment="Left" 
                                                        Width="10" 
                                                        PreviewMouseMove="TreeViewItem_MouseMove" 
@@ -479,53 +479,50 @@
                                                        ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or into the notepaditems list on the left" 
                                                        Cursor="SizeAll"
                                                        Visibility="{Binding Path=GripVisible, UpdateSourceTrigger=PropertyChanged}">
-                                                        <Rectangle.Fill>
-                                                            <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">
-                                                                <DrawingBrush.Drawing>
-                                                                    <DrawingGroup>
-                                                                        <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBackground}" Geometry="M 1 1 L 1 3 L 3 3 L 3 1 z"/>
-                                                                        <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBorderBrush}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
-                                                                    </DrawingGroup>
-                                                                </DrawingBrush.Drawing>
-                                                            </DrawingBrush>
-                                                        </Rectangle.Fill>
-                                                    </Rectangle>
-                                                    <Image Source="{Binding Path=ImageSource, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,3,0"/>
-                                                    <TextBlock Text="{Binding Path=FileSystemInfo.Name}" Foreground="{DynamicResource ControlDefaultForeground}"/>
-                                                </StackPanel>
-                                            </HierarchicalDataTemplate>
-                                        </TreeView.Resources>
-                                    </TreeView>
-                                </Grid>
-                            </GroupBox>
-                        </Expander>
-                        <DockPanel>
-                            <!--
-                            Groupbox margin:: Margin="2 -1 2 -1"
-                            <Expander IsExpanded="True" Name="nListExpander"
-                                      DockPanel.Dock="Left" ExpandDirection="Right" 
-                                      HorizontalAlignment="Left" Margin="0">
-                                <Expander.Header>
-                                    <TextBlock Text="Notepad Items" FontSize="13">
-                                        <TextBlock.LayoutTransform>
-                                            <RotateTransform Angle="90"/>
-                                        </TextBlock.LayoutTransform>
-                                    </TextBlock>
-                                </Expander.Header>
-                            </Expander>
-                            -->
+                                                    <Rectangle.Fill>
+                                                        <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">
+                                                            <DrawingBrush.Drawing>
+                                                                <DrawingGroup>
+                                                                    <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBackground}" Geometry="M 1 1 L 1 3 L 3 3 L 3 1 z"/>
+                                                                    <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBorderBrush}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
+                                                                </DrawingGroup>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                                <Image Source="{Binding Path=ImageSource, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,3,0"/>
+                                                <TextBlock Text="{Binding Path=FileSystemInfo.Name}" Foreground="{DynamicResource ControlDefaultForeground}"/>
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.Resources>
+                                </TreeView>
+                            </Grid>
+                        </GroupBox>
+                    </Expander>
+                    <DockPanel>
+                        <Expander IsExpanded="False" x:Name="nListExpander"
+                                  DockPanel.Dock="Left" ExpandDirection="Right" 
+                                  HorizontalAlignment="Left" Margin="0">
+                            <Expander.Header>
+                                <TextBlock Text="Notepad Items" FontSize="13">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="90"/>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                            </Expander.Header>
                             <GroupBox Header="Notepad Items" HorizontalAlignment="Left" 
-                                          Margin="0 0 3 0"
-                                          MaxWidth="225" Width="225" 
+                                          Margin="2 -1 2 -1"
+                                          Width="225" 
                                           Background="{DynamicResource BackgroundColour}">
                                 <Grid>
                                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
-                                                 SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
-                                                 SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
-                                                 Name="notepadLstBox" 
-                                                 HorizontalContentAlignment="Stretch" 
-                                                 AllowDrop="True" 
-                                                 Drop="ListBox_Drop" Margin="0,0,0,46" Background="{DynamicResource BackgroundColour}">
+                                             SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
+                                             SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
+                                             Name="notepadLstBox" 
+                                             HorizontalContentAlignment="Stretch" 
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                             AllowDrop="True" 
+                                             Drop="ListBox_Drop" Margin="0,0,0,46" Background="{DynamicResource BackgroundColour}">
                                         <ListBox.InputBindings>
                                             <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Ctrl+Del"/>
                                         </ListBox.InputBindings>
@@ -541,95 +538,97 @@
                                             Content="Clear List" 
                                             VerticalAlignment="Bottom" 
                                             Height="46" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
-                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="up"  Margin="138,0,0,23"
+                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="up"  Margin="0,0,0,23"
                                             BorderThickness="1 0 1 1" Content="Move Up" 
                                             VerticalAlignment="Bottom" 
                                             Height="23" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                                            ToolTip="Move the selected NotepadItem upwards in the list"/>
-                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="down" Margin="138,0,0,0"
+                                            ToolTip="Move the selected NotepadItem upwards in the list" HorizontalAlignment="Right" Width="75"/>
+                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="down"
                                             BorderThickness="1 0 1 1" Content="Move Down" 
                                             VerticalAlignment="Bottom" 
                                             Height="23" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                                            ToolTip="Move the selected NotepadItem downwards in the list"/>
+                                            ToolTip="Move the selected NotepadItem downwards in the list" HorizontalAlignment="Right" Width="75"/>
                                 </Grid>
                             </GroupBox>
-                            <GroupBox Focusable="True" FocusManager.IsFocusScope="True" Margin="1,0,0,0" 
+                        </Expander>
+                        <GroupBox Focusable="True" FocusManager.IsFocusScope="True" Margin="1,0,0,0" 
                                       IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}">
-                                <GroupBox.Header>
-                                    <StackPanel Orientation="Horizontal" Height="24">
-                                        <TextBlock Text="Text Input" VerticalAlignment="Center"/>
-                                        <Separator Style="{DynamicResource VerticalSeparator}" Margin="5,0"/>
-                                        <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
-                                            <Image Source="/SharpPad;component/Resources/cut.png"/>
-                                        </Button>
-                                        <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
-                                            <Image Source="/SharpPad;component/Resources/copy.png"/>
-                                        </Button>
-                                        <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
-                                            <Image Source="/SharpPad;component/Resources/paste.png"/>
-                                        </Button>
-                                        <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
-                                            <Image Source="/SharpPad;component/Resources/undo.png"/>
-                                        </Button>
-                                        <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,0,0" Focusable="False" Width="28">
-                                            <Image Source="/SharpPad;component/Resources/redo.png"/>
-                                        </Button>
-                                        <CheckBox Margin="5 0 0 0" Content="Auto-word Selection" 
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal" Height="24">
+                                    <TextBlock Text="Text Input" VerticalAlignment="Center"/>
+                                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="5,0"/>
+                                    <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                        <Image Source="/SharpPad;component/Resources/cut.png"/>
+                                    </Button>
+                                    <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                        <Image Source="/SharpPad;component/Resources/copy.png"/>
+                                    </Button>
+                                    <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                        <Image Source="/SharpPad;component/Resources/paste.png"/>
+                                    </Button>
+                                    <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                        <Image Source="/SharpPad;component/Resources/undo.png"/>
+                                    </Button>
+                                    <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,0,0" Focusable="False" Width="28">
+                                        <Image Source="/SharpPad;component/Resources/redo.png"/>
+                                    </Button>
+                                    <CheckBox Margin="5 0 0 0" Content="Auto-word Selection" 
                                                   IsChecked="{Binding ElementName=MainTextBox, Path=AutoWordSelection}"
                                                   ToolTip="Auto-selected words when you select text"/>
-                                    </StackPanel>
-                                </GroupBox.Header>
-                                <Grid Margin="0,0,0,0">
-                                    <Grid>
-                                        <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
-                                            <DockPanel>
-                                                <Expander IsExpanded="{Binding FindExpanded, UpdateSourceTrigger=PropertyChanged}" 
+                                </StackPanel>
+                            </GroupBox.Header>
+                            <Grid Margin="0,0,0,0">
+                                <Grid>
+                                    <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
+                                        <DockPanel>
+                                            <Expander IsExpanded="{Binding FindExpanded, UpdateSourceTrigger=PropertyChanged}" 
                                                           DockPanel.Dock="Right" ExpandDirection="Left" 
                                                           HorizontalAlignment="Right" Margin="2 0 0 0">
-                                                    <Expander.Header>
-                                                        <TextBlock Text="Find Text" FontSize="13">
-                                                            <TextBlock.LayoutTransform>
-                                                                <RotateTransform Angle="90"/>
-                                                            </TextBlock.LayoutTransform>
-                                                        </TextBlock>
-                                                    </Expander.Header>
-                                                    <GroupBox Header="Find text in the Text Input (on left)" 
+                                                <Expander.Header>
+                                                    <TextBlock Text="Find Text" FontSize="13">
+                                                        <TextBlock.LayoutTransform>
+                                                            <RotateTransform Angle="90"/>
+                                                        </TextBlock.LayoutTransform>
+                                                    </TextBlock>
+                                                </Expander.Header>
+                                                <GroupBox Header="Find text in the Text Input (on left)" 
                                                               MaxWidth="244" MinWidth="244" Margin="1 -1 2 -1">
-                                                        <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
-                                                            <Grid.InputBindings>
-                                                                <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
-                                                                <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
-                                                            </Grid.InputBindings>
-                                                            <TextBlock HorizontalAlignment="Left" Margin="5,11,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
-                                                            <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
+                                                    <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
+                                                        <Grid.InputBindings>
+                                                            <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
+                                                            <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
+                                                        </Grid.InputBindings>
+                                                        <TextBlock HorizontalAlignment="Left" Margin="5,11,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
+                                                        <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
                                                                      x:Name="findInputBox" Focusable="True"
                                                                      VerticalContentAlignment="Center"
                                                                      Padding="2" Height="28" Margin="64,5,70,0" 
                                                                      TextWrapping="Wrap" VerticalAlignment="Top"
                                                                      Loaded="findInputBox_Loaded">
-                                                                <TextBox.InputBindings>
-                                                                    <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
-                                                                </TextBox.InputBindings>
-                                                            </TextBox>
-                                                            <Button Command="{Binding FindOccourancesCommand}" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="60" Height="28">
-                                                                <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind All"/></TextBlock>
-                                                            </Button>
-                                                            <CheckBox IsChecked="{Binding MatchCase, UpdateSourceTrigger=PropertyChanged}" 
+                                                            <TextBox.InputBindings>
+                                                                <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
+                                                            </TextBox.InputBindings>
+                                                        </TextBox>
+                                                        <Button Command="{Binding FindOccourancesCommand}" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="60" Height="28">
+                                                            <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind All"/></TextBlock>
+                                                        </Button>
+                                                        <CheckBox IsChecked="{Binding MatchCase, UpdateSourceTrigger=PropertyChanged}" 
                                                                       Margin="5,38,5,0"
                                                                       Height="16"
                                                                       Content="Match Capitalisation" VerticalAlignment="Top"/>
-                                                            <Label Content="Found Results. (double-click to highlight)" Padding="0 5" VerticalAlignment="Top" Margin="5,55,5,0"/>
-                                                            <ListBox Margin="5,81,5,5"
+                                                        <Label Content="Found Results. (double-click to highlight)" Padding="0 5" VerticalAlignment="Top" Margin="5,55,5,0"/>
+                                                        <ListBox Margin="5,81,5,5"
                                                                      x:Name="findList"
                                                                      HorizontalContentAlignment="Stretch"
+                                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                                                      ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}"
                                                                      SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                                                                      SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"/>
-                                                        </Grid>
-                                                    </GroupBox>
-                                                </Expander>
-                                                <DockPanel>
-                                                    <!-- Line Numbers. This is too laggy with many lines.
+                                                    </Grid>
+                                                </GroupBox>
+                                            </Expander>
+                                            <DockPanel>
+                                                <!-- Line Numbers. This is too laggy with many lines.
                                                     <Border Background="{DynamicResource ContainerBackground}" 
                                                             BorderBrush="{DynamicResource ControlDefaultBorderBrush}" 
                                                             BorderThickness="1 1 0 1" Width="auto" MinWidth="20"
@@ -644,8 +643,8 @@
                                                                    Text="{Binding LinesCounter.LineCounterText, UpdateSourceTrigger=PropertyChanged}"/>
                                                     </Border>
                                                     -->
-                                                    <Grid x:Name="editorGrid">
-                                                        <!-- Line Numbers. This is also too laggy with many lines.
+                                                <Grid x:Name="editorGrid">
+                                                    <!-- Line Numbers. This is also too laggy with many lines.
                                                         <TextBlock Text="{Binding (utils:TextBoxLineNumbers.BindableLineCount), ElementName=MainTextBox}" 
                                                                    FontFamily="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
                                                                    FontSize="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
@@ -656,7 +655,7 @@
                                                                    HorizontalAlignment="Left" DockPanel.Dock="Left" 
                                                                    MinWidth="16" TextAlignment="Center" Margin="2 0"/>
                                                         -->
-                                                        <se:SimpleTextEditor 
+                                                    <se:SimpleTextEditor 
                                                             x:Name="MainTextBox"
                                                             FontFamily="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
                                                             FontSize="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
@@ -681,22 +680,22 @@
                                                             Visibility="Visible" 
                                                             PreviewMouseWheel="TextBox_MouseWheel"
                                                             SelectionChanged="MainTextBox_SelectionChanged"
-                                                            SizeChanged="MainTextBox_SizeChanged">
-                                                            <se:SimpleTextEditor.ContextMenu>
-                                                                <ContextMenu OverridesDefaultStyle="False">
-                                                                    <MenuItem Header="Cut"   Command="ApplicationCommands.Cut" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                    <MenuItem Header="Copy"  Command="ApplicationCommands.Copy" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                    <MenuItem Header="Paste" Command="ApplicationCommands.Paste" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                    <Separator Style="{DynamicResource MenuItemSeparator}"/>
-                                                                    <MenuItem Header="Undo"  Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                    <MenuItem Header="Redo" InputGestureText="Ctrl+Shift+Z or Ctrl+Y" Command="ApplicationCommands.Redo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                </ContextMenu>
-                                                            </se:SimpleTextEditor.ContextMenu>
-                                                            <se:SimpleTextEditor.InputBindings>
-                                                                <KeyBinding Key="Z" Modifiers="Ctrl+Shift" Command="ApplicationCommands.Redo"/>
-                                                            </se:SimpleTextEditor.InputBindings>
-                                                        </se:SimpleTextEditor>
-                                                        <Border x:Name="aditionalSelection"
+                                                            SizeChanged="MainTextBox_SizeChanged" Background="{DynamicResource BackgroundColour}">
+                                                        <se:SimpleTextEditor.ContextMenu>
+                                                            <ContextMenu OverridesDefaultStyle="False">
+                                                                <MenuItem Header="Cut"   Command="ApplicationCommands.Cut" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Copy"  Command="ApplicationCommands.Copy" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Paste" Command="ApplicationCommands.Paste" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <Separator Style="{DynamicResource MenuItemSeparator}"/>
+                                                                <MenuItem Header="Undo"  Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Redo" InputGestureText="Ctrl+Shift+Z or Ctrl+Y" Command="ApplicationCommands.Redo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                            </ContextMenu>
+                                                        </se:SimpleTextEditor.ContextMenu>
+                                                        <se:SimpleTextEditor.InputBindings>
+                                                            <KeyBinding Key="Z" Modifiers="Ctrl+Shift" Command="ApplicationCommands.Redo"/>
+                                                        </se:SimpleTextEditor.InputBindings>
+                                                    </se:SimpleTextEditor>
+                                                    <Border x:Name="aditionalSelection"
                                                                 BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                                                                 Opacity="0.7"
                                                                 BorderThickness="2"
@@ -704,45 +703,37 @@
                                                                 HorizontalAlignment="Stretch" 
                                                                 VerticalAlignment="Stretch" 
                                                                 Margin="Infinity"/>
-                                                    </Grid>
-                                                </DockPanel>
-                                            </DockPanel>
-                                        </Border>
-                                        <DockPanel DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Height="20" VerticalAlignment="Bottom">
-                                            <Grid MinWidth="232">
-                                                <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1" Margin="57,0,0,0"/>
-                                                <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1" Margin="0,0,175,0"/>
-                                                <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                                <TextBox VerticalAlignment="Center"
-                                                         BorderBrush="Transparent"
-                                                         DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
-                                                         Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" 
-                                                         Background="Transparent" Margin="99,1,5,2" Height="17" MaxWidth="225"/>
-                                                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="4,0,0,0" Height="14" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
-                                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10.5"/>
-                                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
                                                 </Grid>
+                                            </DockPanel>
+                                        </DockPanel>
+                                    </Border>
+                                    <DockPanel DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Height="20" VerticalAlignment="Bottom">
+                                        <Grid Width="55">
+                                            <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1"/>
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="4,0,0,0" Height="14" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
+                                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10.5"/>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
                                             </Grid>
-                                            <Grid>
-                                                <Border Background="{DynamicResource BackgroundColour}" 
+                                        </Grid>
+                                        <Grid>
+                                            <Border Background="{DynamicResource BackgroundColour}" 
                                                         BorderBrush="{DynamicResource ControlDefaultBorderBrush}" 
                                                         BorderThickness="0 1 1 1"/>
-                                                <TextBlock Text="Path:" 
+                                            <TextBlock Text="Path:" 
                                                            HorizontalAlignment="Left" 
                                                            Margin="2 0 0 0" 
                                                            VerticalAlignment="Center"/>
-                                                <TextBox VerticalAlignment="Center" Background="Transparent"
+                                            <TextBox VerticalAlignment="Center" Background="Transparent"
                                                          DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}" 
                                                          Margin="33,1,2,2"
                                                          BorderBrush="Transparent"
                                                          Height="17"
                                                          Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </Grid>
-                                        </DockPanel>
-                                    </Grid>
+                                        </Grid>
+                                    </DockPanel>
                                 </Grid>
-                            </GroupBox>
-                        </DockPanel>
+                            </Grid>
+                        </GroupBox>
                     </DockPanel>
                 </DockPanel>
             </DockPanel>

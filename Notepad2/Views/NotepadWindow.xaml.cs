@@ -133,7 +133,7 @@ namespace Notepad2.Views
             }
             this.Height = Properties.Settings.Default.Height;
             this.Width = Properties.Settings.Default.Width;
-            //nListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
+            nListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
             showLineThing.IsChecked = Properties.Settings.Default.allowCaretLineOutline;
             if (loadTheme)
             {
@@ -401,6 +401,7 @@ namespace Notepad2.Views
                 try
                 {
                     PreferencesG.SaveToProperties();
+                    Properties.Settings.Default.closeNLstOnStrt = !nListExpander.IsExpanded;
                     if (WindowState == WindowState.Maximized)
                     {
                         // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen

@@ -9,7 +9,10 @@
         xmlns:utils="clr-namespace:Notepad2.Utilities"
         xmlns:fileExplorerShell="clr-namespace:Notepad2.FileExplorer.ShellClasses"
         xmlns:converters="clr-namespace:Notepad2.Converters"
-        xmlns:se="clr-namespace:Notepad2.SimpleEditor" xmlns:notepad="clr-namespace:Notepad2.Notepad"
+        xmlns:se="clr-namespace:Notepad2.SimpleEditor" 
+        xmlns:notepad="clr-namespace:Notepad2.Notepad" 
+        xmlns:history="clr-namespace:Notepad2.History" 
+        xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff" xmlns:finding="clr-namespace:Notepad2.Finding"
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
@@ -295,7 +298,7 @@
                     <ComboBox SelectedIndex="0"
                               ItemsSource="{Binding Source={StaticResource TextDeocrationOptions}}"
                               ToolTip="Text Decorations (e.g, underline, strikethrough)"
-                              SelectedItem="{Binding Notepad.DocumentFormat.StrDecoration, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding Notepad.DocumentFormat.DecorationReadable, UpdateSourceTrigger=PropertyChanged}"
                               Margin="5,0,0,0" Width="110">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -327,25 +330,27 @@
                             <ColumnDefinition Width="6*"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
-                        <GroupBox Height="180" Margin="0,0,4,0">
+                        <GroupBox DataContext="{Binding InformationView, UpdateSourceTrigger=PropertyChanged}" Height="180" Margin="0,0,4,0">
                             <GroupBox.Header>
                                 <StackPanel Orientation="Horizontal" Height="24">
                                     <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
                                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                    <Button Content="Clear List" 
-                                                Command="{Binding ClearInfoItemsCommand}" Width="75"/>
+                                    <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" Width="75"/>
+                                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
+                                    <TextBlock Text="Items:" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding InformationItems.Count, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="3 0 0 0"/>
+
                                 </StackPanel>
                             </GroupBox.Header>
-                            <ListView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" 
-                                          ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
-                                        <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Type}"/>
-                                        <GridViewColumn Header="Message" Width="400" DisplayMemberBinding="{Binding Message}"/>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <ListBox ItemsSource="{Binding InformationItems, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Stretch"
+                                     utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <informationstuff:InformationItemControl DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </GroupBox>
                         <GroupBox Height="180" DataContext="{Binding History}" 
                                       Grid.Column="1" Margin="0">
@@ -360,7 +365,13 @@
                             <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
                                          utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                         HorizontalContentAlignment="Stretch"/>
+                                         HorizontalContentAlignment="Stretch">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <history:HistoryControl DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </GroupBox>
                     </Grid>
                 </Expander>
@@ -523,6 +534,11 @@
                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                              AllowDrop="True" 
                                              Drop="ListBox_Drop" Margin="0,0,0,46" Background="{DynamicResource BackgroundColour}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <notepad:NotepadListItem DataContext="{Binding}"/>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
                                         <ListBox.InputBindings>
                                             <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Ctrl+Del"/>
                                         </ListBox.InputBindings>
@@ -623,7 +639,13 @@
                                                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                                                      ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}"
                                                                      SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
-                                                                     SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                     SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}">
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <finding:FindResultItemControl DataContext="{Binding}"/>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
                                                     </Grid>
                                                 </GroupBox>
                                             </Expander>

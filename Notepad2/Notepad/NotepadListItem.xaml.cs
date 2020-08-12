@@ -20,10 +20,6 @@ namespace Notepad2.Notepad
     /// </summary>
     public partial class NotepadListItem : UserControl
     {
-        public Action<NotepadListItem> Close { get; set; }
-        public Action<NotepadListItem> OpenInFileExplorer { get; set; }
-        public Action<NotepadListItem> OpenInNewWindowCallback { get; set; }
-
         public TextDocumentViewModel Notepad
         {
             get => DataContext as TextDocumentViewModel;
@@ -42,22 +38,22 @@ namespace Notepad2.Notepad
         {
             switch (int.Parse(((MenuItem)sender).Uid))
             {
-                case 1: Close?.Invoke(this); break;
-                case 2: OpenInFileExplorer?.Invoke(this); break;
+                case 1: Notepad.Close?.Invoke(Notepad); break;
+                case 2: Notepad.OpenInFileExplorer?.Invoke(Notepad); break;
                 case 3: DeleteFile(); break;
-                case 4: OpenInNewWindowCallback?.Invoke(this); break;
+                case 4: Notepad.OpenInNewWindowCallback?.Invoke(Notepad); break;
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Close?.Invoke(this);
+            Notepad.Close?.Invoke(Notepad);
         }
 
         private void ControlMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
-                Close?.Invoke(this);
+                Notepad.Close?.Invoke(Notepad);
         }
 
         private void GripLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
@@ -116,7 +112,7 @@ namespace Notepad2.Notepad
             string fileName = Notepad.Document.FilePath;
             if (File.Exists(Notepad.Document.FilePath))
                 Task.Run(() => RecycleBin.SilentSend(fileName));
-            Close?.Invoke(this);
+            Notepad.Close?.Invoke(Notepad);
         }
 
         private void SetFileExtensionsClicks(object sender, RoutedEventArgs e)
@@ -128,7 +124,7 @@ namespace Notepad2.Notepad
 
         private void OpenInAnotherWindow(object sender, RoutedEventArgs e)
         {
-            OpenInNewWindowCallback?.Invoke(this);
+            Notepad.OpenInNewWindowCallback?.Invoke(Notepad);
         }
 
         private void ShowPropertiesClick(object sender, RoutedEventArgs e)
@@ -145,6 +141,12 @@ namespace Notepad2.Notepad
                     ThisApplication.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
                 }
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            AnimationLib.OpacityControl(this, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
+            AnimationLib.MoveToTargetX(this, 0, -100, GlobalPreferences.ANIMATION_SPEED_SEC);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Notepad2.History
 {
     public class HistoryViewModel : BaseViewModel
     {
-        public ObservableCollection<HistoryControl> HistoryItems { get; set; }
+        public ObservableCollection<HistoryItemViewModel> HistoryItems { get; set; }
 
         public ICommand ReopenLastFileCommand { get; private set; }
         public ICommand ClearItemsCommand { get; private set; }
@@ -20,19 +20,19 @@ namespace Notepad2.History
 
         public HistoryViewModel()
         {
-            HistoryItems = new ObservableCollection<HistoryControl>();
+            HistoryItems = new ObservableCollection<HistoryItemViewModel>();
             ReopenLastFileCommand = new Command(ReopenLastFile);
             ClearItemsCommand = new Command(ClearItems);
         }
 
-        public void Push(HistoryControl hc)
+        public void Push(HistoryItemViewModel hc)
         {
             HistoryItems.Insert(0, hc);
         }
 
-        private HistoryControl Pop()
+        private HistoryItemViewModel Pop()
         {
-            HistoryControl hc = HistoryItems[0];
+            HistoryItemViewModel hc = HistoryItems[0];
             HistoryItems.Remove(hc);
             return hc;
         }
@@ -43,7 +43,7 @@ namespace Notepad2.History
         /// <param name="path"></param>
         public void FileClosed(TextDocumentViewModel notepad)
         {
-            HistoryControl item = CreateHistoryItem(notepad);
+            HistoryItemViewModel item = CreateHistoryItem(notepad);
             Push(item);
         }
 
@@ -54,29 +54,28 @@ namespace Notepad2.History
         {
             if (HistoryItems.Count > 0)
             {
-                HistoryControl hc = Pop();
+                HistoryItemViewModel hc = Pop();
                 if (hc != null)
                     ReopenFile(hc);
             }
         }
 
-        public void ReopenFile(HistoryControl hc)
+        public void ReopenFile(HistoryItemViewModel hc)
         {
-            OpenFileCallback?.Invoke(hc.Model);
+            OpenFileCallback?.Invoke(hc.TextDocument);
         }
 
-        private void UserReopenFile(HistoryControl hc)
+        private void UserReopenFile(HistoryItemViewModel history)
         {
-            HistoryItems.Remove(hc);
-            OpenFileCallback?.Invoke(hc.Model);
+            HistoryItems.Remove(history);
+            OpenFileCallback?.Invoke(history.TextDocument);
         }
 
-        private HistoryControl CreateHistoryItem(TextDocumentViewModel notepad)
+        private HistoryItemViewModel CreateHistoryItem(TextDocumentViewModel notepad)
         {
-            HistoryControl hc = new HistoryControl()
+            HistoryItemViewModel hc = new HistoryItemViewModel()
             {
-                ReopenFileCallback = UserReopenFile,
-                Model = notepad
+                ReopenFileCallback = UserReopenFile
             };
             return hc;
         }

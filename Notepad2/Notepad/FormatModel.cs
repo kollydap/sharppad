@@ -22,20 +22,20 @@ namespace Notepad2.Notepad
             set
             {
                 if (value <= GlobalPreferences.MAX_FONT_SIZE)
-                    RaisePropertyChanged(ref _size, value /*, FontSizeChanged*/);
+                    RaisePropertyChanged(ref _size, value);
             }
+        }
+
+        public FontFamily Family
+        {
+            get => _family;
+            set => RaisePropertyChanged(ref _family, value);
         }
 
         public FontStyle Style
         {
             get => _style;
             set => RaisePropertyChanged(ref _style, value);
-        }
-
-        public FontFamily Family
-        {
-            get => _family;
-            set => RaisePropertyChanged(ref _family, value /*, FontFamilyChanged*/);
         }
 
         public FontWeight Weight
@@ -50,7 +50,7 @@ namespace Notepad2.Notepad
             set => RaisePropertyChanged(ref _decoration, value);
         }
 
-        public string StrDecoration
+        public string DecorationReadable
         {
             get => _strDecoration;
             set => RaisePropertyChanged(ref _strDecoration, value, () =>
@@ -92,7 +92,7 @@ namespace Notepad2.Notepad
 
         public FormatModel()
         {
-            StrDecoration = "None";
+            DecorationReadable = "None";
         }
     }
 }

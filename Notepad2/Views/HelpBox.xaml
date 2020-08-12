@@ -46,6 +46,7 @@
                         <TextBlock Text="CTRL + X           - Cut Text or Line" ToolTip="Dont select any text to cut the entire line"/>
                         <TextBlock Text="CTRL + C           - Copy Text or Line" ToolTip="Dont select any text to copy the entire line"/>
                         <TextBlock Text="CTRL + Shift + A   - Select entire Line"/>
+                        <TextBlock Text="CTRL + Shift + Del - Delete entire Line"/>
                         <TextBlock Text="CTRL + Up Arrow    - Scroll Up"/>
                         <TextBlock Text="CTRL + Down Arrow  - Scroll Down"/>
                         <TextBlock Text="CTRL + Left Arrow  - Scroll Left"/>

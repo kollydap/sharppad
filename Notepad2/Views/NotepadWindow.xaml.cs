@@ -471,39 +471,14 @@ namespace Notepad2.Views
             WindowFocusedCallback?.Invoke(this);
         }
 
-        public void AnimateNotepadItem(NotepadListItem nli, AnimationFlag flag)
-        {
-            switch (flag)
-            {
-                case AnimationFlag.NotepadItemOPEN:
-                    AnimationLib.OpacityControl(nli, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
-                    AnimationLib.MoveToTargetX(nli, 0, -ActualWidth, GlobalPreferences.ANIMATION_SPEED_SEC);
-                    break;
-
-                //Cant really do this. Animations are async so i'd have to have a timed delay when
-                //removing the item from the NotepadList, which would be... a bit complex.
-                //If anyone wants to try and add that delay (using tasks maybe, have a go)
-                //(and msg me or something with the code, and ill add it)
-                case AnimationFlag.NotepadItemCLOSE:
-                    //AnimationLib.OpacityControl(nli, 1, 0, AnimationSpeedSeconds);
-                    //AnimationLib.MoveToTargetX(nli, -ActualWidth, 0, AnimationSpeedSeconds * 15);
-                    //
-                    //Task.Run(async () =>
-                    //{
-                    //    await Task.Delay(TimeSpan.FromSeconds(AnimationSpeedSeconds));
-                    //    await Application.Current.Dispatcher.InvokeAsync(() => { Notepad.NotepadItems.Remove(nli); });
-                    //});
-                    break;
-            }
-        }
-
+        // idk why i dont add this to the NotepadViewModel... cant be bothered i guess xddd
         public void HighlightFindResult(FindResult result)
         {
             try
             {
-                if (findList.ItemsSource is ObservableCollection<FindResultItem> items)
+                if (findList.ItemsSource is ObservableCollection<FindResultItemViewModel> items)
                 {
-                    if (findList.SelectedItem is FindResultItem fri)
+                    if (findList.SelectedItem is FindResultItemViewModel fri)
                     {
                         int itemIndex = findList.SelectedIndex;
                         items.Remove(fri);

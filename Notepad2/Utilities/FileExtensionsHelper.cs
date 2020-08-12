@@ -18,12 +18,53 @@
             if (hasExtension)
             {
                 string[] dotSplits = fileName.Split('.');
-                int charsToRemoveCount = dotSplits[dotSplits.Length - 1].Length + 1;
-                string fileNameNoExtension = fileName.Substring(0, fileName.Length - charsToRemoveCount);
-                return fileNameNoExtension + extUid;
+                string finalExtensionMaybe = dotSplits[dotSplits.Length - 1];
+
+
+                // Would have removed unnessesary dots at the end of the file name
+                // but it doesnt really work well... :(
+
+                //int numOfUnnessesaryPeriods = 0;
+                //// Checks how many extra .'s there are on the end of the file name
+                //foreach(string dotSplit in dotSplits)
+                //{
+                //    if (dotSplit == "")
+                //        numOfUnnessesaryPeriods++;
+                //}
+
+                //// Removes extra .'s from the file name
+                //if (finalExtensionMaybe == "")
+                //{
+                //    finalName = finalName.Remove(finalName.Length - 1 - numOfUnnessesaryPeriods, numOfUnnessesaryPeriods);
+                //}
+
+                if (CheckIsValidExtension("." + finalExtensionMaybe))
+                {
+                    //add 1 to include the . (dot)
+                    int charsToRemoveCount = finalExtensionMaybe.Length + 1;
+                    string fileNameNoExtension = fileName.Substring(0, fileName.Length - charsToRemoveCount);
+                    return fileNameNoExtension + extUid;
+                }
+                else
+                {
+                    return finalName += extUid;
+                }
             }
             else
                 return finalName += extUid;
+        }
+
+        public static bool CheckIsValidExtension(string possibleExtension)
+        {
+            foreach (string extensionThing in GlobalPreferences.PRESET_EXTENSIONS)
+            {
+                if (possibleExtension.Contains(extensionThing))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

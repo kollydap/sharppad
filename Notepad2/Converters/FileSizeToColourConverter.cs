@@ -12,13 +12,13 @@ namespace Notepad2.Converters
         {
             if (double.TryParse(value.ToString(), out double fileSizeKB))
             {
-                if (fileSizeKB < GlobalPreferences.WARN_FILE_SIZE_KB)
+                if (fileSizeKB < GlobalPreferences.WARN_FILE_SIZE_BYTES)
                     return Colors.Transparent;
                 else if (
-                    fileSizeKB > GlobalPreferences.WARN_FILE_SIZE_KB &&
-                    fileSizeKB < GlobalPreferences.ALERT_FILE_SIZE_KB)
+                    fileSizeKB > GlobalPreferences.WARN_FILE_SIZE_BYTES &&
+                    fileSizeKB < GlobalPreferences.ALERT_FILE_SIZE_BYTES)
                     return GlobalPreferences.WARN_FILE_TOO_BIG_COLOUR;
-                else if (fileSizeKB > GlobalPreferences.ALERT_FILE_SIZE_KB)
+                else if (fileSizeKB > GlobalPreferences.ALERT_FILE_SIZE_BYTES)
                     return GlobalPreferences.ALERT_FILE_TOO_BIG_COLOUR;
             }
             return Colors.Transparent;
@@ -26,7 +26,7 @@ namespace Notepad2.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (Color)value == Colors.Red ? GlobalPreferences.WARN_FILE_SIZE_KB : 0;
+            return (Color)value == Colors.Red ? GlobalPreferences.WARN_FILE_SIZE_BYTES : 0;
         }
     }
 }

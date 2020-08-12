@@ -1,16 +1,17 @@
 ﻿using Notepad2.Utilities;
+using System;
+using System.Runtime.Remoting.Messaging;
 
 namespace Notepad2.Notepad
 {
     public class DocumentModel : BaseViewModel
     {
-        public delegate void TextChangedEventArgs(string newText);
-        public event TextChangedEventArgs TextChanged;
+        internal Action TextChanged { private get; set; } 
 
         private string _text;
         private string _filePath;
         private string _fileName;
-        private double _fileSize;
+        private long _fileSize;
 
         public string Text
         {
@@ -18,8 +19,8 @@ namespace Notepad2.Notepad
             set
             {
                 RaisePropertyChanged(ref _text, value);
-                TextChanged?.Invoke(value);
-                FileSize = value.Length / 1000.0d;
+                TextChanged?.Invoke();
+                FileSizeBytes = value.Length;
             }
         }
 
@@ -35,22 +36,10 @@ namespace Notepad2.Notepad
             set => RaisePropertyChanged(ref _fileName, value);
         }
 
-        public double FileSize
+        public long FileSizeBytes
         {
             get => _fileSize;
             set => RaisePropertyChanged(ref _fileSize, value);
-        }
-
-        public bool IsEmpty
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(FileName) ||
-                    string.IsNullOrEmpty(FilePath))
-                    return true;
-
-                return false;
-            }
         }
     }
 }

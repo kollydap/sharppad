@@ -16,6 +16,7 @@ namespace Notepad2.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            // Assuming size the is in bytes not kb or higher
             if (value is long size)
             {
                 if (size == long.MaxValue)

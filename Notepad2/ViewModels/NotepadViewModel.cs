@@ -30,7 +30,7 @@ namespace Notepad2.ViewModels
         #region Private Fields
 
         private TextDocumentViewModel _notepad;
-        private NotepadListItem _selectedNotepadItem;
+        private TextDocumentViewModel _selectedNotepadItem;
         private FindViewModel _find;
         private int _selectedIndex;
         private bool _notepadAvaliable;
@@ -38,25 +38,19 @@ namespace Notepad2.ViewModels
 
         #endregion
 
-        #region Public Fields
+        #region Public Properties
 
         /// <summary>
-        /// Holds a list of <see cref="NotepadListItem"/>, for use in a ListBox
+        /// Holds a list of <see cref="TextDocumentViewModel"/>, for use in a ListBox
         /// (the one on the left side of the program)
         /// <para>
         /// Call this, "the list on the left"
         /// </para>
         /// </summary>
-        public ObservableCollection<NotepadListItem> NotepadItems { get; set; }
+        public ObservableCollection<TextDocumentViewModel> NotepadItems { get; set; }
 
         /// <summary>
-        /// Holds a list of information, statuses and errors 
-        /// for use in the list at the bottom of the program
-        /// </summary>
-        public ObservableCollection<InformationModel> InfoStatusErrorsItems { get; set; }
-
-        /// <summary>
-        /// The selected index of the currently selected <see cref="NotepadListItem"/>
+        /// The selected index of the currently selected <see cref="TextDocumentViewModel"/>
         /// </summary>
         public int SelectedIndex
         {
@@ -65,21 +59,21 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// The currently selected <see cref="NotepadListItem"/>
+        /// The currently selected <see cref="TextDocumentViewModel"/>
         /// </summary>
-        public NotepadListItem SelectedNotepadItem
+        public TextDocumentViewModel SelectedNotepadItem
         {
             get => _selectedNotepadItem;
             set => RaisePropertyChanged(ref _selectedNotepadItem, value, () =>
             {
-                Notepad = value?.Notepad;
+                Notepad = value;
                 UpdateSelectedNotepad();
             });
         }
 
         /// <summary>
         /// Says whether a notepad is avaliable (aka, if there's any 
-        /// <see cref="NotepadListItem"/>s in the list on the left)
+        /// <see cref="TextDocumentViewModel"/>s in the list on the left)
         /// </summary>
         public bool NotepadAvaliable
         {
@@ -114,6 +108,8 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _find, value);
         }
 
+        public InformationViewModel InformationView { get; set; }
+
         //unexpected communism
         /// <summary>
         /// A ViewModel used for binding to the clipboard
@@ -146,7 +142,6 @@ namespace Notepad2.ViewModels
         public ICommand MoveItemCommand { get; }
         public ICommand OpenInNewWindowCommand { get; }
         public ICommand PrintFileCommand { get; }
-        public ICommand ClearInfoItemsCommand { get; }
         public ICommand AutoShowFindMenuCommand { get; }
         public ICommand ShowHelpCommand { get; }
 
@@ -173,8 +168,8 @@ namespace Notepad2.ViewModels
             History = new HistoryViewModel();
             Preference = new PreferencesViewModel();
             OurClipboard = new ClipboardViewModel();
-            NotepadItems = new ObservableCollection<NotepadListItem>();
-            InfoStatusErrorsItems = new ObservableCollection<InformationModel>();
+            InformationView = new InformationViewModel();
+            NotepadItems = new ObservableCollection<TextDocumentViewModel>();
 
             SetupInformationHook();
             History.OpenFileCallback = ReopenNotepadFromHistory;
@@ -191,7 +186,6 @@ namespace Notepad2.ViewModels
             OpenInNewWindowCommand = new Command(OpenSelectedNotepadInNewWindow);
             PrintFileCommand = new Command(PrintFile);
             AutoShowFindMenuCommand = new Command(OpenFindWindow);
-            ClearInfoItemsCommand = new Command(ClearInfoItems);
             ShowHelpCommand = new Command(ThisApplication.ShowHelp);
 
             NewWindowCommand = new Command(NewWindow);
@@ -215,10 +209,10 @@ namespace Notepad2.ViewModels
             {
                 case "fn":
                     {
-                        List<NotepadListItem> sortedNames = NotepadItems.OrderBy(a => a.Notepad.Document.FileName).ToList();
+                        List<TextDocumentViewModel> sortedNames = NotepadItems.OrderBy(a => a.Document.FileName).ToList();
                         int index = SelectedIndex;
                         NotepadItems.Clear();
-                        foreach (NotepadListItem item in sortedNames)
+                        foreach (TextDocumentViewModel item in sortedNames)
                         {
                             NotepadItems.Add(item);
                         }
@@ -227,10 +221,10 @@ namespace Notepad2.ViewModels
                     break;
                 case "fs":
                     {
-                        List<NotepadListItem> sortedSizes = NotepadItems.OrderBy(a => a.Notepad.Document.FileSize).ToList();
+                        List<TextDocumentViewModel> sortedSizes = NotepadItems.OrderBy(a => a.Document.FileSizeBytes).ToList();
                         int index = SelectedIndex;
                         NotepadItems.Clear();
-                        foreach (NotepadListItem item in sortedSizes)
+                        foreach (TextDocumentViewModel item in sortedSizes)
                         {
                             NotepadItems.Add(item);
                         }
@@ -279,9 +273,9 @@ namespace Notepad2.ViewModels
         /// <returns></returns>
         public bool HasAnyNotepadMadeChanges()
         {
-            foreach (NotepadListItem nli in NotepadItems)
+            foreach (TextDocumentViewModel nli in NotepadItems)
             {
-                if (nli != null && nli.Notepad is TextDocumentViewModel fivm)
+                if (nli != null && nli is TextDocumentViewModel fivm)
                     if (fivm != null && fivm.HasMadeChanges)
                         return true;
             }
@@ -303,17 +297,16 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// Adds a <see cref="NotepadListItem"/> to the list on the left.
+        /// Adds a <see cref="TextDocumentViewModel"/> to the list on the left.
         /// </summary>
-        /// <param name="nli">A <see cref="NotepadListItem"/> to be added</param>
-        public void AddNotepadItem(NotepadListItem nli)
+        /// <param name="nli">A <see cref="TextDocumentViewModel"/> to be added</param>
+        public void AddNotepadItem(TextDocumentViewModel nli)
         {
             if (nli != null)
             {
-                nli.Notepad.HasMadeChanges = false;
+                nli.HasMadeChanges = false;
                 NotepadItems.Add(nli);
-                Information.Show($"Added FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
-                View.AnimateNotepadItem(nli, AnimationFlag.NotepadItemOPEN);
+                Information.Show($"Added FileItem: {nli.Document.FileName}", InfoTypes.FileIO);
             }
         }
 
@@ -323,14 +316,14 @@ namespace Notepad2.ViewModels
         /// </summary>
         public void AddStartupItem()
         {
-            NotepadListItem nli = CreateDefaultStyleNotepadItem("", $"new{NotepadItems.Count}.txt", null);
+            TextDocumentViewModel nli = CreateDefaultStyleNotepadItem("", $"new{NotepadItems.Count}.txt", null);
             AddNotepadItem(nli);
             SelectedNotepadItem = nli;
         }
 
         public void AddNotepadFromViewModel(TextDocumentViewModel notepad)
         {
-            NotepadListItem nli = CreateNotepadItemFromViewModel(notepad);
+            TextDocumentViewModel nli = CreateNotepadItemFromViewModel(notepad);
             AddNotepadItem(nli);
             SelectedNotepadItem = nli;
         }
@@ -340,23 +333,23 @@ namespace Notepad2.ViewModels
         #region Closing Notepads
 
         /// <summary>
-        /// if the given <see cref="NotepadListItem"/> is inside 
+        /// if the given <see cref="TextDocumentViewModel"/> is inside 
         /// the list on the left, this will remove it.
         /// </summary>
-        /// <param name="nli">The <see cref="NotepadListItem"/> to be removed</param>
-        public void CloseNotepadItem(NotepadListItem nli)
+        /// <param name="nli">The <see cref="TextDocumentViewModel"/> to be removed</param>
+        public void CloseNotepadItem(TextDocumentViewModel nli)
         {
             CloseNotepadItem(nli, true);
         }
 
         /// <summary>
-        /// if the given <see cref="NotepadListItem"/> is inside 
+        /// if the given <see cref="TextDocumentViewModel"/> is inside 
         /// the list on the left, this will remove it.
         /// </summary>
-        /// <param name="nli">The <see cref="NotepadListItem"/> to be removed</param>
-        public void CloseNotepadItem(NotepadListItem nli, bool checkHasSavedFile = true)
+        /// <param name="nli">The <see cref="TextDocumentViewModel"/> to be removed</param>
+        public void CloseNotepadItem(TextDocumentViewModel nli, bool checkHasSavedFile = true)
         {
-            if (checkHasSavedFile && nli.Notepad.HasMadeChanges)
+            if (checkHasSavedFile && nli.HasMadeChanges)
             {
                 MessageBoxResult mbr = MessageBox.Show(
                     "You have unsaved work. Do you want to save it/them?",
@@ -365,19 +358,19 @@ namespace Notepad2.ViewModels
                     MessageBoxImage.Information);
 
                 if (mbr == MessageBoxResult.Yes)
-                    SaveNotepad(nli.Notepad);
+                    SaveNotepad(nli);
             }
             //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             RemoveNotepadItem(nli);
-            History.FileClosed(nli.Notepad);
-            Information.Show($"Removed FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
+            History.FileClosed(nli);
+            Information.Show($"Removed FileItem: {nli.Document.FileName}", InfoTypes.FileIO);
             UpdateSelectedNotepad();
         }
 
         // NotepadListItems would've had a shutdown method for
         // getting rid of static handlers or other things...
 
-        public void RemoveNotepadItem(NotepadListItem nli)
+        public void RemoveNotepadItem(TextDocumentViewModel nli)
         {
             //nli?.Shutdown();
             NotepadItems?.Remove(nli);
@@ -387,7 +380,7 @@ namespace Notepad2.ViewModels
         {
             //if (NotepadItems != null)
             //{
-            //    foreach (NotepadListItem nli in NotepadItems)
+            //    foreach (TextDocumentViewModel nli in NotepadItems)
             //    {
             //        nli.Shutdown();
             //    }
@@ -435,14 +428,14 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// Creates and returns completely default <see cref="NotepadListItem"/>, with preset fonts,
+        /// Creates and returns completely default <see cref="TextDocumentViewModel"/>, with preset fonts,
         /// fontsizes, etc, ready to be added to the list on the left.
         /// </summary>
         /// <param name="text">The text the Notepad Item will have</param>
         /// <param name="itemName">The header/name of the Notepad Item</param>
         /// <param name="itemPath">The file path of the Notepad Item</param>
         /// <returns></returns>
-        public NotepadListItem CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath)
+        public TextDocumentViewModel CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath)
         {
             FontFamily font = GetDefaultFont();
             double fontSize = GetDefaultFontSize();
@@ -458,16 +451,16 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// Creates a <see cref="NotepadListItem"/> with the given parameters.
+        /// Creates a <see cref="TextDocumentViewModel"/> with the given parameters.
         /// </summary>
         /// <param name="text">The text the Notepad Item will have</param>
         /// <param name="fileName">The header/name of the Notepad Item</param>
         /// <param name="filePath">The file path of the Notepad Item</param>
         /// <param name="fm">The styles the Notepad Item will have</param>
         /// <returns></returns>
-        public NotepadListItem CreateNotepadItem(string text, string fileName, string filePath, FormatModel fm)
+        public TextDocumentViewModel CreateNotepadItem(string text, string fileName, string filePath, FormatModel fm)
         {
-            NotepadListItem nli = new NotepadListItem();
+            TextDocumentViewModel nli = new TextDocumentViewModel();
             TextDocumentViewModel fivm = new TextDocumentViewModel();
 
             fivm.Document.Text = text;
@@ -478,21 +471,21 @@ namespace Notepad2.ViewModels
             fivm.FindResults.NextTextFoundCallback = OnNextTextFound;
             fivm.HasMadeChanges = false;
 
-            nli.Notepad = fivm;
+            nli = fivm;
             SetupNotepadItemCallbacks(nli);
 
             return nli;
         }
 
-        public NotepadListItem CreateNotepadItemFromViewModel(TextDocumentViewModel notepad)
+        public TextDocumentViewModel CreateNotepadItemFromViewModel(TextDocumentViewModel notepad)
         {
-            NotepadListItem nli = new NotepadListItem();
-            nli.Notepad = notepad;
+            TextDocumentViewModel nli = new TextDocumentViewModel();
+            nli = notepad;
             SetupNotepadItemCallbacks(nli);
             return nli;
         }
 
-        public void SetupNotepadItemCallbacks(NotepadListItem nli)
+        public void SetupNotepadItemCallbacks(TextDocumentViewModel nli)
         {
             nli.OpenInFileExplorer = OpenNotepadItemInFileExplorer;
             nli.Close = CloseNotepadItem;
@@ -505,15 +498,15 @@ namespace Notepad2.ViewModels
 
         /// <summary>
         /// Sets the selected <see cref="TextDocumentViewModel"/> using 
-        /// the selected <see cref="NotepadListItem"/>, and also other stuff
+        /// the selected <see cref="TextDocumentViewModel"/>, and also other stuff
         /// </summary>
         private void UpdateSelectedNotepad()
         {
-            NotepadListItem item = SelectedNotepadItem;
+            TextDocumentViewModel item = SelectedNotepadItem;
             if (item != null)
             {
                 OpenNotepadItem(item);
-                Find = item.Notepad.FindResults;
+                Find = item.FindResults;
             }
             UpdateOthers();
         }
@@ -536,12 +529,12 @@ namespace Notepad2.ViewModels
 
         /// <summary>
         /// Opens Windows File Explorer and selects the item who's 
-        /// path is inside of the given <see cref="NotepadListItem"/>
+        /// path is inside of the given <see cref="TextDocumentViewModel"/>
         /// </summary>
         /// <param name="nli"></param>
-        public void OpenNotepadItemInFileExplorer(NotepadListItem nli)
+        public void OpenNotepadItemInFileExplorer(TextDocumentViewModel nli)
         {
-            if (nli != null && nli.Notepad is TextDocumentViewModel fivm)
+            if (nli != null && nli is TextDocumentViewModel fivm)
             {
                 if (fivm != null)
                 {
@@ -563,11 +556,11 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void OpenNotepadItem(NotepadListItem notepadItem)
+        public void OpenNotepadItem(TextDocumentViewModel notepadItem)
         {
-            if (notepadItem?.Notepad != null)
+            if (notepadItem != null)
             {
-                Notepad = notepadItem.Notepad;
+                Notepad = notepadItem;
             }
         }
 
@@ -640,7 +633,7 @@ namespace Notepad2.ViewModels
                 {
                     string text = NotepadActions.ReadFile(path);
                     bool doOpenFile;
-                    if (text.Length > (GlobalPreferences.WARN_FILE_SIZE_KB * 1000 /* kb to byte */))
+                    if (text.Length > (GlobalPreferences.WARN_FILE_SIZE_BYTES * 1000 /* kb to byte */))
                     {
                         doOpenFile =
                             MessageBox.Show(
@@ -654,7 +647,7 @@ namespace Notepad2.ViewModels
 
                     if (doOpenFile)
                     {
-                        NotepadListItem item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
+                        TextDocumentViewModel item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
                         AddNotepadItem(item);
                         Information.Show($"Opened file: {path}", InfoTypes.FileIO);
                         if (selectFile && item != null)
@@ -787,9 +780,9 @@ namespace Notepad2.ViewModels
         public void SaveAllNotepadItems()
         {
             if (NotepadAvaliable)
-                foreach (NotepadListItem nli in NotepadItems)
+                foreach (TextDocumentViewModel nli in NotepadItems)
                 {
-                    if (nli.Notepad is TextDocumentViewModel fivm)
+                    if (nli is TextDocumentViewModel fivm)
                         SaveNotepad(fivm);
                 }
         }
@@ -873,7 +866,7 @@ namespace Notepad2.ViewModels
                 newIndex >= 0 &&
                 newIndex < NotepadItems.Count)
             {
-                NotepadListItem item = NotepadItems[oldIndex];
+                TextDocumentViewModel item = NotepadItems[oldIndex];
                 NotepadItems.Remove(item);
                 NotepadItems.Insert(newIndex, item);
                 SelectedIndex = newIndex;
@@ -888,12 +881,7 @@ namespace Notepad2.ViewModels
 
         private void Information_InformationAdded(InformationModel e)
         {
-            InfoStatusErrorsItems.Insert(0, e);
-        }
-
-        private void ClearInfoItems()
-        {
-            InfoStatusErrorsItems.Clear();
+            InformationView.AddInformation(e);
         }
 
         #endregion
@@ -954,22 +942,22 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void OpenNotepadItemInNewWindow(NotepadListItem nli)
+        public void OpenNotepadItemInNewWindow(TextDocumentViewModel nli)
         {
             if (nli != null)
             {
-                if (File.Exists(nli.Notepad.Document.FilePath))
+                if (File.Exists(nli.Document.FilePath))
                 {
-                    ThisApplication.OpenFileInNewWindow(nli.Notepad.Document.FilePath);
-                    Information.Show($"Opened {nli.Notepad.Document.FileName} in another window", InfoTypes.Information);
+                    ThisApplication.OpenFileInNewWindow(nli.Document.FilePath);
+                    Information.Show($"Opened {nli.Document.FileName} in another window", InfoTypes.Information);
                     CloseNotepadItem(nli, false);
                 }
                 else
                 {
-                    string tempFilePath = Path.Combine(Path.GetTempPath(), nli.Notepad.Document.FileName);
-                    File.WriteAllText(tempFilePath, nli.Notepad.Document.Text);
+                    string tempFilePath = Path.Combine(Path.GetTempPath(), nli.Document.FileName);
+                    File.WriteAllText(tempFilePath, nli.Document.Text);
                     ThisApplication.OpenFileInNewWindow(tempFilePath);
-                    Information.Show($"Opened {nli.Notepad.Document.FileName} in another window", InfoTypes.Information);
+                    Information.Show($"Opened {nli.Document.FileName} in another window", InfoTypes.Information);
                     CloseNotepadItem(nli, false);
                     File.Delete(tempFilePath);
                 }
@@ -993,6 +981,10 @@ namespace Notepad2.ViewModels
         }
     }
 }
+
+
+
+
 
 
 

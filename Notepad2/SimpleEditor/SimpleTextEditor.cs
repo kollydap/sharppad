@@ -26,7 +26,13 @@ namespace Notepad2.SimpleEditor
                         case Key.A:
                             if (!PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A)
                                 break;
+
                             SelectEntireCurrentLine();
+                            break;
+
+                        case Key.Delete:
+                            SelectEntireCurrentLine();
+                            SelectedText = "";
                             break;
                     }
                 }

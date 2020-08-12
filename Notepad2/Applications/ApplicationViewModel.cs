@@ -9,6 +9,10 @@ using System.Windows.Input;
 
 namespace Notepad2.Applications
 {
+    /// <summary>
+    /// Not technically an MVVM view model, but this 
+    /// class manages windows. (not so) simple enough
+    /// </summary>
     public class ApplicationViewModel : BaseViewModel
     {
         public List<NotepadWindow> NotepadWindows { get; set; }

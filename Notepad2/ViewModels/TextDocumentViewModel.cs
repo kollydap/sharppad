@@ -1,6 +1,7 @@
 ﻿using Notepad2.Finding;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
+using System;
 
 namespace Notepad2.ViewModels
 {
@@ -55,6 +56,10 @@ namespace Notepad2.ViewModels
         //    LinesCounter.UpdateDocuments(Document, DocumentFormat);
         //}
 
+        public Action<TextDocumentViewModel> Close { get; set; }
+        public Action<TextDocumentViewModel> OpenInFileExplorer { get; set; }
+        public Action<TextDocumentViewModel> OpenInNewWindowCallback { get; set; }
+
         public TextDocumentViewModel()
         {
             //LinesCounter = new TextEditorLinesViewModel();
@@ -62,10 +67,10 @@ namespace Notepad2.ViewModels
             Document = new DocumentModel();
             FindResults = new FindViewModel(Document);
             HasMadeChanges = false;
-            Document.TextChanged += TextChanged;
+            Document.TextChanged = TextChanged;
         }
 
-        private void TextChanged(string newText)
+        private void TextChanged()
         {
             HasMadeChanges = true;
         }

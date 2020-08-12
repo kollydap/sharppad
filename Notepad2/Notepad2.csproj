@@ -94,17 +94,26 @@
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
+    <Compile Include="Finding\FindResultItemControl.xaml.cs">
+      <DependentUpon>FindResultItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Finding\FindResultItemViewModel.cs" />
     <Compile Include="Finding\FindSettings.cs" />
     <Compile Include="History\HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="History\HistoryItemViewModel.cs" />
     <Compile Include="History\WindowHistoryControl.xaml.cs">
       <DependentUpon>WindowHistoryControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="History\WindowHistoryViewModel.cs" />
+    <Compile Include="InformationStuff\InformationItemControl.xaml.cs">
+      <DependentUpon>InformationItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InformationStuff\InformationViewModel.cs" />
     <Compile Include="Interfaces\IMainView.cs" />
     <Compile Include="Interfaces\IView.cs" />
-    <Compile Include="Notepad\FilePropertiesHelper.cs" />
+    <Compile Include="Utilities\FilePropertiesHelper.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">
       <DependentUpon>FilePropertiesWindow.xaml</DependentUpon>
@@ -130,12 +139,6 @@
     <Compile Include="FileExplorer\Structs\ShellFileInfo.cs" />
     <Compile Include="Finding\CharacterFinder.cs" />
     <Compile Include="Finding\FindResult.cs" />
-    <Compile Include="Finding\FindResultItem.xaml.cs">
-      <DependentUpon>FindResultItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="InformationStuff\InformationListItem.xaml.cs">
-      <DependentUpon>InformationListItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="InformationStuff\InformationModel.cs" />
     <Compile Include="InformationStuff\InfoTypes.cs" />
     <Compile Include="Notepad\DocumentModel.cs" />
@@ -207,11 +210,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Finding\FindResultItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="History\HistoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="History\WindowHistoryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InformationStuff\InformationItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,14 +237,6 @@
     <Page Include="SimpleEditor\SimpleTextEditorStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Finding\FindResultItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="InformationStuff\InformationListItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

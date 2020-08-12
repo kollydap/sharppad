@@ -11,13 +11,11 @@ namespace Notepad2.History
     /// </summary>
     public partial class HistoryControl : UserControl
     {
-        public TextDocumentViewModel Model
+        public HistoryItemViewModel Model
         {
-            get => this.DataContext as TextDocumentViewModel;
+            get => this.DataContext as HistoryItemViewModel;
             set => this.DataContext = value;
         }
-
-        public Action<HistoryControl> ReopenFileCallback { get; set; }
 
         public HistoryControl()
         {
@@ -26,12 +24,12 @@ namespace Notepad2.History
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ReopenFileCallback?.Invoke(this);
+            Model.ReopenFile();
         }
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ReopenFileCallback?.Invoke(this);
+            Model.ReopenFile();
         }
     }
 }

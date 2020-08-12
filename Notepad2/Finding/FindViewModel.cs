@@ -12,24 +12,10 @@ namespace Notepad2.Finding
 {
     public class FindViewModel : BaseViewModel
     {
-        private int _selectedIndex;
-        private FindResultItem _selectedItem;
         private string _findWhatText;
         private bool _matchCase;
 
-        public ObservableCollection<FindResultItem> FoundItems { get; set; }
-
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => RaisePropertyChanged(ref _selectedIndex, value);
-        }
-
-        public FindResultItem SelectedItem
-        {
-            get => _selectedItem;
-            set => RaisePropertyChanged(ref _selectedItem, value);
-        }
+        public ObservableCollection<FindResultItemViewModel> FoundItems { get; set; }
 
         public string FindWhatText
         {
@@ -54,7 +40,7 @@ namespace Notepad2.Finding
 
         public FindViewModel(DocumentModel document)
         {
-            FoundItems = new ObservableCollection<FindResultItem>();
+            FoundItems = new ObservableCollection<FindResultItemViewModel>();
             FindOccourancesCommand = new Command(StartFind);
             CancelCommand = new Command(Cancel);
             Document = document;
@@ -94,8 +80,9 @@ namespace Notepad2.Finding
                     foreach (FindResult result in text.FindTextOccurrences(FindWhatText, settings))
                     {
                         result.PreviewFoundText = result.PreviewFoundText.Replace(Environment.NewLine, @"[\n]");
-                        FindResultItem fri = new FindResultItem(result)
+                        FindResultItemViewModel fri = new FindResultItemViewModel()
                         {
+                            Result = result,
                             HighlightCallback = Hightlight
                         };
                         FoundItems.Add(fri);
@@ -107,9 +94,9 @@ namespace Notepad2.Finding
             }
         }
 
-        private void Hightlight(FindResultItem fri)
+        private void Hightlight(FindResult fri)
         {
-            NextTextFoundCallback?.Invoke(fri.Result);
+            NextTextFoundCallback?.Invoke(fri);
         }
     }
 }

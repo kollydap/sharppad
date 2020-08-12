@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
-using System.ComponentModel;
 
-namespace Notepad2.Notepad
+namespace Notepad2.Utilities
 {
     public static class FilePropertiesHelper
     {

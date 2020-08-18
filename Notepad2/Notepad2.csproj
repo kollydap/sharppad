@@ -77,6 +77,7 @@
     <Compile Include="Applications\Controls\WindowPreviewControl.xaml.cs">
       <DependentUpon>WindowPreviewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Applications\Controls\WindowPreviewControlViewModel.cs" />
     <Compile Include="Applications\ThisApplication.cs" />
     <Compile Include="Applications\WindowManager.xaml.cs">
       <DependentUpon>WindowManager.xaml</DependentUpon>
@@ -103,16 +104,19 @@
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="History\HistoryItemViewModel.cs" />
-    <Compile Include="History\WindowHistoryControl.xaml.cs">
+    <Compile Include="Applications\History\WindowHistoryControl.xaml.cs">
       <DependentUpon>WindowHistoryControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="History\WindowHistoryViewModel.cs" />
+    <Compile Include="Applications\History\WindowHistoryControlViewModel.cs" />
+    <Compile Include="Applications\History\WindowHistoryViewModel.cs" />
     <Compile Include="InformationStuff\InformationItemControl.xaml.cs">
       <DependentUpon>InformationItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="InformationStuff\InformationViewModel.cs" />
     <Compile Include="Interfaces\IMainView.cs" />
     <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="Notepad\DragDropping\DragDropNameHelper.cs" />
+    <Compile Include="Notepad\DragDropping\FileWatchers.cs" />
     <Compile Include="Utilities\FilePropertiesHelper.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">
@@ -122,7 +126,7 @@
     <Compile Include="Preferences\Views\PreferencesWindow.xaml.cs">
       <DependentUpon>PreferencesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SimpleEditor\SimpleTextEditor.cs" />
+    <Compile Include="SimpleEditor\TextEditor.cs" />
     <Compile Include="FileExplorer\BaseObject.cs" />
     <Compile Include="FileExplorer\Enums\FileAttribute.cs" />
     <Compile Include="FileExplorer\Enums\IconSize.cs" />
@@ -218,7 +222,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="History\WindowHistoryControl.xaml">
+    <Page Include="Applications\History\WindowHistoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,7 +238,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SimpleEditor\SimpleTextEditorStyles.xaml">
+    <Page Include="SimpleEditor\TextEditorStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -332,7 +336,6 @@
   <ItemGroup>
     <Resource Include="Resources\copy.png" />
     <Resource Include="Resources\cut.png" />
-    <Resource Include="Resources\paste.png" />
     <Resource Include="Resources\redo.png" />
     <Resource Include="Resources\undo.png" />
   </ItemGroup>
@@ -388,6 +391,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\binCan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\paste.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

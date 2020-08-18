@@ -15,6 +15,8 @@ namespace Notepad2.Applications
 {
     public static class ThisApplication
     {
+        public static List<NotepadWindow> NotepadWindows { get; set; }
+        public static NotepadWindow FocusedWindow { get; set; }
         public static ApplicationViewModel App { get; private set; }
         public static WindowManager WindowPreviews { get; private set; }
         public static FilePropertiesWindow PropertiesView { get; private set; }
@@ -22,6 +24,7 @@ namespace Notepad2.Applications
 
         public static void Startup(string[] args)
         {
+            NotepadWindows = new List<NotepadWindow>();
             Help = new HelpBox();
             App = new ApplicationViewModel(args);
             WindowPreviews = new WindowManager();

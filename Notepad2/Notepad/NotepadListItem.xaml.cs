@@ -1,11 +1,11 @@
 ﻿using Notepad2.Applications;
 using Notepad2.FileExplorer;
 using Notepad2.InformationStuff;
+using Notepad2.Notepad.DragDropping;
+using Notepad2.Preferences;
 using Notepad2.RecyclingBin;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
-using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -70,7 +70,7 @@ namespace Notepad2.Notepad
                 {
                     try
                     {
-                        if (File.Exists(notepad.Document.FilePath))
+                        if (notepad.Document.FilePath.IsFile())
                         {
                             string[] path1 = new string[1] { notepad.Document.FilePath };
                             SetDraggingStatus(true);
@@ -79,13 +79,25 @@ namespace Notepad2.Notepad
                         }
                         else
                         {
-                            string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
-                            File.WriteAllText(tempFilePath, notepad.Document.Text);
-                            string[] path = new string[1] { tempFilePath };
-                            SetDraggingStatus(true);
-                            DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
-                            File.Delete(tempFilePath);
-                            SetDraggingStatus(false);
+                            if (PreferencesG.USE_NEW_DRAGDROP_SYSTEM)
+                            {
+                                FileWatchers.DoingDragDrop(Notepad);
+                                string prefixedPath = Path.Combine(Path.GetTempPath(), DragDropNameHelper.GetPrefixedFileName(notepad.Document.FileName));
+                                string[] fileList = new string[] { prefixedPath };
+                                File.WriteAllText(prefixedPath, notepad.Document.Text);
+
+                                DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, fileList), DragDropEffects.Move);
+                            }
+                            else
+                            {
+                                string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
+                                File.WriteAllText(tempFilePath, notepad.Document.Text);
+                                string[] path = new string[1] { tempFilePath };
+                                SetDraggingStatus(true);
+                                DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
+                                File.Delete(tempFilePath);
+                                SetDraggingStatus(false);
+                            }
                         }
                     }
                     catch { }

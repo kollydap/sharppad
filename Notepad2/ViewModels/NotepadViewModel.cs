@@ -148,6 +148,7 @@ namespace Notepad2.ViewModels
         public ICommand NewWindowCommand { get; }
         public ICommand ReopenLastWindowCommand { get; }
         public ICommand CloseWindowCommand { get; }
+        public ICommand CloseViewWithCheckCommand { get; }
         public ICommand CloseAllWindowsCommand { get; }
 
         public ICommand ShowWindowManagerCommand { get; }
@@ -191,6 +192,7 @@ namespace Notepad2.ViewModels
             NewWindowCommand = new Command(NewWindow);
             ReopenLastWindowCommand = new Command(ReopenLastWindow);
             CloseWindowCommand = new Command(CloseWindow);
+            CloseViewWithCheckCommand = new Command(CloseWindowWithCheck);
             CloseAllWindowsCommand = new Command(CloseAllWindow);
             ShowWindowManagerCommand = new Command(ShowWindowManager);
 
@@ -351,14 +353,15 @@ namespace Notepad2.ViewModels
         {
             if (checkHasSavedFile && nli.HasMadeChanges)
             {
-                MessageBoxResult mbr = MessageBox.Show(
+                if (MessageBox.Show(
                     "You have unsaved work. Do you want to save it/them?",
                     "Unsaved Work",
                     MessageBoxButton.YesNo,
-                    MessageBoxImage.Information);
-
-                if (mbr == MessageBoxResult.Yes)
+                    MessageBoxImage.Information,
+                    MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
                     SaveNotepad(nli);
+                }
             }
             //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             RemoveNotepadItem(nli);
@@ -913,6 +916,20 @@ namespace Notepad2.ViewModels
             }
         }
 
+        public void CloseWindowWithCheck()
+        {
+            if (MessageBox.Show(
+                "Close Window?", 
+                "Close", 
+                MessageBoxButton.YesNo, 
+                MessageBoxImage.Information, 
+                MessageBoxResult.Yes) == MessageBoxResult.Yes)
+            {
+                ShutdownInformationHook();
+                ThisApplication.CloseWindowFromDataContext(this);
+            }
+        }
+
         public void CloseAllWindow()
         {
             // easier and faster than manually closing all windows.
@@ -981,12 +998,4 @@ namespace Notepad2.ViewModels
         }
     }
 }
-
-
-
-
-
-
-
-
 // hehe 1000 lines 

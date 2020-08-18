@@ -12,7 +12,8 @@
         xmlns:se="clr-namespace:Notepad2.SimpleEditor" 
         xmlns:notepad="clr-namespace:Notepad2.Notepad" 
         xmlns:history="clr-namespace:Notepad2.History" 
-        xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff" xmlns:finding="clr-namespace:Notepad2.Finding"
+        xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff" 
+        xmlns:finding="clr-namespace:Notepad2.Finding"
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
@@ -73,6 +74,7 @@
         </x:Array>
     </Window.Resources>
     <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewWithCheckCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}"/>
@@ -302,7 +304,7 @@
                               Margin="5,0,0,0" Width="110">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" TextDecorations="{Binding Converter={StaticResource textDecoConverter}}"/>
+                                <TextBlock Text="{Binding}" TextDecorations="{Binding Converter={StaticResource textDecoConverter}, FallbackValue=None}"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -526,14 +528,17 @@
                                           Width="225" 
                                           Background="{DynamicResource BackgroundColour}">
                                 <Grid>
+                                    <!-- ScrollViewer.CanContentScroll="False"  makes content scroll vertically by pixel not by content height -->
                                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
                                              Name="notepadLstBox" 
                                              HorizontalContentAlignment="Stretch" 
                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                             ScrollViewer.CanContentScroll="False"
                                              AllowDrop="True" 
-                                             Drop="ListBox_Drop" Margin="0,0,0,46" Background="{DynamicResource BackgroundColour}">
+                                             Drop="ListBox_Drop" Margin="0,0,0,46" 
+                                             Background="{DynamicResource BackgroundColour}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <notepad:NotepadListItem DataContext="{Binding}"/>
@@ -589,8 +594,8 @@
                                         <Image Source="/SharpPad;component/Resources/redo.png"/>
                                     </Button>
                                     <CheckBox Margin="5 0 0 0" Content="Auto-word Selection" 
-                                                  IsChecked="{Binding ElementName=MainTextBox, Path=AutoWordSelection}"
-                                                  ToolTip="Auto-selected words when you select text"/>
+                                              IsChecked="{Binding ElementName=MainTextBox, Path=AutoWordSelection}"
+                                              ToolTip="Auto-selected words when you select text"/>
                                 </StackPanel>
                             </GroupBox.Header>
                             <Grid Margin="0,0,0,0">
@@ -616,11 +621,11 @@
                                                         </Grid.InputBindings>
                                                         <TextBlock HorizontalAlignment="Left" Margin="5,11,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
                                                         <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
-                                                                     x:Name="findInputBox" Focusable="True"
-                                                                     VerticalContentAlignment="Center"
-                                                                     Padding="2" Height="28" Margin="64,5,70,0" 
-                                                                     TextWrapping="Wrap" VerticalAlignment="Top"
-                                                                     Loaded="findInputBox_Loaded">
+                                                                 x:Name="findInputBox" Focusable="True"
+                                                                 VerticalContentAlignment="Center"
+                                                                 Padding="2" Height="28" Margin="64,5,70,0" 
+                                                                 TextWrapping="Wrap" VerticalAlignment="Top"
+                                                                 Loaded="findInputBox_Loaded">
                                                             <TextBox.InputBindings>
                                                                 <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
                                                             </TextBox.InputBindings>
@@ -634,12 +639,10 @@
                                                                       Content="Match Capitalisation" VerticalAlignment="Top"/>
                                                         <Label Content="Found Results. (double-click to highlight)" Padding="0 5" VerticalAlignment="Top" Margin="5,55,5,0"/>
                                                         <ListBox Margin="5,81,5,5"
-                                                                     x:Name="findList"
-                                                                     HorizontalContentAlignment="Stretch"
-                                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                                                     ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}"
-                                                                     SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
-                                                                     SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}">
+                                                                 x:Name="findList"
+                                                                 HorizontalContentAlignment="Stretch"
+                                                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                                 ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}">
                                                             <ListBox.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <finding:FindResultItemControl DataContext="{Binding}"/>
@@ -677,7 +680,7 @@
                                                                    HorizontalAlignment="Left" DockPanel.Dock="Left" 
                                                                    MinWidth="16" TextAlignment="Center" Margin="2 0"/>
                                                         -->
-                                                    <se:SimpleTextEditor 
+                                                    <se:TextEditor 
                                                             x:Name="MainTextBox"
                                                             FontFamily="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
                                                             FontSize="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
@@ -703,20 +706,20 @@
                                                             PreviewMouseWheel="TextBox_MouseWheel"
                                                             SelectionChanged="MainTextBox_SelectionChanged"
                                                             SizeChanged="MainTextBox_SizeChanged" Background="{DynamicResource BackgroundColour}">
-                                                        <se:SimpleTextEditor.ContextMenu>
+                                                        <se:TextEditor.ContextMenu>
                                                             <ContextMenu OverridesDefaultStyle="False">
-                                                                <MenuItem Header="Cut"   Command="ApplicationCommands.Cut" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                <MenuItem Header="Copy"  Command="ApplicationCommands.Copy" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                <MenuItem Header="Paste" Command="ApplicationCommands.Paste" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Cut"   Command="ApplicationCommands.Cut"   Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Copy"  Command="ApplicationCommands.Copy"  Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Paste" Command="ApplicationCommands.Paste" Template="{DynamicResource SingleDropDownMenuItem}"/>
                                                                 <Separator Style="{DynamicResource MenuItemSeparator}"/>
-                                                                <MenuItem Header="Undo"  Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                                                                <MenuItem Header="Redo" InputGestureText="Ctrl+Shift+Z or Ctrl+Y" Command="ApplicationCommands.Redo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Undo"  Command="ApplicationCommands.Undo" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                                <MenuItem Header="Redo" InputGestureText="Ctrl+Shift+Z or Ctrl+Y" Command="ApplicationCommands.Redo" Template="{DynamicResource SingleDropDownMenuItem}"/>
                                                             </ContextMenu>
-                                                        </se:SimpleTextEditor.ContextMenu>
-                                                        <se:SimpleTextEditor.InputBindings>
+                                                        </se:TextEditor.ContextMenu>
+                                                        <se:TextEditor.InputBindings>
                                                             <KeyBinding Key="Z" Modifiers="Ctrl+Shift" Command="ApplicationCommands.Redo"/>
-                                                        </se:SimpleTextEditor.InputBindings>
-                                                    </se:SimpleTextEditor>
+                                                        </se:TextEditor.InputBindings>
+                                                    </se:TextEditor>
                                                     <Border x:Name="aditionalSelection"
                                                                 BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                                                                 Opacity="0.7"
@@ -732,9 +735,9 @@
                                     <DockPanel DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Height="20" VerticalAlignment="Bottom">
                                         <Grid Width="55">
                                             <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1"/>
-                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="4,0,0,0" Height="14" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Margin="4,3,0,3" Height="14" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
                                                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10.5"/>
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10" Height="14"/>
                                             </Grid>
                                         </Grid>
                                         <Grid>

@@ -17,7 +17,7 @@ namespace Notepad2.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return true;
+            return (Visibility)value == Visibility.Collapsed;
         }
     }
 }

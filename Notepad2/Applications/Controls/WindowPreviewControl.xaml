@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Notepad2.Applications.Controls"
              mc:Ignorable="d"
-             Height="59" Width="295" MaxWidth="295" Foreground="{DynamicResource ControlDefaultForeground}">
-    <Grid Background="Transparent" MouseDown="Grid_MouseDown">
+             Height="59" d:DesignWidth="300"
+             Foreground="{DynamicResource ControlDefaultForeground}">
+    <Grid Background="Transparent" MouseDown="Grid_MouseDown" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
         <Button Content="X" HorizontalAlignment="Right" Margin="0,3,0,0" VerticalAlignment="Top" Width="23" Height="23" Click="Button_Click" ToolTip="Close the window"/>
         <TextBlock Text="Selected File Name:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBlock Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged}" MaxHeight="16" 

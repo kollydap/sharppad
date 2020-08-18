@@ -25,6 +25,8 @@ namespace Notepad2.Preferences
 
         public static bool CLOSE_NOTEPADLIST_BY_DEFAULT { get; set; }
 
+        public static bool USE_NEW_DRAGDROP_SYSTEM { get; set; }
+
         public static void SaveToProperties()
         {
             Properties.Settings.Default.horzScrlShfMWhl    = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
@@ -44,6 +46,8 @@ namespace Notepad2.Preferences
             Properties.Settings.Default.canOpnWndCtrlShftT = CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T;
 
             Properties.Settings.Default.closeNLstOnStrt    = CLOSE_NOTEPADLIST_BY_DEFAULT;
+
+            Properties.Settings.Default.useNewDDSys        = USE_NEW_DRAGDROP_SYSTEM;
 
             Properties.Settings.Default.Save();
         }
@@ -67,6 +71,8 @@ namespace Notepad2.Preferences
             CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T        = Properties.Settings.Default.canOpnWndCtrlShftT;
 
             CLOSE_NOTEPADLIST_BY_DEFAULT            = Properties.Settings.Default.closeNLstOnStrt;
+
+            USE_NEW_DRAGDROP_SYSTEM                 = Properties.Settings.Default.useNewDDSys;
         }
     }
 }

@@ -9,7 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
-                <ResourceDictionary Source="SimpleEditor/SimpleTextEditorStyles.xaml"/>
+                <ResourceDictionary Source="SimpleEditor/TextEditorStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="ArrowButton" TargetType="Button">

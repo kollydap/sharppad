@@ -3,7 +3,6 @@ using Notepad2.FileExplorer.ShellClasses;
 using Notepad2.Finding;
 using Notepad2.InformationStuff;
 using Notepad2.Interfaces;
-using Notepad2.Notepad;
 using Notepad2.Preferences;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
@@ -122,15 +121,10 @@ namespace Notepad2.Views
             InitialiseTreeFileExplorer();
         }
 
-        public void LoadSettings(bool loadTheme = true, bool loadPosition = true, bool loadGlobalPreferencesG = true)
+        public void LoadSettings(bool loadTheme = true, bool loadGlobalPreferencesG = true)
         {
             if (loadGlobalPreferencesG)
                 PreferencesG.LoadFromProperties();
-            if (loadPosition)
-            {
-                this.Top = Properties.Settings.Default.Top;
-                this.Left = Properties.Settings.Default.Left;
-            }
             this.Height = Properties.Settings.Default.Height;
             this.Width = Properties.Settings.Default.Width;
             nListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
@@ -405,15 +399,11 @@ namespace Notepad2.Views
                     if (WindowState == WindowState.Maximized)
                     {
                         // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
-                        Properties.Settings.Default.Top = RestoreBounds.Top;
-                        Properties.Settings.Default.Left = RestoreBounds.Left;
                         Properties.Settings.Default.Height = RestoreBounds.Height;
                         Properties.Settings.Default.Width = RestoreBounds.Width;
                     }
                     else
                     {
-                        Properties.Settings.Default.Top = this.Top;
-                        Properties.Settings.Default.Left = this.Left;
                         Properties.Settings.Default.Height = this.Height;
                         Properties.Settings.Default.Width = this.Width;
                     }
@@ -471,7 +461,7 @@ namespace Notepad2.Views
             WindowFocusedCallback?.Invoke(this);
         }
 
-        // idk why i dont add this to the NotepadViewModel... cant be bothered i guess xddd
+        // idk why i dont add this to the NotepadViewModel... cant be bothered i guess xdddd
         public void HighlightFindResult(FindResult result)
         {
             try

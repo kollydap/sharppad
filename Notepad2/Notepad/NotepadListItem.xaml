@@ -17,7 +17,7 @@
              Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <converters:FileSizeFormatConverter x:Key="FileSizeFormatConverter"/>
-        <converters:TextChangedToUnsavedIndicatorConverter x:Key="tchanunsave"/>
+        <converters:TextChangedToUnsavedIndicatorConverter x:Key="BoolTohasChanged"/>
         <converters:FileSizeToColourConverter x:Key="fileSizeToColour"/>
     </UserControl.Resources>
     <UserControl.ContextMenu>
@@ -94,7 +94,7 @@
                      Background="Transparent" 
                      BorderBrush="Transparent"
                      Margin="2,2,41,0" Height="19" VerticalAlignment="Top"/>
-            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}"
+            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource BoolTohasChanged},FallbackValue=Unsaved}"
                        Width="60" 
                        HorizontalAlignment="Left" 
                        Margin="3,0,0,18" 
@@ -105,11 +105,11 @@
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.Background>
-                    <SolidColorBrush Color="{Binding Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}}" Opacity="0.2"/>
+                    <SolidColorBrush Color="{Binding Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}, FallbackValue=Transparent}" Opacity="0.2"/>
                 </Grid.Background>
                 <TextBlock Text="Chars:" VerticalAlignment="Center" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
-                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
-                <TextBlock Text="{Binding Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatConverter}}" VerticalAlignment="Center" Margin="1,1,2,1" FontSize="10" TextAlignment="Right" Grid.Column="1" Height="13"/>
+                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged, FallbackValue=Length}" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
+                <TextBlock Text="{Binding Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatConverter}, FallbackValue=SizeBytes}" VerticalAlignment="Center" Margin="1,1,2,1" FontSize="10" TextAlignment="Right" Grid.Column="1" Height="13"/>
             </Grid>
             <Button Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Margin="0,2,1,0" VerticalAlignment="Top" Width="20" Height="20" Click="Button_Click" FontSize="13" BorderThickness="1">
                 <Path SnapsToDevicePixels="False"

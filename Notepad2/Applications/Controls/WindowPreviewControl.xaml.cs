@@ -21,19 +21,16 @@ namespace Notepad2.Applications.Controls
     /// </summary>
     public partial class WindowPreviewControl : UserControl
     {
-        public NotepadViewModel Notepad
+        public WindowPreviewControlViewModel Preview
         {
-            get => this.DataContext as NotepadViewModel;
+            get => this.DataContext as WindowPreviewControlViewModel;
             set => this.DataContext = value;
         }
-
-        public Action<WindowPreviewControl> CloseCallback { get; set; }
-        public Action<NotepadViewModel> FocusWindowCallback { get; set; }
 
         public WindowPreviewControl(NotepadViewModel notepad)
         {
             InitializeComponent();
-            Notepad = notepad;
+            Preview.Notepad = notepad;
         }
 
         public WindowPreviewControl()
@@ -43,19 +40,19 @@ namespace Notepad2.Applications.Controls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CloseCallback?.Invoke(this);
+            Preview.Close();
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                FocusWindowCallback?.Invoke(Notepad);
+                Preview.FocusWindow();
             }
         }
         private void FocusWindowClick(object sender, RoutedEventArgs e)
         {
-            FocusWindowCallback?.Invoke(Notepad);
+            Preview.FocusWindow();
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿<Window
+﻿<Window x:Class="Notepad2.Notepad.FileProperties.FilePropertiesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad2.Notepad.FileProperties"
-        xmlns:Converters="clr-namespace:Notepad2.Converters" x:Class="Notepad2.Notepad.FileProperties.FilePropertiesWindow"
+        xmlns:Converters="clr-namespace:Notepad2.Converters"
         mc:Ignorable="d"
         Title="FilePropertiesWindow" 
         Height="470" Width="332"
@@ -45,13 +45,13 @@
                     <Label Content="Attributes:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,266,0,0"/>
                     <CheckBox Content="Read-only" IsChecked="{Binding IsReadOnlyAttribute, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" HorizontalAlignment="Left" Margin="80,266,0,0" VerticalAlignment="Top" Height="26" Width="80" Focusable="False"/>
                     <CheckBox Content="Hidden"    IsChecked="{Binding IsHiddenAttribute, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="165,266,0,0" VerticalAlignment="Top" Height="26" Focusable="False"/>
-                    <Button Command="{Binding ShowAdditionalInfoCommand}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}}" Content="Show Additional Info (Windows version)" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="32" Width="228"/>
+                    <Button Command="{Binding ShowAdditionalInfoCommand}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}, FallbackValue=False}" Content="Show Additional Info (Windows version)" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="32" Width="228"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <!-- these literally do the same thing lol -->
         <Button Command="{Binding CloseViewCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,0,85,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
         <Button Command="{Binding CloseViewCommand}" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,5,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
-        <Button Command="{Binding RefreshInfoCommand}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}}" Content="Refresh Info" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="80" Height="25"/>
+        <Button Command="{Binding RefreshInfoCommand}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}, FallbackValue=False}" Content="Refresh Info" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="80" Height="25"/>
     </Grid>
 </Window>

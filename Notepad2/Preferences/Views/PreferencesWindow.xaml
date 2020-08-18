@@ -17,8 +17,12 @@
                 <StackPanel IsEnabled="True">
                     <CheckBox Content="Close windows with Ctrl + W (shutdown app with shift too)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox Content="Reopen window with Ctrl + Shift + T" IsChecked="{Binding CanReopenWindowWithCtrlShiftT, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Separator Style="{DynamicResource MenuItemSeparator}"/>
-                    <CheckBox Content="(NOT USED) Close/Hide Notepads List (on left) by default" IsChecked="{Binding CloseNotepadListByDefault, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Separator/>
+                    <CheckBox Content="Use new DragDropping (Autodetect dropped location)" 
+                              ToolTip="When you dragdrop items a few file watchers will be made to look for where you dropped the file, and it will set your file's path as this. but it will only do this if the path DOES NOT exist. normal dropping (create same item in temp and copy to location) is used if the file exists or this option is disabled." 
+                              IsChecked="{Binding UseNewDragDropSystem, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content=" - The new drag dropping is buggy if you dragdrop many"/>
+                    <Label Content=" - items too quickly. add a 2 second delay between drops"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Text Editor">

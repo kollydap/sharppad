@@ -24,6 +24,8 @@ namespace Notepad2.Preferences.Views
 
         private bool _closeNotepadListByDefault;
 
+        private bool _useNewDragDropSystem;
+
         public bool ScrollVerticallyCtrlArrowKeys
         {
             get => _scrollVerticalCtrlArrows;
@@ -100,6 +102,12 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _closeNotepadListByDefault, value);
         }
 
+        public bool UseNewDragDropSystem
+        {
+            get => _useNewDragDropSystem;
+            set => RaisePropertyChanged(ref _useNewDragDropSystem, value);
+        }
+
         public PreferencesWindow PreferencesView { get; set; }
 
         public ICommand RefreshCommand { get; private set; }
@@ -151,6 +159,8 @@ namespace Notepad2.Preferences.Views
             CanReopenWindowWithCtrlShiftT    = PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T;
 
             CloseNotepadListByDefault        = PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT;
+
+            UseNewDragDropSystem             = PreferencesG.USE_NEW_DRAGDROP_SYSTEM;
         }
 
         public void UpdatePreferenceVariables()
@@ -172,6 +182,8 @@ namespace Notepad2.Preferences.Views
             PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T        = CanReopenWindowWithCtrlShiftT;
 
             PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT            = CloseNotepadListByDefault;
+
+            PreferencesG.USE_NEW_DRAGDROP_SYSTEM                 = UseNewDragDropSystem;
         }
 
         public void SavePreferences()

@@ -1,22 +1,18 @@
-﻿using Notepad2.ViewModels;
-using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Notepad2.History
+namespace Notepad2.Applications.History
 {
     /// <summary>
     /// Interaction logic for WindowHistoryControl.xaml
     /// </summary>
     public partial class WindowHistoryControl : UserControl
     {
-        public NotepadViewModel Model
+        public WindowHistoryControlViewModel Model
         {
-            get => this.DataContext as NotepadViewModel;
+            get => this.DataContext as WindowHistoryControlViewModel;
             set => this.DataContext = value;
         }
-
-        public Action<WindowHistoryControl> ReopenWindowCallback { get; set; }
 
         public WindowHistoryControl()
         {
@@ -25,12 +21,12 @@ namespace Notepad2.History
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ReopenWindowCallback?.Invoke(this);
+            Model.ReopenWindow();
         }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            ReopenWindowCallback?.Invoke(this);
+            Model.ReopenWindow();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Notepad2.Applications.Controls;
-using Notepad2.History;
+using Notepad2.Applications.History;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
@@ -10,20 +10,12 @@ using System.Windows.Input;
 namespace Notepad2.Applications
 {
     /// <summary>
-    /// Not technically an MVVM view model, but this 
-    /// class manages windows. (not so) simple enough
+    /// Not technically an MVVM view model because it directly interacts
+    /// with window objects, but this class manages windows
     /// </summary>
     public class ApplicationViewModel : BaseViewModel
     {
-        public List<NotepadWindow> NotepadWindows { get; set; }
-        public ObservableCollection<WindowPreviewControl> WindowPreviews { get; set; }
-
-        private NotepadWindow _focusedWindow;
-        public NotepadWindow FocusedWindow
-        {
-            get => _focusedWindow;
-            set => RaisePropertyChanged(ref _focusedWindow, value);
-        }
+        public ObservableCollection<WindowPreviewControlViewModel> WindowPreviews { get; set; }
 
         public WindowHistoryViewModel History { get; set; }
 
@@ -31,8 +23,7 @@ namespace Notepad2.Applications
 
         public ApplicationViewModel(string[] appArgs)
         {
-            NotepadWindows = new List<NotepadWindow>();
-            WindowPreviews = new ObservableCollection<WindowPreviewControl>();
+            WindowPreviews = new ObservableCollection<WindowPreviewControlViewModel>();
             History = new WindowHistoryViewModel();
             History.OpenWindowCallback = CreateAndShowWindowFromViewModel;
             ParseParameters(appArgs);
@@ -120,10 +111,10 @@ namespace Notepad2.Applications
             return window;
         }
 
-        public NotepadWindow CreateStartupMainNotepadWindow(bool loadGlobalTheme = true, bool loadWindowPosition = true, bool loadGlobalPreferencesG = true)
+        public NotepadWindow CreateStartupMainNotepadWindow(bool loadGlobalTheme = true, bool loadGlobalPreferencesG = true)
         {
             NotepadWindow window = new NotepadWindow();
-            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition, loadGlobalPreferencesG);
+            SetupNotepadWindow(window, loadGlobalTheme, loadGlobalPreferencesG);
             window.AddStartupNotepad();
             return window;
         }
@@ -150,11 +141,10 @@ namespace Notepad2.Applications
         public void SetupNotepadWindow(
             NotepadWindow window,
             bool loadGlobalTheme = false,
-            bool loadWindowPosition = false,
             bool loadGlobalPreferenesG = true)
         {
             SetupNotepadWindowCallbacks(window);
-            window.LoadSettings(loadGlobalTheme, loadWindowPosition, loadGlobalPreferenesG);
+            window.LoadSettings(loadGlobalTheme, loadGlobalPreferenesG);
             window.CanSavePreferences = true;
         }
 
@@ -169,7 +159,7 @@ namespace Notepad2.Applications
 
         public void AddNewNotepadAndPreviewWindowFromWindow(NotepadWindow notepad)
         {
-            WindowPreviewControl wpc = CreatePreviewControlFromDataContext(notepad.Notepad);
+            WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(notepad.Notepad);
             AddPreviewWindow(wpc);
             SetupNotepadWindowCallbacks(notepad);
             AddWindow(notepad);
@@ -179,7 +169,7 @@ namespace Notepad2.Applications
         public void CreateNotepadWindowAndPreview(string[] arguments)
         {
             NotepadWindow window = CreateStartupMainNotepadWindow(arguments);
-            WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
+            WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewWindow(wpc);
             AddWindow(window);
             ShowWindow(window);
@@ -188,7 +178,7 @@ namespace Notepad2.Applications
         public void CreateStartupNotepadWindowAndPreview()
         {
             NotepadWindow window = CreateStartupMainNotepadWindow();
-            WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
+            WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewWindow(wpc);
             AddWindow(window);
             ShowWindow(window);
@@ -197,7 +187,7 @@ namespace Notepad2.Applications
         public void CreateStartupBlankNotepadWindowAndPreview(string[] args)
         {
             NotepadWindow window = CreateNotepadWindowAndOpenFiles(args, true, true);
-            WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
+            WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewWindow(wpc);
             AddWindow(window);
             ShowWindow(window);
@@ -205,24 +195,24 @@ namespace Notepad2.Applications
 
         public void CreateStartupBlankNotepadWindowAndPreview()
         {
-            NotepadWindow window = CreateStartupMainNotepadWindow(true, false, true);
-            WindowPreviewControl wpc = CreatePreviewControlFromDataContext(window.Notepad);
+            NotepadWindow window = CreateStartupMainNotepadWindow(true, true);
+            WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewWindow(wpc);
             AddWindow(window);
             ShowWindow(window);
         }
 
-        public WindowPreviewControl CreatePreviewControlFromDataContext(NotepadViewModel notepad)
+        public WindowPreviewControlViewModel CreatePreviewControlFromDataContext(NotepadViewModel notepad)
         {
-            WindowPreviewControl winPrev = new WindowPreviewControl(notepad);
+            WindowPreviewControlViewModel winPrev = new WindowPreviewControlViewModel(notepad);
             winPrev.FocusWindowCallback = FocusWindowFromDataContext;
             winPrev.CloseCallback = CloseWindowFromPreviewControl;
             return winPrev;
         }
 
-        public WindowPreviewControl GetPreviewControlFromDataContext(NotepadViewModel notepad)
+        public WindowPreviewControlViewModel GetPreviewControlFromDataContext(NotepadViewModel notepad)
         {
-            foreach (WindowPreviewControl control in WindowPreviews)
+            foreach (WindowPreviewControlViewModel control in WindowPreviews)
             {
                 if (control.Notepad == notepad)
                     return control;
@@ -233,7 +223,7 @@ namespace Notepad2.Applications
 
         public NotepadWindow GetWindowFromPreviewDataContext(NotepadViewModel notepad)
         {
-            foreach (NotepadWindow window in NotepadWindows)
+            foreach (NotepadWindow window in ThisApplication.NotepadWindows)
             {
                 if (window.Notepad == notepad)
                     return window;
@@ -242,14 +232,14 @@ namespace Notepad2.Applications
             return null;
         }
 
-        public void CloseWindowFromPreviewControl(WindowPreviewControl wpc)
+        public void CloseWindowFromPreviewControl(WindowPreviewControlViewModel wpc)
         {
             NotepadWindow nw = GetWindowFromPreviewDataContext(wpc.Notepad);
             if (nw != null)
                 CloseWindowAndRemovePreviewFromPreview(wpc);
         }
 
-        public void CloseWindowAndRemovePreviewFromPreview(WindowPreviewControl wpc)
+        public void CloseWindowAndRemovePreviewFromPreview(WindowPreviewControlViewModel wpc)
         {
             RemovePreviewControl(wpc);
             NotepadWindow nw = GetWindowFromPreviewDataContext(wpc.Notepad);
@@ -261,7 +251,7 @@ namespace Notepad2.Applications
         {
             if (notepad != null)
             {
-                WindowPreviewControl wpc = GetPreviewControlFromDataContext(notepad);
+                WindowPreviewControlViewModel wpc = GetPreviewControlFromDataContext(notepad);
                 if (wpc != null)
                 {
                     CloseWindowAndRemovePreviewFromPreview(wpc);
@@ -272,35 +262,35 @@ namespace Notepad2.Applications
         public void RemoveWindowAndPreviewFromWindow(NotepadWindow wind)
         {
             RemoveWindow(wind);
-            WindowPreviewControl wpc = GetPreviewControlFromDataContext(wind.Notepad);
+            WindowPreviewControlViewModel wpc = GetPreviewControlFromDataContext(wind.Notepad);
             if (wpc != null)
                 RemovePreviewControl(wpc);
         }
 
-        public void AddPreviewWindow(WindowPreviewControl prevWin)
+        public void AddPreviewWindow(WindowPreviewControlViewModel prevWin)
         {
             WindowPreviews.Add(prevWin);
         }
 
-        public void RemovePreviewControl(WindowPreviewControl prevWin)
+        public void RemovePreviewControl(WindowPreviewControlViewModel prevWin)
         {
             WindowPreviews.Remove(prevWin);
         }
 
         public void AddWindow(NotepadWindow window)
         {
-            NotepadWindows.Add(window);
+            ThisApplication.NotepadWindows.Add(window);
         }
 
         public void RemoveWindow(NotepadWindow window)
         {
-            NotepadWindows.Remove(window);
+            ThisApplication.NotepadWindows.Remove(window);
         }
 
         public void WindowFocused(NotepadWindow window)
         {
             if (window != null)
-                FocusedWindow = window;
+                ThisApplication.FocusedWindow = window;
         }
 
         public void ShowWindow(NotepadWindow window)
@@ -323,12 +313,12 @@ namespace Notepad2.Applications
             window?.Notepad?.ShutdownInformationHook();
             RemoveWindowAndPreviewFromWindow(window);
 
-            int count = NotepadWindows.Count;
+            int count = ThisApplication.NotepadWindows.Count;
             if (count > 0)
             {
                 History.WindowClosed(window.Notepad);
 
-                NotepadWindows[count - 1]?.Focus();
+                ThisApplication.NotepadWindows[count - 1]?.Focus();
             }
             else
             {

@@ -8,9 +8,9 @@ using System.Windows.Input;
 
 namespace Notepad2.SimpleEditor
 {
-    public class SimpleTextEditor : TextBox
+    public class TextEditor : TextBox
     {
-        public SimpleTextEditor()
+        public TextEditor()
         {
 
         }

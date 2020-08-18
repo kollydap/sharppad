@@ -4,11 +4,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Notepad2.History
+namespace Notepad2.Applications.History
 {
     public class WindowHistoryViewModel : BaseViewModel
     {
-        public ObservableCollection<WindowHistoryControl> HistoryItems { get; set; }
+        public ObservableCollection<WindowHistoryControlViewModel> HistoryItems { get; set; }
 
         public ICommand ReopenLastWindowCommand { get; private set; }
         public ICommand ClearItemsCommand { get; private set; }
@@ -17,21 +17,21 @@ namespace Notepad2.History
 
         public WindowHistoryViewModel()
         {
-            HistoryItems = new ObservableCollection<WindowHistoryControl>();
+            HistoryItems = new ObservableCollection<WindowHistoryControlViewModel>();
             ReopenLastWindowCommand = new Command(ReopenLastWindow);
             ClearItemsCommand = new Command(ClearItems);
         }
 
-        private void Push(WindowHistoryControl hc)
+        private void Push(WindowHistoryControlViewModel hc)
         {
             HistoryItems.Insert(0, hc);
         }
 
-        private WindowHistoryControl Pop()
+        private WindowHistoryControlViewModel Pop()
         {
             if (HistoryItems.Count > 0)
             {
-                WindowHistoryControl hc = HistoryItems[0];
+                WindowHistoryControlViewModel hc = HistoryItems[0];
                 HistoryItems.Remove(hc);
                 return hc;
             }
@@ -44,7 +44,7 @@ namespace Notepad2.History
         /// <param name="path"></param>
         public void WindowClosed(NotepadViewModel notepad)
         {
-            WindowHistoryControl item = CreateHistoryItem(notepad);
+            WindowHistoryControlViewModel item = CreateHistoryItem(notepad);
             Push(item);
         }
 
@@ -53,28 +53,28 @@ namespace Notepad2.History
         /// </summary>
         public void ReopenLastWindow()
         {
-            WindowHistoryControl hc = Pop();
+            WindowHistoryControlViewModel hc = Pop();
             if (hc != null)
                 ReopenWindow(hc);
         }
 
-        private void ReopenWindow(WindowHistoryControl hc)
+        private void ReopenWindow(WindowHistoryControlViewModel hc)
         {
-            OpenWindowCallback?.Invoke(hc.Model);
+            OpenWindowCallback?.Invoke(hc.Notepad);
         }
 
-        private void UserReopenWindow(WindowHistoryControl hc)
+        private void UserReopenWindow(WindowHistoryControlViewModel hc)
         {
             HistoryItems.Remove(hc);
-            OpenWindowCallback?.Invoke(hc.Model);
+            OpenWindowCallback?.Invoke(hc.Notepad);
         }
 
-        private WindowHistoryControl CreateHistoryItem(NotepadViewModel notepad)
+        private WindowHistoryControlViewModel CreateHistoryItem(NotepadViewModel notepad)
         {
-            WindowHistoryControl hc = new WindowHistoryControl()
+            WindowHistoryControlViewModel hc = new WindowHistoryControlViewModel()
             {
                 ReopenWindowCallback = UserReopenWindow,
-                Model = notepad
+                Notepad = notepad
             };
             return hc;
         }

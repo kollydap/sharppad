@@ -2,12 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Notepad2.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Top" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">40</Value>
-    </Setting>
-    <Setting Name="Left" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">40</Value>
-    </Setting>
     <Setting Name="Height" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1024</Value>
     </Setting>
@@ -60,6 +54,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="closeNLstOnStrt" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="useNewDDSys" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

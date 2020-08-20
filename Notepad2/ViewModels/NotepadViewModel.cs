@@ -295,19 +295,21 @@ namespace Notepad2.ViewModels
         /// </summary>
         public void AddDefaultNotepadItem()
         {
-            AddNotepadItem(CreateDefaultStyleNotepadItem("", $"new{NotepadItems.Count}.txt", null));
+            AddNotepadItem(CreateDefaultStyleNotepadItem("", $"new{NotepadItems.Count}.txt", null), true);
         }
 
         /// <summary>
         /// Adds a <see cref="TextDocumentViewModel"/> to the list on the left.
         /// </summary>
         /// <param name="nli">A <see cref="TextDocumentViewModel"/> to be added</param>
-        public void AddNotepadItem(TextDocumentViewModel nli)
+        public void AddNotepadItem(TextDocumentViewModel nli, bool selectItem = false)
         {
             if (nli != null)
             {
                 nli.HasMadeChanges = false;
                 NotepadItems.Add(nli);
+                if (selectItem)
+                    SelectedNotepadItem = nli;
                 Information.Show($"Added FileItem: {nli.Document.FileName}", InfoTypes.FileIO);
             }
         }
@@ -323,11 +325,12 @@ namespace Notepad2.ViewModels
             SelectedNotepadItem = nli;
         }
 
-        public void AddNotepadFromViewModel(TextDocumentViewModel notepad)
+        public void AddNotepadFromViewModel(TextDocumentViewModel notepad, bool selectItem = true)
         {
-            TextDocumentViewModel nli = CreateNotepadItemFromViewModel(notepad);
-            AddNotepadItem(nli);
-            SelectedNotepadItem = nli;
+            SetupNotepadItemCallbacks(notepad);
+            AddNotepadItem(notepad);
+            if (selectItem)
+                SelectedNotepadItem = notepad;
         }
 
         #endregion
@@ -365,14 +368,13 @@ namespace Notepad2.ViewModels
             }
             //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             RemoveNotepadItem(nli);
-            History.FileClosed(nli);
+            History.PushFile(nli);
             Information.Show($"Removed FileItem: {nli.Document.FileName}", InfoTypes.FileIO);
             UpdateSelectedNotepad();
         }
 
         // NotepadListItems would've had a shutdown method for
         // getting rid of static handlers or other things...
-
         public void RemoveNotepadItem(TextDocumentViewModel nli)
         {
             //nli?.Shutdown();
@@ -431,22 +433,19 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// Creates and returns completely default <see cref="TextDocumentViewModel"/>, with preset fonts,
+        /// Creates and returns a completely default <see cref="TextDocumentViewModel"/>, with preset fonts,
         /// fontsizes, etc, ready to be added to the list on the left.
         /// </summary>
         /// <param name="text">The text the Notepad Item will have</param>
-        /// <param name="itemName">The header/name of the Notepad Item</param>
+        /// <param name="itemName">The header/file name of the Notepad Item</param>
         /// <param name="itemPath">The file path of the Notepad Item</param>
         /// <returns></returns>
         public TextDocumentViewModel CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath)
         {
-            FontFamily font = GetDefaultFont();
-            double fontSize = GetDefaultFontSize();
-
             FormatModel fm = new FormatModel()
             {
-                Family = font,
-                Size = fontSize,
+                Family = GetDefaultFont(),
+                Size = GetDefaultFontSize(),
                 IsWrapped = PreferencesG.WRAP_TEXT_BY_DEFAULT
             };
 
@@ -454,7 +453,7 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// Creates a <see cref="TextDocumentViewModel"/> with the given parameters.
+        /// Creates a <see cref="TextDocumentViewModel"/> with the given text, name, path and text formats
         /// </summary>
         /// <param name="text">The text the Notepad Item will have</param>
         /// <param name="fileName">The header/name of the Notepad Item</param>
@@ -463,9 +462,7 @@ namespace Notepad2.ViewModels
         /// <returns></returns>
         public TextDocumentViewModel CreateNotepadItem(string text, string fileName, string filePath, FormatModel fm)
         {
-            TextDocumentViewModel nli = new TextDocumentViewModel();
             TextDocumentViewModel fivm = new TextDocumentViewModel();
-
             fivm.Document.Text = text;
             fivm.Document.FileName = fileName;
             fivm.Document.FilePath = filePath;
@@ -473,18 +470,15 @@ namespace Notepad2.ViewModels
 
             fivm.FindResults.NextTextFoundCallback = OnNextTextFound;
             fivm.HasMadeChanges = false;
+            SetupNotepadItemCallbacks(fivm);
 
-            nli = fivm;
-            SetupNotepadItemCallbacks(nli);
-
-            return nli;
+            return fivm;
         }
 
         public TextDocumentViewModel CreateNotepadItemFromViewModel(TextDocumentViewModel notepad)
         {
-            TextDocumentViewModel nli = new TextDocumentViewModel();
-            nli = notepad;
-            SetupNotepadItemCallbacks(nli);
+            TextDocumentViewModel nli = notepad;
+            SetupNotepadItemCallbacks(notepad);
             return nli;
         }
 
@@ -634,28 +628,26 @@ namespace Notepad2.ViewModels
             {
                 if (File.Exists(path))
                 {
+                    FileInfo fInfo = new FileInfo(path);
+                    if(fInfo.Length > GlobalPreferences.MAX_FILE_SIZE)
+                    {
+                        MessageBox.Show("File size too big: Cannot open because a file this big would be extremely laggy");
+                        return;
+                    }
+
+                    if (fInfo.Length > GlobalPreferences.WARN_FILE_SIZE_BYTES && 
+                        MessageBox.Show(
+                            "The file is very big in size and might lag the program. Continue to open?",
+                            "File very big. Open anyway?",
+                            MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.No)
+                        return;
+
                     string text = NotepadActions.ReadFile(path);
-                    bool doOpenFile;
-                    if (text.Length > (GlobalPreferences.WARN_FILE_SIZE_BYTES * 1000 /* kb to byte */))
-                    {
-                        doOpenFile =
-                            MessageBox.Show(
-                                "The file is very big in size and might lag the program. Continue to open?",
-                                "File very big. Open anyway?",
-                                MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
-                    }
-                    else
-                        doOpenFile = true;
-
-
-                    if (doOpenFile)
-                    {
-                        TextDocumentViewModel item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
-                        AddNotepadItem(item);
-                        Information.Show($"Opened file: {path}", InfoTypes.FileIO);
-                        if (selectFile && item != null)
-                            SelectedNotepadItem = item;
-                    }
+                    TextDocumentViewModel item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
+                    AddNotepadItem(item);
+                    Information.Show($"Opened file: {path}", InfoTypes.FileIO);
+                    if (selectFile && item != null)
+                        SelectedNotepadItem = item;
                 }
             }
             catch (Exception e) { Information.Show(e.Message, "Error while opening file from path"); }
@@ -663,8 +655,11 @@ namespace Notepad2.ViewModels
 
         public void ReopenNotepadFromHistory(TextDocumentViewModel notepad)
         {
-            Information.Show($"Reopening {notepad.Document.FileName} from history", "History");
-            AddNotepadFromViewModel(notepad);
+            if (notepad != null)
+            {
+                Information.Show($"Reopening {notepad.Document.FileName} from history", "History");
+                AddNotepadFromViewModel(notepad);
+            }
         }
 
         #endregion
@@ -911,7 +906,7 @@ namespace Notepad2.ViewModels
         {
             if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
             {
-                ShutdownInformationHook();
+                Shutdown();
                 ThisApplication.CloseWindowFromDataContext(this);
             }
         }
@@ -925,7 +920,7 @@ namespace Notepad2.ViewModels
                 MessageBoxImage.Information, 
                 MessageBoxResult.Yes) == MessageBoxResult.Yes)
             {
-                ShutdownInformationHook();
+                Shutdown();
                 ThisApplication.CloseWindowFromDataContext(this);
             }
         }
@@ -996,6 +991,11 @@ namespace Notepad2.ViewModels
         {
             Information.InformationAdded -= Information_InformationAdded;
         }
+
+        public void Shutdown()
+        {
+            ShutdownInformationHook();
+            OurClipboard.ShutdownUpdaterHook();
+        }
     }
 }
-// hehe 1000 lines 

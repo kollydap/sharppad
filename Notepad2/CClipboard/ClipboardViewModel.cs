@@ -1,4 +1,5 @@
-﻿using Notepad2.Utilities;
+﻿using Notepad2.Applications;
+using Notepad2.Utilities;
 using System;
 using System.Linq;
 using System.Windows;
@@ -16,7 +17,6 @@ namespace Notepad2.CClipboard
     public class ClipboardViewModel : BaseViewModel
     {
         private string _clipboardText;
-        private ClipboardWindow ClipboardWin;
 
         public string ClipboardText
         {
@@ -26,8 +26,6 @@ namespace Notepad2.CClipboard
 
         public ClipboardViewModel()
         {
-            ClipboardWin = new ClipboardWindow();
-            ClipboardWin.DataContext = this;
             GetClipboard();
             ClipboardNotification.ClipboardUpdate += ClipboardNotification_ClipboardUpdate;
         }
@@ -43,17 +41,19 @@ namespace Notepad2.CClipboard
             if (data != null)
                 ClipboardText = data.ToString();
             else
-                ClipboardText = "[Error: Data is null or is not a string]";
+                ClipboardText = "";
         }
 
         public void ShowClipboardWindow()
         {
-            ClipboardWin.ShowWindow();
+            ThisApplication.SetClipboardContext(this);
+            ThisApplication.ShowClipboard();
         }
 
         public void ShutdownUpdaterHook()
         {
-            ClipboardNotification.ShutdownListener();
+            // Application will shutdown the clipboard listener
+            //ClipboardNotification.ShutdownListener();
             ClipboardNotification.ClipboardUpdate -= ClipboardNotification_ClipboardUpdate;
         }
     }

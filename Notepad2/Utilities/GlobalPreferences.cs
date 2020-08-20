@@ -12,6 +12,8 @@ namespace Notepad2.Utilities
         public static Color WARN_FILE_TOO_BIG_COLOUR = Colors.Orange;
         public static Color ALERT_FILE_TOO_BIG_COLOUR = Colors.Red;
 
+        public const double MAX_FILE_SIZE = 50000000.0d;
+
         //this is big for no reason other than why not lol
         public const int MAX_FONT_SIZE = 250;
 

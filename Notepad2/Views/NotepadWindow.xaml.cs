@@ -3,6 +3,7 @@ using Notepad2.FileExplorer.ShellClasses;
 using Notepad2.Finding;
 using Notepad2.InformationStuff;
 using Notepad2.Interfaces;
+using Notepad2.Notepad;
 using Notepad2.Preferences;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
@@ -127,7 +128,7 @@ namespace Notepad2.Views
                 PreferencesG.LoadFromProperties();
             this.Height = Properties.Settings.Default.Height;
             this.Width = Properties.Settings.Default.Width;
-            nListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
+            ListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
             showLineThing.IsChecked = Properties.Settings.Default.allowCaretLineOutline;
             if (loadTheme)
             {
@@ -155,7 +156,7 @@ namespace Notepad2.Views
 
         #region Notepad items list
 
-        private void ListBox_Drop(object sender, DragEventArgs e)
+        private void NotepadItemsListBox_ItemsDropped(object sender, DragEventArgs e)
         {
             if (Notepad != null && e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -174,12 +175,7 @@ namespace Notepad2.Views
                                 {
                                     try
                                     {
-                                        string text = File.ReadAllText(file);
-                                        Notepad.AddNotepadItem(
-                                            Notepad.CreateDefaultStyleNotepadItem(
-                                                text,
-                                                Path.GetFileName(file),
-                                                file));
+                                        Notepad.OpenNotepadFromPath(file);
                                     }
                                     catch (Exception ee) { Information.Show(ee.Message, "DroppedFile"); }
                                 }
@@ -196,31 +192,16 @@ namespace Notepad2.Views
                                 MessageBoxButton.YesNoCancel);
                             if (results == MessageBoxResult.Yes)
                             {
-                                string text = File.ReadAllText(shortcutPath);
-                                Notepad.AddNotepadItem(
-                                    Notepad.CreateDefaultStyleNotepadItem(
-                                        text,
-                                        Path.GetFileName(shortcutPath),
-                                        shortcutPath));
+                                Notepad.OpenNotepadFromPath(shortcutPath);
                             }
                             else if (results == MessageBoxResult.No)
                             {
-                                string text = File.ReadAllText(path);
-                                Notepad.AddNotepadItem(
-                                    Notepad.CreateDefaultStyleNotepadItem(
-                                        text,
-                                        Path.GetFileName(path),
-                                        path));
+                                Notepad.OpenNotepadFromPath(path);
                             }
                         }
                         else if (File.Exists(path))
                         {
-                            string text = File.ReadAllText(path);
-                            Notepad.AddNotepadItem(
-                                Notepad.CreateDefaultStyleNotepadItem(
-                                    text,
-                                    Path.GetFileName(path),
-                                    path));
+                            Notepad.OpenNotepadFromPath(path);
                         }
                     }
                 }
@@ -242,11 +223,9 @@ namespace Notepad2.Views
                     aditionalSelection.Visibility = Visibility.Visible;
                     aditionalSelection.Margin = t;
                 }
-                else
-                    aditionalSelection.Visibility = Visibility.Collapsed;
+                else aditionalSelection.Visibility = Visibility.Collapsed;
             }
-            else
-                aditionalSelection.Visibility = Visibility.Collapsed;
+            else aditionalSelection.Visibility = Visibility.Collapsed;
         }
 
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -292,26 +271,13 @@ namespace Notepad2.Views
                 DriveInfo[] drives = DriveInfo.GetDrives();
                 DriveInfo.GetDrives().ToList().ForEach(drive =>
                 {
-                    FileSystemObjectInfo fileSystemObject = new FileSystemObjectInfo(drive);
-                    fileSystemObject.BeforeExplore += FileSystemObject_BeforeExplore;
-                    fileSystemObject.AfterExplore += FileSystemObject_AfterExplore;
-                    treeView.Items.Add(fileSystemObject);
+                    treeView.Items.Add(new FileSystemObjectInfo(drive));
                 });
             }
             catch (Exception e)
             {
                 MessageBox.Show($"Failed to initialise File Explorer. Error: {e.Message}");
             }
-        }
-
-        private void FileSystemObject_AfterExplore(object sender, System.EventArgs e)
-        {
-            Cursor = Cursors.Arrow;
-        }
-
-        private void FileSystemObject_BeforeExplore(object sender, System.EventArgs e)
-        {
-            Cursor = Cursors.Wait;
         }
 
         #region Dragging items
@@ -326,6 +292,7 @@ namespace Notepad2.Views
         {
             if (MouseDownPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
             {
+                // Found that with treeviewitems, the sender's parent's datacontext is the FileSystemObjectInfo
                 if (sender is Rectangle grip && grip.Parent is StackPanel fileItem)
                 {
                     if (fileItem.DataContext is FileSystemObjectInfo file)
@@ -356,7 +323,6 @@ namespace Notepad2.Views
             ThemesController.SetTheme(theme);
         }
 
-        //could put in mainviewmodel but eh
         private void ChangeTheme(object sender, RoutedEventArgs e)
         {
             switch (int.Parse(((MenuItem)sender).Uid))
@@ -366,8 +332,6 @@ namespace Notepad2.Views
                 case 2: ThemesController.SetTheme(ThemeTypes.Dark); break;
                 case 3: ThemesController.SetTheme(ThemeTypes.ColourfulDark); break;
             }
-            //idk what this actually does .-.
-            e.Handled = true;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -395,7 +359,7 @@ namespace Notepad2.Views
                 try
                 {
                     PreferencesG.SaveToProperties();
-                    Properties.Settings.Default.closeNLstOnStrt = !nListExpander.IsExpanded;
+                    Properties.Settings.Default.closeNLstOnStrt = !ListExpander.IsExpanded;
                     if (WindowState == WindowState.Maximized)
                     {
                         // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
@@ -407,7 +371,7 @@ namespace Notepad2.Views
                         Properties.Settings.Default.Height = this.Height;
                         Properties.Settings.Default.Width = this.Width;
                     }
-                    switch (ThemesController.CurrentTheme)
+                    switch (CurrentTheme)
                     {
                         case ThemeTypes.Light: Properties.Settings.Default.Theme = 1; break;
                         case ThemeTypes.Dark: Properties.Settings.Default.Theme = 2; break;
@@ -446,12 +410,12 @@ namespace Notepad2.Views
 
         // this is kinda useless tbh but oh well
         // Clipboard thing
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        private void OpenClipboardClick(object sender, MouseButtonEventArgs e)
         {
             Notepad.OurClipboard.ShowClipboardWindow();
         }
 
-        private void findInputBox_Loaded(object sender, RoutedEventArgs e)
+        private void FindInputBox_Loaded(object sender, RoutedEventArgs e)
         {
             findInputBox.Focus();
         }
@@ -493,8 +457,8 @@ namespace Notepad2.Views
 
         public void ScrollItemsIntoView()
         {
-            if (notepadLstBox.SelectedItem != null)
-                notepadLstBox.ScrollIntoView(notepadLstBox.SelectedItem);
+            if (NotepadItemsListBox.SelectedItem != null)
+                NotepadItemsListBox.ScrollIntoView(NotepadItemsListBox.SelectedItem);
         }
     }
 }

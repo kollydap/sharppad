@@ -41,7 +41,7 @@ namespace Notepad2.History
         /// Pushes a file (that has just closed) to the history
         /// </summary>
         /// <param name="path"></param>
-        public void FileClosed(TextDocumentViewModel notepad)
+        public void PushFile(TextDocumentViewModel notepad)
         {
             HistoryItemViewModel item = CreateHistoryItem(notepad);
             Push(item);
@@ -75,6 +75,7 @@ namespace Notepad2.History
         {
             HistoryItemViewModel hc = new HistoryItemViewModel()
             {
+                TextDocument = notepad,
                 ReopenFileCallback = UserReopenFile
             };
             return hc;

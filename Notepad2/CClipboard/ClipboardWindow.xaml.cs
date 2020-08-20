@@ -9,6 +9,12 @@ namespace Notepad2.CClipboard
     /// </summary>
     public partial class ClipboardWindow : Window
     {
+        public ClipboardViewModel Clipboard
+        {
+            get => this.DataContext as ClipboardViewModel;
+            set => this.DataContext = value;
+        }
+
         public ClipboardWindow()
         {
             InitializeComponent();

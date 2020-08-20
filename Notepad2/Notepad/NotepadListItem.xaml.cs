@@ -16,10 +16,14 @@ using Path = System.IO.Path;
 namespace Notepad2.Notepad
 {
     /// <summary>
-    /// Interaction logic for NotepadListItem.xaml
+    /// A user control containing a ViewModel containing 
+    /// notepad information (documents, formats, find results, etc)
     /// </summary>
     public partial class NotepadListItem : UserControl
     {
+        /// <summary>
+        /// The ViewModel
+        /// </summary>
         public TextDocumentViewModel Notepad
         {
             get => DataContext as TextDocumentViewModel;
@@ -32,6 +36,14 @@ namespace Notepad2.Notepad
         public NotepadListItem()
         {
             InitializeComponent();
+
+            Loaded += NotepadListItem_Loaded;
+        }
+
+        private void NotepadListItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            AnimationLib.OpacityControl(this, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
+            AnimationLib.MoveToTargetX(this, 0, -100, GlobalPreferences.ANIMATION_SPEED_SEC);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -45,7 +57,7 @@ namespace Notepad2.Notepad
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseNotepadClick(object sender, RoutedEventArgs e)
         {
             Notepad.Close?.Invoke(Notepad);
         }
@@ -146,19 +158,16 @@ namespace Notepad2.Notepad
                 ThisApplication.PropertiesView.Properties.Show();
                 if (Notepad.Document.FilePath.IsFile())
                 {
-                    ThisApplication.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
+                    if (!Notepad.HasMadeChanges)
+                        ThisApplication.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
+                    else
+                        ThisApplication.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
                 }
                 else
                 {
                     ThisApplication.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
                 }
             }
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            AnimationLib.OpacityControl(this, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
-            AnimationLib.MoveToTargetX(this, 0, -100, GlobalPreferences.ANIMATION_SPEED_SEC);
         }
     }
 }

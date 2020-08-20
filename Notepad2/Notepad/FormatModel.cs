@@ -16,6 +16,9 @@ namespace Notepad2.Notepad
         private TextWrapping _wrap;
         private bool _isWrapped;
 
+        /// <summary>
+        /// The Font Size
+        /// </summary>
         public double Size
         {
             get => _size;
@@ -26,6 +29,9 @@ namespace Notepad2.Notepad
             }
         }
 
+        /// <summary>
+        /// The Font
+        /// </summary>
         public FontFamily Family
         {
             get => _family;
@@ -93,6 +99,8 @@ namespace Notepad2.Notepad
         public FormatModel()
         {
             DecorationReadable = "None";
+            Style = FontStyles.Normal;
+            Weight = FontWeights.Normal;
         }
     }
 }

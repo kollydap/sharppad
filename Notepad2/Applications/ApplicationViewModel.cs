@@ -310,7 +310,7 @@ namespace Notepad2.Applications
 
         public void WindowClosed(NotepadWindow window)
         {
-            window?.Notepad?.ShutdownInformationHook();
+            window?.Notepad?.Shutdown();
             RemoveWindowAndPreviewFromWindow(window);
 
             int count = ThisApplication.NotepadWindows.Count;

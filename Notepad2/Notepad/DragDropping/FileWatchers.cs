@@ -1,11 +1,8 @@
-﻿using Notepad2.Applications;
-using Notepad2.ViewModels;
+﻿using Notepad2.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace Notepad2.Notepad.DragDropping
@@ -24,7 +21,7 @@ namespace Notepad2.Notepad.DragDropping
         // The currently being dropped document
         public static TextDocumentViewModel DroppingDocument;
 
-        [System.Runtime.InteropServices.DllImport("Shell32.dll")]
+        [DllImport("Shell32.dll")]
         private static extern int SHChangeNotify(int eventId, int flags, IntPtr item1, IntPtr item2);
 
         static FileWatchers()
@@ -37,6 +34,11 @@ namespace Notepad2.Notepad.DragDropping
             TempWatcher.IncludeSubdirectories = false;
             TempWatcher.EnableRaisingEvents = true;
             TempWatcher.Created += PrefixedFileCreatedInTempDirectory;
+        }
+
+        public static void Shutdown()
+        {
+            TempWatcher.Created -= PrefixedFileCreatedInTempDirectory;
         }
 
         public static void DoingDragDrop(TextDocumentViewModel doc)
@@ -110,6 +112,7 @@ namespace Notepad2.Notepad.DragDropping
                 for (int i = 0; i < DriveWatchers.Count; i++)
                 {
                     FileSystemWatcher watcher = DriveWatchers[i];
+                    watcher.Created -= DriveWatcherDetectedPrefixedFileDropped;
                     watcher.Dispose();
                 }
 

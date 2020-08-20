@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
+        xmlns:local="clr-namespace:Notepad2"
+        xmlns:ap="clr-namespace:Notepad2.AttachedProperties"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:utils="clr-namespace:Notepad2.Utilities"
         xmlns:fileExplorerShell="clr-namespace:Notepad2.FileExplorer.ShellClasses"
@@ -168,7 +170,16 @@
                 </MenuItem>
                 <MenuItem Header="Re-open last window" Command="{Binding ReopenLastWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
                     <MenuItem.Icon>
-                        <Image Source="/SharpPad;component/Resources/openInNewWindow2.png"/>
+                        <Grid Width="12" Height="12">
+                            <Rectangle StrokeThickness="1" 
+                               Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
+                               Stroke="{DynamicResource ControlGlythColour}"
+                               Margin="3,0,0,3"/>
+                            <Rectangle StrokeThickness="1" 
+                               Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
+                               Stroke="{DynamicResource ControlGlythColour}"
+                               Margin="0 3 3 0"/>
+                        </Grid>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Style="{DynamicResource MenuItemSeparator}"/>
@@ -238,6 +249,18 @@
                         <TextBlock Text="Windows Clipboard:" Padding="4" VerticalAlignment="Center" FontSize="12"
                                    ToolTip="To the right will show whatever is currently in the clipboard" 
                                    Margin="0,0,0,0" HorizontalAlignment="Left" Width="115"/>
+                        
+                        <!-- Testing out attached properties -->
+                        <TextBlock Padding="4"
+                                   VerticalAlignment="Center" 
+                                   TextTrimming="WordEllipsis" 
+                                   TextWrapping="NoWrap"
+                                   FontSize="12"
+                                   FontFamily="Consolas" 
+                                   Margin="115,3,0,3" 
+                                   Text="Clipboard is Empty"
+                                   Opacity="0.5" Visibility="Collapsed"/>
+                        
                         <TextBlock Text="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
                                    Padding="4"
                                    VerticalAlignment="Center" 
@@ -246,7 +269,7 @@
                                    FontSize="12"
                                    FontFamily="Consolas"
                                    ToolTip="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
-                                   MouseDown="TextBlock_MouseDown"
+                                   MouseDown="OpenClipboardClick"
                                    Cursor="Hand" Margin="115,3,0,3"/>
                     </Grid>
                 </Grid>
@@ -346,7 +369,7 @@
                             </GroupBox.Header>
                             <ListBox ItemsSource="{Binding InformationItems, UpdateSourceTrigger=PropertyChanged}"
                                      HorizontalContentAlignment="Stretch"
-                                     utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True">
+                                     ap:UseHorizontalScrolling.Value="True">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <informationstuff:InformationItemControl DataContext="{Binding}"/>
@@ -365,9 +388,9 @@
                                 </StackPanel>
                             </GroupBox.Header>
                             <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
-                                         utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                         HorizontalContentAlignment="Stretch">
+                                     ap:UseHorizontalScrolling.Value="True"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <history:HistoryControl DataContext="{Binding}"/>
@@ -392,7 +415,7 @@
                                       Background="{DynamicResource ContainerBackground}" 
                                       Width="200">
                             <Grid>
-                                <TreeView utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True" Name="treeView" 
+                                <TreeView ap:UseHorizontalScrolling.Value="True" Name="treeView" 
                                               BorderBrush="{DynamicResource ContainerBackground}">
                                     <TreeView.ItemContainerStyle>
                                         <Style TargetType="{x:Type TreeViewItem}">
@@ -513,7 +536,7 @@
                         </GroupBox>
                     </Expander>
                     <DockPanel>
-                        <Expander IsExpanded="False" x:Name="nListExpander"
+                        <Expander IsExpanded="True" x:Name="ListExpander"
                                   DockPanel.Dock="Left" ExpandDirection="Right" 
                                   HorizontalAlignment="Left" Margin="0">
                             <Expander.Header>
@@ -524,20 +547,20 @@
                                 </TextBlock>
                             </Expander.Header>
                             <GroupBox Header="Notepad Items" HorizontalAlignment="Left" 
-                                          Margin="2 -1 2 -1"
-                                          Width="225" 
-                                          Background="{DynamicResource BackgroundColour}">
+                                      Margin="2 -1 2 -1"
+                                      Width="225" 
+                                      Background="{DynamicResource BackgroundColour}">
                                 <Grid>
                                     <!-- ScrollViewer.CanContentScroll="False"  makes content scroll vertically by pixel not by content height -->
                                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
-                                             Name="notepadLstBox" 
+                                             Name="NotepadItemsListBox" 
                                              HorizontalContentAlignment="Stretch" 
                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                              ScrollViewer.CanContentScroll="False"
                                              AllowDrop="True" 
-                                             Drop="ListBox_Drop" Margin="0,0,0,46" 
+                                             Drop="NotepadItemsListBox_ItemsDropped" Margin="0,0,0,46" 
                                              Background="{DynamicResource BackgroundColour}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
@@ -625,7 +648,7 @@
                                                                  VerticalContentAlignment="Center"
                                                                  Padding="2" Height="28" Margin="64,5,70,0" 
                                                                  TextWrapping="Wrap" VerticalAlignment="Top"
-                                                                 Loaded="findInputBox_Loaded">
+                                                                 Loaded="FindInputBox_Loaded">
                                                             <TextBox.InputBindings>
                                                                 <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
                                                             </TextBox.InputBindings>
@@ -699,7 +722,7 @@
                                                             ScrollViewer.PanningMode="Both"
                                                             HorizontalScrollBarVisibility="Visible"
                                                             VerticalScrollBarVisibility="Visible"
-                                                            utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
+                                                            ap:UseHorizontalScrolling.Value="True"
                                                             BorderThickness="1"
                                                             Focusable="True" 
                                                             Visibility="Visible" 

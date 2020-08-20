@@ -82,6 +82,8 @@
     <Compile Include="Applications\WindowManager.xaml.cs">
       <DependentUpon>WindowManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AttachedProperties\BaseAttachedProperty.cs" />
+    <Compile Include="AttachedProperties\UseHorizontalScrolling.cs" />
     <Compile Include="CClipboard\ClipboardNotification.cs" />
     <Compile Include="CClipboard\ClipboardWindow.xaml.cs">
       <DependentUpon>ClipboardWindow.xaml</DependentUpon>
@@ -177,7 +179,6 @@
     <Compile Include="Utilities\FileExtensionsHelper.cs" />
     <Compile Include="Utilities\GlobalPreferences.cs" />
     <Compile Include="Utilities\MouseLocationHelper.cs" />
-    <Compile Include="Utilities\ScrollViewerHelper.cs" />
     <Compile Include="Utilities\TextBoxLineNumbers.cs" />
     <Compile Include="CClipboard\ClipboardViewModel.cs" />
     <Compile Include="Finding\FindViewModel.cs" />
@@ -364,9 +365,6 @@
     <Resource Include="Resources\preferencesIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\openInNewWindow2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\previewWindow.png" />
   </ItemGroup>
   <ItemGroup>
@@ -395,6 +393,7 @@
   <ItemGroup>
     <Resource Include="Resources\paste.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

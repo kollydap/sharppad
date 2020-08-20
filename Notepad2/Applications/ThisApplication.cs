@@ -1,14 +1,10 @@
 ﻿using Notepad2.CClipboard;
 using Notepad2.InformationStuff;
+using Notepad2.Notepad.DragDropping;
 using Notepad2.Notepad.FileProperties;
 using Notepad2.ViewModels;
 using Notepad2.Views;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Notepad2.Applications
@@ -20,15 +16,17 @@ namespace Notepad2.Applications
         public static ApplicationViewModel App { get; private set; }
         public static WindowManager WindowPreviews { get; private set; }
         public static FilePropertiesWindow PropertiesView { get; private set; }
+        public static ClipboardWindow ClipboardWin { get; private set; }
         public static HelpBox Help { get; private set; }
 
         public static void Startup(string[] args)
         {
             NotepadWindows = new List<NotepadWindow>();
-            Help = new HelpBox();
             App = new ApplicationViewModel(args);
             WindowPreviews = new WindowManager();
             PropertiesView = new FilePropertiesWindow();
+            ClipboardWin = new ClipboardWindow();
+            Help = new HelpBox();
             WindowPreviews.ThisApp = App;
         }
 
@@ -58,6 +56,7 @@ namespace Notepad2.Applications
         {
             Information.Show("Shutting down application", "App");
             ClipboardNotification.ShutdownListener();
+            FileWatchers.Shutdown();
             Application.Current?.Shutdown();
         }
 
@@ -67,9 +66,19 @@ namespace Notepad2.Applications
             App.ReopenLastWindow();
         }
 
+        public static void ShowClipboard()
+        {
+            ClipboardWin.ShowWindow();
+        }
+
+        public static void SetClipboardContext(ClipboardViewModel model)
+        {
+            ClipboardWin.Clipboard = model;
+        }
+
         public static void ShowHelp()
         {
-            Help?.Show();
+            Help.Show();
         }
     }
 }

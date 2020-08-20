@@ -50,22 +50,22 @@ namespace Notepad2.CClipboard
                 base.WndProc(ref m);
             }
         }
-    }
 
-    internal static class NativeMethods
-    {
-        public const int WM_CLIPBOARDUPDATE = 0x031D;
-        public static IntPtr HWND_MESSAGE = new IntPtr(-3);
+        private static class NativeMethods
+        {
+            public const int WM_CLIPBOARDUPDATE = 0x031D;
+            public static IntPtr HWND_MESSAGE = new IntPtr(-3);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AddClipboardFormatListener(IntPtr hwnd);
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool AddClipboardFormatListener(IntPtr hwnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+        }
     }
 }

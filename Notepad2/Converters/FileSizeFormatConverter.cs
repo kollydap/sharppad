@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -8,26 +9,31 @@ namespace Notepad2.Converters
 {
     public class FileSizeFormatConverter : IValueConverter
     {
-        [DllImport("Shlwapi.dll", CharSet = CharSet.Auto)]
-        private static extern int StrFormatByteSize(
-            long fileSize,
-            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder buffer,
-            int bufferSize);
+        static readonly string[] SizeSuffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+        static string SizeSuffix(long value, int decimalPlaces = 3)
+        {
+            if (decimalPlaces < 0) return "No decimals";
+            if (value == 0) { return string.Format("{0:n" + decimalPlaces + "} bytes", 0); }
+        
+            // mag is 0 for bytes, 1 for KB, 2, for MB, etc.
+            int mag = (int)Math.Log(value, 1024);
+            decimal adjustedSize = (decimal)value / (1L << (mag * 10));
+        
+            if (Math.Round(adjustedSize, decimalPlaces) >= 1000)
+            {
+                mag += 1;
+                adjustedSize /= 1024;
+            }
+        
+            return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
+        }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // Assuming size the is in bytes not kb or higher
             if (value is long size)
-            {
-                if (size == long.MaxValue)
-                    return "-";
-
-                StringBuilder sb = new StringBuilder(20);
-                StrFormatByteSize(size, sb, 20);
-                return sb.ToString();
-            }
-
-            return "-";
+                return SizeSuffix(size);
+            //return string.Format("{0:#,###0}", size);
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

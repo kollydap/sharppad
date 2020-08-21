@@ -1,4 +1,6 @@
-﻿using Shell32;
+﻿using Notepad2.InformationStuff;
+using Shell32;
+using System.Diagnostics;
 using System.IO;
 
 namespace Notepad2.FileExplorer
@@ -18,6 +20,22 @@ namespace Notepad2.FileExplorer
         public static bool IsDrive(this string path)
         {
             return !string.IsNullOrEmpty(path) && path.Length < 3;
+        }
+
+        public static void OpenInFileExplorer(this string path)
+        {
+            if (path.IsFile())
+            {
+                ProcessStartInfo info = new ProcessStartInfo()
+                {
+                    FileName = "explorer.exe",
+                    Arguments = string.Format("/e, /select, \"{0}\"", path)
+                };
+                Information.Show("Opening File Explorer at selected file location", InfoTypes.FileIO);
+                Process.Start(info);
+            }
+
+            else Information.Show("FilePath Doesn't Exist", "FilePath null");
         }
 
         /// <summary>

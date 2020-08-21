@@ -28,6 +28,7 @@ namespace Notepad2.History
         public void Push(HistoryItemViewModel hc)
         {
             HistoryItems.Insert(0, hc);
+            //Manager.PushCurrentState()
         }
 
         private HistoryItemViewModel Pop()

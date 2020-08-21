@@ -57,7 +57,6 @@ namespace Notepad2.ViewModels
         //}
 
         public Action<TextDocumentViewModel> Close { get; set; }
-        public Action<TextDocumentViewModel> OpenInFileExplorer { get; set; }
         public Action<TextDocumentViewModel> OpenInNewWindowCallback { get; set; }
 
         public TextDocumentViewModel()

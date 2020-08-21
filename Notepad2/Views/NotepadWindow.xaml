@@ -6,9 +6,9 @@
         xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:local="clr-namespace:Notepad2"
+        xmlns:utils="clr-namespace:Notepad2.Utilities"
         xmlns:ap="clr-namespace:Notepad2.AttachedProperties"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:utils="clr-namespace:Notepad2.Utilities"
         xmlns:fileExplorerShell="clr-namespace:Notepad2.FileExplorer.ShellClasses"
         xmlns:converters="clr-namespace:Notepad2.Converters"
         xmlns:se="clr-namespace:Notepad2.SimpleEditor" 
@@ -27,6 +27,11 @@
         Width="900"
         Icon="/SharpPad;component/notepadIcon.ico"
         Title="SharpPad">
+    <!-- 
+        Not separating large chunks of the UI into smaller usercontrols 
+        mainly because i prefer not to because it's sort of easier and 
+        somehow "cleaner"/easier to access things.
+    -->
     <Window.Resources>
         <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
         <converters:InvertedBoolToVisibilityConverter x:Key="invertedBoolToVis"/>
@@ -172,13 +177,13 @@
                     <MenuItem.Icon>
                         <Grid Width="12" Height="12">
                             <Rectangle StrokeThickness="1" 
-                               Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
-                               Stroke="{DynamicResource ControlGlythColour}"
-                               Margin="3,0,0,3"/>
+                                       Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                       Stroke="{DynamicResource ControlGlythColour}"
+                                       Margin="3,0,0,3"/>
                             <Rectangle StrokeThickness="1" 
-                               Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
-                               Stroke="{DynamicResource ControlGlythColour}"
-                               Margin="0 3 3 0"/>
+                                       Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                       Stroke="{DynamicResource ControlGlythColour}"
+                                       Margin="0 3 3 0"/>
                         </Grid>
                     </MenuItem.Icon>
                 </MenuItem>
@@ -345,11 +350,11 @@
             </StackPanel>
             <DockPanel Margin="0,4,0,0" Background="{DynamicResource BackgroundColour}">
                 <Expander ExpandDirection="Up" 
-                              Header="Information and History" 
-                              VerticalAlignment="Bottom"
-                              DockPanel.Dock="Bottom"
-                              IsExpanded="False"
-                              Margin="0 0 0 0">
+                          Header="Information and History" 
+                          VerticalAlignment="Bottom"
+                          DockPanel.Dock="Bottom"
+                          IsExpanded="False"
+                          Margin="0 0 0 0">
                     <Grid Margin="-1 1 -1 2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*"/>
@@ -411,12 +416,12 @@
                             </TextBlock>
                         </Expander.Header>
                         <GroupBox Margin="1 -1 2 -1" 
-                                      Header="File Explorer" 
-                                      Background="{DynamicResource ContainerBackground}" 
-                                      Width="200">
+                                  Header="File Explorer" 
+                                  Background="{DynamicResource ContainerBackground}" 
+                                  Width="200">
                             <Grid>
                                 <TreeView ap:UseHorizontalScrolling.Value="True" Name="treeView" 
-                                              BorderBrush="{DynamicResource ContainerBackground}">
+                                          BorderBrush="{DynamicResource ContainerBackground}">
                                     <TreeView.ItemContainerStyle>
                                         <Style TargetType="{x:Type TreeViewItem}">
                                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -441,20 +446,20 @@
                                                                 <RowDefinition/>
                                                             </Grid.RowDefinitions>
                                                             <ToggleButton x:Name="Expander" 
-                                                                      ClickMode="Press" 
-                                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
-                                                                      Style="{DynamicResource ExpandCollapseToggleStyle}"/>
+                                                                          ClickMode="Press" 
+                                                                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                                          Style="{DynamicResource ExpandCollapseToggleStyle}"/>
                                                             <Border x:Name="Bd" 
-                                                                        BorderBrush="{TemplateBinding BorderBrush}" 
-                                                                        BorderThickness="{TemplateBinding BorderThickness}" 
-                                                                        Background="{TemplateBinding Background}" 
-                                                                        Grid.Column="1" 
-                                                                        Padding="{TemplateBinding Padding}" 
-                                                                        SnapsToDevicePixels="true">
+                                                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                                                    Background="{TemplateBinding Background}" 
+                                                                    Grid.Column="1" 
+                                                                    Padding="{TemplateBinding Padding}" 
+                                                                    SnapsToDevicePixels="true">
                                                                 <ContentPresenter x:Name="PART_Header"
-                                                                              ContentSource="Header" 
-                                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                                                  ContentSource="Header" 
+                                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                                             </Border>
                                                             <ItemsPresenter x:Name="ItemsHost" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
                                                         </Grid>
@@ -508,13 +513,13 @@
                                         <HierarchicalDataTemplate DataType="{x:Type fileExplorerShell:FileSystemObjectInfo}" ItemsSource="{Binding Path=Children}">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                                 <Rectangle Margin="0 0 5 0" 
-                                                       HorizontalAlignment="Left" 
-                                                       Width="10" 
-                                                       PreviewMouseMove="TreeViewItem_MouseMove" 
-                                                       PreviewMouseLeftButtonDown="TreeViewItem_MouseDown"
-                                                       ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or into the notepaditems list on the left" 
-                                                       Cursor="SizeAll"
-                                                       Visibility="{Binding Path=GripVisible, UpdateSourceTrigger=PropertyChanged}">
+                                                           HorizontalAlignment="Left" 
+                                                           Width="10" 
+                                                           PreviewMouseMove="TreeViewItem_MouseMove" 
+                                                           PreviewMouseLeftButtonDown="TreeViewItem_MouseDown"
+                                                           ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or into the notepaditems list on the left" 
+                                                           Cursor="SizeAll"
+                                                           Visibility="{Binding Path=GripVisible, UpdateSourceTrigger=PropertyChanged}">
                                                     <Rectangle.Fill>
                                                         <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">
                                                             <DrawingBrush.Drawing>
@@ -626,8 +631,8 @@
                                     <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
                                         <DockPanel>
                                             <Expander IsExpanded="{Binding FindExpanded, UpdateSourceTrigger=PropertyChanged}" 
-                                                          DockPanel.Dock="Right" ExpandDirection="Left" 
-                                                          HorizontalAlignment="Right" Margin="2 0 0 0">
+                                                      DockPanel.Dock="Right" ExpandDirection="Left" 
+                                                      HorizontalAlignment="Right" Margin="2 0 0 0">
                                                 <Expander.Header>
                                                     <TextBlock Text="Find Text" FontSize="13">
                                                         <TextBlock.LayoutTransform>
@@ -636,7 +641,7 @@
                                                     </TextBlock>
                                                 </Expander.Header>
                                                 <GroupBox Header="Find text in the Text Input (on left)" 
-                                                              MaxWidth="244" MinWidth="244" Margin="1 -1 2 -1">
+                                                          MaxWidth="244" MinWidth="244" Margin="1 -1 2 -1">
                                                     <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
                                                         <Grid.InputBindings>
                                                             <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
@@ -657,9 +662,9 @@
                                                             <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind All"/></TextBlock>
                                                         </Button>
                                                         <CheckBox IsChecked="{Binding MatchCase, UpdateSourceTrigger=PropertyChanged}" 
-                                                                      Margin="5,38,5,0"
-                                                                      Height="16"
-                                                                      Content="Match Capitalisation" VerticalAlignment="Top"/>
+                                                                  Margin="5,38,5,0"
+                                                                  Height="16"
+                                                                  Content="Match Capitalisation" VerticalAlignment="Top"/>
                                                         <Label Content="Found Results. (double-click to highlight)" Padding="0 5" VerticalAlignment="Top" Margin="5,55,5,0"/>
                                                         <ListBox Margin="5,81,5,5"
                                                                  x:Name="findList"
@@ -676,7 +681,8 @@
                                                 </GroupBox>
                                             </Expander>
                                             <DockPanel>
-                                                <!-- Line Numbers. This is too laggy with many lines.
+                                                <!-- Line Numbers. This is too laggy with many lines. 
+                                                so im removing it until i can figure out a better way to do it 
                                                     <Border Background="{DynamicResource ContainerBackground}" 
                                                             BorderBrush="{DynamicResource ControlDefaultBorderBrush}" 
                                                             BorderThickness="1 1 0 1" Width="auto" MinWidth="20"
@@ -692,7 +698,7 @@
                                                     </Border>
                                                     -->
                                                 <Grid x:Name="editorGrid">
-                                                    <!-- Line Numbers. This is also too laggy with many lines.
+                                                    <!-- Line Numbers. This way is also too laggy
                                                         <TextBlock Text="{Binding (utils:TextBoxLineNumbers.BindableLineCount), ElementName=MainTextBox}" 
                                                                    FontFamily="{Binding Notepad.DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
                                                                    FontSize="{Binding Notepad.DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
@@ -744,13 +750,13 @@
                                                         </se:TextEditor.InputBindings>
                                                     </se:TextEditor>
                                                     <Border x:Name="aditionalSelection"
-                                                                BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                                                                Opacity="0.7"
-                                                                BorderThickness="2"
-                                                                CornerRadius="2"
-                                                                HorizontalAlignment="Stretch" 
-                                                                VerticalAlignment="Stretch" 
-                                                                Margin="Infinity"/>
+                                                            BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                                            Opacity="0.7"
+                                                            BorderThickness="2"
+                                                            CornerRadius="2"
+                                                            HorizontalAlignment="Stretch" 
+                                                            VerticalAlignment="Stretch" 
+                                                            Margin="Infinity"/>
                                                 </Grid>
                                             </DockPanel>
                                         </DockPanel>

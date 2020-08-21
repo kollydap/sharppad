@@ -10,13 +10,12 @@
         Title="Window Manager" 
         MinHeight="320"
         MinWidth ="600" 
-        MaxWidth="1024"
         Height="400"
-        MaxHeight="576"
-        Width="700"
+        Width="750"
         Closing="Window_Closing"
         Topmost="True"
-        Style="{DynamicResource CustomWindowStyle}">
+        Icon="/SharpPad;component/Resources/previewWindow.png"
+        Style="{DynamicResource CustomToolWindowStyle}">
     <Grid Margin="4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

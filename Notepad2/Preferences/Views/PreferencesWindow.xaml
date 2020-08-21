@@ -34,7 +34,7 @@
                     <CheckBox Content="Cut entire line with Ctrl + X (when no text selected)"  IsChecked="{Binding CutEntireLineCtrlX, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox Content="Copy entire line with Ctrl + C (when no text selected)" IsChecked="{Binding CopyEntireLineCtrlC, UpdateSourceTrigger=PropertyChanged}"/>
                     <CheckBox Content="Select entire line with Ctrl + Shift + A"               IsChecked="{Binding SelectEntireLineCtrlShiftA, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Add entire line below current one with Ctrl + Enter"    IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Add empty line below current one with Ctrl + Enter"    IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
                     <Separator/>
                     <CheckBox Content="Zoom editor with Ctrl + Mouse Wheel up/down" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
                     <Separator/>

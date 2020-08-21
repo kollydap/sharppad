@@ -5,12 +5,18 @@ namespace Notepad2.AttachedProperties
 {
     /// <summary>
     /// A base class for simplifying the creation of attached properties 
+    /// <para>
+    /// This class is a bit confusing but it works so thats 
+    /// all that matters xdddd, and its quite simple to use too
+    /// </para>
     /// </summary>
     /// <typeparam name="Parent">The parent class (aka the class name of the </typeparam>
     /// <typeparam name="Property">The Attacged Property type (bool, string, etc)</typeparam>
     public class BaseAttachedProperty<Parent, Property> where Parent : BaseAttachedProperty<Parent, Property>, new()
     {
-        // "Singleton" parent
+        /// <summary>
+        /// The "Singleton" Parent... somehow it gets set
+        /// </summary>
         public static Parent Instance { get; private set; } = new Parent();
 
         /// <summary>

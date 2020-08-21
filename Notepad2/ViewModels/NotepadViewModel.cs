@@ -13,7 +13,6 @@ using Notepad2.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -127,6 +126,12 @@ namespace Notepad2.ViewModels
         /// </summary>
         public HistoryViewModel History { get; set; }
 
+        /// <summary>
+        /// An interface for providing a few functions to be executed on the notepad window,
+        /// without having an instance to the window. So this is MVVM friendly i think
+        /// </summary>
+        public IMainView View { get; }
+
         #endregion
 
         #region Commands
@@ -140,7 +145,6 @@ namespace Notepad2.ViewModels
         public ICommand CloseSelectedNotepadCommand { get; }
         public ICommand CloseAllNotepadsCommand { get; }
         public ICommand MoveItemCommand { get; }
-        public ICommand OpenInNewWindowCommand { get; }
         public ICommand PrintFileCommand { get; }
         public ICommand AutoShowFindMenuCommand { get; }
         public ICommand ShowHelpCommand { get; }
@@ -157,8 +161,6 @@ namespace Notepad2.ViewModels
 
 
         #endregion
-
-        public IMainView View { get; }
 
         #region Constructor
 
@@ -184,7 +186,6 @@ namespace Notepad2.ViewModels
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
             CloseAllNotepadsCommand = new Command(CloseAllNotepads);
             MoveItemCommand = new CommandParam<string>(MoveItem);
-            OpenInNewWindowCommand = new Command(OpenSelectedNotepadInNewWindow);
             PrintFileCommand = new Command(PrintFile);
             AutoShowFindMenuCommand = new Command(OpenFindWindow);
             ShowHelpCommand = new Command(ThisApplication.ShowHelp);
@@ -198,13 +199,17 @@ namespace Notepad2.ViewModels
 
             SortListCommand = new CommandParam<string>(SortItems);
 
-            Information.Show("Program loaded", InfoTypes.Information);
+            Information.Show("Notepad Window loaded", InfoTypes.Information);
         }
 
         #endregion
 
         #region Sorting
 
+        /// <summary>
+        /// Sorts all of the notepad documents/items in a certain way
+        /// </summary>
+        /// <param name="sortBy">fn to sort by file name, or fs to sort by the file size</param>
         public void SortItems(string sortBy)
         {
             switch (sortBy.ToString())
@@ -251,8 +256,7 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// Prints (on A4 Paper) a page to your printer. Shows a dialog to specify settings
-        /// (untested)
+        /// Prints (on A4 Paper) a page to your printer. Shows a dialog to specify settings (untested)
         /// </summary>
         public void PrintFile()
         {
@@ -369,7 +373,7 @@ namespace Notepad2.ViewModels
             //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             RemoveNotepadItem(nli);
             History.PushFile(nli);
-            Information.Show($"Removed FileItem: {nli.Document.FileName}", InfoTypes.FileIO);
+            Information.Show($"Removed FileItem: [{nli.Document.FileName}]", InfoTypes.FileIO);
             UpdateSelectedNotepad();
         }
 
@@ -418,6 +422,11 @@ namespace Notepad2.ViewModels
 
         #region Create
 
+        /// <summary>
+        /// Gets the font from the properties. this is automatically set as the last notepad 
+        /// window's last notepad document's font when the application closes (i think lol)
+        /// </summary>
+        /// <returns></returns>
         public FontFamily GetDefaultFont()
         {
             return
@@ -426,6 +435,11 @@ namespace Notepad2.ViewModels
                     : new FontFamily("Consolas");
         }
 
+        /// <summary>
+        /// Gets the font size from properties. this is automatically set as the last notepad 
+        /// window's last notepad document's font when the application closes (i think lol)
+        /// </summary>
+        /// <returns></returns>
         public double GetDefaultFontSize()
         {
             double fSize = Properties.Settings.Default.DefaultFontSize;
@@ -475,16 +489,14 @@ namespace Notepad2.ViewModels
             return fivm;
         }
 
-        public TextDocumentViewModel CreateNotepadItemFromViewModel(TextDocumentViewModel notepad)
-        {
-            TextDocumentViewModel nli = notepad;
-            SetupNotepadItemCallbacks(notepad);
-            return nli;
-        }
-
+        /// kettlesimulator made this xd
+        /// <summary>
+        /// Sets up the callback functions for a notepad document 
+        /// (e.g, the ones to close the item or open in another window).
+        /// </summary>
+        /// <param name="nli"></param>
         public void SetupNotepadItemCallbacks(TextDocumentViewModel nli)
         {
-            nli.OpenInFileExplorer = OpenNotepadItemInFileExplorer;
             nli.Close = CloseNotepadItem;
             nli.OpenInNewWindowCallback = OpenNotepadItemInNewWindow;
         }
@@ -523,35 +535,6 @@ namespace Notepad2.ViewModels
         // File IO
 
         #region Opening
-
-        /// <summary>
-        /// Opens Windows File Explorer and selects the item who's 
-        /// path is inside of the given <see cref="TextDocumentViewModel"/>
-        /// </summary>
-        /// <param name="nli"></param>
-        public void OpenNotepadItemInFileExplorer(TextDocumentViewModel nli)
-        {
-            if (nli != null && nli is TextDocumentViewModel fivm)
-            {
-                if (fivm != null)
-                {
-                    string folderPath = fivm.Document.FilePath;
-                    if (File.Exists(folderPath))
-                    {
-                        ProcessStartInfo info = new ProcessStartInfo()
-                        {
-                            FileName = "explorer.exe",
-                            Arguments = string.Format("/e, /select, \"{0}\"", folderPath)
-                        };
-                        Information.Show("Opening File Explorer at selected file location", InfoTypes.FileIO);
-                        Process.Start(info);
-                    }
-
-                    else
-                        Information.Show("FilePath Doesn't Exist", "FilePath null");
-                }
-            }
-        }
 
         public void OpenNotepadItem(TextDocumentViewModel notepadItem)
         {
@@ -622,6 +605,11 @@ namespace Notepad2.ViewModels
             }
         }
 
+        /// <summary>
+        /// Reads the text from a file path and creates and adds a new notepad document
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="selectFile"></param>
         public void OpenNotepadFromPath(string path, bool selectFile = false)
         {
             try
@@ -645,7 +633,11 @@ namespace Notepad2.ViewModels
                     string text = NotepadActions.ReadFile(path);
                     TextDocumentViewModel item = CreateDefaultStyleNotepadItem(text, Path.GetFileName(path), path);
                     AddNotepadItem(item);
-                    Information.Show($"Opened file: {path}", InfoTypes.FileIO);
+
+                    if (fInfo.IsReadOnly)
+                        item.HasMadeChanges = true;
+
+                    Information.Show($"Opened file: [{path}]", InfoTypes.FileIO);
                     if (selectFile && item != null)
                         SelectedNotepadItem = item;
                 }
@@ -657,7 +649,7 @@ namespace Notepad2.ViewModels
         {
             if (notepad != null)
             {
-                Information.Show($"Reopening {notepad.Document.FileName} from history", "History");
+                Information.Show($"Reopening [{notepad.Document.FileName}] from history", "History");
                 AddNotepadFromViewModel(notepad);
             }
         }
@@ -672,6 +664,8 @@ namespace Notepad2.ViewModels
             {
                 if (File.Exists(fivm.Document.FilePath))
                 {
+                    string oldFilePath = fivm.Document.FilePath;
+                    string oldFileName = Path.GetFileName(fivm.Document.FilePath);
                     string extension = Path.GetExtension(fivm.Document.FilePath);
                     string folderName = Path.GetDirectoryName(fivm.Document.FilePath);
                     string newFileName =
@@ -681,21 +675,29 @@ namespace Notepad2.ViewModels
                     string newFilePath = Path.Combine(folderName, newFileName);
                     if (fivm.Document.FilePath != newFilePath)
                     {
-                        if (MessageBox.Show($"You are about to overwrite {fivm.Document.FilePath} " +
-                            $"with {newFilePath}, do you want to continue?", "Overrite file?",
+                        if (MessageBox.Show($"You are about to overwrite {oldFileName} " +
+                            $"with {newFileName}, do you want to continue?", "Overrite file?",
                             MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            SaveFile(fivm.Document.FilePath, fivm.Document.Text);
-                            fivm.HasMadeChanges = false;
+                            if (SaveFile(fivm.Document.FilePath, fivm.Document.Text))
+                            {
+                                fivm.HasMadeChanges = false;
+                            }
+
                             File.Move(fivm.Document.FilePath, newFilePath);
                             fivm.Document.FileName = newFileName;
                             fivm.Document.FilePath = newFilePath;
+
+                            Information.Show($"Renamed [{oldFileName}] to [{newFileName}] successfully", "File IO");
                         }
                     }
                     else
                     {
-                        SaveFile(fivm.Document.FilePath, fivm.Document.Text);
-                        fivm.HasMadeChanges = false;
+                        if (SaveFile(fivm.Document.FilePath, fivm.Document.Text))
+                        {
+                            fivm.HasMadeChanges = false;
+                        }
+
                         fivm.Document.FileName = newFileName;
                         fivm.Document.FilePath = newFilePath;
                     }
@@ -734,10 +736,13 @@ namespace Notepad2.ViewModels
                 if (sfd.ShowDialog() == true)
                 {
                     string newFilePath = sfd.FileName;
-                    SaveFile(newFilePath, fivm.Document.Text);
+                    if (SaveFile(newFilePath, fivm.Document.Text))
+                    {
+                        fivm.HasMadeChanges = false;
+                    }
+
                     fivm.Document.FileName = Path.GetFileName(newFilePath);
                     fivm.Document.FilePath = newFilePath;
-                    fivm.HasMadeChanges = false;
                 }
             }
             catch (Exception e) { Information.Show(e.Message, "Error while saving (manual) notepaditem as..."); }
@@ -785,14 +790,43 @@ namespace Notepad2.ViewModels
                 }
         }
 
-        public void SaveFile(string path, string text)
+        /// <summary>
+        /// Saves the text to the given path
+        /// </summary>
+        /// <param name="path">Path of the file</param>
+        /// <param name="text">The text to be saved to the file</param>
+        /// <returns></returns>
+        public bool SaveFile(string path, string text)
         {
             try
             {
-                NotepadActions.SaveFile(path, text);
-                Information.Show($"Successfully saved {path}", InfoTypes.FileIO);
+                if (path.IsFile())
+                {
+                    FileInfo fInfo = new FileInfo(path);
+                    if (!fInfo.IsReadOnly)
+                    {
+                        NotepadActions.SaveFile(path, text);
+                        Information.Show($"Successfully saved [{path}]", InfoTypes.FileIO);
+                        return true;
+                    }
+                    else
+                    {
+                        Information.Show($"File [{path}] is read only. Cannot save.", "File IO");
+                        return false;
+                    }
+                }
+                else
+                {
+                    NotepadActions.SaveFile(path, text);
+                    Information.Show($"Successfully saved [{path}]", InfoTypes.FileIO);
+                    return true;
+                }
             }
-            catch (Exception e) { Information.Show(e.Message, "Error while saving text to file."); }
+            catch (Exception e)
+            {
+                Information.Show(e.Message, "Error while saving text to file.");
+                return false;
+            }
         }
 
         #endregion
@@ -873,14 +907,14 @@ namespace Notepad2.ViewModels
 
         #endregion
 
-        // Private Methods
-
         #region InfoStatusErrors
 
         private void Information_InformationAdded(InformationModel e)
         {
             InformationView.AddInformation(e);
         }
+
+        // ther
 
         #endregion
 
@@ -932,28 +966,10 @@ namespace Notepad2.ViewModels
                 ThisApplication.ShutdownApplication();
         }
 
-        public void OpenSelectedNotepadInNewWindow()
-        {
-            if (SelectedNotepadItem != null)
-            {
-                if (File.Exists(Notepad.Document.FilePath))
-                {
-                    ThisApplication.OpenFileInNewWindow(Notepad.Document.FilePath);
-                    Information.Show($"Opened {Notepad.Document.FileName} in another window", InfoTypes.Information);
-                    CloseSelectedNotepad();
-                }
-                else
-                {
-                    string tempFilePath = Path.Combine(Path.GetTempPath(), Notepad.Document.FileName);
-                    File.WriteAllText(tempFilePath, Notepad.Document.Text);
-                    ThisApplication.OpenFileInNewWindow(tempFilePath);
-                    Information.Show($"Opened {Notepad.Document.FileName} in another window", InfoTypes.Information);
-                    CloseSelectedNotepad();
-                    File.Delete(tempFilePath);
-                }
-            }
-        }
-
+        /// <summary>
+        /// Opens a notepad document in a new window
+        /// </summary>
+        /// <param name="nli"></param>
         public void OpenNotepadItemInNewWindow(TextDocumentViewModel nli)
         {
             if (nli != null)
@@ -961,7 +977,7 @@ namespace Notepad2.ViewModels
                 if (File.Exists(nli.Document.FilePath))
                 {
                     ThisApplication.OpenFileInNewWindow(nli.Document.FilePath);
-                    Information.Show($"Opened {nli.Document.FileName} in another window", InfoTypes.Information);
+                    Information.Show($"Opened [{nli.Document.FileName}] in another window", InfoTypes.Information);
                     CloseNotepadItem(nli, false);
                 }
                 else
@@ -969,7 +985,7 @@ namespace Notepad2.ViewModels
                     string tempFilePath = Path.Combine(Path.GetTempPath(), nli.Document.FileName);
                     File.WriteAllText(tempFilePath, nli.Document.Text);
                     ThisApplication.OpenFileInNewWindow(tempFilePath);
-                    Information.Show($"Opened {nli.Document.FileName} in another window", InfoTypes.Information);
+                    Information.Show($"Opened [{nli.Document.FileName}] in another window", InfoTypes.Information);
                     CloseNotepadItem(nli, false);
                     File.Delete(tempFilePath);
                 }
@@ -977,6 +993,8 @@ namespace Notepad2.ViewModels
         }
 
         #endregion
+
+        #region Hooks and Shutting down
 
         public void SetupInformationHook()
         {
@@ -997,5 +1015,9 @@ namespace Notepad2.ViewModels
             ShutdownInformationHook();
             OurClipboard.ShutdownUpdaterHook();
         }
+
+        #endregion
     }
 }
+
+// eee over 1000 lines xd

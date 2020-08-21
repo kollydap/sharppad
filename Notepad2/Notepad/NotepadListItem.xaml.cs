@@ -51,7 +51,7 @@ namespace Notepad2.Notepad
             switch (int.Parse(((MenuItem)sender).Uid))
             {
                 case 1: Notepad.Close?.Invoke(Notepad); break;
-                case 2: Notepad.OpenInFileExplorer?.Invoke(Notepad); break;
+                case 2: Notepad.Document.FilePath.OpenInFileExplorer(); break;
                 case 3: DeleteFile(); break;
                 case 4: Notepad.OpenInNewWindowCallback?.Invoke(Notepad); break;
             }

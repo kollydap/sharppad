@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Notepad2.Utilities;
+using System;
 
 namespace Notepad2.InformationStuff
 {

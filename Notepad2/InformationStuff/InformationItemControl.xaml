@@ -8,10 +8,10 @@
              Height="20" d:DesignWidth="800" 
              Foreground="{DynamicResource ControlDefaultForeground}">
     <DockPanel Background="Transparent">
-        <TextBlock Text="{Binding Time, StringFormat='{}{0:HH:mm:ss}', ConverterCulture=en-GB, FallbackValue=thedateee}" Margin="0 0 5 0" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding Time, StringFormat='{}{0:HH:mm:ss}', ConverterCulture=en-GB, FallbackValue=thedateee, Mode=OneTime}" Margin="0 0 5 0" VerticalAlignment="Center"/>
         <Separator Style="{DynamicResource VerticalSeparator}" Margin="0 2 0 2"/>
-        <TextBlock Text="{Binding Type, FallbackValue=type}" TextTrimming="CharacterEllipsis" Margin="5 0 1 0" TextWrapping="NoWrap"  VerticalAlignment="Center" Width="64"/>
+        <TextBlock Text="{Binding Type, FallbackValue=type, Mode=OneTime}" TextTrimming="CharacterEllipsis" Margin="5 0 1 0" TextWrapping="NoWrap"  VerticalAlignment="Center" Width="64"/>
         <TextBlock Text="->" Margin="0,0,0,0"  VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding Message, FallbackValue=message}" TextTrimming="CharacterEllipsis" Margin="5 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+        <TextBlock Text="{Binding Message, FallbackValue=message, Mode=OneTime}" TextTrimming="CharacterEllipsis" Margin="5 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
     </DockPanel>
 </UserControl>

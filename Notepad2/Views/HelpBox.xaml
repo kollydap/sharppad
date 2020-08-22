@@ -35,11 +35,11 @@
                     </StackPanel>
                     <StackPanel Margin="5 0 0 0">
                         <TextBlock Text="More Global HotKeys"/>
-                        <TextBlock Text="CTRL + LeftArrow - Re-open last closed file"/>
-                        <TextBlock Text="CTRL + T         - New Window"/>
-                        <TextBlock Text="CTRL + W         - Close Window"/>
-                        <TextBlock Text="CTRL Shift + W   - Close ALL Window"/>
-                        <TextBlock Text="CTRL Shift + T   - Re-open last window"/>
+                        <TextBlock><Run Text="CTRL + "/><Run Text="R "/><Run Text="      "/><Run Text="- Re-open last closed file"/></TextBlock>
+                        <TextBlock><Run Text="CTRL + T "/><Run Text="      "/><Run Text="- "/><Run Text="Open "/><Run Text="New Window"/></TextBlock>
+                        <TextBlock><Run Text="CTRL + W "/><Run Text="      "/><Run Text="- Close"/><Run Text=" focused"/><Run Text=" Window"/></TextBlock>
+                        <TextBlock Text="CTRL Shift + W - Close ALL Window"/>
+                        <TextBlock Text="CTRL Shift + T - Re-open last window"/>
                     </StackPanel>
                     <StackPanel Margin="20 0 0 0">
                         <TextBlock Text="Base Text Editor HotKeys"/>

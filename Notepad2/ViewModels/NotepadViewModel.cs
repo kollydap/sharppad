@@ -34,6 +34,7 @@ namespace Notepad2.ViewModels
         private int _selectedIndex;
         private bool _notepadAvaliable;
         private bool _findExpanded;
+        private string _toFindItemText;
 
         #endregion
 
@@ -90,6 +91,15 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
+        /// Text used for finding Notepad Items
+        /// </summary>
+        public string ToFindItemText
+        {
+            get => _toFindItemText;
+            set => RaisePropertyChanged(ref _toFindItemText, value);
+        }
+
+        /// <summary>
         /// The currently selected <see cref="TextDocumentViewModel"/>
         /// </summary>
         public TextDocumentViewModel Notepad
@@ -126,6 +136,8 @@ namespace Notepad2.ViewModels
         /// </summary>
         public HistoryViewModel History { get; set; }
 
+        public ItemSearchResultsViewMode ItemSearcher { get; set; }
+
         /// <summary>
         /// An interface for providing a few functions to be executed on the notepad window,
         /// without having an instance to the window. So this is MVVM friendly i think
@@ -147,6 +159,7 @@ namespace Notepad2.ViewModels
         public ICommand MoveItemCommand { get; }
         public ICommand PrintFileCommand { get; }
         public ICommand AutoShowFindMenuCommand { get; }
+        public ICommand FindNotepadItemCommand { get; }
         public ICommand ShowHelpCommand { get; }
 
         public ICommand NewWindowCommand { get; }
@@ -173,9 +186,11 @@ namespace Notepad2.ViewModels
             OurClipboard = new ClipboardViewModel();
             InformationView = new InformationViewModel();
             NotepadItems = new ObservableCollection<TextDocumentViewModel>();
+            ItemSearcher = new ItemSearchResultsViewMode();
 
             SetupInformationHook();
             History.OpenFileCallback = ReopenNotepadFromHistory;
+            ItemSearcher.SelectItemCallback = SelectItem;
 
             NewCommand = new Command(AddDefaultNotepadItem);
             OpenCommand = new Command(OpenNotepadFromFileExplorer);
@@ -187,15 +202,16 @@ namespace Notepad2.ViewModels
             CloseAllNotepadsCommand = new Command(CloseAllNotepads);
             MoveItemCommand = new CommandParam<string>(MoveItem);
             PrintFileCommand = new Command(PrintFile);
-            AutoShowFindMenuCommand = new Command(OpenFindWindow);
+            AutoShowFindMenuCommand = new Command(OpenFindPanel);
+            FindNotepadItemCommand = new Command(FindNotepadItem);
             ShowHelpCommand = new Command(ThisApplication.ShowHelp);
 
-            NewWindowCommand = new Command(NewWindow);
-            ReopenLastWindowCommand = new Command(ReopenLastWindow);
-            CloseWindowCommand = new Command(CloseWindow);
-            CloseViewWithCheckCommand = new Command(CloseWindowWithCheck);
-            CloseAllWindowsCommand = new Command(CloseAllWindow);
-            ShowWindowManagerCommand = new Command(ShowWindowManager);
+            NewWindowCommand = new Command(NewView);
+            ReopenLastWindowCommand = new Command(ReopenLastView);
+            CloseWindowCommand = new Command(CloseView);
+            CloseViewWithCheckCommand = new Command(CloseViewWithCheck);
+            CloseAllWindowsCommand = new Command(ShutdownApplication);
+            ShowWindowManagerCommand = new Command(ShowViewManager);
 
             SortListCommand = new CommandParam<string>(SortItems);
 
@@ -374,6 +390,7 @@ namespace Notepad2.ViewModels
             RemoveNotepadItem(nli);
             History.PushFile(nli);
             Information.Show($"Removed FileItem: [{nli.Document.FileName}]", InfoTypes.FileIO);
+            SelectedIndex = 0;
             UpdateSelectedNotepad();
         }
 
@@ -498,7 +515,7 @@ namespace Notepad2.ViewModels
         public void SetupNotepadItemCallbacks(TextDocumentViewModel nli)
         {
             nli.Close = CloseNotepadItem;
-            nli.OpenInNewWindowCallback = OpenNotepadItemInNewWindow;
+            nli.OpenInNewWindowCallback = OpenNotepadItemInNewView;
         }
 
         #endregion
@@ -833,14 +850,14 @@ namespace Notepad2.ViewModels
 
         // Other
 
-        #region Finding Text
+        #region Finding
 
         public void FocusFind()
         {
             View.FocusFindInput(FindExpanded);
         }
 
-        public void OpenFindWindow()
+        public void OpenFindPanel()
         {
             FindExpanded = !FindExpanded;
         }
@@ -853,6 +870,22 @@ namespace Notepad2.ViewModels
         private void OnNextTextFound(FindResult result)
         {
             HighlightText(result);
+        }
+
+        // Finding Items
+
+        private void FindNotepadItem()
+        {
+            ItemSearcher.Search(NotepadItems, ToFindItemText);
+            View.ShowItemsSearcherWindow();
+        }
+
+        public void SelectItem(TextDocumentViewModel doc)
+        {
+            if (doc != null && NotepadItems.Contains(doc))
+            {
+                SelectedNotepadItem = doc;
+            }
         }
 
         #endregion
@@ -918,25 +951,25 @@ namespace Notepad2.ViewModels
 
         #endregion
 
-        #region Windows
+        #region Views/Windows
 
-        private void NewWindow()
+        private void NewView()
         {
             ThisApplication.OpenNewBlankWindow();
         }
 
-        private void ShowWindowManager()
+        private void ShowViewManager()
         {
             ThisApplication.ShowWindowPreviewsWindow();
         }
 
-        public void ReopenLastWindow()
+        public void ReopenLastView()
         {
             if (PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T)
                 ThisApplication.ReopenLastWindow();
         }
 
-        public void CloseWindow()
+        public void CloseView()
         {
             if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
             {
@@ -945,7 +978,7 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void CloseWindowWithCheck()
+        public void CloseViewWithCheck()
         {
             if (MessageBox.Show(
                 "Close Window?", 
@@ -959,9 +992,8 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void CloseAllWindow()
+        public void ShutdownApplication()
         {
-            // easier and faster than manually closing all windows.
             if (PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W)
                 ThisApplication.ShutdownApplication();
         }
@@ -970,7 +1002,7 @@ namespace Notepad2.ViewModels
         /// Opens a notepad document in a new window
         /// </summary>
         /// <param name="nli"></param>
-        public void OpenNotepadItemInNewWindow(TextDocumentViewModel nli)
+        public void OpenNotepadItemInNewView(TextDocumentViewModel nli)
         {
             if (nli != null)
             {

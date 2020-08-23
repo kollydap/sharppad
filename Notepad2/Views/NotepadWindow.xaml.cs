@@ -29,6 +29,8 @@ namespace Notepad2.Views
 
         public bool CanSavePreferences { get; set; }
 
+        private ItemSearchResultsWindow SearchResultsWindow { get; set; }
+
         public NotepadViewModel Notepad
         {
             get => this.DataContext as NotepadViewModel;
@@ -120,6 +122,12 @@ namespace Notepad2.Views
         public void InitWindow()
         {
             Notepad = new NotepadViewModel(this);
+
+            SearchResultsWindow = new ItemSearchResultsWindow()
+            {
+                DataContext = Notepad.ItemSearcher
+            };
+
             InitialiseTreeFileExplorer();
         }
 
@@ -359,8 +367,8 @@ namespace Notepad2.Views
             {
                 try
                 {
+                    PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT = !ListExpander.IsExpanded;
                     PreferencesG.SaveToProperties();
-                    Properties.Settings.Default.closeNLstOnStrt = !ListExpander.IsExpanded;
                     if (WindowState == WindowState.Maximized)
                     {
                         // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
@@ -460,6 +468,11 @@ namespace Notepad2.Views
         {
             if (NotepadItemsListBox.SelectedItem != null)
                 NotepadItemsListBox.ScrollIntoView(NotepadItemsListBox.SelectedItem);
+        }
+
+        public void ShowItemsSearcherWindow()
+        {
+            SearchResultsWindow.ShowWindow();
         }
     }
 }

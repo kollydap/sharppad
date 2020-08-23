@@ -254,7 +254,7 @@
                         <TextBlock Text="Windows Clipboard:" Padding="4" VerticalAlignment="Center" FontSize="12"
                                    ToolTip="To the right will show whatever is currently in the clipboard" 
                                    Margin="0,0,0,0" HorizontalAlignment="Left" Width="115"/>
-                        
+
                         <!-- Testing out attached properties -->
                         <TextBlock Padding="4"
                                    VerticalAlignment="Center" 
@@ -265,7 +265,7 @@
                                    Margin="115,3,0,3" 
                                    Text="Clipboard is Empty"
                                    Opacity="0.5" Visibility="Collapsed"/>
-                        
+
                         <TextBlock Text="{Binding OurClipboard.ClipboardText, UpdateSourceTrigger=PropertyChanged}"
                                    Padding="4"
                                    VerticalAlignment="Center" 
@@ -557,6 +557,7 @@
                                       Background="{DynamicResource BackgroundColour}">
                                 <Grid>
                                     <!-- ScrollViewer.CanContentScroll="False"  makes content scroll vertically by pixel not by content height -->
+                                    <!-- crollViewer.HorizontalScrollBarVisibility="Disabled"  makes the items always fit the listbox width -->
                                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedItem="{Binding SelectedNotepadItem, UpdateSourceTrigger=PropertyChanged}"
@@ -566,7 +567,7 @@
                                              ScrollViewer.CanContentScroll="False"
                                              AllowDrop="True" 
                                              Padding="0"
-                                             Drop="NotepadItemsListBox_ItemsDropped" Margin="0,0,0,46" 
+                                             Drop="NotepadItemsListBox_ItemsDropped" Margin="0,0,0,68" 
                                              Background="{DynamicResource BackgroundColour}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
@@ -583,21 +584,31 @@
                                             </ContextMenu>
                                         </ListBox.ContextMenu>
                                     </ListBox>
-                                    <Button Command="{Binding CloseAllNotepadsCommand}"  Margin="0,0,75,0"
+                                    <Grid Margin="0,0,0,26" Height="42" VerticalAlignment="Bottom">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Button Command="{Binding CloseAllNotepadsCommand}"  Margin="0,0,75,0"
                                             BorderThickness="1 0 0 1" 
-                                            Content="Clear List" 
-                                            VerticalAlignment="Bottom" 
-                                            Height="46" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
-                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="up"  Margin="0,0,0,23"
-                                            BorderThickness="1 0 1 1" Content="Move Up" 
-                                            VerticalAlignment="Bottom" 
-                                            Height="23" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                            Content="Clear List" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}" Grid.RowSpan="2"/>
+                                        <Button Command="{Binding MoveItemCommand}" CommandParameter="up"
+                                            BorderThickness="1 0 1 1" Content="Move Up" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                                             ToolTip="Move the selected NotepadItem upwards in the list" HorizontalAlignment="Right" Width="75"/>
-                                    <Button Command="{Binding MoveItemCommand}" CommandParameter="down"
-                                            BorderThickness="1 0 1 1" Content="Move Down" 
-                                            VerticalAlignment="Bottom" 
-                                            Height="23" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                                            ToolTip="Move the selected NotepadItem downwards in the list" HorizontalAlignment="Right" Width="75"/>
+                                        <Button Command="{Binding MoveItemCommand}" CommandParameter="down"
+                                            BorderThickness="1 0 1 1" Content="Move Down" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                            ToolTip="Move the selected NotepadItem downwards in the list" HorizontalAlignment="Right" Width="75" Grid.Row="1"/>
+                                    </Grid>
+                                    <Grid VerticalAlignment="Bottom" Height="23">
+                                        <TextBox Text="{Binding ToFindItemText, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="1" VerticalAlignment="Stretch" Margin="0,0,20,0" BorderThickness="1 1 0 1">
+                                            <TextBox.InputBindings>
+                                                <KeyBinding Key="Enter" Command="{Binding FindNotepadItemCommand}"/>
+                                            </TextBox.InputBindings>
+                                        </TextBox>
+                                        <Button Command="{Binding FindNotepadItemCommand}" HorizontalAlignment="Right" Width="20">
+                                            <Image Margin="2" Source="/SharpPad;component/Resources/findReplace.png"/>
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                             </GroupBox>
                         </Expander>
@@ -671,6 +682,7 @@
                                                                  x:Name="findList"
                                                                  HorizontalContentAlignment="Stretch"
                                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                                 ScrollViewer.CanContentScroll="False"
                                                                  ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}">
                                                             <ListBox.ItemTemplate>
                                                                 <DataTemplate>

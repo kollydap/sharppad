@@ -1,0 +1,25 @@
+﻿<Window x:Class="Notepad2.Finding.ItemSearchResultsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad2.Finding"
+        mc:Ignorable="d"
+        Title="Search Results" 
+        Height="300" Width="500"
+        Style="{DynamicResource CustomToolWindowStyle}">
+    <Grid Margin="5">
+        <ListBox ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}" 
+                 HorizontalContentAlignment="Stretch"
+                 ScrollViewer.CanContentScroll="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,26,0,25">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <local:FoundNotepadItemControl DataContext="{Binding}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Content="Double click to select item in the Notepads List (In the Notepad window)" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Command="{Binding ClearItemsCommand}" Content="Clear Items" VerticalAlignment="Bottom" Height="25"/>
+    </Grid>
+</Window>

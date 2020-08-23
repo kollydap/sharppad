@@ -102,6 +102,14 @@
     </Compile>
     <Compile Include="Finding\FindResultItemViewModel.cs" />
     <Compile Include="Finding\FindSettings.cs" />
+    <Compile Include="Finding\FoundNotepadItemControl.xaml.cs">
+      <DependentUpon>FoundNotepadItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Finding\FoundNotepadItemViewModel.cs" />
+    <Compile Include="Finding\ItemSearchResultsViewMode.cs" />
+    <Compile Include="Finding\ItemSearchResultsWindow.xaml.cs">
+      <DependentUpon>ItemSearchResultsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="History\HistoryControl.xaml.cs">
       <DependentUpon>HistoryControl.xaml</DependentUpon>
     </Compile>
@@ -216,6 +224,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Finding\FindResultItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Finding\FoundNotepadItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Finding\ItemSearchResultsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

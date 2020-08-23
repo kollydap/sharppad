@@ -52,7 +52,8 @@ namespace Notepad2.CClipboard
 
         public void ShutdownUpdaterHook()
         {
-            // Application will shutdown the clipboard listener
+            // Application will shutdown the clipboard listener when the
+            // app shuts down, because other windows will need the listener.
             //ClipboardNotification.ShutdownListener();
             ClipboardNotification.ClipboardUpdate -= ClipboardNotification_ClipboardUpdate;
         }

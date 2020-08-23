@@ -4,6 +4,9 @@ using System;
 
 namespace Notepad2.Applications.History
 {
+    /// <summary>
+    /// A ViewModel for a history item. Contains a Notepad Window's DataContext
+    /// </summary>
     public class WindowHistoryControlViewModel : BaseViewModel
     {
         private NotepadViewModel _notepad;
@@ -13,7 +16,7 @@ namespace Notepad2.Applications.History
             set => RaisePropertyChanged(ref _notepad, value);
         }
 
-        public Action<WindowHistoryControlViewModel> ReopenWindowCallback { get; set; }
+        public Action<WindowHistoryControlViewModel> ReopenNotepadCallback { get; set; }
 
         public WindowHistoryControlViewModel() { }
 
@@ -24,7 +27,7 @@ namespace Notepad2.Applications.History
 
         public void ReopenWindow()
         {
-            ReopenWindowCallback?.Invoke(this);
+            ReopenNotepadCallback?.Invoke(this);
         }
     }
 }

@@ -565,6 +565,7 @@
                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                              ScrollViewer.CanContentScroll="False"
                                              AllowDrop="True" 
+                                             Padding="0"
                                              Drop="NotepadItemsListBox_ItemsDropped" Margin="0,0,0,46" 
                                              Background="{DynamicResource BackgroundColour}">
                                         <ListBox.ItemTemplate>

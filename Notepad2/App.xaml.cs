@@ -16,6 +16,10 @@ namespace Notepad2
     /// </summary>
     public partial class App : Application
     {
+        // My attempt at making the application single instance only,
+        // and opening a window on that instance. idk how to get the
+        // instance though which is the problem... so rip.
+
         //[DllImport("user32", CharSet = CharSet.Unicode)]
         //static extern IntPtr FindWindow(string cls, string win);
 
@@ -27,7 +31,6 @@ namespace Notepad2
         //public App()
         //{
         //    SingleInstanceCheck();
-
         //    Exit += App_Exit;
         //}
 
@@ -40,16 +43,15 @@ namespace Notepad2
         //public void SingleInstanceCheck()
         //{
         //    bool useSingleWindow = true;
-
         //    if (useSingleWindow)
         //    {
         //        bool isOnlyInstance = false;
         //        mMutex = new Mutex(true, "Notepad2", out isOnlyInstance);
-
         //        if (!isOnlyInstance)
         //        {
         //            MessageBox.Show("Another instance exists! Adding this instance's window to that one.");
         //            IntPtr winHandle = FindWindow(null, "SharpPad");
+        //            // winHandle is null because it's on another thread or something.
         //            if (winHandle != IntPtr.Zero)
         //            {
         //                HwndTarget target = new HwndTarget(winHandle);

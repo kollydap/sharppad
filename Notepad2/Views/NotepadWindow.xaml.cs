@@ -3,7 +3,6 @@ using Notepad2.FileExplorer.ShellClasses;
 using Notepad2.Finding;
 using Notepad2.InformationStuff;
 using Notepad2.Interfaces;
-using Notepad2.Notepad;
 using Notepad2.Preferences;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
@@ -36,6 +35,8 @@ namespace Notepad2.Views
             set => this.DataContext = value;
         }
 
+        // A few callback functions for telling the application
+        // about what going on with different windows
         public Action<NotepadWindow> WindowFocusedCallback { get; set; }
         public Action<NotepadWindow> WindowShownCallback { get; set; }
         public Action<NotepadWindow> WindowClosedCallback { get; set; }
@@ -122,7 +123,7 @@ namespace Notepad2.Views
             InitialiseTreeFileExplorer();
         }
 
-        public void LoadSettings(bool loadTheme = true, bool loadGlobalPreferencesG = true)
+        public void LoadSettings(bool loadAndSetAppTheme = true, bool loadGlobalPreferencesG = true)
         {
             if (loadGlobalPreferencesG)
                 PreferencesG.LoadFromProperties();
@@ -130,7 +131,7 @@ namespace Notepad2.Views
             this.Width = Properties.Settings.Default.Width;
             ListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
             showLineThing.IsChecked = Properties.Settings.Default.allowCaretLineOutline;
-            if (loadTheme)
+            if (loadAndSetAppTheme)
             {
                 switch (Properties.Settings.Default.Theme)
                 {

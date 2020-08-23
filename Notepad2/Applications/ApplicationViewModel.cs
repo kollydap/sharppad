@@ -3,7 +3,6 @@ using Notepad2.Applications.History;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -11,12 +10,20 @@ namespace Notepad2.Applications
 {
     /// <summary>
     /// Not technically an MVVM view model because it directly interacts
-    /// with window objects, but this class manages windows
+    /// with window objects, but this class manages windows. This class mainly deals
+    /// with finding window objects using ViewModels, Closing windows and pushing to history, and
+    /// receiving callbacks from history to re-create windows (aka creating new windows with the old DataContext)
     /// </summary>
     public class ApplicationViewModel : BaseViewModel
     {
+        /// <summary>
+        /// The colletcion of active/opened window as preview items
+        /// </summary>
         public ObservableCollection<WindowPreviewControlViewModel> WindowPreviews { get; set; }
 
+        /// <summary>
+        /// The History
+        /// </summary>
         public WindowHistoryViewModel History { get; set; }
 
         public ICommand ShutdownApplicationCommand { get; set; }
@@ -55,7 +62,7 @@ namespace Notepad2.Applications
 
         public void ReopenLastWindow()
         {
-            History.ReopenLastWindow();
+            History.ReopenLastNotepad();
         }
 
 
@@ -96,25 +103,25 @@ namespace Notepad2.Applications
             return window;
         }
 
-        public NotepadWindow CreateNotepadWindowAndOpenFiles(string[] fileNames, bool loadGlobalTheme = false, bool loadWindowPosition = false)
+        public NotepadWindow CreateNotepadWindowAndOpenFiles(string[] fileNames, bool loadAndSetAppTheme = false, bool loadWindowPosition = false)
         {
             NotepadWindow window = new NotepadWindow(fileNames);
-            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition);
+            SetupNotepadWindow(window, loadAndSetAppTheme, loadWindowPosition);
             return window;
         }
 
-        public NotepadWindow CreateStartupMainNotepadWindow(string[] fileNames, bool loadGlobalTheme = true, bool loadWindowPosition = true)
+        public NotepadWindow CreateStartupMainNotepadWindow(string[] fileNames, bool loadAndSetAppTheme = true, bool loadWindowPosition = true)
         {
             NotepadWindow window = new NotepadWindow(fileNames);
             window.AddStartupNotepad();
-            SetupNotepadWindow(window, loadGlobalTheme, loadWindowPosition);
+            SetupNotepadWindow(window, loadAndSetAppTheme, loadWindowPosition);
             return window;
         }
 
-        public NotepadWindow CreateStartupMainNotepadWindow(bool loadGlobalTheme = true, bool loadGlobalPreferencesG = true)
+        public NotepadWindow CreateStartupMainNotepadWindow(bool loadAndSetAppTheme = true, bool loadGlobalPreferencesG = true)
         {
             NotepadWindow window = new NotepadWindow();
-            SetupNotepadWindow(window, loadGlobalTheme, loadGlobalPreferencesG);
+            SetupNotepadWindow(window, loadAndSetAppTheme, loadGlobalPreferencesG);
             window.AddStartupNotepad();
             return window;
         }
@@ -138,21 +145,18 @@ namespace Notepad2.Applications
             return window;
         }
 
-        public void SetupNotepadWindow(
-            NotepadWindow window,
-            bool loadGlobalTheme = false,
-            bool loadGlobalPreferenesG = true)
+        public void SetupNotepadWindow(NotepadWindow window, bool loadAndSetAppTheme = false, bool loadGlobalPreferenesG = true)
         {
             SetupNotepadWindowCallbacks(window);
-            window.LoadSettings(loadGlobalTheme, loadGlobalPreferenesG);
+            window.LoadSettings(loadAndSetAppTheme, loadGlobalPreferenesG);
             window.CanSavePreferences = true;
         }
 
         public void SetupNotepadWindowCallbacks(NotepadWindow window)
         {
-            window.WindowFocusedCallback = WindowFocused;
-            window.WindowShownCallback = WindowShown;
-            window.WindowClosedCallback = WindowClosed;
+            window.WindowFocusedCallback = OnWindowFocused;
+            window.WindowShownCallback = OnWindowShown;
+            window.WindowClosedCallback = OnWindowClosed;
         }
 
         #endregion
@@ -205,8 +209,8 @@ namespace Notepad2.Applications
         public WindowPreviewControlViewModel CreatePreviewControlFromDataContext(NotepadViewModel notepad)
         {
             WindowPreviewControlViewModel winPrev = new WindowPreviewControlViewModel(notepad);
-            winPrev.FocusWindowCallback = FocusWindowFromDataContext;
-            winPrev.CloseCallback = CloseWindowFromPreviewControl;
+            winPrev.FocusNotepadCallback = FocusWindowFromDataContext;
+            winPrev.CloseNotepadCallback = CloseWindowFromPreviewControl;
             return winPrev;
         }
 
@@ -287,12 +291,6 @@ namespace Notepad2.Applications
             ThisApplication.NotepadWindows.Remove(window);
         }
 
-        public void WindowFocused(NotepadWindow window)
-        {
-            if (window != null)
-                ThisApplication.FocusedWindow = window;
-        }
-
         public void ShowWindow(NotepadWindow window)
         {
             window.Show();
@@ -303,22 +301,28 @@ namespace Notepad2.Applications
             window.Close();
         }
 
-        public void WindowShown(NotepadWindow window)
+        public void OnWindowFocused(NotepadWindow window)
+        {
+            if (window != null)
+                ThisApplication.FocusedWindow = window;
+        }
+
+        public void OnWindowShown(NotepadWindow window)
         {
             // not really used
         }
 
-        public void WindowClosed(NotepadWindow window)
+        public void OnWindowClosed(NotepadWindow window)
         {
             window?.Notepad?.Shutdown();
             RemoveWindowAndPreviewFromWindow(window);
 
-            int count = ThisApplication.NotepadWindows.Count;
-            if (count > 0)
+            int windowsCount = ThisApplication.NotepadWindows.Count;
+            if (windowsCount > 0)
             {
-                History.WindowClosed(window.Notepad);
+                History.PushNotepad(window.Notepad);
 
-                ThisApplication.NotepadWindows[count - 1]?.Focus();
+                ThisApplication.NotepadWindows[windowsCount - 1]?.Focus();
             }
             else
             {

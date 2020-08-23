@@ -1,10 +1,6 @@
 ﻿using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notepad2.Applications.Controls
 {
@@ -17,27 +13,24 @@ namespace Notepad2.Applications.Controls
             set => RaisePropertyChanged(ref _notepad, value);
         }
 
-        public Action<WindowPreviewControlViewModel> CloseCallback { get; set; }
-        public Action<NotepadViewModel> FocusWindowCallback { get; set; }
+        public Action<WindowPreviewControlViewModel> CloseNotepadCallback { get; set; }
+        public Action<NotepadViewModel> FocusNotepadCallback { get; set; }
 
         public WindowPreviewControlViewModel(NotepadViewModel notepad)
         {
             Notepad = notepad;
         }
 
-        public WindowPreviewControlViewModel()
-        {
+        public WindowPreviewControlViewModel() { }
 
-        }
-
-        public void FocusWindow()
+        public void FocusNotepad()
         {
-            FocusWindowCallback?.Invoke(Notepad);
+            FocusNotepadCallback?.Invoke(Notepad);
         }
 
         public void Close()
         {
-            CloseCallback?.Invoke(this);
+            CloseNotepadCallback?.Invoke(this);
         }
     }
 }

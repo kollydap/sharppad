@@ -950,9 +950,9 @@ namespace Notepad2.ViewModels
             if (MessageBox.Show(
                 "Close Window?", 
                 "Close", 
-                MessageBoxButton.YesNo, 
+                MessageBoxButton.OKCancel, 
                 MessageBoxImage.Information, 
-                MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                MessageBoxResult.OK) == MessageBoxResult.OK)
             {
                 Shutdown();
                 ThisApplication.CloseWindowFromDataContext(this);

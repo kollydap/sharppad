@@ -47,12 +47,12 @@ namespace Notepad2.Applications.Controls
         {
             if (e.ClickCount == 2)
             {
-                Preview.FocusWindow();
+                Preview.FocusNotepad();
             }
         }
         private void FocusWindowClick(object sender, RoutedEventArgs e)
         {
-            Preview.FocusWindow();
+            Preview.FocusNotepad();
         }
     }
 }

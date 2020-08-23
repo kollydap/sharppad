@@ -6,6 +6,10 @@ using System.Windows.Input;
 
 namespace Notepad2.Applications.History
 {
+    /// <summary>
+    /// A class for dealing with the history of Notepads (Aka the Notepad windows' DataContext). 
+    /// It deals only with datacontexts so this is MVVM friendly.
+    /// </summary>
     public class WindowHistoryViewModel : BaseViewModel
     {
         public ObservableCollection<WindowHistoryControlViewModel> HistoryItems { get; set; }
@@ -18,7 +22,7 @@ namespace Notepad2.Applications.History
         public WindowHistoryViewModel()
         {
             HistoryItems = new ObservableCollection<WindowHistoryControlViewModel>();
-            ReopenLastWindowCommand = new Command(ReopenLastWindow);
+            ReopenLastWindowCommand = new Command(ReopenLastNotepad);
             ClearItemsCommand = new Command(ClearItems);
         }
 
@@ -39,10 +43,10 @@ namespace Notepad2.Applications.History
         }
 
         /// <summary>
-        /// Pushes a file (that has just closed) to the history
+        /// Pushes a Notepad View's DataContext (that has just closed) to the history
         /// </summary>
         /// <param name="path"></param>
-        public void WindowClosed(NotepadViewModel notepad)
+        public void PushNotepad(NotepadViewModel notepad)
         {
             WindowHistoryControlViewModel item = CreateHistoryItem(notepad);
             Push(item);
@@ -51,19 +55,19 @@ namespace Notepad2.Applications.History
         /// <summary>
         /// Opens the last closed file via callbacks
         /// </summary>
-        public void ReopenLastWindow()
+        public void ReopenLastNotepad()
         {
             WindowHistoryControlViewModel hc = Pop();
             if (hc != null)
-                ReopenWindow(hc);
+                ReopenNotepad(hc);
         }
 
-        private void ReopenWindow(WindowHistoryControlViewModel hc)
+        private void ReopenNotepad(WindowHistoryControlViewModel hc)
         {
             OpenWindowCallback?.Invoke(hc.Notepad);
         }
 
-        private void UserReopenWindow(WindowHistoryControlViewModel hc)
+        private void UserReopenNotepad(WindowHistoryControlViewModel hc)
         {
             HistoryItems.Remove(hc);
             OpenWindowCallback?.Invoke(hc.Notepad);
@@ -73,7 +77,7 @@ namespace Notepad2.Applications.History
         {
             WindowHistoryControlViewModel hc = new WindowHistoryControlViewModel()
             {
-                ReopenWindowCallback = UserReopenWindow,
+                ReopenNotepadCallback = UserReopenNotepad,
                 Notepad = notepad
             };
             return hc;

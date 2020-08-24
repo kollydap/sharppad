@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Notepad2.Finding"
              xmlns:Converters="clr-namespace:Notepad2.Converters"
              mc:Ignorable="d" 
-             Height="50" d:DesignWidth="200" 
+             Height="50" d:DesignWidth="208" 
              Foreground="{DynamicResource ControlDefaultForeground}">
     <Grid MouseDown="Grid_MouseDown" DataContext="{Binding Notepad}" Background="Transparent" Margin="3,0,3,0">
         <Grid Margin="2,3,2,27">

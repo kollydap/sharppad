@@ -79,11 +79,12 @@
     </Compile>
     <Compile Include="Applications\Controls\WindowPreviewControlViewModel.cs" />
     <Compile Include="Applications\ThisApplication.cs" />
-    <Compile Include="Applications\WindowManager.xaml.cs">
-      <DependentUpon>WindowManager.xaml</DependentUpon>
+    <Compile Include="Applications\WindowManager.cs" />
+    <Compile Include="Applications\WindowManagerView.xaml.cs">
+      <DependentUpon>WindowManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AttachedProperties\BaseAttachedProperty.cs" />
-    <Compile Include="AttachedProperties\UseHorizontalScrolling.cs" />
+    <Compile Include="AttachedProperties\HorizontalScrolling.cs" />
     <Compile Include="CClipboard\ClipboardNotification.cs" />
     <Compile Include="CClipboard\ClipboardWindow.xaml.cs">
       <DependentUpon>ClipboardWindow.xaml</DependentUpon>
@@ -197,8 +198,8 @@
     <Compile Include="ViewModels\TextEditorLinesViewModel.cs" />
     <Compile Include="ViewModels\TextDocumentViewModel.cs" />
     <Compile Include="ViewModels\RichNotepadViewModel.cs" />
-    <Compile Include="Views\HelpBox.xaml.cs">
-      <DependentUpon>HelpBox.xaml</DependentUpon>
+    <Compile Include="Views\HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\NewWinPrefs.cs" />
     <Compile Include="Views\NotepadWindow.xaml.cs">
@@ -215,7 +216,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Applications\WindowManager.xaml">
+    <Page Include="Applications\WindowManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -283,7 +284,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\HelpBox.xaml">
+    <Page Include="Views\HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

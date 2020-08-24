@@ -154,17 +154,17 @@ namespace Notepad2.Notepad
         {
             if (Notepad?.Document != null)
             {
-                ThisApplication.PropertiesView.Properties.Show();
+                WindowManager.PropertiesView.Properties.Show();
                 if (Notepad.Document.FilePath.IsFile())
                 {
                     if (!Notepad.HasMadeChanges)
-                        ThisApplication.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
+                        WindowManager.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
                     else
-                        ThisApplication.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
+                        WindowManager.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
                 }
                 else
                 {
-                    ThisApplication.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
+                    WindowManager.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
                 }
             }
         }

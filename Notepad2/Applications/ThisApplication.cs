@@ -11,23 +11,12 @@ namespace Notepad2.Applications
 {
     public static class ThisApplication
     {
-        public static List<NotepadWindow> NotepadWindows { get; set; }
-        public static NotepadWindow FocusedWindow { get; set; }
         public static ApplicationViewModel App { get; private set; }
-        public static WindowManager WindowPreviews { get; private set; }
-        public static FilePropertiesWindow PropertiesView { get; private set; }
-        public static ClipboardWindow ClipboardWin { get; private set; }
-        public static HelpBox Help { get; private set; }
 
         public static void Startup(string[] args)
         {
-            NotepadWindows = new List<NotepadWindow>();
             App = new ApplicationViewModel(args);
-            WindowPreviews = new WindowManager();
-            PropertiesView = new FilePropertiesWindow();
-            ClipboardWin = new ClipboardWindow();
-            Help = new HelpBox();
-            WindowPreviews.ThisApp = App;
+            WindowManager.WindowPreviews.ThisApp = App;
         }
 
         public static void CloseWindowFromDataContext(NotepadViewModel notepad)
@@ -38,7 +27,7 @@ namespace Notepad2.Applications
 
         public static void ShowWindowPreviewsWindow()
         {
-            WindowPreviews.Show();
+            WindowManager.WindowPreviews.Show();
         }
 
         public static void OpenFileInNewWindow(string path)
@@ -68,17 +57,17 @@ namespace Notepad2.Applications
 
         public static void ShowClipboard()
         {
-            ClipboardWin.ShowWindow();
+            WindowManager.ClipboardWin.ShowWindow();
         }
 
         public static void SetClipboardContext(ClipboardViewModel model)
         {
-            ClipboardWin.Clipboard = model;
+            WindowManager.ClipboardWin.Clipboard = model;
         }
 
         public static void ShowHelp()
         {
-            Help.Show();
+            WindowManager.Help.Show();
         }
     }
 }

@@ -227,7 +227,7 @@ namespace Notepad2.Applications
 
         public NotepadWindow GetWindowFromPreviewDataContext(NotepadViewModel notepad)
         {
-            foreach (NotepadWindow window in ThisApplication.NotepadWindows)
+            foreach (NotepadWindow window in WindowManager.NotepadWindows)
             {
                 if (window.Notepad == notepad)
                     return window;
@@ -283,12 +283,12 @@ namespace Notepad2.Applications
 
         public void AddWindow(NotepadWindow window)
         {
-            ThisApplication.NotepadWindows.Add(window);
+            WindowManager.NotepadWindows.Add(window);
         }
 
         public void RemoveWindow(NotepadWindow window)
         {
-            ThisApplication.NotepadWindows.Remove(window);
+            WindowManager.NotepadWindows.Remove(window);
         }
 
         public void ShowWindow(NotepadWindow window)
@@ -304,7 +304,7 @@ namespace Notepad2.Applications
         public void OnWindowFocused(NotepadWindow window)
         {
             if (window != null)
-                ThisApplication.FocusedWindow = window;
+                WindowManager.FocusedWindow = window;
         }
 
         public void OnWindowShown(NotepadWindow window)
@@ -317,12 +317,12 @@ namespace Notepad2.Applications
             window?.Notepad?.Shutdown();
             RemoveWindowAndPreviewFromWindow(window);
 
-            int windowsCount = ThisApplication.NotepadWindows.Count;
+            int windowsCount = WindowManager.NotepadWindows.Count;
             if (windowsCount > 0)
             {
                 History.PushNotepad(window.Notepad);
 
-                ThisApplication.NotepadWindows[windowsCount - 1]?.Focus();
+                WindowManager.NotepadWindows[windowsCount - 1]?.Focus();
             }
             else
             {

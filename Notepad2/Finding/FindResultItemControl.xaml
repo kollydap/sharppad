@@ -4,18 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             MinHeight="50"
-             MaxHeight="120"
+             MinHeight="52"
+             MaxHeight="122"
              Background="Transparent"
              Foreground="{DynamicResource ControlDefaultForeground}">
-    <Grid Background="Transparent" MouseDown="Grid_MouseDown">
-        <TextBlock Text="Start Index:" VerticalAlignment="Top" HorizontalAlignment="Left" Width="60" Margin="0,2,0,0"/>
-        <TextBlock Text="{Binding Result.StartIndex}"
-                   TextTrimming="WordEllipsis" TextWrapping="NoWrap" 
-                   Margin="0,18,0,2" HorizontalAlignment="Left" Width="60" TextAlignment="Center"/>
-        <Grid Margin="62,2,0,2" HorizontalAlignment="Left" Width="128">
-            <TextBlock Text="Preview of Text" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding Result.PreviewFoundText}" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Visibility="Visible" Margin="0,16,0,0"/>
+    <Grid Background="Transparent" MouseDown="Grid_MouseDown" Margin="4,1">
+        <TextBlock Text="Start Index:" VerticalAlignment="Top" HorizontalAlignment="Left" Width="60" Margin="0,2,0,0" TextDecorations="Underline"/>
+        <Label Content="{Binding Result.StartIndex}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+               Margin="0,20,0,2" HorizontalAlignment="Left" Width="60" 
+               BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1"/>
+        <Grid Margin="63,2,0,2" HorizontalAlignment="Left" Width="127">
+            <TextBlock Text="Preview of Text" VerticalAlignment="Top" HorizontalAlignment="Center" TextDecorations="Underline"/>
+            <Label Content="{Binding Result.PreviewFoundText}" 
+                   Margin="0,18,0,0" Visibility="Visible"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1"/>
         </Grid>
     </Grid>
 </UserControl>

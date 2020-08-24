@@ -62,12 +62,15 @@ namespace Notepad2.Finding
 
         public void Search(ICollection<TextDocumentViewModel> docs, string findText)
         {
-            ClearItems();
-            foreach (TextDocumentViewModel doc in docs)
+            if (!string.IsNullOrEmpty(findText))
             {
-                if (doc.Document.FileName.ToLower().Contains(findText.ToLower()))
+                ClearItems();
+                foreach (TextDocumentViewModel doc in docs)
                 {
-                    AddItem(CreateItem(doc));
+                    if (doc.Document.FileName.ToLower().Contains(findText.ToLower()))
+                    {
+                        AddItem(CreateItem(doc));
+                    }
                 }
             }
         }

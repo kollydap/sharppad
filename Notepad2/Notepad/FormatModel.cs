@@ -15,6 +15,7 @@ namespace Notepad2.Notepad
         private string _strDecoration;
         private TextWrapping _wrap;
         private bool _isWrapped;
+        private bool _isReadOnly;
 
         /// <summary>
         /// The Font Size
@@ -89,6 +90,12 @@ namespace Notepad2.Notepad
                 RaisePropertyChanged(ref _isWrapped, value);
                 Wrap = value ? TextWrapping.Wrap : TextWrapping.NoWrap;
             }
+        }
+
+        public bool IsReadOnly
+        {
+            get => _isReadOnly;
+            set => RaisePropertyChanged(ref _isReadOnly, value);
         }
 
         // Only used for TextEditorLinesViewModel, which isn't used due to lag

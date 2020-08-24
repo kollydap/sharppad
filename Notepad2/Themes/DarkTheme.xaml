@@ -460,8 +460,7 @@
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (SolidColorBrush.Color)">
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
                                             <EasingColorKeyFrame KeyTime="0"
                                          Value="Orange"/>
                                         </ColorAnimationUsingKeyFrames>

@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              Background="Transparent"
-             MaxHeight="24" MinHeight="24" 
+             MaxHeight="26" MinHeight="26" 
              d:DesignWidth="200"
              MouseDoubleClick="UserControl_MouseDoubleClick" 
              Foreground="{DynamicResource ControlDefaultForeground}">
-    <Grid Background="Transparent" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
+    <Grid Margin="3,1" Background="Transparent" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
         <Button Content="Reopen" 
                 HorizontalAlignment="Left"
                 Margin="0,2" 

@@ -5,9 +5,9 @@ namespace Notepad2.Views
     /// <summary>
     /// Interaction logic for HelpBox.xaml
     /// </summary>
-    public partial class HelpBox : Window
+    public partial class HelpWindow : Window
     {
-        public HelpBox()
+        public HelpWindow()
         {
             InitializeComponent();
         }

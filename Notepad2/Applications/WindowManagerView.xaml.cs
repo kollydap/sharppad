@@ -5,7 +5,7 @@ namespace Notepad2.Applications
     /// <summary>
     /// Interaction logic for WindowsPrviewWindow.xaml
     /// </summary>
-    public partial class WindowManager : Window
+    public partial class WindowManagerView : Window
     {
         public ApplicationViewModel ThisApp
         {
@@ -13,7 +13,7 @@ namespace Notepad2.Applications
             set => this.DataContext = value;
         }
 
-        public WindowManager()
+        public WindowManagerView()
         {
             InitializeComponent();
         }

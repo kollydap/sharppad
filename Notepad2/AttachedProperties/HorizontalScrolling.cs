@@ -2,18 +2,36 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using Forms = System.Windows.Forms;
 
 namespace Notepad2.AttachedProperties
 {
     /// <summary>
     /// A class for allowing horizontal scrolling on any control that has a scrollviewer 
     /// </summary>
-    public class UseHorizontalScrolling : BaseAttachedProperty<UseHorizontalScrolling, bool>
+    public static class HorizontalScrolling
     {
-        public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty UseHorizontalScrollingProperty =
+            DependencyProperty.RegisterAttached(
+                "UseHorizontalScrolling",
+                typeof(bool),
+                typeof(HorizontalScrolling),
+                new PropertyMetadata(
+                    new PropertyChangedCallback(OnValueChanged)));
+
+        public static bool GetUseHorizontalScrollingValue(DependencyObject d)
+        {
+            return (bool)d.GetValue(UseHorizontalScrollingProperty);
+        }
+
+        public static void SetUseHorizontalScrollingValue(DependencyObject d, bool value)
+        {
+            d.SetValue(UseHorizontalScrollingProperty, value);
+        }
+
+        public static void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (sender is UIElement element)
             {
@@ -42,10 +60,10 @@ namespace Notepad2.AttachedProperties
                     return;
 
                 if (args.Delta < 0)
-                    for (int i = 1; i <= SystemInformation.MouseWheelScrollLines; i++)
+                    for (int i = 0; i < Forms.SystemInformation.MouseWheelScrollLines; i++)
                         scrollViewer.LineRight();
                 else
-                    for (int i = 1; i <= SystemInformation.MouseWheelScrollLines; i++)
+                    for (int i = 0; i < Forms.SystemInformation.MouseWheelScrollLines; i++)
                         scrollViewer.LineLeft();
 
                 args.Handled = true;

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using TheRThemes;
 using static TheRThemes.ThemesController;
@@ -226,7 +227,8 @@ namespace Notepad2.Views
             if (MainTextBox != null && showLineThing.IsChecked == true)
             {
                 Rect p = MainTextBox.GetCaretLocation();
-                Thickness t = new Thickness(0, p.Y - 1, 17, MainTextBox.ActualHeight - p.Bottom - 1); ;
+                double offsetHeight = 1;
+                Thickness t = new Thickness(0, p.Y - offsetHeight, 17, MainTextBox.ActualHeight - p.Bottom - offsetHeight); ;
                 if (t.Top >= 0 && t.Bottom >= 0)
                 {
                     aditionalSelection.Visibility = Visibility.Visible;

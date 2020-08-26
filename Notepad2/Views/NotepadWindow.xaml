@@ -630,24 +630,24 @@
                                 <StackPanel Orientation="Horizontal" Height="24">
                                     <TextBlock Text="Text Input" VerticalAlignment="Center"/>
                                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="5,0"/>
-                                    <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                    <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="24">
                                         <Image Source="/SharpPad;component/Resources/cut.png"/>
                                     </Button>
-                                    <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                    <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="32">
                                         <Image Source="/SharpPad;component/Resources/copy.png"/>
                                     </Button>
-                                    <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                    <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="32">
                                         <Image Source="/SharpPad;component/Resources/paste.png"/>
                                     </Button>
-                                    <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="28">
+                                    <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False" Width="26">
                                         <Image Source="/SharpPad;component/Resources/undo.png"/>
                                     </Button>
-                                    <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,0,0" Focusable="False" Width="28">
+                                    <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,0,0" Focusable="False" Width="26">
                                         <Image Source="/SharpPad;component/Resources/redo.png"/>
                                     </Button>
-                                    <CheckBox Margin="5 0 0 0" Content="Auto-word Selection" 
+                                    <CheckBox Margin="5,2,0,2" Content="Auto-word Selection" 
                                               IsChecked="{Binding ElementName=MainTextBox, Path=AutoWordSelection}"
-                                              ToolTip="Auto-selected words when you select text"/>
+                                              ToolTip="Auto-selected words when you select text" Width="130"/>
                                 </StackPanel>
                             </GroupBox.Header>
                             <Grid Margin="0,0,0,0">
@@ -675,15 +675,16 @@
                                                         <TextBox Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
                                                                  x:Name="findInputBox" Focusable="True"
                                                                  VerticalContentAlignment="Center"
-                                                                 Padding="2" Height="28" Margin="64,5,70,0" 
+                                                                 Padding="2" Height="28" Margin="64,5,50,0" 
                                                                  TextWrapping="Wrap" VerticalAlignment="Top"
+                                                                 BorderThickness="1 1 0 1"
                                                                  Loaded="FindInputBox_Loaded">
                                                             <TextBox.InputBindings>
                                                                 <KeyBinding Key="Enter" Command="{Binding FindOccourancesCommand}"/>
                                                             </TextBox.InputBindings>
                                                         </TextBox>
-                                                        <Button Command="{Binding FindOccourancesCommand}" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="60" Height="28">
-                                                            <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind All"/></TextBlock>
+                                                        <Button Command="{Binding FindOccourancesCommand}" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="45" Height="28">
+                                                            <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind"/></TextBlock>
                                                         </Button>
                                                         <CheckBox IsChecked="{Binding MatchCase, UpdateSourceTrigger=PropertyChanged}" 
                                                                   Margin="5,38,5,0"

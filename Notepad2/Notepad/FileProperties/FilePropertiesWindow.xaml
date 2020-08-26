@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Notepad2.Notepad.FileProperties"
         xmlns:Converters="clr-namespace:Notepad2.Converters"
         mc:Ignorable="d"
-        Title="FilePropertiesWindow" 
+        Title="File Properties" 
         Height="470" Width="332"
         Style="{DynamicResource CustomToolWindowStyle}">
     <Window.InputBindings>

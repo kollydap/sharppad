@@ -52,6 +52,11 @@
                 </MenuItem.Icon>
             </MenuItem>
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
+            <MenuItem Header="Rename File" Click="RenameFileClick" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <Image Source="/SharpPad;component/Resources/cut.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
             <MenuItem Header="Set File Extension" Template="{DynamicResource DropDownMenuItemStyle}">
                 <MenuItem Header="Plain Text"      InputGestureText=".txt"  Uid=".txt"  Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="Fake Text?"      InputGestureText=".text" Uid=".text" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>

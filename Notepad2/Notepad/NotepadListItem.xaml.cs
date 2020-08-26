@@ -33,6 +33,7 @@ namespace Notepad2.Notepad
         // Stores the point within the grip
         private Point GripMouseStartPoint;
         private Point ControlMouseStartPoint;
+        private bool IsDragging;
 
         public NotepadListItem()
         {
@@ -45,6 +46,8 @@ namespace Notepad2.Notepad
         {
             AnimationLib.OpacityControl(this, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
             AnimationLib.MoveToTargetX(this, 0, -100, GlobalPreferences.ANIMATION_SPEED_SEC);
+
+            Loaded -= NotepadListItem_Loaded;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -169,8 +172,6 @@ namespace Notepad2.Notepad
             }
         }
 
-        public bool IsDragging { get; set; }
-
         private void Grid_MouseMove(object sender, MouseEventArgs e)
         {
             // Wrapping the entire thing in a try catch block
@@ -238,6 +239,18 @@ namespace Notepad2.Notepad
         private void RefreshFileContentsClick(object sender, RoutedEventArgs e)
         {
             Notepad.UpdateFileContents();
+        }
+
+        private void RenameFileClick(object sender, RoutedEventArgs e)
+        {
+            SelectFileNameWithoutExtension();
+        }
+
+        public void SelectFileNameWithoutExtension()
+        {
+            fileNameBox.Focus();
+            string fileName = Path.GetFileNameWithoutExtension(Notepad.Document.FileName);
+            fileNameBox.Select(0, fileName.Length);
         }
     }
 }

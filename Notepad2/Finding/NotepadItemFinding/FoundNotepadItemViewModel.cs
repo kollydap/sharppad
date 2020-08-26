@@ -2,7 +2,7 @@
 using Notepad2.ViewModels;
 using System;
 
-namespace Notepad2.Finding
+namespace Notepad2.Finding.NotepadItemFinding
 {
     public class FoundNotepadItemViewModel : BaseViewModel
     {

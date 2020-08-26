@@ -1,7 +1,6 @@
-﻿using Notepad2.Utilities;
-using System.Windows;
+﻿using System.Windows;
 
-namespace Notepad2.Finding
+namespace Notepad2.Finding.NotepadItemFinding
 {
     /// <summary>
     /// Interaction logic for ItemSearchResultsWindow.xaml

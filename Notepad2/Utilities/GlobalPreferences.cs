@@ -14,6 +14,8 @@ namespace Notepad2.Utilities
 
         public const double MAX_FILE_SIZE = 50000000.0d;
 
+        public static bool ENABLE_FILE_WATCHER;
+
         //this is big for no reason other than why not lol
         public const int MAX_FONT_SIZE = 250;
 

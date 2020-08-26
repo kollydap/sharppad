@@ -25,7 +25,7 @@ namespace Notepad2.Applications
             App.FullyCloseWindowFromDataContext(notepad);
         }
 
-        public static void ShowWindowPreviewsWindow()
+        public static void ShowWindowManager()
         {
             WindowManager.WindowPreviews.Show();
         }

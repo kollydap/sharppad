@@ -1,8 +1,10 @@
-﻿using Notepad2.ViewModels;
+﻿using Microsoft.Win32;
+using Notepad2.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Notepad2.Notepad.DragDropping
@@ -77,7 +79,11 @@ namespace Notepad2.Notepad.DragDropping
                     //// Renames the file
                     if (!File.Exists(realPath))
                     {
-                        File.Move(droppedFilePath, realPath);
+                        Task.Run(async () =>
+                        {
+                            await Task.Delay(100);
+                            File.Move(droppedFilePath, realPath);
+                        });
 
                         if (DroppingDocument != null && DroppingDocument.Document != null)
                         {
@@ -89,7 +95,11 @@ namespace Notepad2.Notepad.DragDropping
                     {
                         File.Delete(realPath);
 
-                        File.Move(droppedFilePath, realPath);
+                        Task.Run(async () =>
+                        {
+                            await Task.Delay(100);
+                            File.Move(droppedFilePath, realPath);
+                        });
 
                         if (DroppingDocument != null && DroppingDocument.Document != null)
                         {
@@ -97,7 +107,7 @@ namespace Notepad2.Notepad.DragDropping
                             DroppingDocument.HasMadeChanges = false;
                         }
                     }
-                    SHChangeNotify(0x8000000, 0x1000, IntPtr.Zero, IntPtr.Zero);
+                    //SHChangeNotify(0x8000000, 0x1000, IntPtr.Zero, IntPtr.Zero);
                 }
 
                 ClearDriveWatchers();

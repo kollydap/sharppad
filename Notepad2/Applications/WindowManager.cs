@@ -1,12 +1,8 @@
 ﻿using Notepad2.CClipboard;
-using Notepad2.Finding;
+using Notepad2.Finding.NotepadItemFinding;
 using Notepad2.Notepad.FileProperties;
 using Notepad2.Views;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notepad2.Applications
 {

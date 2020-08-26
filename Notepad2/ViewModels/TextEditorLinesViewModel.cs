@@ -54,7 +54,7 @@ namespace Notepad2.ViewModels
             Render();
         }
 
-        int? curIndexes;
+        int curIndexes;
 
         public void Render()
         {
@@ -82,9 +82,11 @@ namespace Notepad2.ViewModels
             LineCounterText = "";
         }
 
-        public int? GetLinesCount()
+        public int GetLinesCount()
         {
-            return Document?.Text?.Split('\n').Length;
+            if (!string.IsNullOrEmpty(Document?.Text))
+                return Document.Text.Split('\n').Length;
+            return 0;
         }
         public void UpdateDocuments(DocumentModel dm, FormatModel fm)
         {

@@ -1,7 +1,10 @@
-﻿using Notepad2.Finding;
+﻿using Notepad2.FileChangeWatcher;
+using Notepad2.FileExplorer;
+using Notepad2.Finding.TextFinding;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
 using System;
+using System.IO;
 
 namespace Notepad2.ViewModels
 {
@@ -40,6 +43,8 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _hasMadeChanges, value);
         }
 
+        public FileContentsWatcher Watcher { get; set; }
+
         ///// <summary>
         ///// Used for showing the lines count
         ///// </summary>
@@ -65,8 +70,29 @@ namespace Notepad2.ViewModels
             DocumentFormat = new FormatModel();
             Document = new DocumentModel();
             FindResults = new FindViewModel(Document);
+            Watcher = new FileContentsWatcher(Document);
+            Watcher.FileContentsChanged = FileContentsChanged;
+            Watcher.StartWatching();
             HasMadeChanges = false;
             Document.TextChanged = TextChanged;
+        }
+
+        public void FileContentsChanged(string newText)
+        {
+            if (!HasMadeChanges)
+            {
+                Document.Text = newText;
+                HasMadeChanges = false;
+            }
+        }
+
+        public void UpdateFileContents(bool shouldDisplayChanges = false)
+        {
+            if (Document.FilePath.IsFile())
+            {
+                Document.Text = File.ReadAllText(Document.FilePath);
+                HasMadeChanges = shouldDisplayChanges;
+            }
         }
 
         private void TextChanged()

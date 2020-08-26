@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Notepad2.Finding
+namespace Notepad2.Finding.TextFinding
 {
     /// <summary>
     /// Interaction logic for FindResultItemControl.xaml

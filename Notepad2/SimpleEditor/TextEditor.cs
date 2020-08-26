@@ -1,5 +1,6 @@
 ﻿using Notepad2.CClipboard;
 using Notepad2.Finding;
+using Notepad2.Finding.TextFinding;
 using Notepad2.Preferences;
 using System;
 using System.Windows;

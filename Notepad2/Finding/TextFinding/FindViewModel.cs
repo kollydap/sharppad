@@ -1,14 +1,11 @@
-﻿using Notepad2.Finding;
-using Notepad2.InformationStuff;
+﻿using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows.Forms;
 using System.Windows.Input;
-using static Notepad2.Finding.CharacterFinder;
 
-namespace Notepad2.Finding
+namespace Notepad2.Finding.TextFinding
 {
     public class FindViewModel : BaseViewModel
     {

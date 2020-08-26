@@ -68,6 +68,7 @@
                 <MenuItem Header="EXE File"        InputGestureText=".exe"  Uid=".exe"  Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
+            <MenuItem Header="Refresh File Contents" ToolTip="Re-fetch text from the file path. (e.g. if you want to undo all changes). Does nothing if this item's path doesn't exist." Click="RefreshFileContentsClick" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Show Properties" Click="ShowPropertiesClick" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
                     <Image Source="/SharpPad;component/Resources/preferencesIcon.png"/>

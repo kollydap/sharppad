@@ -15,7 +15,7 @@
         xmlns:notepad="clr-namespace:Notepad2.Notepad" 
         xmlns:history="clr-namespace:Notepad2.History" 
         xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff" 
-        xmlns:finding="clr-namespace:Notepad2.Finding"
+        xmlns:finding="clr-namespace:Notepad2.Finding" xmlns:textfinding="clr-namespace:Notepad2.Finding.TextFinding"
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
@@ -24,7 +24,7 @@
         MinHeight="532" 
         MinWidth="872"
         Height="576" 
-        Width="900"
+        Width="755.333"
         Icon="/SharpPad;component/notepadIcon.ico"
         Title="SharpPad">
     <!-- 
@@ -336,16 +336,21 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <CheckBox Margin="5,0,0,0" Content="Wrap Text" 
+                    <CheckBox Margin="5,0,0,0" Content="Wrap" 
                               ToolTip="Text Wrapping: stops text exceeding the max width of textbox, aka never have to horizontally scroll."
                               IsChecked="{Binding Notepad.DocumentFormat.IsWrapped, UpdateSourceTrigger=PropertyChanged}" 
-                              Height="Auto" Width="80"/>
+                              Height="Auto" Width="50"/>
                     <CheckBox x:Name="showLineThing"
                               Margin="5,0,0,0" Content="Show Line Border" 
                               ToolTip="The Border around the seleced line (aka caret index) of the text editor"
                               Height="Auto"
                               Checked="ShowLineThing_Checked" 
                               Unchecked="ShowLineThing_Checked" Width="117"/>
+                    <CheckBox IsChecked="{Binding FileWatcherEnabled, UpdateSourceTrigger=PropertyChanged}"
+                              Margin="5,0,0,0" Content="Watch Path for Changes" 
+                              ToolTip="Every few seconds, check the file on your system and see if it has changed. It will only update if you've made no changes to the file"
+                              Height="Auto"
+                              Width="146"/>
                 </StackPanel>
             </StackPanel>
             <DockPanel Margin="0,4,0,0" Background="{DynamicResource BackgroundColour}">
@@ -365,7 +370,7 @@
                                 <StackPanel Orientation="Horizontal" Height="24">
                                     <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
                                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                    <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" Width="75"/>
+                                    <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand}" ToolTip="Clear all info/warnings/errors" Width="75" Background="{DynamicResource ControlBrightDefaultBackground}" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
                                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
                                     <TextBlock Text="Items:" VerticalAlignment="Center"/>
                                     <TextBlock Text="{Binding InformationItems.Count, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="3 0 0 0"/>
@@ -388,8 +393,8 @@
                                 <StackPanel Orientation="Horizontal" Height="24">
                                     <TextBlock Text="File History" VerticalAlignment="Center"/>
                                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
-                                    <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" Width="100"/>
-                                    <Button Content="Clear" Command="{Binding ClearItemsCommand}" Margin="5 0 0 0" Width="60"/>
+                                    <Button Content="Reopen last file" Command="{Binding ReopenLastFileCommand}" ToolTip="Re-open the latest closed file" Width="100" Background="{DynamicResource ControlBrightDefaultBackground}" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
+                                    <Button Content="Clear" Command="{Binding ClearItemsCommand}" ToolTip="Clear the history" Margin="5 0 0 0" Width="60" Background="{DynamicResource ControlBrightDefaultBackground}" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
                                 </StackPanel>
                             </GroupBox.Header>
                             <ListBox ItemsSource="{Binding HistoryItems, UpdateSourceTrigger=PropertyChanged}"
@@ -419,7 +424,7 @@
                                   Background="{DynamicResource ContainerBackground}" 
                                   Width="220">
                             <Grid>
-                                <TreeView Name="treeView" 
+                                <TreeView Name="fileExplorerTree" 
                                           BorderBrush="{DynamicResource ContainerBackground}"
                                           ap:HorizontalScrolling.UseHorizontalScrollingValue="True">
                                     <TreeView.ItemContainerStyle>
@@ -551,10 +556,17 @@
                                     </TextBlock.LayoutTransform>
                                 </TextBlock>
                             </Expander.Header>
-                            <GroupBox Header="Notepad Items" HorizontalAlignment="Left" 
+                            <GroupBox HorizontalAlignment="Left" 
                                       Margin="2 -1 2 -1"
                                       Width="225" 
                                       Background="{DynamicResource BackgroundColour}">
+                                <GroupBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Notepad Items" VerticalAlignment="Center"/>
+                                        <Separator Margin="3,0" Style="{DynamicResource VerticalSeparator}"/>
+                                        <Button Command="{Binding RefreshFileContentsCommand}" Content="Refresh File Contents" ToolTip="Forces all files to re-fetch all their text from your system (if the file exists that is). Does nothing to items that have no path (that exists)" Height="24" Width="119" Background="{DynamicResource ControlBrightDefaultBackground}" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
+                                    </StackPanel>
+                                </GroupBox.Header>
                                 <Grid>
                                     <!-- ScrollViewer.CanContentScroll="False"  makes content scroll vertically by pixel not by content height -->
                                     <!-- crollViewer.HorizontalScrollBarVisibility="Disabled"  makes the items always fit the listbox width -->
@@ -590,14 +602,14 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <Button Command="{Binding CloseAllNotepadsCommand}"  Margin="0,0,75,0"
-                                            BorderThickness="1 0 0 1" 
-                                            Content="Clear List" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}" Grid.RowSpan="2"/>
+                                                BorderThickness="1 0 0 1" 
+                                                Content="Clear List" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}" Grid.RowSpan="2"/>
                                         <Button Command="{Binding MoveItemCommand}" CommandParameter="up"
-                                            BorderThickness="1 0 1 1" Content="Move Up" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                                            ToolTip="Move the selected NotepadItem upwards in the list" HorizontalAlignment="Right" Width="75"/>
+                                                BorderThickness="1 0 1 1" Content="Move Up" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                                ToolTip="Move the selected NotepadItem upwards in the list" HorizontalAlignment="Right" Width="75"/>
                                         <Button Command="{Binding MoveItemCommand}" CommandParameter="down"
-                                            BorderThickness="1 0 1 1" Content="Move Down" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
-                                            ToolTip="Move the selected NotepadItem downwards in the list" HorizontalAlignment="Right" Width="75" Grid.Row="1"/>
+                                                BorderThickness="1 0 1 1" Content="Move Down" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
+                                                ToolTip="Move the selected NotepadItem downwards in the list" HorizontalAlignment="Right" Width="75" Grid.Row="1"/>
                                     </Grid>
                                     <Grid VerticalAlignment="Bottom" Height="23">
                                         <TextBox Text="{Binding ToFindItemText, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" TextWrapping="NoWrap" Padding="1" VerticalAlignment="Stretch" Margin="0,0,23,0" BorderThickness="1 1 0 1">
@@ -686,7 +698,7 @@
                                                                  ItemsSource="{Binding FoundItems, UpdateSourceTrigger=PropertyChanged}">
                                                             <ListBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <finding:FindResultItemControl DataContext="{Binding}"/>
+                                                                    <textfinding:FindResultItemControl DataContext="{Binding}"/>
                                                                 </DataTemplate>
                                                             </ListBox.ItemTemplate>
                                                         </ListBox>

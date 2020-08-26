@@ -97,18 +97,19 @@
     <Compile Include="Converters\FileSizeToColourConverter.cs" />
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
+    <Compile Include="FileChangeWatcher\FileContentsWatcher.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
-    <Compile Include="Finding\FindResultItemControl.xaml.cs">
+    <Compile Include="Finding\TextFinding\FindResultItemControl.xaml.cs">
       <DependentUpon>FindResultItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Finding\FindResultItemViewModel.cs" />
-    <Compile Include="Finding\FindSettings.cs" />
-    <Compile Include="Finding\FoundNotepadItemControl.xaml.cs">
+    <Compile Include="Finding\TextFinding\FindResultItemViewModel.cs" />
+    <Compile Include="Finding\TextFinding\FindSettings.cs" />
+    <Compile Include="Finding\NotepadItemFinding\FoundNotepadItemControl.xaml.cs">
       <DependentUpon>FoundNotepadItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Finding\FoundNotepadItemViewModel.cs" />
-    <Compile Include="Finding\ItemSearchResultsViewMode.cs" />
-    <Compile Include="Finding\ItemSearchResultsWindow.xaml.cs">
+    <Compile Include="Finding\NotepadItemFinding\FoundNotepadItemViewModel.cs" />
+    <Compile Include="Finding\NotepadItemFinding\ItemSearchResultsViewMode.cs" />
+    <Compile Include="Finding\NotepadItemFinding\ItemSearchResultsWindow.xaml.cs">
       <DependentUpon>ItemSearchResultsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="History\HistoryControl.xaml.cs">
@@ -152,8 +153,8 @@
     <Compile Include="FileExplorer\ShellClasses\FileSystemObjectInfo.cs" />
     <Compile Include="FileExplorer\ShellManager.cs" />
     <Compile Include="FileExplorer\Structs\ShellFileInfo.cs" />
-    <Compile Include="Finding\CharacterFinder.cs" />
-    <Compile Include="Finding\FindResult.cs" />
+    <Compile Include="Finding\TextFinding\CharacterFinder.cs" />
+    <Compile Include="Finding\TextFinding\FindResult.cs" />
     <Compile Include="InformationStuff\InformationModel.cs" />
     <Compile Include="InformationStuff\InfoTypes.cs" />
     <Compile Include="Notepad\DocumentModel.cs" />
@@ -190,7 +191,7 @@
     <Compile Include="Utilities\MouseLocationHelper.cs" />
     <Compile Include="Utilities\TextBoxLineNumbers.cs" />
     <Compile Include="CClipboard\ClipboardViewModel.cs" />
-    <Compile Include="Finding\FindViewModel.cs" />
+    <Compile Include="Finding\TextFinding\FindViewModel.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="Applications\ApplicationViewModel.cs" />
     <Compile Include="Preferences\Views\PreferencesViewModel.cs" />
@@ -224,15 +225,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Finding\FindResultItemControl.xaml">
+    <Page Include="Finding\TextFinding\FindResultItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Finding\FoundNotepadItemControl.xaml">
+    <Page Include="Finding\NotepadItemFinding\FoundNotepadItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Finding\ItemSearchResultsWindow.xaml">
+    <Page Include="Finding\NotepadItemFinding\ItemSearchResultsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

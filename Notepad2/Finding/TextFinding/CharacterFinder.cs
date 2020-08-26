@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Notepad2.Finding
+namespace Notepad2.Finding.TextFinding
 {
     public static class CharacterFinder
     {

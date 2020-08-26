@@ -1,8 +1,7 @@
-﻿using Notepad2.ViewModels;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Notepad2.Finding
+namespace Notepad2.Finding.NotepadItemFinding
 {
     /// <summary>
     /// Interaction logic for FoundNotepadItemControl.xaml

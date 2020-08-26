@@ -1,4 +1,4 @@
-﻿namespace Notepad2.Finding
+﻿namespace Notepad2.Finding.TextFinding
 {
     public class FindResult
     {

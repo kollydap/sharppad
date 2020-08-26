@@ -1,6 +1,7 @@
 ﻿using Notepad2.FileExplorer;
 using Notepad2.FileExplorer.ShellClasses;
-using Notepad2.Finding;
+using Notepad2.Finding.NotepadItemFinding;
+using Notepad2.Finding.TextFinding;
 using Notepad2.InformationStuff;
 using Notepad2.Interfaces;
 using Notepad2.Preferences;
@@ -13,9 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using TheRThemes;
 using static TheRThemes.ThemesController;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
@@ -164,62 +163,6 @@ namespace Notepad2.Views
             WindowShownCallback?.Invoke(this);
         }
 
-        #region Notepad items list
-
-        private void NotepadItemsListBox_ItemsDropped(object sender, DragEventArgs e)
-        {
-            if (Notepad != null && e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                if (e.Data.GetData(DataFormats.FileDrop) is string[] droppedItemArray)
-                {
-                    foreach (string path in droppedItemArray)
-                    {
-                        if (Directory.Exists(path))
-                        {
-                            if (MessageBox.Show(
-                                "You dropped a folder. Open all files in this folder?",
-                                "Open files in dropped folder",
-                                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                            {
-                                foreach (string file in Directory.GetFiles(path))
-                                {
-                                    try
-                                    {
-                                        Notepad.OpenNotepadFromPath(file);
-                                    }
-                                    catch (Exception ee) { Information.Show(ee.Message, "DroppedFile"); }
-                                }
-                            }
-                        }
-
-                        if (ExplorerHelper.CheckPathIsShortcutFile(path, out string shortcutPath))
-                        {
-                            string shortcutLinkName = Path.GetFileName(shortcutPath);
-                            MessageBoxResult results = MessageBox.Show(
-                                $"You dropped a shortcut to a file. Open the path it goes to ({shortcutLinkName})? " +
-                                $"or open the raw shortcut file (.lnk file)?",
-                                "Open shortcut file or actual file",
-                                MessageBoxButton.YesNoCancel);
-                            if (results == MessageBoxResult.Yes)
-                            {
-                                Notepad.OpenNotepadFromPath(shortcutPath);
-                            }
-                            else if (results == MessageBoxResult.No)
-                            {
-                                Notepad.OpenNotepadFromPath(path);
-                            }
-                        }
-                        else if (File.Exists(path))
-                        {
-                            Notepad.OpenNotepadFromPath(path);
-                        }
-                    }
-                }
-            }
-        }
-
-        #endregion
-
         #region Text Editor and Finding
 
         public void DrawRectangleAtCaret()
@@ -282,7 +225,7 @@ namespace Notepad2.Views
                 DriveInfo[] drives = DriveInfo.GetDrives();
                 DriveInfo.GetDrives().ToList().ForEach(drive =>
                 {
-                    treeView.Items.Add(new FileSystemObjectInfo(drive));
+                    fileExplorerTree.Items.Add(new FileSystemObjectInfo(drive));
                 });
             }
             catch (Exception e)
@@ -292,6 +235,58 @@ namespace Notepad2.Views
         }
 
         #region Dragging items
+
+        private void NotepadItemsListBox_ItemsDropped(object sender, DragEventArgs e)
+        {
+            if (Notepad != null && e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                if (e.Data.GetData(DataFormats.FileDrop) is string[] droppedItemArray)
+                {
+                    foreach (string path in droppedItemArray)
+                    {
+                        if (Directory.Exists(path))
+                        {
+                            if (MessageBox.Show(
+                                "You dropped a folder. Open all files in this folder?",
+                                "Open files in dropped folder",
+                                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            {
+                                foreach (string file in Directory.GetFiles(path))
+                                {
+                                    try
+                                    {
+                                        Notepad.OpenNotepadFromPath(file);
+                                    }
+                                    catch (Exception ee) { Information.Show(ee.Message, "DroppedFile"); }
+                                }
+                            }
+                        }
+
+                        if (ExplorerHelper.CheckPathIsShortcutFile(path, out string shortcutPath))
+                        {
+                            string shortcutLinkName = Path.GetFileName(shortcutPath);
+                            MessageBoxResult results = MessageBox.Show(
+                                $"You dropped a shortcut to a file. Open the path it goes to ({shortcutLinkName})? " +
+                                $"or open the raw shortcut file (.lnk file)?",
+                                "Open shortcut file or actual file",
+                                MessageBoxButton.YesNoCancel, MessageBoxImage.Information, MessageBoxResult.Yes);
+                            if (results == MessageBoxResult.Yes)
+                            {
+                                Notepad.OpenNotepadFromPath(shortcutPath);
+                            }
+                            else if (results == MessageBoxResult.No)
+                            {
+                                Notepad.OpenNotepadFromPath(path);
+                            }
+                        }
+                        else if (File.Exists(path))
+                        {
+                            Notepad.OpenNotepadFromPath(path);
+                        }
+                    }
+                }
+            }
+        }
 
         private void TreeViewItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -329,19 +324,14 @@ namespace Notepad2.Views
 
         #endregion
 
-        public void SetTheme(ThemeTypes theme)
-        {
-            ThemesController.SetTheme(theme);
-        }
-
         private void ChangeTheme(object sender, RoutedEventArgs e)
         {
             switch (int.Parse(((MenuItem)sender).Uid))
             {
-                case 0: ThemesController.SetTheme(ThemeTypes.Light); break;
-                case 1: ThemesController.SetTheme(ThemeTypes.ColourfulLight); break;
-                case 2: ThemesController.SetTheme(ThemeTypes.Dark); break;
-                case 3: ThemesController.SetTheme(ThemeTypes.ColourfulDark); break;
+                case 0: SetTheme(ThemeTypes.Light); break;
+                case 1: SetTheme(ThemeTypes.ColourfulLight); break;
+                case 2: SetTheme(ThemeTypes.Dark); break;
+                case 3: SetTheme(ThemeTypes.ColourfulDark); break;
             }
         }
 
@@ -352,12 +342,13 @@ namespace Notepad2.Views
                 MessageBoxResult mbr = MessageBox.Show(
                     "You have unsaved work. Do you want to save it/them?",
                     "Unsaved Work",
-                    MessageBoxButton.YesNoCancel,
-                    MessageBoxImage.Information);
+                    MessageBoxButton.YesNoCancel, 
+                    MessageBoxImage.Information, 
+                    MessageBoxResult.No);
 
                 if (mbr == MessageBoxResult.Yes)
                 {
-                    Notepad.SaveAllNotepadItems();
+                    Notepad.SaveAllNotepadDocuments();
                 }
                 if (mbr == MessageBoxResult.Cancel)
                 {

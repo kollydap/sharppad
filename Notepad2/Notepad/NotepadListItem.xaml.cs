@@ -234,5 +234,10 @@ namespace Notepad2.Notepad
             if (e.LeftButton == MouseButtonState.Pressed)
                 ControlMouseStartPoint = e.GetPosition(this);
         }
+
+        private void RefreshFileContentsClick(object sender, RoutedEventArgs e)
+        {
+            Notepad.UpdateFileContents();
+        }
     }
 }

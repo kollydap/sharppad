@@ -134,7 +134,7 @@ namespace Notepad2.Applications
             {
                 TextDocumentViewModel doc = item.Notepad;
 
-                if (!string.IsNullOrEmpty(doc.Document.Text) && !doc.Document.FilePath.IsFile())
+                if (!string.IsNullOrEmpty(doc.Document.Text) && doc.HasMadeChanges && !doc.Document.FilePath.IsFile())
                 {
                     if (CheckUnclosedStorageDirectoryExistsElseCreateIt())
                     {

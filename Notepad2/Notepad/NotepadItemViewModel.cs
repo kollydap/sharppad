@@ -1,12 +1,10 @@
-﻿using Notepad2.RecyclingBin;
+﻿using Notepad2.Applications;
+using Notepad2.CClipboard;
+using Notepad2.FileExplorer;
+using Notepad2.RecyclingBin;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -14,11 +12,6 @@ namespace Notepad2.Notepad
 {
     public class NotepadItemViewModel : BaseViewModel
     {
-        public Action<NotepadListItem> Close { get; set; }
-        public Action<NotepadListItem> Open { get; set; }
-        public Action<NotepadListItem> OpenInFileExplorer { get; set; }
-        public Action<NotepadListItem> OpenInNewWindowCallback { get; set; }
-
         private TextDocumentViewModel _notepad;
         public TextDocumentViewModel Notepad
         {
@@ -26,23 +19,87 @@ namespace Notepad2.Notepad
             set => RaisePropertyChanged(ref _notepad, value);
         }
 
-        public void ParseMenuCommands(int uids)
+        public ICommand CloseFileCommand { get; }
+        public ICommand OpenInFileExplorerCommand { get; }
+        public ICommand OpenInNewWindowCommand { get; }
+        public ICommand DeleteFileCommand { get; }
+        public ICommand RefreshContentsCommand { get; }
+        public ICommand ShowPropertiesCommand { get; }
+        public ICommand CopyPathCommand { get; }
+
+        public Action<NotepadItemViewModel> RemoveNotepadCallback { get; set; }
+        public Action<NotepadItemViewModel> OpenInNewWindowCallback { get; set; }
+
+        public NotepadItemViewModel()
         {
-            switch (uids)
-            {
-                case 0: Open?.Invoke(this); break;
-                case 1: Close?.Invoke(this); break;
-                case 2: OpenInFileExplorer?.Invoke(this); break;
-                case 3: DeleteFile(); break;
-            }
+            CloseFileCommand = new Command(Remove);
+            OpenInFileExplorerCommand = new Command(OpenInFileExplorer);
+            OpenInNewWindowCommand = new Command(OpenInAnotherWindow);
+            DeleteFileCommand = new Command(DeleteFile);
+            RefreshContentsCommand = new Command(RefreshContents);
+            ShowPropertiesCommand = new Command(ShowProperties);
+            CopyPathCommand = new Command(CopyPath);
+        }
+
+        public void Remove()
+        {
+            RemoveNotepadCallback?.Invoke(this);
+        }
+
+        public void OpenInFileExplorer()
+        {
+            Notepad?.Document?.FilePath.OpenInFileExplorer();
         }
 
         public void DeleteFile()
         {
             string fileName = Notepad.Document.FilePath;
-            if (File.Exists(Notepad.Document.FilePath))
+            if (Notepad?.Document?.FilePath.IsFile() == true)
                 Task.Run(() => RecycleBin.SilentSend(fileName));
-            Close?.Invoke(this);
+            Remove();
+        }
+
+        public void SetFileExtension(string extensionID)
+        {
+            Notepad.Document.FileName = 
+                FileExtensionsHelper.GetFileExtension(Notepad.Document.FileName, extensionID);
+        }
+
+        public void OpenInAnotherWindow()
+        {
+            OpenInNewWindowCallback?.Invoke(this);
+        }
+
+        public void ShowProperties()
+        {
+            if (Notepad?.Document != null)
+            {
+                WindowManager.PropertiesView.Properties.Show();
+                if (Notepad.Document.FilePath.IsFile())
+                {
+                    if (!Notepad.HasMadeChanges)
+                        WindowManager.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
+                    else
+                        WindowManager.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
+                }
+                else
+                {
+                    WindowManager.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
+                }
+            }
+        }
+
+        public void RefreshContents()
+        {
+            Notepad.UpdateFileContents();
+        }
+
+        public void CopyPath()
+        {
+            if (Notepad?.Document?.FilePath.IsFile() == true)
+            {
+                CustomClipboard.SetTextObject(Notepad.Document.FilePath);
+            }
         }
     }
 }

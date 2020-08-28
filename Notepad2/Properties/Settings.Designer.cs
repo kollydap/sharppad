@@ -250,5 +250,17 @@ namespace Notepad2.Properties {
                 this["useNewDDSys"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool saveOpnUnsvdFiles {
+            get {
+                return ((bool)(this["saveOpnUnsvdFiles"]));
+            }
+            set {
+                this["saveOpnUnsvdFiles"] = value;
+            }
+        }
     }
 }

@@ -46,27 +46,27 @@ namespace Notepad2.AttachedProperties
 
         private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs args)
         {
-            if (Keyboard.Modifiers != ModifierKeys.Shift)
-                return;
-
             if (!PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL)
                 return;
 
-            if (sender is UIElement element)
+            if (Keyboard.Modifiers == ModifierKeys.Shift || Mouse.MiddleButton == MouseButtonState.Pressed)
             {
-                ScrollViewer scrollViewer = FindDescendant<ScrollViewer>(element);
+                if (sender is UIElement element)
+                {
+                    ScrollViewer scrollViewer = FindDescendant<ScrollViewer>(element);
 
-                if (scrollViewer == null)
-                    return;
+                    if (scrollViewer == null)
+                        return;
 
-                if (args.Delta < 0)
-                    for (int i = 0; i < Forms.SystemInformation.MouseWheelScrollLines; i++)
-                        scrollViewer.LineRight();
-                else
-                    for (int i = 0; i < Forms.SystemInformation.MouseWheelScrollLines; i++)
-                        scrollViewer.LineLeft();
+                    if (args.Delta < 0)
+                        for (int i = 0; i < Forms.SystemInformation.MouseWheelScrollLines; i++)
+                            scrollViewer.LineRight();
+                    else
+                        for (int i = 0; i < Forms.SystemInformation.MouseWheelScrollLines; i++)
+                            scrollViewer.LineLeft();
 
-                args.Handled = true;
+                    args.Handled = true;
+                }
             }
         }
 

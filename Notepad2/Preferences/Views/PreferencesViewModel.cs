@@ -26,6 +26,8 @@ namespace Notepad2.Preferences.Views
 
         private bool _useNewDragDropSystem;
 
+        private bool _saveOpenUnclosedFiles;
+
         public bool ScrollVerticallyCtrlArrowKeys
         {
             get => _scrollVerticalCtrlArrows;
@@ -108,6 +110,12 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _useNewDragDropSystem, value);
         }
 
+        public bool SaveOpenUnclosedFiles
+        {
+            get => _saveOpenUnclosedFiles;
+            set => RaisePropertyChanged(ref _saveOpenUnclosedFiles, value);
+        }
+
         public PreferencesWindow PreferencesView { get; set; }
 
         public ICommand RefreshCommand { get; private set; }
@@ -161,6 +169,8 @@ namespace Notepad2.Preferences.Views
             CloseNotepadListByDefault        = PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT;
 
             UseNewDragDropSystem             = PreferencesG.USE_NEW_DRAGDROP_SYSTEM;
+
+            SaveOpenUnclosedFiles            = PreferencesG.SAVE_OPEN_UNCLOSED_FILES;
         }
 
         public void UpdatePreferenceVariables()
@@ -184,6 +194,8 @@ namespace Notepad2.Preferences.Views
             PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT            = CloseNotepadListByDefault;
 
             PreferencesG.USE_NEW_DRAGDROP_SYSTEM                 = UseNewDragDropSystem;
+
+            PreferencesG.SAVE_OPEN_UNCLOSED_FILES                = SaveOpenUnclosedFiles;
         }
 
         public void SavePreferences()

@@ -1,4 +1,5 @@
-﻿using Notepad2.Utilities;
+﻿using Notepad2.Notepad;
+using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 
@@ -6,8 +7,8 @@ namespace Notepad2.Finding.NotepadItemFinding
 {
     public class FoundNotepadItemViewModel : BaseViewModel
     {
-        private TextDocumentViewModel _notepad;
-        public TextDocumentViewModel Notepad
+        private NotepadItemViewModel _notepad;
+        public NotepadItemViewModel Notepad
         {
             get => _notepad;
             set => RaisePropertyChanged(ref _notepad, value);

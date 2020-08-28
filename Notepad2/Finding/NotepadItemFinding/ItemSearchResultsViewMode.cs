@@ -1,4 +1,5 @@
-﻿using Notepad2.Utilities;
+﻿using Notepad2.Notepad;
+using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Notepad2.Finding.NotepadItemFinding
 
         public ICommand ClearItemsCommand { get; }
 
-        public Action<TextDocumentViewModel> SelectItemCallback { get; set; }
+        public Action<NotepadItemViewModel> SelectItemCallback { get; set; }
 
         public ItemSearchResultsViewMode()
         {
@@ -31,7 +32,7 @@ namespace Notepad2.Finding.NotepadItemFinding
             FoundItems.Remove(doc);
         }
 
-        public FoundNotepadItemViewModel CreateItem(TextDocumentViewModel notepad)
+        public FoundNotepadItemViewModel CreateItem(NotepadItemViewModel notepad)
         {
             FoundNotepadItemViewModel item = new FoundNotepadItemViewModel()
             {
@@ -55,14 +56,14 @@ namespace Notepad2.Finding.NotepadItemFinding
                     SelectItemCallback?.Invoke(item.Notepad);
         }
 
-        public void Search(ICollection<TextDocumentViewModel> docs, string findText)
+        public void Search(ICollection<NotepadItemViewModel> docs, string findText)
         {
             if (!string.IsNullOrEmpty(findText))
             {
                 ClearItems();
-                foreach (TextDocumentViewModel doc in docs)
+                foreach (NotepadItemViewModel doc in docs)
                 {
-                    if (doc.Document.FileName.ToLower().Contains(findText.ToLower()))
+                    if (doc.Notepad.Document.FileName.ToLower().Contains(findText.ToLower()))
                     {
                         AddItem(CreateItem(doc));
                     }

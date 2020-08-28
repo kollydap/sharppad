@@ -1,15 +1,18 @@
 ﻿using Microsoft.Win32;
+using Notepad2.InformationStuff;
+using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Notepad2.Notepad.DragDropping
 {
-    public static class FileWatchers
+    public static class DragDropFileWatchers
     {
         // A prefix to identify files created by sharp pad (aka this program lol)
         public const string DRAG_SRC_PREFIX = "_SHRPDDRGPFX__";
@@ -23,12 +26,30 @@ namespace Notepad2.Notepad.DragDropping
         // The currently being dropped document
         public static TextDocumentViewModel DroppingDocument;
 
+        private struct FileRenameContainer
+        {
+            public string From { get; set; }
+            public string To { get; set; }
+
+            public FileRenameContainer(string from, string to)
+            {
+                From = from;
+                To = to;
+            }
+        }
+
+        public static int QueCooldown { get; set; }
+        private static bool QueRunning;
+        private static int QueCountdown;
+        private static List<FileRenameContainer> FileRenamingQue { get; set; }
+
         [DllImport("Shell32.dll")]
         private static extern int SHChangeNotify(int eventId, int flags, IntPtr item1, IntPtr item2);
 
-        static FileWatchers()
+        static DragDropFileWatchers()
         {
             DriveWatchers = new List<FileSystemWatcher>();
+            FileRenamingQue = new List<FileRenameContainer>();
 
             TempWatcher = new FileSystemWatcher(Path.GetTempPath());
             TempWatcher.Filter = $"{DRAG_SRC_PREFIX}*.txt";
@@ -36,11 +57,68 @@ namespace Notepad2.Notepad.DragDropping
             TempWatcher.IncludeSubdirectories = false;
             TempWatcher.EnableRaisingEvents = true;
             TempWatcher.Created += PrefixedFileCreatedInTempDirectory;
+
+            QueCooldown = 3000;
+            StartRenameQue();
+        }
+
+        /// <summary>
+        /// Just used to initialise the static class and get the que up and running
+        /// </summary>
+        public static void Initialise()
+        {
+
+        }
+
+        public static void StartRenameQue()
+        {
+            Task.Run(async() =>
+            {
+                QueCountdown = QueCooldown;
+                QueRunning = true;
+                while (QueRunning)
+                {
+                    QueCountdown -= 1000;
+
+                    if (QueCountdown <= 0)
+                    {
+                        SaveFilesInQue();
+                        ResetQueCountdown();
+                    }
+
+                    await Task.Delay(1000);
+                }
+            });
+        }
+
+        public static void StopRenameQue()
+        {
+            QueRunning = false;
+        }
+
+        public static void ResetQueCountdown()
+        {
+            QueCountdown = QueCooldown;
+        }
+
+        public static void SaveFilesInQue()
+        {
+            try
+            {
+                foreach (FileRenameContainer rename in FileRenamingQue)
+                {
+                    File.Move(rename.From, rename.To);
+                }
+
+                FileRenamingQue.Clear();
+            }
+            catch { }
         }
 
         public static void Shutdown()
         {
             TempWatcher.Created -= PrefixedFileCreatedInTempDirectory;
+            StopRenameQue();
         }
 
         public static void DoingDragDrop(TextDocumentViewModel doc)
@@ -79,11 +157,8 @@ namespace Notepad2.Notepad.DragDropping
                     //// Renames the file
                     if (!File.Exists(realPath))
                     {
-                        Task.Run(async () =>
-                        {
-                            await Task.Delay(100);
-                            File.Move(droppedFilePath, realPath);
-                        });
+                        FileRenamingQue.Add(new FileRenameContainer(droppedFilePath, realPath));
+                        ResetQueCountdown();
 
                         if (DroppingDocument != null && DroppingDocument.Document != null)
                         {
@@ -97,7 +172,7 @@ namespace Notepad2.Notepad.DragDropping
 
                         Task.Run(async () =>
                         {
-                            await Task.Delay(100);
+                            await Task.Delay(GlobalPreferences.FILEWATCHER_FILE_RENAME_DELAY_MS);
                             File.Move(droppedFilePath, realPath);
                         });
 
@@ -129,6 +204,11 @@ namespace Notepad2.Notepad.DragDropping
                 DriveWatchers.Clear();
             }
             catch { }
+            finally
+            {
+                if (DriveWatchers != null)
+                    DriveWatchers.Clear();
+            }
         }
     }
 }

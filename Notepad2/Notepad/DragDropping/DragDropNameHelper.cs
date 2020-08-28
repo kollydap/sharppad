@@ -15,7 +15,7 @@ namespace Notepad2.Notepad.DragDropping
         /// <returns></returns>
         public static string GetPrefixedFileName(string original)
         {
-            return FileWatchers.DRAG_SRC_PREFIX + original;
+            return DragDropFileWatchers.DRAG_SRC_PREFIX + original;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Notepad2.Notepad.DragDropping
         /// <returns></returns>
         public static string GetNonPrefixedFileName(string prefixedPath)
         {
-            return prefixedPath.Remove(0, FileWatchers.DRAG_SRC_PREFIX.Length);
+            return prefixedPath.Remove(0, DragDropFileWatchers.DRAG_SRC_PREFIX.Length);
         }
     }
 }

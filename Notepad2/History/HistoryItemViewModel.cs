@@ -1,18 +1,13 @@
-﻿using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using Notepad2.Notepad;
+using Notepad2.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace Notepad2.History
 {
     public class HistoryItemViewModel : BaseViewModel
     {
-        private TextDocumentViewModel _textDocument;
-        public TextDocumentViewModel TextDocument
+        private NotepadItemViewModel _textDocument;
+        public NotepadItemViewModel TextDocument
         {
             get => _textDocument;
             set => RaisePropertyChanged(ref _textDocument, value);

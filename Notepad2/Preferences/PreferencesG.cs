@@ -27,6 +27,9 @@ namespace Notepad2.Preferences
 
         public static bool USE_NEW_DRAGDROP_SYSTEM { get; set; }
 
+        public static bool SAVE_OPEN_UNCLOSED_FILES { get; set; }
+
+
         public static void SaveToProperties()
         {
             Properties.Settings.Default.horzScrlShfMWhl    = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
@@ -48,6 +51,8 @@ namespace Notepad2.Preferences
             Properties.Settings.Default.closeNLstOnStrt    = CLOSE_NOTEPADLIST_BY_DEFAULT;
 
             Properties.Settings.Default.useNewDDSys        = USE_NEW_DRAGDROP_SYSTEM;
+
+            Properties.Settings.Default.saveOpnUnsvdFiles  = SAVE_OPEN_UNCLOSED_FILES;
 
             Properties.Settings.Default.Save();
         }
@@ -73,6 +78,8 @@ namespace Notepad2.Preferences
             CLOSE_NOTEPADLIST_BY_DEFAULT            = Properties.Settings.Default.closeNLstOnStrt;
 
             USE_NEW_DRAGDROP_SYSTEM                 = Properties.Settings.Default.useNewDDSys;
+
+            SAVE_OPEN_UNCLOSED_FILES                = Properties.Settings.Default.saveOpnUnsvdFiles;
         }
     }
 }

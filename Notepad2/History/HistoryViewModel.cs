@@ -1,10 +1,7 @@
-﻿using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using Notepad2.Notepad;
+using Notepad2.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Policy;
 using System.Windows.Input;
 
 namespace Notepad2.History
@@ -16,7 +13,7 @@ namespace Notepad2.History
         public ICommand ReopenLastFileCommand { get; private set; }
         public ICommand ClearItemsCommand { get; private set; }
 
-        public Action<TextDocumentViewModel> OpenFileCallback { get; set; }
+        public Action<NotepadItemViewModel> OpenFileCallback { get; set; }
 
         public HistoryViewModel()
         {
@@ -42,7 +39,7 @@ namespace Notepad2.History
         /// Pushes a file (that has just closed) to the history
         /// </summary>
         /// <param name="path"></param>
-        public void PushFile(TextDocumentViewModel notepad)
+        public void PushFile(NotepadItemViewModel notepad)
         {
             HistoryItemViewModel item = CreateHistoryItem(notepad);
             Push(item);
@@ -72,11 +69,11 @@ namespace Notepad2.History
             OpenFileCallback?.Invoke(history.TextDocument);
         }
 
-        private HistoryItemViewModel CreateHistoryItem(TextDocumentViewModel notepad)
+        private HistoryItemViewModel CreateHistoryItem(NotepadItemViewModel item)
         {
             HistoryItemViewModel hc = new HistoryItemViewModel()
             {
-                TextDocument = notepad,
+                TextDocument = item,
                 ReopenFileCallback = UserReopenFile
             };
             return hc;

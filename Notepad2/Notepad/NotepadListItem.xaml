@@ -21,17 +21,12 @@
     </UserControl.Resources>
     <UserControl.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Close" Uid="1" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
+            <MenuItem Header="Close" Command="{Binding CloseFileCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
                     <TextBlock Text="X" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFE82020"/>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Open in File Explorer" Uid="2" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
-                <MenuItem.Icon>
-                    <Image Source="/SharpPad;component/Resources/openFile.png"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Open in New Window" Uid="4" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
+            <MenuItem Header="Open in New Window" Command="{Binding OpenInNewWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
                     <Grid Width="12" Height="12">
                         <Rectangle StrokeThickness="1" 
@@ -45,13 +40,10 @@
                     </Grid>
                 </MenuItem.Icon>
             </MenuItem>
+
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
-            <MenuItem Header="Delete File" Uid="3" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}">
-                <MenuItem.Icon>
-                    <Image Source="/SharpPad;component/Resources/binCan.png"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <Separator Style="{DynamicResource MenuItemSeparator}"/>
+
+            <MenuItem Header="Refresh File Contents" Command="{Binding RefreshContentsCommand}" ToolTip="Re-fetch text from the file path. (e.g. if you want to undo all changes). Does nothing if this item's path doesn't exist." Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Rename File" Click="RenameFileClick" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
                     <Image Source="/SharpPad;component/Resources/cut.png"/>
@@ -72,9 +64,24 @@
                 <MenuItem Header="JavaScript File" InputGestureText=".js"   Uid=".js"   Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="EXE File"        InputGestureText=".exe"  Uid=".exe"  Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
+            <MenuItem Header="Delete File" Command="{Binding DeleteFileCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <Image Source="/SharpPad;component/Resources/binCan.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
-            <MenuItem Header="Refresh File Contents" ToolTip="Re-fetch text from the file path. (e.g. if you want to undo all changes). Does nothing if this item's path doesn't exist." Click="RefreshFileContentsClick" Template="{DynamicResource SingleDropDownMenuItem}"/>
-            <MenuItem Header="Show Properties" Click="ShowPropertiesClick" Template="{DynamicResource SingleDropDownMenuItem}">
+
+            <MenuItem Header="Copy path" Command="{Binding CopyPathCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+            <MenuItem Header="Open in File Explorer" Command="{Binding OpenInFileExplorerCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem.Icon>
+                    <Image Source="/SharpPad;component/Resources/openFile.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <Separator Style="{DynamicResource MenuItemSeparator}"/>
+
+            <MenuItem Header="Show Properties" Command="{Binding ShowPropertiesCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
                     <Image Source="/SharpPad;component/Resources/preferencesIcon.png"/>
                 </MenuItem.Icon>
@@ -101,8 +108,8 @@
             </Rectangle.Fill>
         </Rectangle>
         <Grid Background="Transparent" Margin="11,0,3,0" MouseMove="Grid_MouseMove" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-            <TextBox Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}" 
-                     ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}" 
+                     ToolTip="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}"
                      Name="fileNameBox"
                      TextWrapping="NoWrap"
                      FontSize="14"
@@ -116,8 +123,8 @@
             <Button Background="Transparent" BorderBrush="Transparent" 
                     HorizontalAlignment="Right" Margin="0,3,0,0" VerticalAlignment="Top" 
                     Width="20" Height="20" 
-                    Click="CloseNotepadClick"
-                    ToolTip="Close/Remove this item">
+                    ToolTip="Close/Remove this item"
+                    Command="{Binding CloseFileCommand}">
                 <Path Width="10" Height="10" Margin="0,0,0,0" 
                       HorizontalAlignment="Center" VerticalAlignment="Center" 
                       Stretch="Fill" 
@@ -127,8 +134,9 @@
 
             <Button Background="Transparent" BorderBrush="Transparent" 
                     HorizontalAlignment="Right" Margin="0,3,20,0" VerticalAlignment="Top" 
-                    Width="20" Height="20" Click="OpenInAnotherWindow"
-                    ToolTip="Open this item in a new window and close it from the current window">
+                    Width="20" Height="20"
+                    ToolTip="Open this item in a new window and close it from the current window"
+                    Command="{Binding OpenInNewWindowCommand}">
                 <Grid Width="12" Height="12">
                     <Rectangle StrokeThickness="1" 
                                Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
@@ -141,7 +149,7 @@
                 </Grid>
             </Button>
 
-            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource BoolTohasChanged},FallbackValue=SavedOrUnsaved}" Width="80" HorizontalAlignment="Left" Margin="3,0,0,19" FontSize="10" Height="14" VerticalAlignment="Bottom"/>
+            <TextBlock Text="{Binding Notepad.HasMadeChanges, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolTohasChanged},FallbackValue=SavedOrUnsaved}" Width="80" HorizontalAlignment="Left" Margin="3,0,0,19" FontSize="10" Height="14" VerticalAlignment="Bottom"/>
 
             <Grid Margin="3,0,2,4" Height="15" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
@@ -149,12 +157,19 @@
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.Background>
-                    <SolidColorBrush Color="{Binding Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}, FallbackValue=Transparent}" Opacity="0.2"/>
+                    <SolidColorBrush Color="{Binding Notepad.Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}, FallbackValue=Transparent}" Opacity="0.2"/>
                 </Grid.Background>
                 <TextBlock Text="Chars:" VerticalAlignment="Center" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
-                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged, FallbackValue=NoOfChars}" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
-                <TextBlock Text="{Binding Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatConverter}, FallbackValue=SizeBytes}" VerticalAlignment="Center" Margin="1,0,0,0" FontSize="10" TextAlignment="Right" Grid.Column="1"/>
+                <TextBlock Text="{Binding Notepad.Document.Text.Length, UpdateSourceTrigger=PropertyChanged, FallbackValue=NoOfChars}" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
+                <TextBlock Text="{Binding Notepad.Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatConverter}, FallbackValue=SizeBytes}" VerticalAlignment="Center" Margin="1,0,0,0" FontSize="10" TextAlignment="Right" Grid.Column="1"/>
             </Grid>
+            <Button Background="Transparent" BorderBrush="Transparent" 
+                    HorizontalAlignment="Right" Margin="0,23,0,0" VerticalAlignment="Top" 
+                    Width="20" Height="16" 
+                    ToolTip="Rename the file (highlight the file name, not extension)"
+                    Click="RenameFileClick">
+                <TextBlock Text="I" FontFamily="Consolas" Height="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

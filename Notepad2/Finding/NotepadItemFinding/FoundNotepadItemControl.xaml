@@ -2,16 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Notepad2.Finding"
-             xmlns:Converters="clr-namespace:Notepad2.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              Height="50" d:DesignWidth="208" 
              Foreground="{DynamicResource ControlDefaultForeground}">
     <Grid MouseDown="Grid_MouseDown" DataContext="{Binding Notepad}" Background="Transparent" Margin="3,0,3,0">
         <Grid Margin="2,3,2,27">
-            <TextBlock Text="{Binding Document.FileName, FallbackValue=FileName.txt, UpdateSourceTrigger=PropertyChanged}" 
-                       ToolTip="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}"
+            <TextBlock Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}" 
+                       ToolTip="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}"
                        TextWrapping="NoWrap"
                        FontSize="14"
                        Background="Transparent"
@@ -25,8 +23,8 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Chars:" VerticalAlignment="Center" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
-            <TextBlock Text="{Binding Document.Text.Length, FallbackValue=NoOfChars, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
-            <TextBlock Text="{Binding Document.FileSizeBytes, FallbackValue=SizeBytes, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} Bytes}" VerticalAlignment="Center" Margin="1,0,0,0" FontSize="10" TextAlignment="Right" Grid.Column="1"/>
+            <TextBlock Text="{Binding Notepad.Document.Text.Length, FallbackValue=NoOfChars, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
+            <TextBlock Text="{Binding Notepad.Document.FileSizeBytes, FallbackValue=SizeBytes, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} Bytes}" VerticalAlignment="Center" Margin="1,0,0,0" FontSize="10" TextAlignment="Right" Grid.Column="1"/>
         </Grid>
     </Grid>
 </UserControl>

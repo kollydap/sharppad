@@ -11,16 +11,17 @@ namespace Notepad2.FileChangeWatcher
     /// A class for constantly checking if a file's contents 
     /// have changed, and calling a callback if so
     /// </summary>
-    public class FileContentsWatcher
+    public class FileWatcher
     {
         public Action<string> FileContentsChanged { get; set; }
+        public Action FilePathChanged { get; set; }
 
         public bool Running { get; set; }
         public bool Paused { get; set; }
 
         private DocumentModel Document { get; set; }
 
-        public FileContentsWatcher(DocumentModel doc)
+        public FileWatcher(DocumentModel doc)
         {
             Document = doc;
         }
@@ -32,14 +33,21 @@ namespace Notepad2.FileChangeWatcher
             {
                 while (Running)
                 {
-                    if (GlobalPreferences.ENABLE_FILE_WATCHER && Document.FilePath.IsFile())
+                    if (GlobalPreferences.ENABLE_FILE_WATCHER)
                     {
-                        string content = File.ReadAllText(Document.FilePath);
-
-                        if (content != Document.Text)
+                        if (Document.FilePath.IsFile())
                         {
-                            // Changed
-                            FileContentsChanged?.Invoke(content);
+                            string content = File.ReadAllText(Document.FilePath);
+
+                            if (content != Document.Text)
+                            {
+                                // Changed
+                                FileContentsChanged?.Invoke(content);
+                            }
+                        }
+                        else
+                        {
+                            FilePathChanged?.Invoke();
                         }
                     }
 

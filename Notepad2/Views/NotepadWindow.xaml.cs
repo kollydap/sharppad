@@ -1,4 +1,5 @@
-﻿using Notepad2.FileExplorer;
+﻿using Notepad2.Applications;
+using Notepad2.FileExplorer;
 using Notepad2.FileExplorer.ShellClasses;
 using Notepad2.Finding.NotepadItemFinding;
 using Notepad2.Finding.TextFinding;
@@ -25,6 +26,28 @@ namespace Notepad2.Views
     /// </summary>
     public partial class NotepadWindow : Window, IMainView
     {
+        //
+        //  e
+        //  
+        //  Yeah i know using behind code isn't very MVVM-ey, but idk how else to
+        //  implement some of the stuff done here in using MVVM. Mainly noticable is
+        //  drawing the line rectangle. I guess the find results could be moved to
+        //  the view model... but i cant be bothered to atm lol.
+        //  also, made by Kettlesimulator/tea-vs-coffee/quad5914/ther (all are me
+        //  with different names xddddddddd shut up)
+        //  
+        //  Have also been working on this app for about 7 months ago
+        //  (https://www.reddit.com/r/csharp/comments/f9kiq3/made_a_very_basic_notepad_program_like_windows/)
+        //  (started looking like the above... looks no where good then as it does now lol)
+        //  i mainly started this to learn more about MVVM. back then i barely knew how to do databinding.
+        //  now i know quite a lot thanks to making this ;)))))) (idk why im still typing this)
+        //  also i do this as a hobby because i find "upgrading" this notepad app extremely fun tbh
+        //  even though i have no clue what to add next (kinda want convert it into a rich editor,
+        //  not a plain textbox but eh that's way too hard)
+        //  and its open source because why not. atleast some others might learn from it
+        //  
+        //
+
         private Point MouseDownPoint { get; set; }
 
         public bool CanSavePreferences { get; set; }
@@ -52,18 +75,11 @@ namespace Notepad2.Views
             InitWindow();
             if (prefs == NewWinPrefs.OpenDefaultNotepadAfterLaunch)
             {
-                Task.Run(async () =>
-                {
-                    await Task.Delay(10);
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        Notepad.AddStartupItem();
-                    });
-                });
+                AddStartupNotepad();
             }
         }
 
-        public NotepadWindow(string[] filePaths, NewWinPrefs prefs = NewWinPrefs.OpenFilesInParams)
+        public NotepadWindow(string[] filePaths, NewWinPrefs prefs = NewWinPrefs.OpenFilesInParams, bool clearPath = false)
         {
             BeforeInitComponents();
             InitializeComponent();
@@ -74,7 +90,7 @@ namespace Notepad2.Views
                 {
                     if (path.IsFile())
                     {
-                        Notepad.OpenNotepadFromPath(path, true);
+                        Notepad.OpenNotepadFromPath(path, true, clearPath: clearPath);
                     }
                     if (path.IsDirectory())
                     {
@@ -337,25 +353,11 @@ namespace Notepad2.Views
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Notepad.HasAnyNotepadMadeChanges())
+            if (PreferencesG.SAVE_OPEN_UNCLOSED_FILES)
             {
-                MessageBoxResult mbr = MessageBox.Show(
-                    "You have unsaved work. Do you want to save it/them?",
-                    "Unsaved Work",
-                    MessageBoxButton.YesNoCancel, 
-                    MessageBoxImage.Information, 
-                    MessageBoxResult.No);
-
-                if (mbr == MessageBoxResult.Yes)
-                {
-                    Notepad.SaveAllNotepadDocuments();
-                }
-                if (mbr == MessageBoxResult.Cancel)
-                {
-                    e.Cancel = true;
-                    return;
-                }
+                ThisApplication.SaveAllUnclosedFilesToStorageLocation(this);
             }
+
             if (CanSavePreferences)
             {
                 try
@@ -466,6 +468,11 @@ namespace Notepad2.Views
         public void ShowItemsSearcherWindow()
         {
             SearchResultsWindow.ShowWindow();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ThisApplication.DeletePreviouslyUnclosedFiles();
         }
     }
 }

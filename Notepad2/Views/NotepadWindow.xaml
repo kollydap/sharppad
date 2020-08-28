@@ -15,16 +15,16 @@
         xmlns:notepad="clr-namespace:Notepad2.Notepad" 
         xmlns:history="clr-namespace:Notepad2.History" 
         xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff" 
-        xmlns:finding="clr-namespace:Notepad2.Finding" xmlns:textfinding="clr-namespace:Notepad2.Finding.TextFinding"
+        xmlns:textfinding="clr-namespace:Notepad2.Finding.TextFinding"
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
         Style="{DynamicResource CustomWindowStyle}"
         BorderBrush="{DynamicResource ControlDefaultBackground}"
-        MinHeight="532" 
-        MinWidth="872"
+        MinHeight="535" 
+        MinWidth="875"
         Height="576" 
-        Width="755.333"
+        Width="900"
         Icon="/SharpPad;component/notepadIcon.ico"
         Title="SharpPad">
     <!-- 
@@ -81,65 +81,71 @@
         </x:Array>
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseViewWithCheckCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AutoShowFindMenuCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding CloseWindowCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding NewWindowCommand}"/>
-        <KeyBinding Modifiers="Ctrl" Key="R" Command="{Binding History.ReopenLastFileCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding ReopenLastWindowCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAllCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenDirectoryCommand}"/>
-        <KeyBinding Modifiers="Ctrl+Shift" Key="W" Command="{Binding CloseAllWindowsCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewWithCheckCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding AutoShowFindMenuCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl" Key="W" Command="{Binding CloseWindowCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding NewWindowCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl" Key="R" Command="{Binding History.ReopenLastFileCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Delete" Command="{Binding CloseSelectedNotepadCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding NewCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="T" Command="{Binding ReopenLastWindowCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAllCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenDirectoryCommand, Mode=OneTime}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="W" Command="{Binding CloseAllWindowsCommand, Mode=OneTime}"/>
     </Window.InputBindings>
     <Grid Background="{DynamicResource BackgroundColour}">
         <Menu VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="{DynamicResource BackgroundColour}">
             <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N">
+                <MenuItem Header="New" Command="{Binding NewCommand, Mode=OneTime}" ToolTip="Add a new Notepad item" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/newFile.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="New Window" Command="{Binding NewWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + T">
+                <MenuItem Header="New Window" Command="{Binding NewWindowCommand, Mode=OneTime}" ToolTip="Open a new window" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + T">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/openInNewWindow.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O">
+                <MenuItem Header="Open" Command="{Binding OpenCommand, Mode=OneTime}" ToolTip="Open a file" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/openFile.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Open Folder" Command="{Binding OpenDirectoryCommand}" InputGestureText="Ctrl Shift + O" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem Header="Open Folder" Command="{Binding OpenDirectoryCommand, Mode=OneTime}" ToolTip="Open every file in a folder" InputGestureText="Ctrl Shift + O" Template="{DynamicResource SingleDropDownMenuItem}">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/openFolder.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S">
+                <MenuItem Header="Save" Command="{Binding SaveCommand, Mode=OneTime}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/saveFile.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem Header="Save as..." Command="{Binding SaveAsCommand, Mode=OneTime}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/saveFileAs.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save all" Command="{Binding SaveAllCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + Shift + S">
+                <MenuItem Header="Save all" Command="{Binding SaveAllCommand, Mode=OneTime}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + Shift + S">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/saveAll.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Style="{DynamicResource MenuItemSeparator}" />
-                <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" InputGestureText="Ctrl + Delete" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand, Mode=OneTime}" IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" InputGestureText="Ctrl + Delete" Template="{DynamicResource SingleDropDownMenuItem}">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/closeFile.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Style="{DynamicResource MenuItemSeparator}" />
-                <MenuItem Header="Preferences..." Command="{Binding Preference.ShowPreferencesCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem Header="Clear Unclosed storage directory" ToolTip="Clear the folder which contains files that have not been saved yet (in MyDocuments). This is normally done automatically when they're opened." Template="{DynamicResource SingleDropDownMenuItem}" Click="MenuItem_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/SharpPad;component/Resources/binCan.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Preferences..." ToolTip="Show a window containing preferences you can edit" Command="{Binding Preference.ShowPreferencesCommand, Mode=OneTime}" Template="{DynamicResource SingleDropDownMenuItem}">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/preferencesIcon.png"/>
                     </MenuItem.Icon>
@@ -168,12 +174,12 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Windows">
-                <MenuItem Header="Close this window" Command="{Binding CloseWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem Header="Close this window" Command="{Binding CloseWindowCommand, Mode=OneTime}" Template="{DynamicResource SingleDropDownMenuItem}">
                     <MenuItem.Icon>
                         <TextBlock Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFE82020"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Re-open last window" Command="{Binding ReopenLastWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                <MenuItem Header="Re-open last window" Command="{Binding ReopenLastWindowCommand, Mode=OneTime}" Template="{DynamicResource SingleDropDownMenuItem}">
                     <MenuItem.Icon>
                         <Grid Width="12" Height="12">
                             <Rectangle StrokeThickness="1" 
@@ -194,63 +200,71 @@
                 <MenuItem Header="Set resolution to 960p" Click="ChangeResolutionClick" Uid="3" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="Set to recommended resolution" Click="ChangeResolutionClick" Uid="4" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
-            <MenuItem Header="About" Cursor="Help" Command="{Binding ShowHelpCommand}"/>
+            <MenuItem Header="About" Cursor="Help" Command="{Binding ShowHelpCommand, Mode=OneTime}"/>
         </Menu>
         <DockPanel Margin="5,18,5,5" Background="{DynamicResource BackgroundColour}">
             <StackPanel DockPanel.Dock="Top" Background="{DynamicResource BackgroundColour}">
                 <Grid HorizontalAlignment="Stretch" Height="28">
-                    <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File (Ctrl + N)" 
-                            BorderBrush="Transparent" Background="Transparent" 
-                            Focusable="False" HorizontalAlignment="Left" Width="28">
-                        <Image Margin="2" Source="/SharpPad;component/Resources/newFile.png"/>
-                    </Button>
-                    <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer (Ctrl + O)"
-                            BorderBrush="Transparent" Background="Transparent" 
-                            Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
-                        <Image Margin="2" Source="/SharpPad;component/Resources/openFile.png"/>
-                    </Button>
-                    <Grid IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Margin="60,0,0,0" HorizontalAlignment="Left" Width="186">
-                        <Button Command="{Binding SaveCommand}" ToolTip="Save current File (Ctrl + S)" 
-                                BorderBrush="Transparent" 
-                                Background="Transparent" Focusable="False" HorizontalAlignment="Left" Width="28">
-                            <Image Margin="2" Source="/SharpPad;component/Resources/saveFile.png"/>
-                        </Button>
-                        <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                        <Button Command="{Binding NewCommand, Mode=OneTime}" ToolTip="Add New Blank File (Ctrl + N)" 
                                 BorderBrush="Transparent" Background="Transparent" 
-                                Focusable="False" Margin="30,0,0,0" HorizontalAlignment="Left" Width="28">
-                            <Image Margin="2" Source="/SharpPad;component/Resources/saveFileAs.png"/>
+                                Focusable="False" Width="28" Margin="0 0 2 0">
+                            <Image Margin="2" Source="/SharpPad;component/Resources/newFile.png"/>
                         </Button>
-                        <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" 
+                        <Button Command="{Binding OpenCommand, Mode=OneTime}" ToolTip="Open File from File Explorer (Ctrl + O)"
                                 BorderBrush="Transparent" Background="Transparent" 
-                                Focusable="False" Margin="60,0,0,0" HorizontalAlignment="Left" Width="28">
-                            <Image Margin="2" Source="/SharpPad;component/Resources/closeFile.png"/>
+                                Focusable="False" Width="28" Margin="0 0 2 0">
+                            <Image Margin="2" Source="/SharpPad;component/Resources/openFile.png"/>
                         </Button>
-                        <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" 
-                                BorderBrush="Transparent" Background="Transparent" 
-                                Focusable="False" Margin="90,0,0,0" HorizontalAlignment="Left" Width="28">
-                            <Image Margin="2" Source="/SharpPad;component/Resources/closeAllFiles.png"/>
-                        </Button>
-                        <Button Command="{Binding PrintFileCommand}" IsEnabled="True" 
-                                BorderBrush="Transparent" Background="Transparent"
-                                ToolTip="Print text" Focusable="False" Margin="120,0,0,0" HorizontalAlignment="Left" Width="32">
-                            <Image Margin="2" Source="/SharpPad;component/Resources/printIcon.png"/>
-                        </Button>
-                        <Button Command="{Binding AutoShowFindMenuCommand}" IsEnabled="True"
-                                BorderBrush="Transparent" Background="Transparent"
-                                ToolTip="Find text in notepad (works okayish, not fully reliable)"  
-                                Focusable="False" Margin="154,0,0,0" HorizontalAlignment="Left" Width="32">
-                            <Image Margin="2" Source="/SharpPad;component/Resources/findReplace.png"/>
-                        </Button>
-                    </Grid>
-                    <Button Command="{Binding ShowWindowManagerCommand}"
+                        <StackPanel IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Orientation="Horizontal">
+                            <Button Command="{Binding SaveCommand, Mode=OneTime}" ToolTip="Save current File (Ctrl + S)" 
+                                    BorderBrush="Transparent" 
+                                    Background="Transparent" Focusable="False"
+                                    Width="28" Margin="0 0 2 0">
+                                <Image Margin="2" Source="/SharpPad;component/Resources/saveFile.png"/>
+                            </Button>
+                            <Button Command="{Binding SaveAsCommand, Mode=OneTime}" ToolTip="Save current File As..." 
+                                    BorderBrush="Transparent" Background="Transparent" 
+                                    Focusable="False" Width="28" Margin="0 0 2 0">
+                                <Image Margin="2" Source="/SharpPad;component/Resources/saveFileAs.png"/>
+                            </Button>
+                            <Button Command="{Binding SaveAllCommand, Mode=OneTime}" ToolTip="Save every file currently open"
+                                    BorderBrush="Transparent" Background="Transparent" 
+                                    Focusable="False" Width="28" Margin="0 0 2 0">
+                                <Image Margin="2" Source="/SharpPad;component/Resources/saveAll.png"/>
+                            </Button>
+                            <Button Command="{Binding CloseSelectedNotepadCommand, Mode=OneTime}" ToolTip="Close current File and Remove" 
+                                    BorderBrush="Transparent" Background="Transparent" 
+                                    Focusable="False" Width="28" Margin="0 0 2 0">
+                                <Image Margin="2" Source="/SharpPad;component/Resources/closeFile.png"/>
+                            </Button>
+                            <Button Command="{Binding CloseAllNotepadsCommand, Mode=OneTime}" ToolTip="Close ALL Files and Remove them" 
+                                    BorderBrush="Transparent" Background="Transparent" 
+                                    Focusable="False" Width="28" Margin="0 0 2 0">
+                                <Image Margin="2" Source="/SharpPad;component/Resources/closeAllFiles.png"/>
+                            </Button>
+                            <Button Command="{Binding PrintFileCommand, Mode=OneTime}" IsEnabled="True" 
+                                    BorderBrush="Transparent" Background="Transparent"
+                                    ToolTip="Print text" Width="32" Margin="0 0 2 0">
+                                <Image Margin="2" Source="/SharpPad;component/Resources/printIcon.png"/>
+                            </Button>
+                            <Button Command="{Binding AutoShowFindMenuCommand, Mode=OneTime}" IsEnabled="True"
+                                    BorderBrush="Transparent" Background="Transparent"
+                                    ToolTip="Find text in notepad (works okayish, not fully reliable)"  
+                                    Focusable="False" Width="32">
+                                <Image Margin="2" Source="/SharpPad;component/Resources/findReplace.png"/>
+                            </Button>
+                        </StackPanel>
+                        <Button Command="{Binding ShowWindowManagerCommand, Mode=OneTime}"
                             IsEnabled="True"
                             BorderBrush="Transparent" Background="Transparent"
                             ToolTip="Open the window containing a preview of every other window that's opened."  
-                            Focusable="False" Margin="246,0,0,0" HorizontalAlignment="Left" Width="32">
-                        <Image Margin="1" Source="/SharpPad;component/Resources/previewWindow.png"/>
-                    </Button>
-                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="280,2,0,2" Width="2" HorizontalAlignment="Left"/>
-                    <Grid Margin="287,0,0,0">
+                            Focusable="False" Margin="2 0 0 0" Width="32">
+                            <Image Margin="1" Source="/SharpPad;component/Resources/previewWindow.png"/>
+                        </Button>
+                    </StackPanel>
+                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="310,2,0,2" Width="2" HorizontalAlignment="Left"/>
+                    <Grid Margin="317,0,0,0">
                         <TextBlock Text="Windows Clipboard:" Padding="4" VerticalAlignment="Center" FontSize="12"
                                    ToolTip="To the right will show whatever is currently in the clipboard" 
                                    Margin="0,0,0,0" HorizontalAlignment="Left" Width="115"/>
@@ -347,10 +361,10 @@
                               Checked="ShowLineThing_Checked" 
                               Unchecked="ShowLineThing_Checked" Width="117"/>
                     <CheckBox IsChecked="{Binding FileWatcherEnabled, UpdateSourceTrigger=PropertyChanged}"
-                              Margin="5,0,0,0" Content="Watch Path for Changes" 
-                              ToolTip="Every few seconds, check the file on your system and see if it has changed. It will only update if you've made no changes to the file"
+                              Margin="5,0,0,0" Content="Watch Files for Changes" 
+                              ToolTip="Every few seconds, check the path/file of all notepad items and see if its contents/path has changed. Both will only auto-update if you've made no changes to the file"
                               Height="Auto"
-                              Width="146"/>
+                              Width="147"/>
                 </StackPanel>
             </StackPanel>
             <DockPanel Margin="0,4,0,0" Background="{DynamicResource BackgroundColour}">
@@ -422,7 +436,7 @@
                         <GroupBox Margin="1 -1 2 -1" 
                                   Header="File Explorer" 
                                   Background="{DynamicResource ContainerBackground}" 
-                                  Width="220">
+                                  Width="200">
                             <Grid>
                                 <TreeView Name="fileExplorerTree" 
                                           BorderBrush="{DynamicResource ContainerBackground}"
@@ -753,7 +767,7 @@
                                                         Language="en"
                                                         UndoLimit="1000"
                                                         ap:HorizontalScrolling.UseHorizontalScrollingValue="True"
-                                                        ScrollViewer.PanningMode="Both"
+                                                        ScrollViewer.PanningMode="VerticalFirst"
                                                         ScrollViewer.CanContentScroll="False"
                                                         HorizontalScrollBarVisibility="Visible"
                                                         VerticalScrollBarVisibility="Visible"

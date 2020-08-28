@@ -5,47 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Preferences" 
-        Height="450" Width="360"
-        Style="{DynamicResource CustomToolWindowStyle}">
+        Height="546.5" Width="550"
+        Style="{DynamicResource CustomToolWindowStyle}" FontFamily="Consolas">
     <Window.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding SavePreferencesCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
     </Window.InputBindings>
-    <Grid>
-        <TabControl Margin="0,5,0,34" SelectedIndex="1">
-            <TabItem Header="Window">
-                <StackPanel IsEnabled="True">
-                    <CheckBox Content="Close windows with Ctrl + W (shutdown app with shift too)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Reopen window with Ctrl + Shift + T" IsChecked="{Binding CanReopenWindowWithCtrlShiftT, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Separator/>
-                    <CheckBox Content="Use new DragDropping (Autodetect dropped location)" 
-                              ToolTip="When you dragdrop items a few file watchers will be made to look for where you dropped the file, and it will set your file's path as this. but it will only do this if the path DOES NOT exist. normal dropping (create same item in temp and copy to location) is used if the file exists or this option is disabled." 
-                              IsChecked="{Binding UseNewDragDropSystem, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Content=" - The new drag dropping is buggy if you dragdrop many"/>
-                    <Label Content=" - items too quickly. add a 2 second delay between drops"/>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Text Editor">
-                <StackPanel>
-                    <CheckBox Content="Scroll vertically with Ctrl + Arrow Keys"                      IsChecked="{Binding ScrollVerticallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Scroll horizontally with Ctrl + Arrow Keys (not recommended)"  IsChecked="{Binding ScrollHorizontallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Scroll horizontally with Shift + Mouse Wheel"                  IsChecked="{Binding ScrollHorizontallyShiftMouseWheel, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Separator/>
-                    <CheckBox Content="Cut entire line with Ctrl + X (when no text selected)"  IsChecked="{Binding CutEntireLineCtrlX, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Copy entire line with Ctrl + C (when no text selected)" IsChecked="{Binding CopyEntireLineCtrlC, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Select entire line with Ctrl + Shift + A"               IsChecked="{Binding SelectEntireLineCtrlShiftA, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Content="Add empty line below current one with Ctrl + Enter"    IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Separator/>
-                    <CheckBox Content="Zoom editor with Ctrl + Mouse Wheel up/down" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Separator/>
-                    <CheckBox Content="Wrap text by default (when opening new notepads)" IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
-            </TabItem>
-        </TabControl>
-        <Button Command="{Binding RefreshCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Refresh" Margin="5,0,0,5" Height="24" Width="65"/>
-        <Button Command="{Binding SavePreferencesCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="OK" Margin="0,0,75,5" Height="24" Width="65"/>
-        <Button Command="{Binding CancelCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Cancel" Margin="0,0,5,5" Height="24" Width="65"/>
+    <Grid Margin="5">
+        <ScrollViewer Margin="0,0,0,34">
+            <StackPanel IsEnabled="True">
+                <Label Content="Window Preferences"/>
+                <CheckBox Content="Close windows with Ctrl + W (shutdown all windows with Ctrl + Shift + W)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Ctrl + Shift + T to reopen the last recently closed window with" IsChecked="{Binding CanReopenWindowWithCtrlShiftT, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Use new DragDropping (to autodetect where you dropped the file)" 
+                    ToolTip="When you dragdrop items a few file watchers will be made to look for where you dropped the file, and it will set your file's path as this. but it will only do this if the path DOES NOT exist. normal dropping (create same item in temp and copy to location) is used if the file exists or this option is disabled." 
+                    IsChecked="{Binding UseNewDragDropSystem, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content=" - The new drag dropping is buggy if you dragdrop many" Padding="5 5 5 0"/>
+                <Label Content=" - items too quickly. add a 2 second delay between drops"/>
+
+                <Separator/>
+                <Label Content="Text Editor Preferences"/>
+
+                <CheckBox Content="Scroll vertically with Ctrl + Arrow Keys"                      IsChecked="{Binding ScrollVerticallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Scroll horizontally with Ctrl + Arrow Keys (not recommended)"  IsChecked="{Binding ScrollHorizontallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Scroll horizontally with Shift + Mouse Wheel"                  IsChecked="{Binding ScrollHorizontallyShiftMouseWheel, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Cut entire line with Ctrl + X (when no text selected)"         IsChecked="{Binding CutEntireLineCtrlX, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Copy entire line with Ctrl + C (when no text selected)"        IsChecked="{Binding CopyEntireLineCtrlC, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Select entire line with Ctrl + Shift + A"                      IsChecked="{Binding SelectEntireLineCtrlShiftA, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Add empty line below current one with Ctrl + Enter"            IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Zoom editor with Ctrl + Mouse Wheel up/down"                   IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Wrap text by default (when opening new notepads)"              IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
+                <Separator/>
+                <Label Content="Other Preferences"/>
+                <CheckBox Content="Save/Open unclosed files to a temporary location (in MyDocuments)" IsChecked="{Binding SaveOpenUnclosedFiles, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content=" - if you close the app with items still in it, this will save them to a" Padding="5 5 5 0"/>
+                <Label Content=" - folder (in MyDocuments). And when you reopen the app it will open them."/>
+            </StackPanel>
+        </ScrollViewer>
+        <Button Command="{Binding RefreshCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Refresh" Height="24" Width="65"/>
+        <Button Command="{Binding SavePreferencesCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="OK" Margin="0,0,70,0" Height="24" Width="65"/>
+        <Button Command="{Binding CancelCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Cancel" Height="24" Width="65"/>
         <Button VerticalAlignment="Bottom"  HorizontalAlignment="Left" Content="Set Recommended" 
-                Margin="75,0,0,5" Height="24" Width="120" ToolTip="Set preferences to the recommended values" Click="Button_Click"/>
+                Margin="70,0,0,0" Height="24" Width="120" ToolTip="Set preferences to the recommended values" Click="Button_Click"/>
     </Grid>
 </Window>

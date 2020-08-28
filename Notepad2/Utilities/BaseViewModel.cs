@@ -4,7 +4,10 @@ using System.Runtime.CompilerServices;
 
 namespace Notepad2.Utilities
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// A base class used by view models for raising Property Changed events
+    /// </summary>
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

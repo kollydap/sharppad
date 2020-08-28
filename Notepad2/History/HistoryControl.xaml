@@ -9,7 +9,7 @@
              MaxHeight="41" MinHeight="41" d:DesignWidth="208"
              MouseDoubleClick="UserControl_MouseDoubleClick" 
              Foreground="{DynamicResource ControlDefaultForeground}">
-    <Grid Margin="4,1" Background="Transparent" DataContext="{Binding TextDocument, UpdateSourceTrigger=PropertyChanged}">
+    <Grid Margin="4,1" Background="Transparent" DataContext="{Binding TextDocument.Notepad, UpdateSourceTrigger=PropertyChanged}">
         <Button Content="Reopen" VerticalAlignment="Top" Height="33" HorizontalAlignment="Left" Margin="0,3,0,0" Width="48" Click="Button_Click"/>
         <TextBlock Text="Name:" VerticalAlignment="Top" Margin="53,2,0,0" HorizontalAlignment="Left"/>
         <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="90,2,2,0"/>

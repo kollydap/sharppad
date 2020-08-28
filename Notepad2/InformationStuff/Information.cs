@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace Notepad2.InformationStuff
 {
@@ -9,15 +10,24 @@ namespace Notepad2.InformationStuff
 
         public static void Show(string text)
         {
-            InformationAdded?.Invoke(new InformationModel("Info", DateTime.Now, text));
+            Application.Current?.Dispatcher?.Invoke(() =>
+            {
+                InformationAdded?.Invoke(new InformationModel("Info", DateTime.Now, text));
+            });
         }
         public static void Show(string text, string type)
         {
-            InformationAdded?.Invoke(new InformationModel(type, DateTime.Now, text));
+            Application.Current?.Dispatcher?.Invoke(() =>
+            {
+                InformationAdded?.Invoke(new InformationModel(type, DateTime.Now, text));
+            });
         }
         public static void Show(string text, InfoTypes type)
         {
-            InformationAdded?.Invoke(new InformationModel(type, DateTime.Now, text));
+            Application.Current?.Dispatcher?.Invoke(() =>
+            {
+                InformationAdded?.Invoke(new InformationModel(type, DateTime.Now, text));
+            });
         }
     }
 }

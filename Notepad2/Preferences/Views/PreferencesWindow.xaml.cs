@@ -36,10 +36,11 @@ namespace Notepad2.Preferences.Views
                 prefs.SelectEntireLineCtrlShiftA = true;
                 prefs.AddEntireLineCtrlEnter = true;
                 prefs.ZoomEditorCtrlScrollwheel = true;
-                prefs.WrapTextByDefault = true;
+                prefs.WrapTextByDefault = false;
                 prefs.CanCloseWindowsWithCtrlWAndShift = true;
                 prefs.CanReopenWindowWithCtrlShiftT = true;
                 prefs.CloseNotepadListByDefault = false;
+                prefs.SaveOpenUnclosedFiles = true;
 
                 prefs.SavePreferences();
             }

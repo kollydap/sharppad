@@ -97,7 +97,7 @@
     <Compile Include="Converters\FileSizeToColourConverter.cs" />
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
-    <Compile Include="FileChangeWatcher\FileContentsWatcher.cs" />
+    <Compile Include="FileChangeWatcher\FileWatcher.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
     <Compile Include="Finding\TextFinding\FindResultItemControl.xaml.cs">
       <DependentUpon>FindResultItemControl.xaml</DependentUpon>
@@ -128,7 +128,8 @@
     <Compile Include="Interfaces\IMainView.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Notepad\DragDropping\DragDropNameHelper.cs" />
-    <Compile Include="Notepad\DragDropping\FileWatchers.cs" />
+    <Compile Include="Notepad\DragDropping\DragDropFileWatchers.cs" />
+    <Compile Include="Notepad\NotepadItemViewModel.cs" />
     <Compile Include="Utilities\FilePropertiesHelper.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">

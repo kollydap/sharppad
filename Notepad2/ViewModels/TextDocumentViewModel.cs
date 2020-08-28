@@ -43,7 +43,7 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _hasMadeChanges, value);
         }
 
-        public FileContentsWatcher Watcher { get; set; }
+        public FileWatcher Watcher { get; set; }
 
         ///// <summary>
         ///// Used for showing the lines count
@@ -61,17 +61,15 @@ namespace Notepad2.ViewModels
         //    LinesCounter.UpdateDocuments(Document, DocumentFormat);
         //}
 
-        public Action<TextDocumentViewModel> Close { get; set; }
-        public Action<TextDocumentViewModel> OpenInNewWindowCallback { get; set; }
-
         public TextDocumentViewModel()
         {
             //LinesCounter = new TextEditorLinesViewModel();
             DocumentFormat = new FormatModel();
             Document = new DocumentModel();
             FindResults = new FindViewModel(Document);
-            Watcher = new FileContentsWatcher(Document);
+            Watcher = new FileWatcher(Document);
             Watcher.FileContentsChanged = FileContentsChanged;
+            Watcher.FilePathChanged = FilePathChangedToEmpty;
             Watcher.StartWatching();
             HasMadeChanges = false;
             Document.TextChanged = TextChanged;
@@ -83,6 +81,14 @@ namespace Notepad2.ViewModels
             {
                 Document.Text = newText;
                 HasMadeChanges = false;
+            }
+        }
+
+        public void FilePathChangedToEmpty()
+        {
+            if (!HasMadeChanges)
+            {
+                Document.FilePath = "";
             }
         }
 

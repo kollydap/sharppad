@@ -362,7 +362,7 @@
                               Unchecked="ShowLineThing_Checked" Width="117"/>
                     <CheckBox IsChecked="{Binding FileWatcherEnabled, UpdateSourceTrigger=PropertyChanged}"
                               Margin="5,0,0,0" Content="Watch Files for Changes" 
-                              ToolTip="Every few seconds, check the path/file of all notepad items and see if its contents/path has changed. Both will only auto-update if you've made no changes to the file"
+                              ToolTip="Every few seconds, check the file contents of all notepad items and see if they've changed. It will only auto-update if you've made no changes to the file"
                               Height="Auto"
                               Width="147"/>
                 </StackPanel>

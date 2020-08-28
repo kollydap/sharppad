@@ -69,7 +69,7 @@ namespace Notepad2.ViewModels
             FindResults = new FindViewModel(Document);
             Watcher = new FileWatcher(Document);
             Watcher.FileContentsChanged = FileContentsChanged;
-            Watcher.FilePathChanged = FilePathChangedToEmpty;
+            //Watcher.FilePathChanged = FilePathChangedToEmpty;
             Watcher.StartWatching();
             HasMadeChanges = false;
             Document.TextChanged = TextChanged;

@@ -14,7 +14,7 @@ namespace Notepad2.FileChangeWatcher
     public class FileWatcher
     {
         public Action<string> FileContentsChanged { get; set; }
-        public Action FilePathChanged { get; set; }
+        //public Action FilePathChanged { get; set; }
 
         public bool Running { get; set; }
         public bool Paused { get; set; }
@@ -45,10 +45,11 @@ namespace Notepad2.FileChangeWatcher
                                 FileContentsChanged?.Invoke(content);
                             }
                         }
-                        else
-                        {
-                            FilePathChanged?.Invoke();
-                        }
+                        // Breaks the special drag drop. not using.
+                        //else
+                        //{
+                        //    FilePathChanged?.Invoke();
+                        //}
                     }
 
                     while (Paused) { await Task.Delay(100); }

@@ -9,6 +9,9 @@ namespace Notepad2.Utilities
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GetCursorPos(out POINT lpPoint);
 
+        [DllImport("User32.dll")]
+        private static extern bool SetCursorPos(int X, int Y);
+
         [StructLayout(LayoutKind.Sequential)]
         private struct POINT
         {
@@ -29,6 +32,11 @@ namespace Notepad2.Utilities
                 return new Point(mPos.X, mPos.Y);
 
             return new Point(0, 0);
+        }
+
+        public static void SetLocation(int x, int y)
+        {
+            SetCursorPos(x, y);
         }
     }
 }

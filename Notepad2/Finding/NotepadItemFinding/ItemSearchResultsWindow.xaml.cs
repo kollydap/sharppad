@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace Notepad2.Finding.NotepadItemFinding
 {
@@ -11,7 +12,19 @@ namespace Notepad2.Finding.NotepadItemFinding
         {
             InitializeComponent();
 
+            KeyDown += ItemSearchResultsWindow_KeyDown;
             Closing += ItemSearchResultsWindow_Closing;
+        }
+
+        private void ItemSearchResultsWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                case Key.Enter:
+                    this.Close();
+                    break;
+            }
         }
 
         private void ItemSearchResultsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -22,6 +35,7 @@ namespace Notepad2.Finding.NotepadItemFinding
 
         public void ForceClose()
         {
+            PreviewKeyDown -= ItemSearchResultsWindow_KeyDown;
             Closing -= ItemSearchResultsWindow_Closing;
             Close();
         }

@@ -8,5 +8,7 @@ namespace Notepad2.Interfaces
         void FocusFindInput(bool focusOrNot);
         void ScrollItemsIntoView();
         void ShowItemsSearcherWindow();
+        void ShowOrHideNotepadsList(bool show);
+        void ShowOrHideTopNotepadsList(bool show);
     }
 }

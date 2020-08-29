@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using static TheRThemes.ThemesController;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
@@ -33,18 +34,21 @@ namespace Notepad2.Views
         //  implement some of the stuff done here in using MVVM. Mainly noticable is
         //  drawing the line rectangle. I guess the find results could be moved to
         //  the view model... but i cant be bothered to atm lol.
-        //  also, made by Kettlesimulator/tea-vs-coffee/quad5914/ther (all are me
-        //  with different names xddddddddd shut up)
+        //  also, made by Kettlesimulator/tea-vs-coffee/quad5914/ther/TheR (all are me
+        //  with different names xddddddddd shut)
         //  
-        //  Have also been working on this app for about 7 months ago
+        //  Have also been working on this app since about 7 months ago
         //  (https://www.reddit.com/r/csharp/comments/f9kiq3/made_a_very_basic_notepad_program_like_windows/)
         //  (started looking like the above... looks no where good then as it does now lol)
         //  i mainly started this to learn more about MVVM. back then i barely knew how to do databinding.
-        //  now i know quite a lot thanks to making this ;)))))) (idk why im still typing this)
+        //  now i know quite a lot thanks to making this, and have also learned how to avoid things i never knew
+        //  existed like memory leaks, and even memory leaks in binding ;)))))) (idk why im still typing this)
         //  also i do this as a hobby because i find "upgrading" this notepad app extremely fun tbh
         //  even though i have no clue what to add next (kinda want convert it into a rich editor,
-        //  not a plain textbox but eh that's way too hard)
-        //  and its open source because why not. atleast some others might learn from it
+        //  not a plain textbox to allow formatting text to looks nice, but obviously not saving any
+        //  of the formats because txt isn't a formateed doc. but eh it would be waay too hard to convert
+        //  this app from what it is, into a rich editor, due to how the DocumentModel and stuff works).
+        //  and its open source because why not. atleast some others might learn from it :)
         //  
         //
 
@@ -87,59 +91,71 @@ namespace Notepad2.Views
             });
         }
 
-        public NotepadWindow(string[] filePaths, NewWinPrefs prefs = NewWinPrefs.OpenFilesInParams, bool clearPath = false)
+        public NotepadWindow(string[] filePaths, NewWinPrefs prefs = NewWinPrefs.OpenFilesInParams, bool clearPath = false, bool useStartupDelay = true)
         {
             BeforeInitComponents();
             InitializeComponent();
             InitWindow();
 
-            Task.Run(async() =>
+            if (useStartupDelay)
             {
-                await Task.Delay(GlobalPreferences.STARTUP_NOTEPAD_ACTIONS_DELAY_MS);
-                Application.Current?.Dispatcher?.Invoke(() =>
+                Task.Run(async () =>
                 {
-                    try
+                    await Task.Delay(GlobalPreferences.STARTUP_NOTEPAD_ACTIONS_DELAY_MS);
+                    Application.Current?.Dispatcher?.Invoke(() =>
                     {
-                        foreach (string path in filePaths)
+                        LoadFile(filePaths, clearPath);
+                    });
+                });
+            }
+            else
+            {
+                LoadFile(filePaths, clearPath);
+            }
+        }
+
+        private void LoadFile(string[] paths, bool clearPath = false)
+        {
+            try
+            {
+                foreach (string path in paths)
+                {
+                    if (path.IsFile())
+                    {
+                        Notepad.OpenNotepadFromPath(path, true, clearPath: clearPath);
+                    }
+                    if (path.IsDirectory())
+                    {
+                        MessageBoxResult a =
+                            MessageBox.Show(
+                                "Open all files in this directory?",
+                                "Open entire directory",
+                                MessageBoxButton.YesNo);
+                        if (a == MessageBoxResult.Yes)
                         {
-                            if (path.IsFile())
+                            try
                             {
-                                Notepad.OpenNotepadFromPath(path, true, clearPath: clearPath);
-                            }
-                            if (path.IsDirectory())
-                            {
-                                MessageBoxResult a =
-                                    MessageBox.Show(
-                                        "Open all files in this directory?",
-                                        "Open entire directory",
-                                        MessageBoxButton.YesNo);
-                                if (a == MessageBoxResult.Yes)
+                                foreach (string file in Directory.GetFiles(path))
                                 {
-                                    try
-                                    {
-                                        foreach (string file in Directory.GetFiles(path))
-                                        {
-                                            Notepad.OpenNotepadFromPath(file, true);
-                                        }
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        MessageBox.Show(
-                                            $"Error opening all files in a directory:  {e.Message}",
-                                            "Error opening a directory");
-                                    }
+                                    Notepad.OpenNotepadFromPath(file, true);
                                 }
+                            }
+                            catch (Exception e)
+                            {
+                                MessageBox.Show(
+                                    $"Error opening all files in a directory:  {e.Message}",
+                                    "Error opening a directory");
                             }
                         }
                     }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(
-                            $"Error opening files:  {e.Message}",
-                            "Error opening files");
-                    }
-                });
-            });
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(
+                    $"Error opening files:  {e.Message}",
+                    "Error opening files");
+            }
         }
 
         #endregion
@@ -166,10 +182,11 @@ namespace Notepad2.Views
         public void LoadSettings(bool loadAndSetAppTheme = true, bool loadGlobalPreferencesG = true)
         {
             if (loadGlobalPreferencesG)
-                PreferencesG.LoadFromProperties();
+                PreferencesG.LoadFromPropertiesFile();
             this.Height = Properties.Settings.Default.Height;
             this.Width = Properties.Settings.Default.Width;
-            ListExpander.IsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
+            Notepad.LeftTabsExpanded = !Properties.Settings.Default.closeNLstOnStrt;
+            Notepad.TopTabsExpanded = !Properties.Settings.Default.closeTopNLstOnStrt;
             showLineThing.IsChecked = Properties.Settings.Default.allowCaretLineOutline;
             if (loadAndSetAppTheme)
             {
@@ -378,8 +395,9 @@ namespace Notepad2.Views
             {
                 try
                 {
-                    PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT = !ListExpander.IsExpanded;
-                    PreferencesG.SaveToProperties();
+                    PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT = !Notepad.LeftTabsExpanded;
+                    Properties.Settings.Default.closeTopNLstOnStrt = !Notepad.TopTabsExpanded;
+                    PreferencesG.SavePropertiesToFile();
                     if (WindowState == WindowState.Maximized)
                     {
                         // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
@@ -479,6 +497,8 @@ namespace Notepad2.Views
         {
             if (NotepadItemsListBox.SelectedItem != null)
                 NotepadItemsListBox.ScrollIntoView(NotepadItemsListBox.SelectedItem);
+            if (TopNotepadItemsListBox.SelectedItem != null)
+                TopNotepadItemsListBox.ScrollIntoView(TopNotepadItemsListBox.SelectedItem);
         }
 
         public void ShowItemsSearcherWindow()
@@ -489,6 +509,46 @@ namespace Notepad2.Views
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             ThisApplication.DeletePreviouslyUnclosedFiles();
+        }
+
+        public void ShowOrHideNotepadsList(bool show)
+        {
+            if (show)
+            {
+                DoubleAnimation widthAnim = new DoubleAnimation(225, TimeSpan.FromSeconds(GlobalPreferences.NOTEPADLIST_ANIMATION_SPEED_SEC));
+                ThicknessAnimation marginAnim = new ThicknessAnimation(new Thickness(0, 0, 5, 0), TimeSpan.FromSeconds(GlobalPreferences.NOTEPADLIST_ANIMATION_SPEED_SEC));
+                AnimationHelpers.SetAnimationRatios(widthAnim);
+
+                NotepadsListGroupbox.BeginAnimation(MarginProperty, marginAnim);
+                NotepadsListGroupbox.BeginAnimation(WidthProperty, widthAnim);
+            }
+            else
+            {
+                DoubleAnimation widthAnim = new DoubleAnimation(0, TimeSpan.FromSeconds(GlobalPreferences.NOTEPADLIST_ANIMATION_SPEED_SEC));
+                ThicknessAnimation marginAnim = new ThicknessAnimation(new Thickness(0), TimeSpan.FromSeconds(GlobalPreferences.NOTEPADLIST_ANIMATION_SPEED_SEC));
+                AnimationHelpers.SetAnimationRatios(widthAnim);
+
+                NotepadsListGroupbox.BeginAnimation(MarginProperty, marginAnim);
+                NotepadsListGroupbox.BeginAnimation(WidthProperty, widthAnim);
+            }
+        }
+
+        public void ShowOrHideTopNotepadsList(bool show)
+        {
+            if (show)
+            {
+                DoubleAnimation heightAnim = new DoubleAnimation(52, TimeSpan.FromSeconds(GlobalPreferences.NOTEPADLIST_ANIMATION_SPEED_SEC));
+                AnimationHelpers.SetAnimationRatios(heightAnim);
+
+                TopNotepadListBorder.BeginAnimation(HeightProperty, heightAnim);
+            }
+            else
+            {
+                DoubleAnimation heightAnim = new DoubleAnimation(0, TimeSpan.FromSeconds(GlobalPreferences.NOTEPADLIST_ANIMATION_SPEED_SEC));
+                AnimationHelpers.SetAnimationRatios(heightAnim);
+
+                TopNotepadListBorder.BeginAnimation(HeightProperty, heightAnim);
+            }
         }
     }
 }

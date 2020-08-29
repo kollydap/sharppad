@@ -25,9 +25,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <SuiteName>wat</SuiteName>
+    <ApplicationRevision>133</ApplicationRevision>
+    <ApplicationVersion>2.9.200.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -47,6 +49,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debugging\</OutputPath>
     <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Notepad2.App</StartupObject>
@@ -85,16 +88,20 @@
     </Compile>
     <Compile Include="AttachedProperties\BaseAttachedProperty.cs" />
     <Compile Include="AttachedProperties\HorizontalScrolling.cs" />
+    <Compile Include="AttachedProperties\ListBoxBehaviour.cs" />
     <Compile Include="CClipboard\ClipboardNotification.cs" />
     <Compile Include="CClipboard\ClipboardWindow.xaml.cs">
       <DependentUpon>ClipboardWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CClipboard\CustomClipboard.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\FileExistsToBoolConverter.cs" />
     <Compile Include="Converters\FileSizeFormatConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\InvertedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\FileSizeToColourConverter.cs" />
+    <Compile Include="Converters\LeftPaneOpenedToImageSourceConverter.cs" />
+    <Compile Include="Converters\TopPaneOpenedToImageSourceConverter.cs" />
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
     <Compile Include="FileChangeWatcher\FileWatcher.cs" />
@@ -130,6 +137,9 @@
     <Compile Include="Notepad\DragDropping\DragDropNameHelper.cs" />
     <Compile Include="Notepad\DragDropping\DragDropFileWatchers.cs" />
     <Compile Include="Notepad\NotepadItemViewModel.cs" />
+    <Compile Include="Notepad\TopNotepadListItem.xaml.cs">
+      <DependentUpon>TopNotepadListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\FilePropertiesHelper.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">
@@ -182,7 +192,7 @@
     </Compile>
     <Compile Include="Themes\ThemesController.cs" />
     <Compile Include="Utilities\AnimationFlag.cs" />
-    <Compile Include="Utilities\AnimationLib.cs" />
+    <Compile Include="Utilities\AnimationHelpers.cs" />
     <Compile Include="Utilities\BaseViewModel.cs" />
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\CommandParam.cs" />
@@ -251,6 +261,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Notepad\FileProperties\FilePropertiesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notepad\TopNotepadListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -412,7 +426,27 @@
   <ItemGroup>
     <Resource Include="Resources\paste.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\topTabsOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\alertSaveFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\closePane.png" />
+    <Resource Include="Resources\openPane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".txt">
+      <Visible>False</Visible>
+      <Description>A text document, openable in SharpPad</Description>
+      <Progid>SharpPad</Progid>
+      <DefaultIcon>notepadIcon.ico</DefaultIcon>
+    </FileAssociation>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\topTabsClose.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

@@ -1,5 +1,6 @@
 ﻿using Notepad2.InformationStuff;
 using Notepad2.Utilities;
+using System;
 using System.Windows.Input;
 
 namespace Notepad2.Preferences.Views
@@ -116,39 +117,26 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _saveOpenUnclosedFiles, value);
         }
 
-        public PreferencesWindow PreferencesView { get; set; }
-
         public ICommand RefreshCommand { get; private set; }
-        public ICommand ShowPreferencesCommand { get; private set; }
         public ICommand SavePreferencesCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
 
+        public Action CloseViewCallback { get; set; }
+
         public PreferencesViewModel()
         {
-            PreferencesView = new PreferencesWindow
-            {
-                DataContext = this
-            };
-
-            RefreshCommand = new Command(LoadOldPreferences);
-            ShowPreferencesCommand = new Command(ShowPreferencesWindow);
-            SavePreferencesCommand = new Command(SavePreferences);
+            RefreshCommand = new Command(LoadPreferences);
+            SavePreferencesCommand = new Command(SaveAndClosePreferencesView);
             CancelCommand = new Command(Cancel);
         }
 
-        public void ShowPreferencesWindow()
+        public void LoadPreferences()
         {
-            LoadOldPreferences();
-            PreferencesView?.Show();
+            PreferencesG.LoadFromPropertiesFile();
+            LoadPreferencesPropertiesIntoView();
         }
 
-        public void LoadOldPreferences()
-        {
-            PreferencesG.LoadFromProperties();
-            LoadPreferencesVariables();
-        }
-
-        public void LoadPreferencesVariables()
+        public void LoadPreferencesPropertiesIntoView()
         {
             ScrollHorizontallyShiftMouseWheel = PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
             ScrollHorizontallyCtrlArrowKeys   = PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
@@ -173,7 +161,7 @@ namespace Notepad2.Preferences.Views
             SaveOpenUnclosedFiles            = PreferencesG.SAVE_OPEN_UNCLOSED_FILES;
         }
 
-        public void UpdatePreferenceVariables()
+        public void SetPreferencesPropertiesFromView()
         {
             PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL = ScrollHorizontallyShiftMouseWheel;
             PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS   = ScrollHorizontallyCtrlArrowKeys;
@@ -198,29 +186,28 @@ namespace Notepad2.Preferences.Views
             PreferencesG.SAVE_OPEN_UNCLOSED_FILES                = SaveOpenUnclosedFiles;
         }
 
-        public void SavePreferences()
+        public void SaveAndClosePreferencesView()
         {
-            UpdatePreferenceVariables();
-            PreferencesG.SaveToProperties();
+            SetPreferencesPropertiesFromView();
+            PreferencesG.SavePropertiesToFile();
             Information.Show("Properties Saved!", "Properties");
             ClosePreferencesWindow();
         }
 
-        public void UnloadPreferences()
+        public void ResetPreferences()
         {
-            LoadOldPreferences();
-            UpdatePreferenceVariables();
+            LoadPreferences();
         }
 
         public void Cancel()
         {
-            UnloadPreferences();
+            ResetPreferences();
             ClosePreferencesWindow();
         }
 
         public void ClosePreferencesWindow()
         {
-            PreferencesView?.Close();
+            CloseViewCallback?.Invoke();
         }
     }
 }

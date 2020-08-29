@@ -262,5 +262,17 @@ namespace Notepad2.Properties {
                 this["saveOpnUnsvdFiles"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool closeTopNLstOnStrt {
+            get {
+                return ((bool)(this["closeTopNLstOnStrt"]));
+            }
+            set {
+                this["closeTopNLstOnStrt"] = value;
+            }
+        }
     }
 }

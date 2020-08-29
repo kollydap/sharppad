@@ -6,10 +6,10 @@
         mc:Ignorable="d"
         Title="Preferences" 
         Height="546.5" Width="550"
-        Style="{DynamicResource CustomToolWindowStyle}" FontFamily="Consolas">
+        Style="{DynamicResource CustomToolWindowStyle}" FontFamily="Consolas" Foreground="{DynamicResource ControlDefaultForeground}">
     <Window.InputBindings>
-        <KeyBinding Key="Enter" Command="{Binding SavePreferencesCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
+        <KeyBinding Key="Enter" Command="{Binding SavePreferencesCommand, Mode=OneTime}"/>
+        <KeyBinding Key="Esc" Command="{Binding CancelCommand, Mode=OneTime}"/>
     </Window.InputBindings>
     <Grid Margin="5">
         <ScrollViewer Margin="0,0,0,34">
@@ -20,32 +20,31 @@
                 <CheckBox Content="Use new DragDropping (to autodetect where you dropped the file)" 
                     ToolTip="When you dragdrop items a few file watchers will be made to look for where you dropped the file, and it will set your file's path as this. but it will only do this if the path DOES NOT exist. normal dropping (create same item in temp and copy to location) is used if the file exists or this option is disabled." 
                     IsChecked="{Binding UseNewDragDropSystem, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content=" - The new drag dropping is buggy if you dragdrop many" Padding="5 5 5 0"/>
-                <Label Content=" - items too quickly. add a 2 second delay between drops"/>
 
                 <Separator/>
                 <Label Content="Text Editor Preferences"/>
 
-                <CheckBox Content="Scroll vertically with Ctrl + Arrow Keys"                      IsChecked="{Binding ScrollVerticallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Scroll horizontally with Ctrl + Arrow Keys (not recommended)"  IsChecked="{Binding ScrollHorizontallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Scroll horizontally with Shift + Mouse Wheel"                  IsChecked="{Binding ScrollHorizontallyShiftMouseWheel, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Cut entire line with Ctrl + X (when no text selected)"         IsChecked="{Binding CutEntireLineCtrlX, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Copy entire line with Ctrl + C (when no text selected)"        IsChecked="{Binding CopyEntireLineCtrlC, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Select entire line with Ctrl + Shift + A"                      IsChecked="{Binding SelectEntireLineCtrlShiftA, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Add empty line below current one with Ctrl + Enter"            IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Zoom editor with Ctrl + Mouse Wheel up/down"                   IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
-                <CheckBox Content="Wrap text by default (when opening new notepads)"              IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Scroll vertically with Ctrl + Up/Down Arrow Keys"                         IsChecked="{Binding ScrollVerticallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Scroll horizontally with Ctrl + Left/Right Arrow Keys (not recommended)"  IsChecked="{Binding ScrollHorizontallyCtrlArrowKeys, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Scroll horizontally with Shift + Mouse Wheel"                             IsChecked="{Binding ScrollHorizontallyShiftMouseWheel, UpdateSourceTrigger=PropertyChanged}"/>
+                <Separator/>
+                <TextBlock><Run Text="(Using"/><Run Text=" the 4"/><Run Text=" "/><Run Text="functions "/><Run Text="below when using Text Wrapping "/><Run Text="is a "/><Run Text="bit "/><Run Text="bug"/><Run Text="gy"/><Run Text=")"/></TextBlock>
+                <CheckBox Content="Ctrl + X to cut an entire line (when no text selected)"                   IsChecked="{Binding CutEntireLineCtrlX, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Ctrl + C to copy an entire line (when no text selected)"                  IsChecked="{Binding CopyEntireLineCtrlC, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Ctrl + Shift + A to select an entire line"                                IsChecked="{Binding SelectEntireLineCtrlShiftA, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Ctrl + Enter to add an empty line below current one"                      IsChecked="{Binding AddEntireLineCtrlEnter, UpdateSourceTrigger=PropertyChanged}"/>
+                <Separator/>
+                <CheckBox Content="Ctrl + Mouse Wheel Up/Down to increase/decrease Font size (aka Zoom in/out)" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Use Text Wrapping by default (when opening new notepads)"                    IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
                 <Separator/>
                 <Label Content="Other Preferences"/>
-                <CheckBox Content="Save/Open unclosed files to a temporary location (in MyDocuments)" IsChecked="{Binding SaveOpenUnclosedFiles, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content=" - if you close the app with items still in it, this will save them to a" Padding="5 5 5 0"/>
-                <Label Content=" - folder (in MyDocuments). And when you reopen the app it will open them."/>
+                <CheckBox Content="Save/Open unclosed files to a temporary location (in MyDocuments)"           IsChecked="{Binding SaveOpenUnclosedFiles, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock><Run Text=" - if you close the app with items still "/><Run Text="open"/><Run Text=", this will save them to a"/><Run Text=" temp"/><LineBreak/><Run Text="   "/><Run Text="folder (in MyDocuments). And when you reopen the app it will open them."/></TextBlock>
             </StackPanel>
         </ScrollViewer>
-        <Button Command="{Binding RefreshCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Refresh" Height="24" Width="65"/>
-        <Button Command="{Binding SavePreferencesCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="OK" Margin="0,0,70,0" Height="24" Width="65"/>
-        <Button Command="{Binding CancelCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Cancel" Height="24" Width="65"/>
-        <Button VerticalAlignment="Bottom"  HorizontalAlignment="Left" Content="Set Recommended" 
-                Margin="70,0,0,0" Height="24" Width="120" ToolTip="Set preferences to the recommended values" Click="Button_Click"/>
+        <Button Command="{Binding RefreshCommand, Mode=OneTime}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Refresh" Height="24" Width="65"/>
+        <Button VerticalAlignment="Bottom"  HorizontalAlignment="Left" Content="Set Recommended" Margin="70,0,0,0" Height="24" Width="120" ToolTip="Set preferences to the recommended values" Click="Button_Click"/>
+        <Button Command="{Binding SavePreferencesCommand, Mode=OneTime}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="OK" Margin="0,0,70,0" Height="24" Width="65"/>
+        <Button Command="{Binding CancelCommand, Mode=OneTime}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Cancel" Height="24" Width="65"/>
     </Grid>
 </Window>

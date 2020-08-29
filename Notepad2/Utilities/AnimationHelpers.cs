@@ -6,7 +6,7 @@ using System.Windows.Media.Animation;
 
 namespace Notepad2.Utilities
 {
-    public class AnimationLib
+    public class AnimationHelpers
     {
         //Made by ADeltaX i think
 
@@ -20,8 +20,8 @@ namespace Notepad2.Utilities
         public static void MoveToTargetY(Control cntrl, double From, double To, double TimeSecond, double TimeMillisecond = 0)
         {
             cntrl.Margin = new Thickness(cntrl.Margin.Left, cntrl.Margin.Top - To, cntrl.Margin.Right, cntrl.Margin.Bottom + To);
-            QuadraticEase EP = new QuadraticEase();
-            EP.EasingMode = EasingMode.EaseOut;
+            //QuadraticEase EP = new QuadraticEase();
+            //EP.EasingMode = EasingMode.EaseOut;
 
             DoubleAnimation DirY = new DoubleAnimation
             {
@@ -29,9 +29,10 @@ namespace Notepad2.Utilities
                 From = From,
                 To = To,
                 BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
-                EasingFunction = EP,
+                //EasingFunction = EP,
                 AutoReverse = false
             };
+            SetAnimationRatios(DirY);
             cntrl.RenderTransform = new TranslateTransform();
             cntrl.RenderTransform.BeginAnimation(TranslateTransform.YProperty, DirY);
         }
@@ -46,8 +47,8 @@ namespace Notepad2.Utilities
         public static void MoveToTargetX(Control control, double From, double To, double TimeSecond, double TimeMillisecond = 0)
         {
             control.Margin = new Thickness(control.Margin.Left - To, control.Margin.Top, control.Margin.Right + To, control.Margin.Bottom);
-            QuinticEase EP = new QuinticEase();
-            EP.EasingMode = EasingMode.EaseOut;
+            //QuinticEase EP = new QuinticEase();
+            //EP.EasingMode = EasingMode.EaseOut;
 
             DoubleAnimation DirX = new DoubleAnimation
             {
@@ -55,16 +56,17 @@ namespace Notepad2.Utilities
                 From = From,
                 To = To,
                 BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
-                EasingFunction = EP,
+                //EasingFunction = EP,
                 AutoReverse = false
             };
+            SetAnimationRatios(DirX);
             control.RenderTransform = new TranslateTransform();
             control.RenderTransform.BeginAnimation(TranslateTransform.XProperty, DirX);
         }
         public static void OpacityControl(Control control, double From, double To, double TimeSecond, double TimeMillisecond = 0)
         {
-            QuinticEase EP = new QuinticEase();
-            EP.EasingMode = EasingMode.EaseOut;
+            //QuinticEase EP = new QuinticEase();
+            //EP.EasingMode = EasingMode.EaseOut;
 
             DoubleAnimation Dir = new DoubleAnimation
             {
@@ -72,10 +74,17 @@ namespace Notepad2.Utilities
                 From = From,
                 To = To,
                 BeginTime = TimeSpan.FromMilliseconds(TimeMillisecond),
-                EasingFunction = EP,
+                //EasingFunction = EP,
                 AutoReverse = false
             };
+            SetAnimationRatios(Dir);
             control.BeginAnimation(UIElement.OpacityProperty, Dir);
+        }
+
+        public static void SetAnimationRatios(Timeline timeline)
+        {
+            timeline.AccelerationRatio = 0;
+            timeline.DecelerationRatio = 1;
         }
     }
 }

@@ -29,6 +29,8 @@ namespace Notepad2.Notepad
 
         public Action<NotepadItemViewModel> RemoveNotepadCallback { get; set; }
         public Action<NotepadItemViewModel> OpenInNewWindowCallback { get; set; }
+        // true = up, false = down
+        public Action<bool> MoveItemCallback { get; set; }
 
         public NotepadItemViewModel()
         {
@@ -100,6 +102,16 @@ namespace Notepad2.Notepad
             {
                 CustomClipboard.SetTextObject(Notepad.Document.FilePath);
             }
+        }
+
+        public void MoveItemUp()
+        {
+            MoveItemCallback?.Invoke(true);
+        }
+
+        public void MoveItemDown()
+        {
+            MoveItemCallback?.Invoke(false);
         }
     }
 }

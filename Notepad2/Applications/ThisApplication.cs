@@ -1,16 +1,13 @@
 ﻿using Notepad2.CClipboard;
-using Notepad2.FileExplorer;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Notepad.DragDropping;
 using Notepad2.ViewModels;
 using Notepad2.Views;
-using Shell32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace Notepad2.Applications
 {
@@ -59,10 +56,10 @@ namespace Notepad2.Applications
             WindowManager.WindowPreviews.Show();
         }
 
-        public static void OpenFileInNewWindow(string path, bool clearPath = false)
+        public static void OpenFileInNewWindow(string path, bool clearPath = false, bool useStartupDelay = false)
         {
             Information.Show("Opening file in new window", "NewWindow");
-            App.OpenFileInNewWindow(path, clearPath);
+            App.OpenFileInNewWindow(path, clearPath, useStartupDelay);
         }
 
         public static void OpenNewWindow()
@@ -92,6 +89,11 @@ namespace Notepad2.Applications
         public static void SetClipboardContext(ClipboardViewModel model)
         {
             WindowManager.ClipboardWin.Clipboard = model;
+        }
+
+        public static void ShowPreferencesWindow()
+        {
+            WindowManager.Preferences.Show();
         }
 
         public static void ShowHelp()

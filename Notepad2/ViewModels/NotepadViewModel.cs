@@ -35,6 +35,8 @@ namespace Notepad2.ViewModels
         private int _selectedIndex;
         private bool _notepadAvaliable;
         private bool _findExpanded;
+        private bool _topTabsExpanded;
+        private bool _leftTabsExpanded;
         private string _toFindItemText;
         private bool _fileWatcherEnabled;
 
@@ -96,6 +98,34 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
+        /// Says whether the Top Notepad Item Tabs panel is expanded or not
+        /// </summary>
+        public bool TopTabsExpanded
+        {
+            get => _topTabsExpanded;
+            set => RaisePropertyChanged(ref _topTabsExpanded, value, AnimateTopNotepadsList);
+        }
+
+        private void AnimateTopNotepadsList()
+        {
+            View?.ShowOrHideTopNotepadsList(TopTabsExpanded);
+        }
+
+        /// <summary>
+        /// Says whether the Left Notepad Item Tabs panel is expanded or not
+        /// </summary>
+        public bool LeftTabsExpanded
+        {
+            get => _leftTabsExpanded;
+            set => RaisePropertyChanged(ref _leftTabsExpanded, value, AnimateLeftNotepadsList);
+        }
+
+        private void AnimateLeftNotepadsList()
+        {
+            View?.ShowOrHideNotepadsList(LeftTabsExpanded);
+        }
+
+        /// <summary>
         /// Text used for finding Notepad Items
         /// </summary>
         public string ToFindItemText
@@ -107,10 +137,12 @@ namespace Notepad2.ViewModels
         public bool FileWatcherEnabled
         {
             get => _fileWatcherEnabled;
-            set => RaisePropertyChanged(ref _fileWatcherEnabled, value, () =>
-            {
-                GlobalPreferences.ENABLE_FILE_WATCHER = value;
-            });
+            set => RaisePropertyChanged(ref _fileWatcherEnabled, value, UpdateFileWatcher);
+        }
+
+        private void UpdateFileWatcher(bool fileWatcherEnabled)
+        {
+            GlobalPreferences.ENABLE_FILE_WATCHER = fileWatcherEnabled;
         }
 
         /// <summary>
@@ -137,26 +169,20 @@ namespace Notepad2.ViewModels
         /// <summary>
         /// A ViewModel used for binding to the clipboard
         /// </summary>
-        public ClipboardViewModel OurClipboard { get; set; }
-
-        /// <summary>
-        /// A ViewModel for dealing/altering with application 
-        /// properties/preferences in an easily accessible way
-        /// </summary>
-        public PreferencesViewModel Preference { get; set; }
+        public ClipboardViewModel OurClipboard { get;}
 
         /// <summary>
         /// A ViewModel for dealing with the history of recently closed files.
         /// </summary>
         public HistoryViewModel History { get; set; }
 
-        public ItemSearchResultsViewMode ItemSearcher { get; set; }
+        public ItemSearchResultsViewMode ItemSearcher { get; }
 
         /// <summary>
         /// An interface for providing a few functions to be executed on the notepad window,
         /// without having an instance to the window. So this is MVVM friendly i think
         /// </summary>
-        public IMainView View { get; }
+        public IMainView View { get; set; }
 
         #endregion
 
@@ -175,6 +201,8 @@ namespace Notepad2.ViewModels
         public ICommand AutoShowFindMenuCommand { get; }
         public ICommand FindNotepadItemCommand { get; }
         public ICommand RefreshFileContentsCommand { get; }
+        public ICommand AutoShowTopTabsCommand { get; }
+        public ICommand AutoShowLeftTabsCommand { get; }
         public ICommand ShowHelpCommand { get; }
 
         public ICommand NewWindowCommand { get; }
@@ -184,9 +212,9 @@ namespace Notepad2.ViewModels
         public ICommand CloseAllWindowsCommand { get; }
 
         public ICommand ShowWindowManagerCommand { get; }
+        public ICommand ShowPreferencesViewCommand { get; }
 
         public ICommand SortListCommand { get; }
-
 
         #endregion
 
@@ -197,7 +225,6 @@ namespace Notepad2.ViewModels
             View = view;
 
             History = new HistoryViewModel();
-            Preference = new PreferencesViewModel();
             OurClipboard = new ClipboardViewModel();
             InformationView = new InformationViewModel();
             NotepadItems = new ObservableCollection<NotepadItemViewModel>();
@@ -220,14 +247,18 @@ namespace Notepad2.ViewModels
             AutoShowFindMenuCommand = new Command(OpenFindPanel);
             FindNotepadItemCommand = new Command(FindNotepadItem);
             RefreshFileContentsCommand = new Command(RefreshAllFilesContents);
-            ShowHelpCommand = new Command(ThisApplication.ShowHelp);
+            AutoShowTopTabsCommand = new Command(AutoShowTopTabs);
+            AutoShowLeftTabsCommand = new Command(AutoShowLeftTabs);
 
             NewWindowCommand = new Command(NewView);
             ReopenLastWindowCommand = new Command(ReopenLastView);
             CloseWindowCommand = new Command(CloseView);
             CloseViewWithCheckCommand = new Command(CloseViewWithCheck);
             CloseAllWindowsCommand = new Command(ShutdownApplication);
-            ShowWindowManagerCommand = new Command(ShowViewManager);
+
+            ShowWindowManagerCommand = new Command(ThisApplication.ShowWindowManager);
+            ShowPreferencesViewCommand = new Command(ThisApplication.ShowPreferencesWindow);
+            ShowHelpCommand = new Command(ThisApplication.ShowHelp);
 
             SortListCommand = new CommandParam<string>(SortItems);
 
@@ -327,6 +358,16 @@ namespace Notepad2.ViewModels
             {
                 nli.RefreshContents();
             }
+        }
+
+        private void AutoShowTopTabs()
+        {
+            TopTabsExpanded = !TopTabsExpanded;
+        }
+
+        private void AutoShowLeftTabs()
+        {
+            LeftTabsExpanded = !LeftTabsExpanded;
         }
 
         #endregion
@@ -441,17 +482,6 @@ namespace Notepad2.ViewModels
             NotepadItems.Remove(nli);
         }
 
-        public void ShutdownAllNotepadItems()
-        {
-            if (NotepadItems != null)
-            {
-                foreach (NotepadItemViewModel nli in NotepadItems)
-                {
-                    nli.Notepad.Watcher.StopWatching();
-                }
-            }
-        }
-
         /// <summary>
         /// If a Notepad Item is selected, this will close it.
         /// </summary>
@@ -468,10 +498,19 @@ namespace Notepad2.ViewModels
         /// </summary>
         private void CloseAllNotepads()
         {
-            ShutdownAllNotepadItems();
-            NotepadItems.Clear();
-            Information.Show($"Cleared {NotepadItems.Count} NotepadItems", InfoTypes.FileIO);
+            RemoveAllNotepadItems();
             Notepad = null;
+        }
+
+        private void RemoveAllNotepadItems()
+        {
+            List<NotepadItemViewModel> items = NotepadItems.ToList();
+            foreach (NotepadItemViewModel notepad in items)
+            {
+                RemoveNotepadItem(notepad);
+                History.PushFile(notepad);
+            }
+            Information.Show($"Cleared {items.Count} Notepad Items", "Items");
         }
 
         #endregion
@@ -563,6 +602,7 @@ namespace Notepad2.ViewModels
         {
             nli.RemoveNotepadCallback = CloseNotepadItem;
             nli.OpenInNewWindowCallback = OpenNotepadDocumentInNewView;
+            nli.MoveItemCallback = MoveItem;
         }
 
         #endregion
@@ -684,13 +724,14 @@ namespace Notepad2.ViewModels
                     FileInfo fInfo = new FileInfo(path);
                     if (fInfo.Length > GlobalPreferences.MAX_FILE_SIZE)
                     {
-                        MessageBox.Show("File size too big: Cannot open because a file this big would be extremely laggy");
+                        MessageBox.Show("File size too big (20+MB): Cannot open because a file this big would be extremely laggy");
                         return;
                     }
 
                     if (fInfo.Length > GlobalPreferences.WARN_FILE_SIZE_BYTES &&
                         MessageBox.Show(
-                            "The file is very big in size and might lag the program. Continue to open?",
+                            "The file is very big in size and might lag the program (especially with text " +
+                            "wrapping or when resizing windows). Continue to open?",
                             "File very big. Open anyway?",
                             MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.No)
                         return;
@@ -944,6 +985,17 @@ namespace Notepad2.ViewModels
 
         #region Moving Items
 
+        public void MoveItem(bool upOrDown)
+        {
+            if (SelectedNotepadItem != null)
+            {
+                if (upOrDown)
+                    MoveSelectedItemUp();
+                else
+                    MoveSelectedItemDown();
+            }
+        }
+
         public void MoveItem(string direction)
         {
             if (SelectedNotepadItem != null)
@@ -1009,11 +1061,6 @@ namespace Notepad2.ViewModels
             ThisApplication.OpenNewWindow();
         }
 
-        private void ShowViewManager()
-        {
-            ThisApplication.ShowWindowManager();
-        }
-
         public void ReopenLastView()
         {
             if (PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T)
@@ -1064,7 +1111,7 @@ namespace Notepad2.ViewModels
 
                 if (File.Exists(doc.Document.FilePath))
                 {
-                    ThisApplication.OpenFileInNewWindow(doc.Document.FilePath, true);
+                    ThisApplication.OpenFileInNewWindow(doc.Document.FilePath, true, false);
                     Information.Show($"Opened [{doc.Document.FileName}] in another window", InfoTypes.Information);
                     CloseNotepadItem(nli, false);
                 }
@@ -1072,7 +1119,7 @@ namespace Notepad2.ViewModels
                 {
                     string tempFilePath = Path.Combine(Path.GetTempPath(), doc.Document.FileName);
                     File.WriteAllText(tempFilePath, doc.Document.Text);
-                    ThisApplication.OpenFileInNewWindow(tempFilePath, true);
+                    ThisApplication.OpenFileInNewWindow(tempFilePath, true, false);
                     Information.Show($"Opened [{doc.Document.FileName}] in another window", InfoTypes.Information);
                     CloseNotepadItem(nli, false);
                     File.Delete(tempFilePath);

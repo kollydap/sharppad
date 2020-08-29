@@ -121,9 +121,14 @@ namespace Notepad2.Applications
         /// <param name="loadAndSetAppTheme"></param>
         /// <param name="loadWindowPosition"></param>
         /// <returns></returns>
-        public NotepadWindow CreateNotepadWindowAndOpenFiles(string[] fileNames, bool loadAndSetAppTheme = false, bool loadWindowPosition = false, bool clearPath = false)
+        public NotepadWindow CreateNotepadWindowAndOpenFiles(
+            string[] fileNames, 
+            bool loadAndSetAppTheme = false, 
+            bool loadWindowPosition = false, 
+            bool clearPath = false, 
+            bool useStartupDelay = false)
         {
-            NotepadWindow window = new NotepadWindow(fileNames, clearPath: clearPath);
+            NotepadWindow window = new NotepadWindow(fileNames, clearPath: clearPath, useStartupDelay: useStartupDelay);
             SetupNotepadWindow(window, loadAndSetAppTheme, loadWindowPosition);
             return window;
         }
@@ -184,7 +189,7 @@ namespace Notepad2.Applications
                     List<string> filesToOpen = ThisApplication.GetPreviouslyUnclosedFiles();
                     foreach (string file in filesToOpen)
                     {
-                        window.Notepad.OpenNotepadFromPath(file, hasMadeChanges: true, clearPath: true);
+                        window.Notepad.OpenNotepadFromPath(file, false, true, true);
                     }
                 }
                 catch { }
@@ -202,7 +207,7 @@ namespace Notepad2.Applications
         /// <param name="args"></param>
         public void CreateAndShowApplicationStartupNotepadWindowAndPreviewAndOpenUnclosedFiles(string[] args)
         {
-            NotepadWindow window = CreateNotepadWindowAndOpenFiles(args, true, true);
+            NotepadWindow window = CreateNotepadWindowAndOpenFiles(args, true, true, useStartupDelay: true);
             WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(window.Notepad);
 
             AddPreviewItem(wpc);
@@ -266,7 +271,7 @@ namespace Notepad2.Applications
         /// <param name="loadGlobalPreferenesG"></param>
         public void SetupNotepadWindow(NotepadWindow window, bool loadAndSetAppTheme = false, bool loadGlobalPreferenesG = true)
         {
-            SetupNotepadWindowCallbacks(window);
+            SetupNotepadWindowCallbacksAndProperties(window);
             window.LoadSettings(loadAndSetAppTheme, loadGlobalPreferenesG);
             window.CanSavePreferences = true;
         }
@@ -275,11 +280,12 @@ namespace Notepad2.Applications
         /// Sets up a Notepad window's callbacks (focusing, closed, etc)
         /// </summary>
         /// <param name="window"></param>
-        public void SetupNotepadWindowCallbacks(NotepadWindow window)
+        public void SetupNotepadWindowCallbacksAndProperties(NotepadWindow window)
         {
             window.WindowFocusedCallback = OnWindowFocused;
             window.WindowShownCallback = OnWindowShown;
             window.WindowClosedCallback = OnWindowClosed;
+            window.Notepad.View = window;
         }
 
         #endregion
@@ -294,7 +300,7 @@ namespace Notepad2.Applications
         {
             WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(notepad.Notepad);
             AddPreviewItem(wpc);
-            SetupNotepadWindowCallbacks(notepad);
+            SetupNotepadWindowCallbacksAndProperties(notepad);
             AddWindow(notepad);
             ShowWindow(notepad);
         }
@@ -389,9 +395,9 @@ namespace Notepad2.Applications
             }
         }
 
-        public void OpenFileInNewWindow(string path, bool clearPath = false)
+        public void OpenFileInNewWindow(string path, bool clearPath = false, bool useStartupDelay = false)
         {
-            NotepadWindow window = CreateNotepadWindowAndOpenFiles(new string[] { path }, clearPath: clearPath);
+            NotepadWindow window = CreateNotepadWindowAndOpenFiles(new string[] { path }, clearPath: clearPath, useStartupDelay: useStartupDelay);
             AddNewNotepadAndPreviewWindowFromWindow(window);
         }
 

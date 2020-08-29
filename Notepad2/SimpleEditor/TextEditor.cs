@@ -174,14 +174,18 @@ namespace Notepad2.SimpleEditor
 
         public Rect GetCaretLocation()
         {
-            if (CaretIndex >= 0)
+            try
             {
-                Rect rect = GetRectFromCharacterIndex(CaretIndex);
-                if (double.IsInfinity(rect.X) || double.IsInfinity(rect.Y))
-                    return new Rect(0, 0, 0, 0);
-                return rect;
+                if (CaretIndex >= 0)
+                {
+                    Rect rect = GetRectFromCharacterIndex(CaretIndex);
+                    if (double.IsInfinity(rect.X) || double.IsInfinity(rect.Y))
+                        return new Rect(0, 0, 0, 0);
+                    return rect;
+                }
+                else return new Rect(0, 0, 0, 0);
             }
-            else return new Rect(0, 0, 0, 0);
+            catch { return new Rect(0, 0, 0, 0); }
         }
     }
 }

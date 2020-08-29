@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Data.SqlTypes;
+using System.Windows;
 
 namespace Notepad2.Preferences.Views
 {
@@ -7,20 +8,25 @@ namespace Notepad2.Preferences.Views
     /// </summary>
     public partial class PreferencesWindow : Window
     {
+        public PreferencesViewModel Preferences
+        {
+            get => this.DataContext as PreferencesViewModel;
+            set => this.DataContext = value;
+        }
+
         public PreferencesWindow()
         {
             InitializeComponent();
+            Preferences = new PreferencesViewModel();
+            Preferences.CloseViewCallback = Close;
+            Preferences.LoadPreferences();
 
             Closing += PreferencesWindow_Closing;
         }
 
         private void PreferencesWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (DataContext is PreferencesViewModel prefs)
-            {
-                prefs.UnloadPreferences();
-            }
-
+            Preferences?.ResetPreferences();
             e.Cancel = true;
             this.Hide();
         }
@@ -29,7 +35,11 @@ namespace Notepad2.Preferences.Views
         {
             if (DataContext is PreferencesViewModel prefs)
             {
+                prefs.CanCloseWindowsWithCtrlWAndShift = true;
+                prefs.CanReopenWindowWithCtrlShiftT = true;
+                prefs.UseNewDragDropSystem = true;
                 prefs.ScrollVerticallyCtrlArrowKeys = true;
+                prefs.ScrollHorizontallyCtrlArrowKeys = false;
                 prefs.ScrollHorizontallyShiftMouseWheel = true;
                 prefs.CutEntireLineCtrlX = true;
                 prefs.CopyEntireLineCtrlC = true;
@@ -37,12 +47,10 @@ namespace Notepad2.Preferences.Views
                 prefs.AddEntireLineCtrlEnter = true;
                 prefs.ZoomEditorCtrlScrollwheel = true;
                 prefs.WrapTextByDefault = false;
-                prefs.CanCloseWindowsWithCtrlWAndShift = true;
-                prefs.CanReopenWindowWithCtrlShiftT = true;
                 prefs.CloseNotepadListByDefault = false;
                 prefs.SaveOpenUnclosedFiles = true;
 
-                prefs.SavePreferences();
+                prefs.SaveAndClosePreferencesView();
             }
         }
     }

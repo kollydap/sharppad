@@ -63,7 +63,7 @@ namespace Notepad2.History
             OpenFileCallback?.Invoke(hc.TextDocument);
         }
 
-        private void UserReopenFile(HistoryItemViewModel history)
+        private void ReopenAndRemoveFile(HistoryItemViewModel history)
         {
             HistoryItems.Remove(history);
             OpenFileCallback?.Invoke(history.TextDocument);
@@ -74,7 +74,7 @@ namespace Notepad2.History
             HistoryItemViewModel hc = new HistoryItemViewModel()
             {
                 TextDocument = item,
-                ReopenFileCallback = UserReopenFile
+                ReopenFileCallback = ReopenAndRemoveFile
             };
             return hc;
         }

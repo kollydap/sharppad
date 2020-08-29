@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("SharpPad")]
 [assembly: AssemblyDescription("Notepad but with a dark theme, tabs and many other features")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("TheR/Kettlesimulator")]
+[assembly: AssemblyCompany("TheR-Kettlesimulator")]
 [assembly: AssemblyProduct("SharpPad")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
@@ -51,5 +51,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.7.9.3")]
-[assembly: AssemblyFileVersion("1.7.9.3")]
+[assembly: AssemblyVersion("1.8.200.130")]
+[assembly: AssemblyFileVersion("1.8.200.130")]
+[assembly: NeutralResourcesLanguage("en")]

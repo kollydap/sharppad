@@ -1,21 +1,17 @@
 ﻿using Notepad2.FileExplorer;
 using Notepad2.InformationStuff;
-using Notepad2.Notepad.DragDropping;
-using Notepad2.Preferences;
 using Notepad2.Utilities;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Path = System.IO.Path;
 
 namespace Notepad2.Notepad
 {
     /// <summary>
-    /// A user control containing a ViewModel containing 
-    /// notepad information (documents, formats, find results, etc)
+    /// Interaction logic for TopNotepadListItem.xaml
     /// </summary>
-    public partial class NotepadListItem : UserControl
+    public partial class TopNotepadListItem : UserControl
     {
         /// <summary>
         /// The ViewModel
@@ -27,109 +23,25 @@ namespace Notepad2.Notepad
         }
 
         // Stores the point within the grip
-        private Point GripMouseStartPoint;
         private Point ControlMouseStartPoint;
         private bool IsDragging;
 
-        public NotepadListItem()
+        public TopNotepadListItem()
         {
             InitializeComponent();
-            Loaded += NotepadListItem_Loaded;
+            Loaded += TopNotepadListItem_Loaded;
         }
 
-        private void NotepadListItem_Loaded(object sender, RoutedEventArgs e)
+        private void TopNotepadListItem_Loaded(object sender, RoutedEventArgs e)
         {
-            AnimationHelpers.OpacityControl(this, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
-            AnimationHelpers.MoveToTargetX(this, 0, 225, GlobalPreferences.ANIMATION_SPEED_SEC);
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            switch (int.Parse(((MenuItem)sender).Uid))
-            {
-                case 1: Model.Remove(); break;
-                case 2: Model.OpenInFileExplorer(); break;
-                case 3: Model.DeleteFile(); break;
-                case 4: Model.OpenInAnotherWindow(); break;
-            }
-        }
-
-        private void CloseNotepadClick(object sender, RoutedEventArgs e)
-        {
-            Model.Remove();
+            AnimationHelpers.OpacityControl(this, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC * 0.75);
+            AnimationHelpers.MoveToTargetY(this, 0, 52, GlobalPreferences.ANIMATION_SPEED_SEC * 0.75);
         }
 
         private void ControlMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 Model.Remove();
-        }
-
-        private void GripLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                GripMouseStartPoint = e.GetPosition(null);
-        }
-
-        private void GripMouseLeave(object sender, MouseEventArgs e)
-        {
-            Cursor = Cursors.Arrow;
-        }
-
-        private void GripMouseMove(object sender, MouseEventArgs e)
-        {
-            bool canDrag;
-            if (PreferencesG.USE_NEW_DRAGDROP_SYSTEM && !Model.Notepad.Document.FilePath.IsFile())
-            {
-                Cursor = Cursors.Hand;
-                canDrag = true;
-            }
-            else
-            {
-                Cursor = Cursors.No;
-                canDrag = false;
-            }
-
-            if (GripMouseStartPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
-            {
-                try
-                {
-                    if (canDrag)
-                    {
-                        SetDraggingStatus(true);
-                        DragDropFileWatchers.DoingDragDrop(Model.Notepad);
-                        string prefixedPath = Path.Combine(Path.GetTempPath(), DragDropNameHelper.GetPrefixedFileName(Model.Notepad.Document.FileName));
-                        string[] fileList = new string[] { prefixedPath };
-                        File.WriteAllText(prefixedPath, Model.Notepad.Document.Text);
-                        DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, fileList), DragDropEffects.Move);
-                        SetDraggingStatus(false);
-                    }
-                }
-                catch { }
-            }
-        }
-
-        public void SetDraggingStatus(bool isDragging)
-        {
-            IsDragging = isDragging;
-            if (isDragging)
-            {
-                grd.IsEnabled = false;
-                //BorderThickness = new Thickness(1);
-                Information.Show($"Started dragging", "DragDrop");
-            }
-            else
-            {
-                grd.IsEnabled = true;
-                //BorderThickness = new Thickness(0);
-                Information.Show($"Drag Drop completed", "DragDrop");
-            }
-        }
-
-        private void SetFileExtensionsClicks(object sender, RoutedEventArgs e)
-        {
-            string extension = ((FrameworkElement)sender).Uid;
-            Model.SetFileExtension(extension);
         }
 
         private void Grid_MouseMove(object sender, MouseEventArgs e)
@@ -146,8 +58,8 @@ namespace Notepad2.Notepad
                     if (e.LeftButton == MouseButtonState.Pressed)
                     {
                         bool canDoDrag = false;
-                        int mouseXDragOffset = 16;
-                        int mouseYDragOffset = 10;
+                        int mouseXDragOffset = 24;
+                        int mouseYDragOffset = 20;
                         int edgeOffsetX = 10, edgeOffsetY = 10;
 
                         // Checks if you drag a bit awawy from where you clicked.
@@ -194,11 +106,34 @@ namespace Notepad2.Notepad
                 ControlMouseStartPoint = e.GetPosition(this);
         }
 
+        public void SetDraggingStatus(bool isDragging)
+        {
+            IsDragging = isDragging;
+            if (isDragging)
+            {
+                grd.IsEnabled = false;
+                //BorderThickness = new Thickness(1);
+                Information.Show($"Started dragging", "DragDrop");
+            }
+            else
+            {
+                grd.IsEnabled = true;
+                //BorderThickness = new Thickness(0);
+                Information.Show($"Drag Drop completed", "DragDrop");
+            }
+        }
+
         private void RenameFileClick(object sender, RoutedEventArgs e)
         {
             fileNameBox.Focus();
             string fileName = Path.GetFileNameWithoutExtension(Model.Notepad.Document.FileName);
             fileNameBox.Select(0, fileName.Length);
+        }
+
+        private void SetFileExtensionsClicks(object sender, RoutedEventArgs e)
+        {
+            string extension = ((FrameworkElement)sender).Uid;
+            Model.SetFileExtension(extension);
         }
     }
 }

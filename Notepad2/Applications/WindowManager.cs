@@ -1,6 +1,7 @@
 ﻿using Notepad2.CClipboard;
 using Notepad2.Finding.NotepadItemFinding;
 using Notepad2.Notepad.FileProperties;
+using Notepad2.Preferences.Views;
 using Notepad2.Views;
 using System.Collections.Generic;
 
@@ -10,13 +11,13 @@ namespace Notepad2.Applications
     {
         // Collections of Windows
         public static List<NotepadWindow> NotepadWindows { get; set; }
-        public static List<ItemSearchResultsWindow> SearchResultsWindows { get; set; }
 
         // Single Windows
         public static NotepadWindow FocusedWindow { get; set; }
         public static FilePropertiesWindow PropertiesView { get; private set; }
         public static WindowManagerView WindowPreviews { get; private set; }
         public static ClipboardWindow ClipboardWin { get; private set; }
+        public static PreferencesWindow Preferences { get; private set; }
         public static HelpWindow Help { get; private set; }
 
 
@@ -26,6 +27,7 @@ namespace Notepad2.Applications
             WindowPreviews = new WindowManagerView();
             PropertiesView = new FilePropertiesWindow();
             ClipboardWin = new ClipboardWindow();
+            Preferences = new PreferencesWindow();
             Help = new HelpWindow();
         }
     }

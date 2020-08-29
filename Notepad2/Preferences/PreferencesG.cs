@@ -30,7 +30,7 @@ namespace Notepad2.Preferences
         public static bool SAVE_OPEN_UNCLOSED_FILES { get; set; }
 
 
-        public static void SaveToProperties()
+        public static void SavePropertiesToFile()
         {
             Properties.Settings.Default.horzScrlShfMWhl    = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
             Properties.Settings.Default.horzScrlCtrlArrKy  = SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
@@ -57,7 +57,7 @@ namespace Notepad2.Preferences
             Properties.Settings.Default.Save();
         }
 
-        public static void LoadFromProperties()
+        public static void LoadFromPropertiesFile()
         {
             SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL = Properties.Settings.Default.horzScrlShfMWhl;
             SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS   = Properties.Settings.Default.horzScrlCtrlArrKy;

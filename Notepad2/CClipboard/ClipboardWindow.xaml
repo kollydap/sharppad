@@ -8,7 +8,8 @@
         KeyDown="Window_KeyDown"
         Closing="Window_Closing"
         Title="Clipboard" 
-        Height="220" Width="325"
+        MinHeight="200" MinWidth="300"
+        Width="360" Height="280"
         Topmost="True"
         Style="{DynamicResource CustomToolWindowStyle}">
     <Grid>

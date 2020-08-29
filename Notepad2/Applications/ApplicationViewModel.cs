@@ -6,6 +6,8 @@ using Notepad2.ViewModels;
 using Notepad2.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Notepad2.Applications
@@ -36,7 +38,7 @@ namespace Notepad2.Applications
             WindowPreviews = new ObservableCollection<WindowPreviewControlViewModel>();
             History = new WindowHistoryViewModel();
             History.OpenWindowCallback = CreateAndShowWindowFromViewModel;
-            
+
             ShutdownApplicationCommand = new Command(ShutdownApp);
 
             ParseParameters(appArgs);

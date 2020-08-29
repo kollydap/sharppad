@@ -73,10 +73,18 @@ namespace Notepad2.Views
             BeforeInitComponents();
             InitializeComponent();
             InitWindow();
-            if (prefs == NewWinPrefs.OpenDefaultNotepadAfterLaunch)
+
+            Task.Run(async () =>
             {
-                AddStartupNotepad();
-            }
+                await Task.Delay(GlobalPreferences.STARTUP_NOTEPAD_ACTIONS_DELAY_MS);
+                Application.Current?.Dispatcher?.Invoke(() =>
+                {
+                    if (prefs == NewWinPrefs.OpenDefaultNotepadAfterLaunch)
+                    {
+                        AddStartupNotepad();
+                    }
+                });
+            });
         }
 
         public NotepadWindow(string[] filePaths, NewWinPrefs prefs = NewWinPrefs.OpenFilesInParams, bool clearPath = false)
@@ -84,46 +92,54 @@ namespace Notepad2.Views
             BeforeInitComponents();
             InitializeComponent();
             InitWindow();
-            try
+
+            Task.Run(async() =>
             {
-                foreach (string path in filePaths)
+                await Task.Delay(GlobalPreferences.STARTUP_NOTEPAD_ACTIONS_DELAY_MS);
+                Application.Current?.Dispatcher?.Invoke(() =>
                 {
-                    if (path.IsFile())
+                    try
                     {
-                        Notepad.OpenNotepadFromPath(path, true, clearPath: clearPath);
-                    }
-                    if (path.IsDirectory())
-                    {
-                        MessageBoxResult a =
-                            MessageBox.Show(
-                                "Open all files in this directory?",
-                                "Open entire directory",
-                                MessageBoxButton.YesNo);
-                        if (a == MessageBoxResult.Yes)
+                        foreach (string path in filePaths)
                         {
-                            try
+                            if (path.IsFile())
                             {
-                                foreach (string file in Directory.GetFiles(path))
-                                {
-                                    Notepad.OpenNotepadFromPath(file, true);
-                                }
+                                Notepad.OpenNotepadFromPath(path, true, clearPath: clearPath);
                             }
-                            catch (Exception e)
+                            if (path.IsDirectory())
                             {
-                                MessageBox.Show(
-                                    $"Error opening all files in a directory:  {e.Message}",
-                                    "Error opening a directory");
+                                MessageBoxResult a =
+                                    MessageBox.Show(
+                                        "Open all files in this directory?",
+                                        "Open entire directory",
+                                        MessageBoxButton.YesNo);
+                                if (a == MessageBoxResult.Yes)
+                                {
+                                    try
+                                    {
+                                        foreach (string file in Directory.GetFiles(path))
+                                        {
+                                            Notepad.OpenNotepadFromPath(file, true);
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        MessageBox.Show(
+                                            $"Error opening all files in a directory:  {e.Message}",
+                                            "Error opening a directory");
+                                    }
+                                }
                             }
                         }
                     }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(
-                    $"Error opening files:  {e.Message}",
-                    "Error opening files");
-            }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(
+                            $"Error opening files:  {e.Message}",
+                            "Error opening files");
+                    }
+                });
+            });
         }
 
         #endregion

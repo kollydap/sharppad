@@ -5,6 +5,10 @@ namespace Notepad2.Utilities
     public static class GlobalPreferences
     {
         public const int WINDOW_TITLEBAR_HEIGHT = 30;
+
+        // a delay to add to functions that add notepad items 
+        // during the startup (to allow properties/fonts/etc to load)
+        public static int STARTUP_NOTEPAD_ACTIONS_DELAY_MS = 250;
         public const double ANIMATION_SPEED_SEC = 0.2;
 
         public const double MAX_FILE_SIZE = 50000000.0d;

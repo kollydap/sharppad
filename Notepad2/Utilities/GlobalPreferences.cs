@@ -12,8 +12,8 @@ namespace Notepad2.Utilities
         public const double ANIMATION_SPEED_SEC = 0.15;
         public const double NOTEPADLIST_ANIMATION_SPEED_SEC = 0.15;
 
-        // 25mb
-        public const double MAX_FILE_SIZE = 25000000.0d;
+        // 75mb
+        public const double MAX_FILE_SIZE = 75000000.0d;
         public const double WARN_FILE_SIZE_BYTES = 100000.0d;
         public const double ALERT_FILE_SIZE_BYTES = 250000.0d;
         public static Color WARN_FILE_TOO_BIG_COLOUR = Colors.Orange;

@@ -41,7 +41,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <Button VerticalAlignment="Bottom" 
-                    Command="{Binding ShutdownApplicationCommand}"
+                    Command="{Binding ShutdownApplicationCommand, Mode=OneTime}"
                     Content="Close all windows (shutdown app)" Height="39" 
                     BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                     BorderThickness="1 0 1 1"/>
@@ -72,12 +72,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Button 
-                            Command="{Binding History.ClearItemsCommand}"
+                            Command="{Binding History.ClearItemsCommand, Mode=OneTime}"
                             Content="Clear History" 
                             BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                             BorderThickness="1 0 0 1"/>
                     <Button 
-                            Command="{Binding History.ReopenLastWindowCommand}"
+                            Command="{Binding History.ReopenLastWindowCommand, Mode=OneTime}"
                             Content="Re-open Last Window" 
                             BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"
                             BorderThickness="1 0 1 1" Grid.Column="1"/>

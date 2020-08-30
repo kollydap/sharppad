@@ -10,8 +10,8 @@
         Height="470" Width="332"
         Style="{DynamicResource CustomToolWindowStyle}">
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
-        <KeyBinding Key="Enter" Command="{Binding CloseViewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand, Mode=OneTime}"/>
+        <KeyBinding Key="Enter" Command="{Binding CloseViewCommand, Mode=OneTime}"/>
     </Window.InputBindings>
     <Window.Resources>
         <Converters:FileSizeFormatConverter x:Key="FileSizeFormatConverter"/>
@@ -50,8 +50,8 @@
             </TabItem>
         </TabControl>
         <!-- these literally do the same thing lol -->
-        <Button Command="{Binding CloseViewCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,0,85,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
-        <Button Command="{Binding CloseViewCommand}" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,5,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
-        <Button Command="{Binding RefreshInfoCommand}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}, FallbackValue=False}" Content="Refresh Info" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="80" Height="25"/>
+        <Button Command="{Binding CloseViewCommand, Mode=OneTime}" Content="OK" HorizontalAlignment="Right" Margin="0,0,85,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
+        <Button Command="{Binding CloseViewCommand, Mode=OneTime}" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,5,5" VerticalAlignment="Bottom" Width="75" Height="25"/>
+        <Button Command="{Binding RefreshInfoCommand, Mode=OneTime}" IsEnabled="{Binding FilePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExistsToBoolConverter}, FallbackValue=False}" Content="Refresh Info" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Bottom" Width="80" Height="25"/>
     </Grid>
 </Window>

@@ -206,6 +206,7 @@ namespace Notepad2.ViewModels
         public ICommand ShowHelpCommand { get; }
 
         public ICommand NewWindowCommand { get; }
+        public ICommand OpenSelectedInNewWindowCommand { get; }
         public ICommand ReopenLastWindowCommand { get; }
         public ICommand CloseWindowCommand { get; }
         public ICommand CloseViewWithCheckCommand { get; }
@@ -251,6 +252,7 @@ namespace Notepad2.ViewModels
             AutoShowLeftTabsCommand = new Command(AutoShowLeftTabs);
 
             NewWindowCommand = new Command(NewView);
+            OpenSelectedInNewWindowCommand = new Command(OpenSelectedNotepadInAnotherWindow);
             ReopenLastWindowCommand = new Command(ReopenLastView);
             CloseWindowCommand = new Command(CloseView);
             CloseViewWithCheckCommand = new Command(CloseViewWithCheck);
@@ -1124,6 +1126,14 @@ namespace Notepad2.ViewModels
                     CloseNotepadItem(nli, false);
                     File.Delete(tempFilePath);
                 }
+            }
+        }
+
+        public void OpenSelectedNotepadInAnotherWindow()
+        {
+            if (SelectedNotepadItem != null)
+            {
+                OpenNotepadDocumentInNewView(SelectedNotepadItem);
             }
         }
 

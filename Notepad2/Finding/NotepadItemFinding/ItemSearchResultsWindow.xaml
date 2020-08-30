@@ -20,6 +20,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Label Content="Double click to select item in the Notepads List (In the Notepad window)" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button Command="{Binding ClearItemsCommand}" Content="Clear Items" VerticalAlignment="Bottom" Height="25"/>
+        <Button Command="{Binding ClearItemsCommand, Mode=OneTime}" Content="Clear Items" VerticalAlignment="Bottom" Height="25"/>
     </Grid>
 </Window>

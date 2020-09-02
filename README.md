@@ -42,11 +42,8 @@ NotepadListItems are the things on the left of the program, containing file and 
 - Auto-prompts you to save unsaved/edited work/files when you exit. Click no to just exit
 - Added ability to change fonts/fontsizes/wrapping, etc. affects all of the text in the selected NotepadListItems because this isn't a rich text editor. 
 
-## Errors:
-I added a feature to open the selected notepad in another window. It's a bit broken. Try not to use it; closing the original mainwindow closes all other windows because of some error i couldnt fix. and some other things too. I added MainWindow to the titlebar, so that you know which window is which.
-
 ## Some 'code-level' info about it
-the items on the left are a separate control (NotepadListItems), and their DataContext is a TextDocumentViewModel which contains a DocumentModel (containing path, filename, text, etc) and FormatModel (fontsize, wrapping, etc). When you select an item, it sets the Text Editor's DataContext as the selected NotepadListItems's DataContext (aka the TextDocumentViewModel). and through binding, it updates the view accordingly.
+the items on the left are a separate control (NotepadListItems), and their DataContext is a NotepadItemViewModel which contains a TextDocumentViewModel which also contains a DocumentModel (containing a path, filename, text, etc) and FormatModel (fontsize, wrapping, etc). When you select an item, it sets the Text Editor's DataContext as the selected NotepadListItems's DataContext (aka the TextDocumentViewModel). and through binding, it updates the view accordingly.
 
 ## other things
-it's completely opensource so you can edit it and stuff. would be nice if you credited me if you post it somewhere else (or dont... not too bothered tbh) :)
+it's completely opensource so you can edit it and stuff. would be nice if you credited me if you post it somewhere else :))

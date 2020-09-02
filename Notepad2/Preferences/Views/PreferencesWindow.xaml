@@ -18,8 +18,8 @@
                 <CheckBox Content="Close windows with Ctrl + W (shutdown all windows with Ctrl + Shift + W)" IsChecked="{Binding CanCloseWindowsWithCtrlWAndShift, UpdateSourceTrigger=PropertyChanged}"/>
                 <CheckBox Content="Ctrl + Shift + T to reopen the last recently closed window with" IsChecked="{Binding CanReopenWindowWithCtrlShiftT, UpdateSourceTrigger=PropertyChanged}"/>
                 <CheckBox Content="Use new DragDropping (to autodetect where you dropped the file)" 
-                    ToolTip="When you dragdrop items a few file watchers will be made to look for where you dropped the file, and it will set your file's path as this. but it will only do this if the path DOES NOT exist. normal dropping (create same item in temp and copy to location) is used if the file exists or this option is disabled." 
-                    IsChecked="{Binding UseNewDragDropSystem, UpdateSourceTrigger=PropertyChanged}"/>
+                          ToolTip="When you dragdrop items a few file watchers will be made to look for where you dropped the file, and it will set your file's path as this. but it will only do this if the path DOES NOT exist. normal dropping (create same item in temp and copy to location) is used if the file exists or this option is disabled." 
+                          IsChecked="{Binding UseNewDragDropSystem, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Separator/>
                 <Label Content="Text Editor Preferences"/>

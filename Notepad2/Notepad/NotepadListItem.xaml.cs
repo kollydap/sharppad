@@ -35,6 +35,24 @@ namespace Notepad2.Notepad
         {
             InitializeComponent();
             Loaded += NotepadListItem_Loaded;
+            // idk if it needs to be preview or normal. preview works tho so meh.
+            PreviewKeyDown += TopNotepadListItem_PreviewKeyDown;
+        }
+
+        private void TopNotepadListItem_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (((Keyboard.Modifiers == ModifierKeys.Control) && Keyboard.IsKeyDown(Key.R)))
+            {
+                HighlightFileName();
+                e.Handled = true;
+            }
+        }
+
+        private void HighlightFileName()
+        {
+            fileNameBox.Focus();
+            string fileName = Path.GetFileNameWithoutExtension(Model.Notepad.Document.FileName);
+            fileNameBox.Select(0, fileName.Length);
         }
 
         private void NotepadListItem_Loaded(object sender, RoutedEventArgs e)

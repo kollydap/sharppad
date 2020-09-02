@@ -1,5 +1,7 @@
 ﻿using Notepad2.FileExplorer;
 using Notepad2.InformationStuff;
+using Notepad2.Notepad.DragDropping;
+using Notepad2.Preferences;
 using Notepad2.Utilities;
 using System.IO;
 using System.Windows;
@@ -23,6 +25,7 @@ namespace Notepad2.Notepad
         }
 
         // Stores the point within the grip
+        private Point GripMouseStartPoint;
         private Point ControlMouseStartPoint;
         private bool IsDragging;
 
@@ -30,6 +33,24 @@ namespace Notepad2.Notepad
         {
             InitializeComponent();
             Loaded += TopNotepadListItem_Loaded;
+            // idk if it needs to be preview or normal. preview works tho so meh.
+            PreviewKeyDown += TopNotepadListItem_PreviewKeyDown;
+        }
+
+        private void TopNotepadListItem_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (((Keyboard.Modifiers == ModifierKeys.Control) && Keyboard.IsKeyDown(Key.R)))
+            {
+                HighlightFileName();
+                e.Handled = true;
+            }
+        }
+
+        private void HighlightFileName()
+        {
+            fileNameBox.Focus();
+            string fileName = Path.GetFileNameWithoutExtension(Model.Notepad.Document.FileName);
+            fileNameBox.Select(0, fileName.Length);
         }
 
         private void TopNotepadListItem_Loaded(object sender, RoutedEventArgs e)
@@ -42,6 +63,50 @@ namespace Notepad2.Notepad
         {
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 Model.Remove();
+        }
+
+        private void GripLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                GripMouseStartPoint = e.GetPosition(null);
+        }
+
+        private void GripMouseLeave(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
+
+        private void GripMouseMove(object sender, MouseEventArgs e)
+        {
+            bool canDrag;
+            if (PreferencesG.USE_NEW_DRAGDROP_SYSTEM && !Model.Notepad.Document.FilePath.IsFile())
+            {
+                Cursor = Cursors.Hand;
+                canDrag = true;
+            }
+            else
+            {
+                Cursor = Cursors.No;
+                canDrag = false;
+            }
+
+            if (GripMouseStartPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
+            {
+                try
+                {
+                    if (canDrag)
+                    {
+                        SetDraggingStatus(true);
+                        DragDropFileWatchers.DoingDragDrop(Model.Notepad);
+                        string prefixedPath = Path.Combine(Path.GetTempPath(), DragDropNameHelper.GetPrefixedFileName(Model.Notepad.Document.FileName));
+                        string[] fileList = new string[] { prefixedPath };
+                        File.WriteAllText(prefixedPath, Model.Notepad.Document.Text);
+                        DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, fileList), DragDropEffects.Move);
+                        SetDraggingStatus(false);
+                    }
+                }
+                catch { }
+            }
         }
 
         private void Grid_MouseMove(object sender, MouseEventArgs e)
@@ -125,9 +190,7 @@ namespace Notepad2.Notepad
 
         private void RenameFileClick(object sender, RoutedEventArgs e)
         {
-            fileNameBox.Focus();
-            string fileName = Path.GetFileNameWithoutExtension(Model.Notepad.Document.FileName);
-            fileNameBox.Select(0, fileName.Length);
+            HighlightFileName();
         }
 
         private void SetFileExtensionsClicks(object sender, RoutedEventArgs e)

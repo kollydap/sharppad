@@ -9,14 +9,13 @@
              Focusable="True"
              mc:Ignorable="d" 
              VerticalContentAlignment="Stretch"
-             Width="150" 
-             MaxWidth="150" MinWidth="150"
+             Width="160" 
+             MaxWidth="160" MinWidth="160"
              MinHeight="42"
              Padding="0" BorderThickness="0"
              Background="Transparent"
              ToolTip="Notepad Item. Click and Drag to DragDrop."
              AllowDrop="False"
-             Margin="3 0"
              Foreground="{DynamicResource ControlDefaultForeground}">
     <UserControl.ContextMenu>
         <ContextMenu>
@@ -91,72 +90,92 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:FileSizeToColourConverter x:Key="fileSizeToColour"/>
     </UserControl.Resources>
-    <Grid Name="grd" Background="Transparent" MouseMove="Grid_MouseMove" MouseLeftButtonDown="Grid_MouseLeftButtonDown" VerticalAlignment="Stretch">
-        <DockPanel Margin="2,3,40,0" Height="22" VerticalAlignment="Top">
-            <Image Width="16" DockPanel.Dock="Left" 
-                   ToolTip="Changes have not been changed"
-                   Margin="0,0"
-                   Source="/SharpPad;component/Resources/alertSaveFile.png"
-                   Visibility="{Binding Notepad.HasMadeChanges, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            <TextBox Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}" 
-                     ToolTip="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}"
-                     VerticalScrollBarVisibility="Disabled"
-                     AcceptsReturn="False"
-                     Name="fileNameBox"
-                     TextWrapping="NoWrap"
-                     FontSize="14"
-                     Background="Transparent"
-                     BorderBrush="Transparent"
-                     AllowDrop="False"
-                     VerticalContentAlignment="Center"/>
-        </DockPanel>
+    <Grid>
+        <Rectangle Margin="2,3,0,3"
+                   Width="7" 
+                   HorizontalAlignment="Left"
+                   MouseMove="GripMouseMove" 
+                   MouseLeftButtonDown="GripLeftMouseButtonDown"
+                   MouseLeave="GripMouseLeave"
+                   ToolTip="Click and Drag for special DragDrop. if the file doesn't exist, this will auto-update this item's path where you drop the file">
+            <Rectangle.Fill>
+                <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBackground}" Geometry="M 1 1 L 1 3 L 3 3 L 3 1 z"/>
+                            <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBorderBrush}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid x:Name="grd" Margin="10,0,2,0" Background="Transparent" MouseMove="Grid_MouseMove" MouseLeftButtonDown="Grid_MouseLeftButtonDown" VerticalAlignment="Stretch">
+            <DockPanel Margin="2,3,40,0" Height="22" VerticalAlignment="Top">
+                <Image Width="16" DockPanel.Dock="Left" 
+                    ToolTip="Changes have not been changed"
+                    Margin="0,0"
+                    Source="/SharpPad;component/Resources/alertSaveFile.png"
+                    Visibility="{Binding Notepad.HasMadeChanges, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding Notepad.Document.FileName, FallbackValue=FileName.txt, UpdateSourceTrigger=PropertyChanged}" 
+                    ToolTip="{Binding Notepad.Document.FileName, FallbackValue=FileName.txt, UpdateSourceTrigger=PropertyChanged}"
+                    VerticalScrollBarVisibility="Disabled"
+                    AcceptsReturn="False"
+                    x:Name="fileNameBox"
+                    TextWrapping="NoWrap"
+                    FontSize="14"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    AllowDrop="False"
+                    VerticalContentAlignment="Center"/>
+            </DockPanel>
 
-        <Button Background="Transparent" BorderBrush="Transparent" 
-                    HorizontalAlignment="Right" Margin="0,3,0,0" VerticalAlignment="Top" 
-                    Width="20" Height="20" 
-                    ToolTip="Close/Remove this item"
-                    Command="{Binding CloseFileCommand}">
-            <Path Width="10" Height="10" Margin="0,0,0,0" 
-                      HorizontalAlignment="Center" VerticalAlignment="Center" 
-                      Stretch="Fill" 
-                      Data="F1 M 26.9166,22.1667L 37.9999,33.25L 49.0832,22.1668L 53.8332,26.9168L 42.7499,38L 53.8332,49.0834L 49.0833,53.8334L 37.9999,42.75L 26.9166,53.8334L 22.1666,49.0833L 33.25,38L 22.1667,26.9167L 26.9166,22.1667 Z " 
-                      Fill="#FFE82020" />
-        </Button>
+            <Button Background="Transparent" BorderBrush="Transparent" 
+                HorizontalAlignment="Right" Margin="0,3,0,0" VerticalAlignment="Top" 
+                Width="20" Height="20" 
+                ToolTip="Close/Remove this item"
+                Command="{Binding CloseFileCommand}">
+                <Path Width="10" Height="10" Margin="0,0,0,0" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    Stretch="Fill" 
+                    Data="F1 M 26.9166,22.1667L 37.9999,33.25L 49.0832,22.1668L 53.8332,26.9168L 42.7499,38L 53.8332,49.0834L 49.0833,53.8334L 37.9999,42.75L 26.9166,53.8334L 22.1666,49.0833L 33.25,38L 22.1667,26.9167L 26.9166,22.1667 Z " 
+                    Fill="#FFE82020" />
+            </Button>
 
-        <Button Background="Transparent" BorderBrush="Transparent" 
-                    HorizontalAlignment="Right" Margin="0,23,0,0" VerticalAlignment="Top" 
-                    Width="20" Height="18" 
-                    ToolTip="Rename the file (highlight the file name, not extension)"
-                    Click="RenameFileClick">
-            <TextBlock Text="I" FontFamily="Consolas" Height="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Button>
+            <Button Background="Transparent" BorderBrush="Transparent" 
+                HorizontalAlignment="Right" Margin="0,23,0,0" VerticalAlignment="Top" 
+                Width="20" Height="18" 
+                ToolTip="Rename the file (highlight the file name, not extension)"
+                Click="RenameFileClick">
+                <TextBlock Text="I" FontFamily="Consolas" Height="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
 
-        <Button Background="Transparent" BorderBrush="Transparent" 
-                    HorizontalAlignment="Right" Margin="0,3,20,0" VerticalAlignment="Top" 
-                    Width="20" Height="20"
-                    ToolTip="Open this item in a new window and close it from the current window"
-                    Command="{Binding OpenInNewWindowCommand}">
-            <Grid Width="12" Height="12">
-                <Rectangle StrokeThickness="1" 
-                               Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
-                               Stroke="{DynamicResource ControlGlythColour}"
-                               Margin="3,0,0,3"/>
-                <Rectangle StrokeThickness="1" 
-                               Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
-                               Stroke="{DynamicResource ControlGlythColour}"
-                               Margin="0 3 3 0"/>
+            <Button Background="Transparent" BorderBrush="Transparent" 
+                HorizontalAlignment="Right" Margin="0,3,20,0" VerticalAlignment="Top" 
+                Width="20" Height="20"
+                ToolTip="Open this item in a new window and close it from the current window"
+                Command="{Binding OpenInNewWindowCommand}">
+                <Grid Width="12" Height="12">
+                    <Rectangle StrokeThickness="1" 
+                        Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
+                        Stroke="{DynamicResource ControlGlythColour}"
+                        Margin="3,0,0,3"/>
+                    <Rectangle StrokeThickness="1" 
+                        Fill="{DynamicResource ControlBrightDefaultBorderBrush}"
+                        Stroke="{DynamicResource ControlGlythColour}"
+                        Margin="0 3 3 0"/>
+                </Grid>
+            </Button>
+
+            <Grid Margin="5,0,20,3" Height="15" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.Background>
+                    <SolidColorBrush Color="{Binding Notepad.Document.FileSizeBytes, Converter={StaticResource fileSizeToColour}, FallbackValue=Transparent, UpdateSourceTrigger=PropertyChanged}" Opacity="0.2"/>
+                </Grid.Background>
+                <TextBlock Text="Chars:" VerticalAlignment="Center" TextWrapping="NoWrap" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
+                <TextBlock Text="{Binding Notepad.Document.Text.Length, FallbackValue=NoOfChars, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="32,0,0,0" FontSize="11" TextAlignment="Left"/>
             </Grid>
-        </Button>
-
-        <Grid Margin="5,0,20,3" Height="15" VerticalAlignment="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.Background>
-                <SolidColorBrush Color="{Binding Notepad.Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}, FallbackValue=Transparent}" Opacity="0.2"/>
-            </Grid.Background>
-            <TextBlock Text="Chars:" VerticalAlignment="Center" TextWrapping="NoWrap" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
-            <TextBlock Text="{Binding Notepad.Document.Text.Length, UpdateSourceTrigger=PropertyChanged, FallbackValue=NoOfChars}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="32,0,0,0" FontSize="11" TextAlignment="Left"/>
         </Grid>
     </Grid>
 </UserControl>

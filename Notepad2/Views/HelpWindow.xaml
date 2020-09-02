@@ -41,6 +41,7 @@
                         <TextBlock><Run Text="CTRL + W "/><Run Text="    "/><Run Text="  "/><Run Text="  "/><Run Text="- Close"/><Run Text=" focused"/><Run Text=" Window"/></TextBlock>
                         <TextBlock><Run Text="CTRL "/><Run Text="+ "/><Run Text="Shift + W - Close ALL Window"/></TextBlock>
                         <TextBlock><Run Text="CTRL"/><Run Text=" +"/><Run Text=" Shift + T - Re-open last window"/></TextBlock>
+                        <TextBlock><Run Text="CTRL + "/><Run Text="R"/><Run Text=" (when focused on NotepadItem's name)"/><LineBreak/><Run/><Run Text=" "/><Run Text="     "/><Run Text="  "/><Run Text=" "/><Run Text="        "/><Run Text="- "/><Run Text="Highlight/Rename file name"/></TextBlock>
                     </StackPanel>
                     <StackPanel Margin="20 0 0 0">
                         <TextBlock Text="Base Text Editor HotKeys"/>

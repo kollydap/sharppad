@@ -9,7 +9,6 @@ using Notepad2.InformationStuff;
 using Notepad2.Interfaces;
 using Notepad2.Notepad;
 using Notepad2.Preferences;
-using Notepad2.Preferences.Views;
 using Notepad2.Utilities;
 using System;
 using System.Collections.Generic;
@@ -604,7 +603,6 @@ namespace Notepad2.ViewModels
         {
             nli.RemoveNotepadCallback = CloseNotepadItem;
             nli.OpenInNewWindowCallback = OpenNotepadDocumentInNewView;
-            nli.MoveItemCallback = MoveItem;
         }
 
         #endregion
@@ -1015,7 +1013,6 @@ namespace Notepad2.ViewModels
             if (SelectedIndex > 0)
             {
                 MoveControl(SelectedIndex, SelectedIndex - 1);
-                View.ScrollItemsIntoView();
             }
         }
 
@@ -1024,7 +1021,6 @@ namespace Notepad2.ViewModels
             if (SelectedIndex + 1 < NotepadItems.Count)
             {
                 MoveControl(SelectedIndex, SelectedIndex + 1);
-                View.ScrollItemsIntoView();
             }
         }
 
@@ -1113,7 +1109,7 @@ namespace Notepad2.ViewModels
 
                 if (File.Exists(doc.Document.FilePath))
                 {
-                    ThisApplication.OpenFileInNewWindow(doc.Document.FilePath, true, false);
+                    ThisApplication.OpenFileInNewWindow(doc.Document.FilePath, false, false);
                     Information.Show($"Opened [{doc.Document.FileName}] in another window", InfoTypes.Information);
                     CloseNotepadItem(nli, false);
                 }

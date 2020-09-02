@@ -25,7 +25,7 @@ namespace Notepad2.Notepad
             get => _size;
             set
             {
-                if (value <= GlobalPreferences.MAX_FONT_SIZE)
+                if (value > 0 && value <= GlobalPreferences.MAX_FONT_SIZE)
                     RaisePropertyChanged(ref _size, value);
             }
         }

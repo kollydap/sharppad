@@ -568,7 +568,7 @@
                         </GroupBox>
                     </Expander>
                     <DockPanel>
-                        <Border Name="TopNotepadListBorder" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="52" DockPanel.Dock="Top"
+                        <Border Name="TopNotepadListBorder" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="48" DockPanel.Dock="Top"
                                 BorderBrush="{DynamicResource ControlDefaultBackground}" BorderThickness="2 2 2 0">
                             <Grid>
                                 <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"

@@ -311,7 +311,7 @@ namespace Notepad2.Views
                             }
                         }
 
-                        if (ExplorerHelper.CheckPathIsShortcutFile(path, out string shortcutPath))
+                        else if (ExplorerHelper.CheckPathIsShortcutFile(path, out string shortcutPath))
                         {
                             string shortcutLinkName = Path.GetFileName(shortcutPath);
                             MessageBoxResult results = MessageBox.Show(

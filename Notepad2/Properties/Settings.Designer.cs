@@ -25,7 +25,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1024")]
+        [global::System.Configuration.DefaultSettingValueAttribute("620")]
         public double Height {
             get {
                 return ((double)(this["Height"]));
@@ -37,7 +37,7 @@ namespace Notepad2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("606")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1050")]
         public double Width {
             get {
                 return ((double)(this["Width"]));

@@ -89,6 +89,15 @@
     <Compile Include="AttachedProperties\BaseAttachedProperty.cs" />
     <Compile Include="AttachedProperties\HorizontalScrolling.cs" />
     <Compile Include="AttachedProperties\ListBoxBehaviour.cs" />
+    <Compile Include="ByteAnalysis\ByteAnalyserTextWindow.xaml.cs">
+      <DependentUpon>ByteAnalyserTextWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ByteAnalysis\ByteAnalyserViewModel.cs" />
+    <Compile Include="ByteAnalysis\ByteAnalyserTextViewModel.cs" />
+    <Compile Include="ByteAnalysis\Character.cs" />
+    <Compile Include="ByteAnalysis\CharacterControl.xaml.cs">
+      <DependentUpon>CharacterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CClipboard\ClipboardNotification.cs" />
     <Compile Include="CClipboard\ClipboardWindow.xaml.cs">
       <DependentUpon>ClipboardWindow.xaml</DependentUpon>
@@ -229,6 +238,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Applications\WindowManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ByteAnalysis\ByteAnalyserTextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ByteAnalysis\CharacterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

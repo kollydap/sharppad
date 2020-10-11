@@ -145,7 +145,7 @@ namespace Notepad2.Preferences.Views
             CutEntireLineCtrlX               = PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X;
             CopyEntireLineCtrlC              = PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C;
             SelectEntireLineCtrlShiftA       = PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
-            AddEntireLineCtrlEnter           = PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER;
+            AddEntireLineCtrlEnter           = PreferencesG.CAN_ADD_ENTIRE_LINES;
 
             ZoomEditorCtrlScrollwheel        = PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL;
                                              
@@ -170,7 +170,7 @@ namespace Notepad2.Preferences.Views
             PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X              = CutEntireLineCtrlX;
             PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C             = CopyEntireLineCtrlC;
             PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A     = SelectEntireLineCtrlShiftA;
-            PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER          = AddEntireLineCtrlEnter;
+            PreferencesG.CAN_ADD_ENTIRE_LINES          = AddEntireLineCtrlEnter;
 
             PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL             = ZoomEditorCtrlScrollwheel;
 

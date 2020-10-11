@@ -16,6 +16,10 @@ namespace Notepad2
     /// </summary>
     public partial class App : Application
     {
+        // about 9500 lines of code
+        // or 25000 lines including styles i made
+        // n o   o n e   c a r e s    l m o o o oo 
+
         // My attempt at making the application single instance only,
         // and opening a window on that instance. idk how to get the
         // instance though which is the problem... so rip.

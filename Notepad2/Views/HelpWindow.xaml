@@ -4,58 +4,51 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Closing="Window_Closing"
-        Title="Help" Height="640" Width="1024"
+        Title="Help" Height="570" Width="1180"
         Style="{DynamicResource CustomToolWindowStyle}" Foreground="{DynamicResource ControlDefaultForeground}">
-    <Grid>
-        <Grid Margin="15">
-            <ScrollViewer Margin="0,0,0,125">
-                <StackPanel>
-                    <TextBlock Text="SharpPad" FontSize="28" HorizontalAlignment="Center" FontWeight="Bold"/>
-                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="Made by"/>
-                    <TextBlock TextWrapping="Wrap" FontSize="13" Text="TheR/quad5914/Kettlesimulator"/>
-                    <Separator/>
-                    <TextBlock Text="About" FontSize="20" FontWeight="SemiBold"/>
-                    <TextBlock TextWrapping="Wrap" Text="Notepad but with tabs, allowing you to switch between them. also has multiple light/dark themes" FontSize="13"/>
-                    <Separator/>
-                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="How to Use"/>
-                    <TextBlock TextWrapping="Wrap" FontSize="13"><Run Text="The textbox has a few cool features: holding shift "/><Run Text="or the middle mouse button "/><Run Text="while "/><Run Text="scrolling"/><Run Text=" will scroll the text horizontally. not holding "/><Run Text="either will"/><Run Text=" scrolls vertically."/><LineBreak/><Run Text="You can drop files "/><Run Text="from"/><Run Text=" your desktop, file explorer, etc, into the notepad list (on the left). You can also drop NotepadItems inside the notepad list on"/><Run Text="to your desktop or file explorer or something. "/><Run Text="Just drag it as you would normally"/><Run Text=" with files in file explorer"/><Run Text="."/><LineBreak/><Run Text="You can right click the NotepadItems and it shows some buttons, like Open in FileExplorer, Close, etc. There's also the Set File Extension, which allows you to set the file's extension very easily."/><LineBreak/><Run Text="Typical expected shortcuts (Ctrl + S to save)"/><Run Text=" work also"/><Run Text=". When files get beyond"/><Run Text=" 100kb, an orange marker appears on the "/><Run Text="NotepadItem."/><Run Text=" if it goes past 250kb, it turns red. this is just to alert you that the program will become laggy if the market occours."/><LineBreak/><Run Text="At the bottom of the big textbox on the right, there's file"/><Run Text=" "/><Run Text="path. you can change "/><Run Text="this "/><Run Text="if you want and the program will save to that specific location ("/><Run Text="will warn you though"/><Run Text=")"/><Run Text="."/><LineBreak/><Run Text="At the bottom is a"/><Run Text="n expander. click it and a "/><Run Text="list containing information/statuses/errors about the program"/><Run Text=" appears"/><Run Text=". "/><Run Text="it's just "/><Run Text="a log of what's happening (like saving, opening files"/><Run Text=", etc)"/><Run Text=" if you care"/><Run Text="."/><LineBreak/><Run Text="To the "/><Run Text="very right is an expander for a file explorer. it's a tree based explorer. it may not be useful but i ran out of ideas on what to add"/><Run Text=" so it's staying lol :), also to the right is another expander for Find. this allows you to find text within the currently open/selected notepad"/><Run Text=". Unfortunately you cannot search through every file for a string... yet. you'll have to do it manually."/><LineBreak/><Run Text="At"/><Run Text=" the top is a button to open a window showing (sort of) every other window, and you can close/focus them by double clicking or clicking the buttons on the right."/></TextBlock>
-                </StackPanel>
-            </ScrollViewer>
-            <ScrollViewer FontSize="12" FontFamily="Consolas" Height="135" VerticalAlignment="Bottom">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel>
-                        <TextBlock Text="Global HotKeys"/>
-                        <TextBlock Text="CTRL + N         - New File"/>
-                        <TextBlock Text="CTRL + S         - Save NotepadItem"/>
-                        <TextBlock Text="CTRL + O         - Open File"/>
-                        <TextBlock Text="CTRL + F         - Show Find Panel"/>
-                        <TextBlock Text="CTRL + Shift + S - Save all Files"/>
-                        <TextBlock><Run Text="CTRL + Shift + O - Open "/><Run Text="all files"/><Run Text=" in a folder"/></TextBlock>
-                        <TextBlock Text="CTRL + Delete    - Close Selected File"/>
-                    </StackPanel>
-                    <StackPanel Margin="5 0 0 0">
-                        <TextBlock Text="More Global HotKeys"/>
-                        <TextBlock><Run Text="CTRL + "/><Run Text="R "/><Run Text="     "/><Run Text="  "/><Run Text=" "/><Run Text="- Re-open last closed file"/></TextBlock>
-                        <TextBlock><Run Text="CTRL + T "/><Run Text="    "/><Run Text="  "/><Run Text="  "/><Run Text="- "/><Run Text="Open "/><Run Text="a "/><Run Text="New Window"/></TextBlock>
-                        <TextBlock><Run Text="CTRL "/><Run Text="+ Shift +"/><Run Text=" T - "/><Run Text="Open "/><Run Text="Selected in New Window"/></TextBlock>
-                        <TextBlock><Run Text="CTRL + W "/><Run Text="    "/><Run Text="  "/><Run Text="  "/><Run Text="- Close"/><Run Text=" focused"/><Run Text=" Window"/></TextBlock>
-                        <TextBlock><Run Text="CTRL "/><Run Text="+ "/><Run Text="Shift + W - Close ALL Window"/></TextBlock>
-                        <TextBlock><Run Text="CTRL"/><Run Text=" +"/><Run Text=" Shift + T - Re-open last window"/></TextBlock>
-                        <TextBlock><Run Text="CTRL + "/><Run Text="R"/><Run Text=" (when focused on NotepadItem's name)"/><LineBreak/><Run/><Run Text=" "/><Run Text="     "/><Run Text="  "/><Run Text=" "/><Run Text="        "/><Run Text="- "/><Run Text="Highlight/Rename file name"/></TextBlock>
-                    </StackPanel>
-                    <StackPanel Margin="20 0 0 0">
-                        <TextBlock Text="Base Text Editor HotKeys"/>
-                        <TextBlock Text="CTRL + X           - Cut Text or Line" ToolTip="Dont select any text to cut the entire line"/>
-                        <TextBlock Text="CTRL + C           - Copy Text or Line" ToolTip="Dont select any text to copy the entire line"/>
-                        <TextBlock Text="CTRL + Shift + A   - Select entire Line"/>
-                        <TextBlock Text="CTRL + Shift + Del - Delete entire Line"/>
-                        <TextBlock Text="CTRL + Up Arrow    - Scroll Up"/>
-                        <TextBlock Text="CTRL + Down Arrow  - Scroll Down"/>
-                        <TextBlock Text="CTRL + Left Arrow  - Scroll Left"/>
-                        <TextBlock Text="CTRL + Right Arrow - Scroll Right"/>
-                    </StackPanel>
-                </StackPanel>
-            </ScrollViewer>
+    <Grid Margin="10">
+        <Grid Margin="0,0,405,0">
+            <StackPanel>
+                <TextBlock Text="SharpPad" FontSize="28" HorizontalAlignment="Center" FontWeight="Bold"/>
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="Made by"/>
+                <TextBlock TextWrapping="Wrap" FontSize="13" Text="TheR/quad5914/Kettlesimulator"/>
+                <Separator/>
+                <TextBlock Text="About" FontSize="20" FontWeight="SemiBold"/>
+                <TextBlock TextWrapping="Wrap" Text="Notepad but with tabs, allowing you to switch between them. also has multiple light/dark themes" FontSize="13"/>
+                <Separator/>
+                <TextBlock FontSize="20" FontWeight="SemiBold" Text="How to Use"/>
+                <TextBlock TextWrapping="Wrap" FontSize="13"><Run Text="The textbox has a few cool features: holding shift "/><Run Text="or the middle mouse button "/><Run Text="while "/><Run Text="scrolling"/><Run Text=" will scroll the text horizontally. not holding "/><Run Text="either will"/><Run Text=" scrolls vertically."/><LineBreak/><Run Text="You can drop files "/><Run Text="from"/><Run Text=" your desktop, file explorer, etc, into the notepad list (on the left). You can also drop NotepadItems inside the notepad list on"/><Run Text="to your desktop or file explorer or something. "/><Run Text="Just drag it as you would normally"/><Run Text=" with files in file explorer"/><Run Text="."/><LineBreak/><Run Text="You can right click the NotepadItems and it shows some buttons, like Open in FileExplorer, Close, etc. There's also the Set File Extension, which allows you to set the file's extension very easily."/><LineBreak/><Run Text="Typical expected shortcuts (Ctrl + S to save)"/><Run Text=" work also"/><Run Text=". When files get beyond"/><Run Text=" 100kb, an orange marker appears on the "/><Run Text="NotepadItem."/><Run Text=" if it goes past 250kb, it turns red. this is just to alert you that the program will become laggy if the market occours."/><LineBreak/><Run Text="At the bottom of the big textbox on the right, there's file"/><Run Text=" "/><Run Text="path. you can change "/><Run Text="this "/><Run Text="if you want and the program will save to that specific location ("/><Run Text="will warn you though"/><Run Text=")"/><Run Text="."/><LineBreak/><Run Text="At the bottom is a"/><Run Text="n expander. click it and a "/><Run Text="list containing information/statuses/errors about the program"/><Run Text=" appears"/><Run Text=". "/><Run Text="it's just "/><Run Text="a log of what's happening (like saving, opening files"/><Run Text=", etc)"/><Run Text=" if you care"/><Run Text="."/><LineBreak/><Run Text="To the "/><Run Text="very right is an expander for a file explorer. it's a tree based explorer. it may not be useful but i ran out of ideas on what to add"/><Run Text=" so it's staying lol :), also to the right is another expander for Find. this allows you to find text within the currently open/selected notepad"/><Run Text=". Unfortunately you cannot search through every file for a string... yet. you'll have to do it manually."/><LineBreak/><Run Text="At"/><Run Text=" the top is a button to open a window showing (sort of) every other window, and you can close/focus them by double clicking or clicking the buttons on the right."/></TextBlock>
+            </StackPanel>
         </Grid>
+        <ScrollViewer FontSize="12" FontFamily="Consolas" Margin="0,15,0,0" HorizontalAlignment="Right" Width="400">
+            <StackPanel>
+                <TextBlock Text="Global HotKeys" FontSize="20"/>
+                <TextBlock Text="CTRL + N         - New File"/>
+                <TextBlock Text="CTRL + S         - Save NotepadItem"/>
+                <TextBlock Text="CTRL + O         - Open File"/>
+                <TextBlock Text="CTRL + F         - Show Find Panel"/>
+                <TextBlock Text="CTRL + Shift + S - Save all Files"/>
+                <TextBlock><Run Text="CTRL + Shift + O - Open "/><Run Text="all files"/><Run Text=" in a folder"/></TextBlock>
+                <TextBlock Text="CTRL + Delete    - Close Selected File"/>
+                <TextBlock><Run Text="CTRL + "/><Run Text="R "/><Run Text="     "/><Run Text="  "/><Run Text=" "/><Run Text="- Re-open last closed file"/></TextBlock>
+                <TextBlock><Run Text="CTRL + T "/><Run Text="    "/><Run Text="  "/><Run Text="  "/><Run Text="- "/><Run Text="Open "/><Run Text="a "/><Run Text="New Window"/></TextBlock>
+                <TextBlock><Run Text="CTRL "/><Run Text="+ Shift +"/><Run Text=" T - "/><Run Text="Open "/><Run Text="Selected in New Window"/></TextBlock>
+                <TextBlock><Run Text="CTRL + W "/><Run Text="    "/><Run Text="  "/><Run Text="  "/><Run Text="- Close"/><Run Text=" focused"/><Run Text=" Window"/></TextBlock>
+                <TextBlock><Run Text="CTRL "/><Run Text="+ "/><Run Text="Shift + W - Close ALL Window"/></TextBlock>
+                <TextBlock><Run Text="CTRL"/><Run Text=" +"/><Run Text=" Shift + T - Re-open last window"/></TextBlock>
+                <TextBlock><Run Text="CTRL +"/><Run Text=" Shift +"/><Run Text=" "/><Run Text="R - Highlight file name (not extension) "/></TextBlock>
+                <TextBlock FontSize="20"><Run Text="Text Editor HotKey"/><Run Text="s/Shortcuts"/></TextBlock>
+                <TextBlock Text="CTRL + X                - Cut Text or Line" ToolTip="Dont select any text to cut the entire line"/>
+                <TextBlock Text="CTRL + C                - Copy Text or Line" ToolTip="Dont select any text to copy the entire line"/>
+                <TextBlock Text="CTRL + Shift + A        - Select entire Line"/>
+                <TextBlock Text="CTRL + Shift + Del      - Delete entire Line"/>
+                <TextBlock Text="CTRL + Up Arrow         - Scroll Up"/>
+                <TextBlock Text="CTRL + Down Arrow       - Scroll Down"/>
+                <TextBlock Text="CTRL + Left Arrow       - Scroll Left"/>
+                <TextBlock Text="(These 2 are similar to VSCode)" FontSize="14"/>
+                <TextBlock Text="CTRL + Enter            - Add NewLine above current line"/>
+                <TextBlock Text="CTRL + Shift + Enter    - Add NewLine below current line"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

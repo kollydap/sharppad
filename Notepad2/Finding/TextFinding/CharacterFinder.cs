@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Notepad2.Finding.TextFinding
 {
@@ -14,18 +15,25 @@ namespace Notepad2.Finding.TextFinding
         {
             if (string.IsNullOrEmpty(heapOfText))
                 return null;
-            string heap = heapOfText;
+            string heapText = heapOfText;
             string tofind = toFind;
-            switch (settings)
+            bool matchWholeWord = false;
+
+            if ((settings & FindSettings.MatchCase) == FindSettings.MatchCase)
             {
-                case FindSettings.CaseSensitive:
-                    heap = heapOfText;
-                    tofind = toFind;
-                    break;
-                case FindSettings.None:
-                    heap = heapOfText.ToLower();
-                    tofind = toFind.ToLower();
-                    break;
+                heapText = heapOfText;
+                tofind = toFind;
+            }
+
+            else if ((settings & FindSettings.None) == FindSettings.None)
+            {
+                heapText = heapOfText.ToLower();
+                tofind = toFind.ToLower();
+            }
+
+            if ((settings & FindSettings.MatchWholeWord) == FindSettings.MatchWholeWord)
+            {
+                matchWholeWord = true;
             }
 
             List<FindResult> indexes = new List<FindResult>();
@@ -35,20 +43,37 @@ namespace Notepad2.Finding.TextFinding
                 {
                     try
                     {
-                        index = heap.IndexOf(tofind, index);
+                        index = heapText.CustomIndexOf(tofind, index, matchWholeWord);
                         if (index == -1)
                             return indexes;
                         FindResult fr =
                             new FindResult(
                                 index,
-                                index + tofind.Length,
-                                heap.GetRegionOfText(index - 1, index + tofind.Length, 5, 5));
+                                index + tofind.Length);
                         indexes.Add(fr);
                     }
                     catch { return indexes; }
                 }
             }
             catch { return indexes; }
+        }
+
+        public static int CustomIndexOf(this string text, string value, int startIndex, bool matchWholeWord)
+        {
+            if (matchWholeWord)
+            {
+                for (int i = startIndex; i < text.Length && (i = text.IndexOf(value, i)) >= 0; i++)
+                {
+                    if ((i == 0 || !char.IsLetterOrDigit(text, i - 1)) && (i + value.Length == text.Length || !char.IsLetterOrDigit(text, i + value.Length)))
+                        return i;
+                }
+
+                return -1;
+            }
+            else
+            {
+                return text.IndexOf(value, startIndex);
+            }
         }
 
         /// <summary>

@@ -30,10 +30,10 @@ namespace Notepad2.ViewModels
 
         private TextDocumentViewModel _notepad;
         private NotepadItemViewModel _selectedNotepadItem;
-        private FindViewModel _find;
+        private FindReplaceViewModel _find;
+        private Visibility _findViewVisibilty;
         private int _selectedIndex;
         private bool _notepadAvaliable;
-        private bool _findExpanded;
         private bool _topTabsExpanded;
         private bool _leftTabsExpanded;
         private string _toFindItemText;
@@ -44,7 +44,7 @@ namespace Notepad2.ViewModels
         #region Public Properties
 
         /// <summary>
-        /// Holds a list of <see cref="TextDocumentViewModel"/>, for use in a ListBox
+        /// Holds a list of <see cref="NotepadItemViewModel"/>, for use in a ListBox
         /// (the one on the left side of the program)
         /// <para>
         /// Call this, "the list on the left"
@@ -52,8 +52,14 @@ namespace Notepad2.ViewModels
         /// </summary>
         public ObservableCollection<NotepadItemViewModel> NotepadItems { get; set; }
 
+        public Visibility FindViewVisibility
+        {
+            get => _findViewVisibilty;
+            set => RaisePropertyChanged(ref _findViewVisibilty, value);
+        }
+
         /// <summary>
-        /// The selected index of the currently selected <see cref="TextDocumentViewModel"/>
+        /// The selected index of the currently selected <see cref="NotepadItemViewModel"/>
         /// </summary>
         public int SelectedIndex
         {
@@ -62,7 +68,7 @@ namespace Notepad2.ViewModels
         }
 
         /// <summary>
-        /// The currently selected <see cref="TextDocumentViewModel"/>
+        /// The currently selected <see cref="NotepadItemViewModel"/>
         /// </summary>
         public NotepadItemViewModel SelectedNotepadItem
         {
@@ -79,21 +85,12 @@ namespace Notepad2.ViewModels
 
         /// <summary>
         /// Says whether a notepad is avaliable (aka, if there's any 
-        /// <see cref="TextDocumentViewModel"/>s in the list on the left)
+        /// <see cref="NotepadListItem"/>s in the list on the left)
         /// </summary>
         public bool NotepadAvaliable
         {
             get => _notepadAvaliable;
             set => RaisePropertyChanged(ref _notepadAvaliable, value);
-        }
-
-        /// <summary>
-        /// Says whether the Find panel is expanded or not
-        /// </summary>
-        public bool FindExpanded
-        {
-            get => _findExpanded;
-            set => RaisePropertyChanged(ref _findExpanded, value, FocusFind);
         }
 
         /// <summary>
@@ -156,10 +153,15 @@ namespace Notepad2.ViewModels
         /// <summary>
         /// A ViewModel for the Finding Panel for finding text within the selected Notepad
         /// </summary>
-        public FindViewModel Find
+        public FindReplaceViewModel Find
         {
             get => _find;
-            set => RaisePropertyChanged(ref _find, value);
+            set => RaisePropertyChanged(ref _find, value, UpdateFindContext);
+        }
+
+        private void UpdateFindContext()
+        {
+
         }
 
         public InformationViewModel InformationView { get; set; }
@@ -195,9 +197,10 @@ namespace Notepad2.ViewModels
         public ICommand SaveAllCommand { get; }
         public ICommand CloseSelectedNotepadCommand { get; }
         public ICommand CloseAllNotepadsCommand { get; }
+        public ICommand FocusAndRenameFileCommand { get; }
         public ICommand MoveItemCommand { get; }
         public ICommand PrintFileCommand { get; }
-        public ICommand AutoShowFindMenuCommand { get; }
+        public ICommand ShowFindWindowCommand { get; }
         public ICommand FindNotepadItemCommand { get; }
         public ICommand RefreshFileContentsCommand { get; }
         public ICommand AutoShowTopTabsCommand { get; }
@@ -242,9 +245,10 @@ namespace Notepad2.ViewModels
             SaveAllCommand = new Command(SaveAllNotepadDocuments);
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
             CloseAllNotepadsCommand = new Command(CloseAllNotepads);
+            FocusAndRenameFileCommand = new Command(FocusAndRenameSelectedFile);
             MoveItemCommand = new CommandParam<string>(MoveItem);
             PrintFileCommand = new Command(PrintFile);
-            AutoShowFindMenuCommand = new Command(OpenFindPanel);
+            ShowFindWindowCommand = new Command(ShowFindView);
             FindNotepadItemCommand = new Command(FindNotepadItem);
             RefreshFileContentsCommand = new Command(RefreshAllFilesContents);
             AutoShowTopTabsCommand = new Command(AutoShowTopTabs);
@@ -263,9 +267,12 @@ namespace Notepad2.ViewModels
 
             SortListCommand = new CommandParam<string>(SortItems);
 
+            ShowHideFindView(false);
+
             FileWatcherEnabled = true;
 
             Information.Show("Notepad Window loaded", InfoTypes.Information);
+
         }
 
         #endregion
@@ -578,7 +585,9 @@ namespace Notepad2.ViewModels
             fivm.Document.FilePath = filePath;
             fivm.DocumentFormat = fm;
 
-            fivm.FindResults.NextTextFoundCallback = OnNextTextFound;
+            fivm.FindResults.HighlightResultCallback = HighlightTextFromSearch;
+            fivm.FindResults.ReplaceTextCallback = ReplaceText;
+            fivm.FindResults.SetFindViewIsVisibleCallback = ShowHideFindView;
             fivm.HasMadeChanges = false;
 
             return fivm;
@@ -631,6 +640,12 @@ namespace Notepad2.ViewModels
             NotepadAvaliable = NotepadItems.Count > 0;
             if (NotepadItems.Count == 0)
                 Notepad = null;
+        }
+
+        public void FocusAndRenameSelectedFile()
+        {
+            if (NotepadAvaliable)
+                SelectedNotepadItem?.HighlightFileName();
         }
 
         #endregion
@@ -945,24 +960,38 @@ namespace Notepad2.ViewModels
 
         #region Finding
 
-        public void FocusFind()
+        private void ShowHideFindView(bool show)
         {
-            View.FocusFindInput(FindExpanded);
+            if (show)
+            {
+                FindViewVisibility = Visibility.Visible;
+                View.FocusFindInput();
+            }
+
+            else
+            {
+                FindViewVisibility = Visibility.Collapsed;
+            }
         }
 
-        public void OpenFindPanel()
+        public void ShowFindView()
         {
-            FindExpanded = !FindExpanded;
+            ShowHideFindView(true);
         }
 
-        public void HighlightText(FindResult result)
+        public void HighlightText(FindResult result, bool focusTextEditor = true)
         {
-            View.HighlightFindResult(result);
+            View.HighlightFindResult(result, focusTextEditor);
         }
 
-        private void OnNextTextFound(FindResult result)
+        private void HighlightTextFromSearch(FindResult result, bool focusTextEditor = true)
         {
-            HighlightText(result);
+            HighlightText(result, focusTextEditor);
+        }
+
+        private void ReplaceText(FindResult result, string textToReplaceWith)
+        {
+            View.ReplaceEditorText(result, textToReplaceWith);
         }
 
         // Finding Items
@@ -1076,12 +1105,11 @@ namespace Notepad2.ViewModels
 
         public void CloseViewWithCheck()
         {
-            if (MessageBox.Show(
-                "Close Window?", 
-                "Close", 
-                MessageBoxButton.OKCancel, 
-                MessageBoxImage.Information, 
-                MessageBoxResult.OK) == MessageBoxResult.OK)
+            if (FindViewVisibility == Visibility.Visible)
+            {
+                ShowHideFindView(false);
+            }
+            else if (MessageBox.Show("Close Window?", "Close", MessageBoxButton.OKCancel, MessageBoxImage.Information, MessageBoxResult.OK) == MessageBoxResult.OK)
             {
                 Shutdown();
                 ThisApplication.CloseWindowFromDataContext(this);

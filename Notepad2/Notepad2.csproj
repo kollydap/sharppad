@@ -115,10 +115,6 @@
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
     <Compile Include="FileChangeWatcher\FileWatcher.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
-    <Compile Include="Finding\TextFinding\FindResultItemControl.xaml.cs">
-      <DependentUpon>FindResultItemControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Finding\TextFinding\FindResultItemViewModel.cs" />
     <Compile Include="Finding\TextFinding\FindSettings.cs" />
     <Compile Include="Finding\NotepadItemFinding\FoundNotepadItemControl.xaml.cs">
       <DependentUpon>FoundNotepadItemControl.xaml</DependentUpon>
@@ -211,7 +207,7 @@
     <Compile Include="Utilities\MouseLocationHelper.cs" />
     <Compile Include="Utilities\TextBoxLineNumbers.cs" />
     <Compile Include="CClipboard\ClipboardViewModel.cs" />
-    <Compile Include="Finding\TextFinding\FindViewModel.cs" />
+    <Compile Include="Finding\TextFinding\FindReplaceViewModel.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="Applications\ApplicationViewModel.cs" />
     <Compile Include="Preferences\Views\PreferencesViewModel.cs" />
@@ -250,10 +246,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CClipboard\ClipboardWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Finding\TextFinding\FindResultItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -463,6 +455,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\topTabsClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\downIcon.png" />
+    <Resource Include="Resources\upIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\replaceAllIcon.png" />
+    <Resource Include="Resources\replaceIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\matchCaseIcon.png" />
+    <Resource Include="Resources\matchWholeWordIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

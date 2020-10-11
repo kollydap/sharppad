@@ -29,6 +29,7 @@ namespace Notepad2.Notepad
 
         public Action<NotepadItemViewModel> RemoveNotepadCallback { get; set; }
         public Action<NotepadItemViewModel> OpenInNewWindowCallback { get; set; }
+        public Action HighlightFileNameCallback { get; set; }
 
         public NotepadItemViewModel()
         {
@@ -100,6 +101,11 @@ namespace Notepad2.Notepad
             {
                 CustomClipboard.SetTextObject(Notepad.Document.FilePath);
             }
+        }
+
+        public void HighlightFileName()
+        {
+            HighlightFileNameCallback?.Invoke();
         }
     }
 }

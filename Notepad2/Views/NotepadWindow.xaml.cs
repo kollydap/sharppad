@@ -216,19 +216,31 @@ namespace Notepad2.Views
 
         public void DrawRectangleAtCaret()
         {
-            if (MainTextBox != null && showLineThing.IsChecked == true)
+            try
             {
-                Rect p = MainTextBox.GetCaretLocation();
-                double offsetHeight = 1;
-                Thickness t = new Thickness(0, p.Y - offsetHeight, 17, MainTextBox.ActualHeight - p.Bottom - offsetHeight); ;
-                if (t.Top >= 0 && t.Bottom >= 0)
+                if (MainTextBox != null && showLineThing.IsChecked == true)
                 {
-                    aditionalSelection.Visibility = Visibility.Visible;
-                    aditionalSelection.Margin = t;
+                    Rect p = MainTextBox.GetCaretLocation();
+                    double offsetHeight = 1;
+                    double scrollBarWidth = 18;
+                    Thickness t = new Thickness(
+                        0, 
+                        p.Y - offsetHeight, 
+                        scrollBarWidth, 
+                        MainTextBox.ActualHeight - p.Bottom - offsetHeight);
+                    if (t.Top >= -1 && t.Bottom >= 0)
+                    {
+                        aditionalSelection.Visibility = Visibility.Visible;
+                        aditionalSelection.Margin = t;
+                    }
+                    // dont remove this else statement otherwise the rendering
+                    // goes absolutely mental for the entire app (black areas..)
+                    else aditionalSelection.Visibility = Visibility.Collapsed;
                 }
+                // i think the same for this else statement too
                 else aditionalSelection.Visibility = Visibility.Collapsed;
             }
-            else aditionalSelection.Visibility = Visibility.Collapsed;
+            catch { Information.Show("Failed to draw Line Border on the Text Editor", "LineBorder"); }
         }
 
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -259,6 +271,11 @@ namespace Notepad2.Views
         }
 
         private void ShowLineThing_Checked(object sender, RoutedEventArgs e)
+        {
+            DrawRectangleAtCaret();
+        }
+
+        private void MainTextBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             DrawRectangleAtCaret();
         }
@@ -453,44 +470,22 @@ namespace Notepad2.Views
             Notepad.OurClipboard.ShowClipboardWindow();
         }
 
-        private void FindInputBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            findInputBox.Focus();
-        }
-
         private void Window_GotFocus(object sender, RoutedEventArgs e)
         {
             WindowFocusedCallback?.Invoke(this);
         }
 
         // idk why i dont add this to the NotepadViewModel... cant be bothered i guess xdddd
-        public void HighlightFindResult(FindResult result)
+        public void HighlightFindResult(FindResult result, bool focusTextEditor = true)
         {
             try
             {
-                if (findList.ItemsSource is ObservableCollection<FindResultItemViewModel> items)
-                {
-                    if (findList.SelectedItem is FindResultItemViewModel fri)
-                    {
-                        int itemIndex = findList.SelectedIndex;
-                        items.Remove(fri);
-                        items.Insert(itemIndex, fri);
-                        MainTextBox.HighlightSearchResult(result);
-                    }
-                }
+                MainTextBox.HighlightSearchResult(result, focusTextEditor);
             }
             catch (Exception e)
             {
                 MessageBox.Show($"Failed to highlight text: {e.Message}");
             }
-        }
-
-        public void FocusFindInput(bool focusOrNot)
-        {
-            if (focusOrNot)
-                findInputBox.Focus();
-            else
-                MainTextBox.Focus();
         }
 
         public void ScrollItemsIntoView()
@@ -549,6 +544,17 @@ namespace Notepad2.Views
 
                 TopNotepadListBorder.BeginAnimation(HeightProperty, heightAnim);
             }
+        }
+
+        public void FocusFindInput()
+        {
+            findBox.Focus();
+            findBox.SelectionStart = 0;
+        }
+
+        public void ReplaceEditorText(FindResult result, string replaceWith)
+        {
+            MainTextBox.ReplaceText(result, replaceWith);
         }
     }
 }

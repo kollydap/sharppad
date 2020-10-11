@@ -2,7 +2,8 @@
 {
     public enum FindSettings
     {
-        None,
-        CaseSensitive,
+        None = 0,
+        MatchCase = 1,
+        MatchWholeWord = 2
     }
 }

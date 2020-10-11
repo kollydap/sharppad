@@ -15,7 +15,7 @@ namespace Notepad2.ViewModels
     {
         private FormatModel _documentFormat;
         private DocumentModel _document;
-        private FindViewModel _findResults;
+        private FindReplaceViewModel _findResults;
         //private TextEditorLinesViewModel _linesCounter;
         private bool _hasMadeChanges;
 
@@ -31,7 +31,7 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _document, value /*, Update*/);
         }
 
-        public FindViewModel FindResults
+        public FindReplaceViewModel FindResults
         {
             get => _findResults;
             set => RaisePropertyChanged(ref _findResults, value);
@@ -66,7 +66,7 @@ namespace Notepad2.ViewModels
             //LinesCounter = new TextEditorLinesViewModel();
             DocumentFormat = new FormatModel();
             Document = new DocumentModel();
-            FindResults = new FindViewModel(Document);
+            FindResults = new FindReplaceViewModel(Document);
             Watcher = new FileWatcher(Document);
             Watcher.FileContentsChanged = FileContentsChanged;
             //Watcher.FilePathChanged = FilePathChangedToEmpty;

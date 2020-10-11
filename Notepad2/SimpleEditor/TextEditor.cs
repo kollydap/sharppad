@@ -5,6 +5,7 @@ using Notepad2.Preferences;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace Notepad2.SimpleEditor
@@ -35,56 +36,64 @@ namespace Notepad2.SimpleEditor
                             SelectEntireCurrentLine();
                             SelectedText = "";
                             break;
+
+                        case Key.Enter:
+                            if (!PreferencesG.CAN_ADD_ENTIRE_LINES)
+                                break;
+                            AddNewLineBelowCurrentLine();
+                            break;
                     }
                 }
-                switch (e.Key)
+                else
                 {
-                    case Key.X:
-                        if (!PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X)
+                    switch (e.Key)
+                    {
+                        case Key.Enter:
+                            if (!PreferencesG.CAN_ADD_ENTIRE_LINES)
+                                break;
+                            AddNewLineAndMoveCaret();
                             break;
-                        if (SelectedText == "")
-                        {
-                            SelectEntireCurrentLine();
-                            // not altering e.Handled lets the
-                            // textbox base cut the line automatically.
-                        }
-                        break;
-                    case Key.C:
-                        if (!PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C)
+                        case Key.X:
+                            if (!PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X)
+                                break;
+                            if (SelectedText == "")
+                            {
+                                SelectEntireCurrentLine();
+                                // not altering e.Handled lets the
+                                // textbox base cut the line automatically.
+                            }
                             break;
-                        if (SelectedText == "")
-                        {
-                            CopyEntireCurrentLine();
-                            e.Handled = true;
-                        }
-                        break;
+                        case Key.C:
+                            if (!PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C)
+                                break;
+                            if (SelectedText == "")
+                            {
+                                CopyEntireCurrentLine();
+                                e.Handled = true;
+                            }
+                            break;
 
-                    case Key.Enter:
-                        if (!PreferencesG.CAN_ADD_ENTIRE_LINE_CTRL_ENTER)
+                        case Key.Up:
+                            if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
+                                break;
+                            LineUp(); e.Handled = true;
                             break;
-                        AddNewLineBelowCurrentLine();
-                        break;
-
-                    case Key.Up:
-                        if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
+                        case Key.Down:
+                            if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
+                                break;
+                            LineDown(); e.Handled = true;
                             break;
-                        LineUp(); e.Handled = true;
-                        break;
-                    case Key.Down:
-                        if (!PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS)
+                        case Key.Left:
+                            if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)
+                                break;
+                            LineLeft(); e.Handled = true;
                             break;
-                        LineDown(); e.Handled = true;
-                        break;
-                    case Key.Left:
-                        if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)
+                        case Key.Right:
+                            if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)
+                                break;
+                            LineRight(); e.Handled = true;
                             break;
-                        LineLeft(); e.Handled = true;
-                        break;
-                    case Key.Right:
-                        if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)
-                            break;
-                        LineRight(); e.Handled = true;
-                        break;
+                    }
                 }
             }
             // Cant do because holding alt apparently blocks the keydown events...
@@ -121,6 +130,9 @@ namespace Notepad2.SimpleEditor
             CaretIndex += 2;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void AddNewLineBelowCurrentLine()
         {
             int startOfNewLineIndex = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
@@ -129,6 +141,23 @@ namespace Notepad2.SimpleEditor
             SelectedText = Environment.NewLine;
             SelectionLength = 0;
             CaretIndex = prevCaretIndex;
+        }
+
+        /// <summary>
+        /// Set the caret index to the start of the new line 
+        /// and then inser a NewLine character
+        /// </summary>
+        public void AddNewLineAndMoveCaret()
+        {
+            int startOfNewLineIndex = Text.LastIndexOf(Environment.NewLine, CaretIndex) + 1;
+            int lineIndex = base.GetLineIndexFromCharacterIndex(CaretIndex);
+            int lineLength = base.GetLineLength(lineIndex);
+            CaretIndex = startOfNewLineIndex + lineLength + 1;
+            SelectionStart = CaretIndex;
+            SelectedText = Environment.NewLine;
+            SelectionLength = 0;
+            if (CaretIndex > 1)
+                CaretIndex -= 1;
         }
 
         public void CopyEntireCurrentLine()
@@ -153,7 +182,7 @@ namespace Notepad2.SimpleEditor
             return Text.Split('\n').Length;
         }
 
-        public void HighlightSearchResult(FindResult result)
+        public void HighlightSearchResult(FindResult result, bool focusTextEditor = true)
         {
             if (result.StartIndex >= 0 &&
                 result.StartIndex < Text.Length &&
@@ -162,7 +191,10 @@ namespace Notepad2.SimpleEditor
             {
                 try
                 {
-                    Focus();
+                    if (focusTextEditor)
+                    {
+                        Focus();
+                    }
                     int actualLine = GetLineIndexFromCharacterIndex(result.StartIndex);
                     //int finalLine = actualLine + ((int) Math.Round((ActualHeight / FontSize) / 2, 0) ) ;
                     ScrollToLine(actualLine);
@@ -170,6 +202,16 @@ namespace Notepad2.SimpleEditor
                 }
                 catch { }
             }
+        }
+
+        public void ReplaceText(FindResult result, string toReplaceWith)
+        {
+            SelectionStart = result.StartIndex;
+            SelectionLength = result.WordLength;
+            SelectedText = toReplaceWith;
+            //StringBuilder sb = new StringBuilder(heapText);
+            //sb.Remove(result.StartIndex, result.WordLength);
+            //sb.Insert(result.StartIndex, replaceWith);
         }
 
         public Rect GetCaretLocation()

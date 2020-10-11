@@ -48,6 +48,11 @@ namespace Notepad2.Notepad
             }
         }
 
+        private void RenameFileClick(object sender, RoutedEventArgs e)
+        {
+            HighlightFileName();
+        }
+
         private void HighlightFileName()
         {
             fileNameBox.Focus();
@@ -59,6 +64,8 @@ namespace Notepad2.Notepad
         {
             AnimationHelpers.OpacityControl(this, 0, 1, GlobalPreferences.ANIMATION_SPEED_SEC);
             AnimationHelpers.MoveToTargetX(this, 0, 225, GlobalPreferences.ANIMATION_SPEED_SEC);
+            if (Model != null)
+                Model.HighlightFileNameCallback = HighlightFileName;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -210,13 +217,6 @@ namespace Notepad2.Notepad
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 ControlMouseStartPoint = e.GetPosition(this);
-        }
-
-        private void RenameFileClick(object sender, RoutedEventArgs e)
-        {
-            fileNameBox.Focus();
-            string fileName = Path.GetFileNameWithoutExtension(Model.Notepad.Document.FileName);
-            fileNameBox.Select(0, fileName.Length);
         }
     }
 }

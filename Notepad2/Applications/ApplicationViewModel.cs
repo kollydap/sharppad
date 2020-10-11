@@ -310,28 +310,12 @@ namespace Notepad2.Applications
         /// </summary>
         /// <param name="notepad"></param>
         /// <returns>null if there's no windows with the given viewmodel. else returns the preview</returns>
-        public WindowPreviewControlViewModel GetPreviewControlFromDataContext(NotepadViewModel notepad)
+        public WindowPreviewControlViewModel GetPreviewControlFromNotepad(NotepadViewModel notepad)
         {
             foreach (WindowPreviewControlViewModel control in WindowPreviews)
             {
                 if (control.Notepad == notepad)
                     return control;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets a Notepad window from a view model
-        /// </summary>
-        /// <param name="notepad"></param>
-        /// <returns>null if there's no windows with the given viewmodel. else returns the Notepad window</returns>
-        public NotepadWindow GetWindowFromPreviewDataContext(NotepadViewModel notepad)
-        {
-            foreach (NotepadWindow window in WindowManager.NotepadWindows)
-            {
-                if (window.Notepad == notepad)
-                    return window;
             }
 
             return null;
@@ -349,7 +333,7 @@ namespace Notepad2.Applications
         public void CloseWindowAndRemovePreviewFromPreview(WindowPreviewControlViewModel wpc)
         {
             RemovePreviewItem(wpc);
-            NotepadWindow nw = GetWindowFromPreviewDataContext(wpc.Notepad);
+            NotepadWindow nw = WindowManager.GetNotepadWindowFromNotepad(wpc.Notepad);
             if (nw != null)
                 CloseWindow(nw);
         }
@@ -358,7 +342,7 @@ namespace Notepad2.Applications
         {
             if (notepad != null)
             {
-                WindowPreviewControlViewModel wpc = GetPreviewControlFromDataContext(notepad);
+                WindowPreviewControlViewModel wpc = GetPreviewControlFromNotepad(notepad);
                 if (wpc != null)
                 {
                     CloseWindowAndRemovePreviewFromPreview(wpc);
@@ -369,7 +353,7 @@ namespace Notepad2.Applications
         public void RemoveWindowAndPreviewFromWindow(NotepadWindow wind)
         {
             RemoveWindow(wind);
-            WindowPreviewControlViewModel wpc = GetPreviewControlFromDataContext(wind.Notepad);
+            WindowPreviewControlViewModel wpc = GetPreviewControlFromNotepad(wind.Notepad);
             if (wpc != null)
                 RemovePreviewItem(wpc);
         }
@@ -410,7 +394,7 @@ namespace Notepad2.Applications
 
         public void FocusWindowFromDataContext(NotepadViewModel notepad)
         {
-            NotepadWindow win = GetWindowFromPreviewDataContext(notepad);
+            NotepadWindow win = WindowManager.GetNotepadWindowFromNotepad(notepad);
             if (win != null)
                 win.Focus();
         }
@@ -483,9 +467,6 @@ namespace Notepad2.Applications
             }
         }
 
-        /// <summary>
-        /// Will write any unclosed files to the 
-        /// </summary>
         public void CheckForAnyOpenFilesInEveryWindowAndWriteToUnsavedFilesStorage()
         {
             foreach(NotepadWindow window in WindowManager.NotepadWindows)

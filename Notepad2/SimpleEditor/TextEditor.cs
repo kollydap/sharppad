@@ -6,6 +6,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace Notepad2.SimpleEditor
@@ -195,10 +196,14 @@ namespace Notepad2.SimpleEditor
                     {
                         Focus();
                     }
-                    int actualLine = GetLineIndexFromCharacterIndex(result.StartIndex);
-                    //int finalLine = actualLine + ((int) Math.Round((ActualHeight / FontSize) / 2, 0) ) ;
-                    ScrollToLine(actualLine);
+
                     Select(result.StartIndex, result.WordLength);
+                    ScrollToLine(GetLineIndexFromCharacterIndex(SelectionStart));
+
+                    //int actualLine = GetLineIndexFromCharacterIndex(result.StartIndex);
+                    //int finalLine = actualLine + ((int) Math.Round((ActualHeight / FontSize) / 2, 0) ) ;
+                    //ScrollToLine(actualLine);
+                    //Select(result.StartIndex, result.WordLength);
                 }
                 catch { }
             }
@@ -228,6 +233,13 @@ namespace Notepad2.SimpleEditor
                 else return new Rect(0, 0, 0, 0);
             }
             catch { return new Rect(0, 0, 0, 0); }
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (!this.IsFocused)
+                this.Focus();
+            base.OnMouseMove(e);
         }
     }
 }

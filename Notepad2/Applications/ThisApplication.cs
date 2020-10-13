@@ -2,6 +2,7 @@
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Notepad.DragDropping;
+using Notepad2.SerialCommunication;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System;
@@ -70,6 +71,7 @@ namespace Notepad2.Applications
         public static void ShutdownApplication()
         {
             Information.Show("Shutting down application", "App");
+            //TheRMutex.MainAppClosing();
             ClipboardNotification.ShutdownListener();
             DragDropFileWatchers.Shutdown();
             Application.Current?.Shutdown();

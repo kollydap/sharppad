@@ -20,6 +20,7 @@ namespace Notepad2.InformationStuff
             Application.Current?.Dispatcher?.Invoke(() =>
             {
                 InformationAdded?.Invoke(new InformationModel(type, DateTime.Now, text));
+                //MessageBox.Show(text);
             });
         }
         public static void Show(string text, InfoTypes type)

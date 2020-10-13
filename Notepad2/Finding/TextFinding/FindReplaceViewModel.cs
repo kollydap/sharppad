@@ -50,13 +50,13 @@ namespace Notepad2.Finding.TextFinding
         public bool MatchCase
         {
             get => _matchCase;
-            set => RaisePropertyChanged(ref _matchCase, value);
+            set => RaisePropertyChanged(ref _matchCase, value, StartFind);
         }
 
         public bool MatchWholeWord
         {
             get => _matchWholeWord;
-            set => RaisePropertyChanged(ref _matchWholeWord, value);
+            set => RaisePropertyChanged(ref _matchWholeWord, value, StartFind);
         }
 
         public int Count
@@ -101,8 +101,6 @@ namespace Notepad2.Finding.TextFinding
 
         public void HighlightNextMatch()
         {
-            //if (!HasSearched)
-            //    StartFind();
             if (Count < 1)
             {
                 Position = 0;
@@ -123,8 +121,6 @@ namespace Notepad2.Finding.TextFinding
 
         public void HighlightPreviousMatch()
         {
-            //if (!HasSearched)
-            //    StartFind();
             if (Count < 1)
             {
                 Position = 0;
@@ -149,14 +145,9 @@ namespace Notepad2.Finding.TextFinding
             if (Count > 0 && index >= 0)
             {
                 FindResult result = FoundItems[index];
-                //string heapText = Document.Text;
                 string replaceWith = ReplaceWithText;
 
                 ReplaceTextCallback?.Invoke(result, replaceWith);
-
-                //StringBuilder sb = new StringBuilder(heapText);
-                //sb.Remove(result.StartIndex, result.WordLength);
-                //sb.Insert(result.StartIndex, replaceWith);
 
                 FoundItems.Remove(result);
 
@@ -166,8 +157,6 @@ namespace Notepad2.Finding.TextFinding
                     int difference = replaceWith.Length - result.WordLength;
                     IncrementFindResult(result2, difference);
                 }
-
-                //Document.Text = sb.ToString();
 
                 if (Position <= Count)
                 {
@@ -215,7 +204,8 @@ namespace Notepad2.Finding.TextFinding
             if (Count > 0 && index >= 0 && index < Count)
             {
                 FindResult result = FoundItems[index];
-                HighlightResultCallback?.Invoke(result, false);
+                HighlightResultCallback?.Invoke(result, true);
+                SetFindViewIsVisibleCallback?.Invoke(true);
             }
         }
 

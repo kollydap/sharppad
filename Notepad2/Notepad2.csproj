@@ -145,6 +145,9 @@
     <Compile Include="Notepad\TopNotepadListItem.xaml.cs">
       <DependentUpon>TopNotepadListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SerialCommunication\ApplicationMessage.cs" />
+    <Compile Include="SerialCommunication\Communicator.cs" />
+    <Compile Include="SerialCommunication\TheRMutex.cs" />
     <Compile Include="Utilities\FilePropertiesHelper.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">

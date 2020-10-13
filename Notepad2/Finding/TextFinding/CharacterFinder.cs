@@ -76,17 +76,26 @@ namespace Notepad2.Finding.TextFinding
             }
         }
 
+        // this stuff isn't really needed anymore considering the find function
+        // no longer shows previews of text
+
         /// <summary>
-        /// Extracts a region of text from within some other text. If the region tries to go lower
-        /// than 0 or after the text's length, it will conpensate for that.
+        /// Extracts a region of text from within some other text. If the region tries to go 
+        /// lower than 0 or after the text's length, it will conpensate for that.
         /// </summary>
         /// <param name="text">The text you have</param>
-        /// <param name="startPos">The start position of your selected text. e.g, abcde, start pos = 2, will start at b</param>
-        /// <param name="endPos">The end position of your selected. e.g, abcde, start pos = 2, will start at b</param>
+        /// <param name="startPos">The start position of your selected text. 
+        ///                        e.g, abcde, start pos = 2, will start at b</param>
+        /// <param name="endPos">The end position of your selected. e.g, 
+        ///                      abcde, start pos = 2, will start at b</param>
         /// <param name="textBefore"></param>
         /// <param name="textAfter"></param>
         /// <returns></returns>
-        public static string GetRegionOfText(this string text, int startPos, int endPos, int textBefore, int textAfter)
+        public static string GetRegionOfText(this string text,
+                                             int startPos,
+                                             int endPos,
+                                             int textBefore,
+                                             int textAfter)
         {
             string before = GetBeforeText(text, startPos, textBefore);
             string after = GetAfterText(text, endPos, textAfter);

@@ -1,20 +1,21 @@
 ﻿using Notepad2.Applications.Controls;
 using Notepad2.Applications.History;
+using Notepad2.InformationStuff;
 using Notepad2.Preferences;
+using Notepad2.SerialCommunication;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Notepad2.Applications
 {
     /// <summary>
-    /// Not technically an MVVM view model because it directly interacts with window and usercontrol 
-    /// objects/instances, however this class manages windows and previews/history of windows. This class 
+    /// Not technically an MVVM view model because it directly interacts with window objects/instances, 
+    /// however this class manages windows and previews/history of windows. This class 
     /// mainly deals with Creating, Showing, finding window objects using ViewModels, Closing windows and pushing to history, 
     /// and receiving callbacks from history to re-create windows (by creating new windows with the old DataContext, not re-using
     /// previously closed window objects due to some bugs with the instances still existing in memory, maybe due to GC not collecting idk)
@@ -43,10 +44,6 @@ namespace Notepad2.Applications
 
             ParseParameters(appArgs);
         }
-
-        // There's a lot of methods below here. it might seem 
-        // like it's unnessesary but it kinda isn't.
-
 
         #region Creating windows and Previews
 
@@ -368,14 +365,46 @@ namespace Notepad2.Applications
 
             if (appArgs.Length > 0)
             {
+                //Information.Show("Has Args", "DEBUG");
+                // try to see if the app is already open
+                //if (Communicator.CheckMainAppOpen())
+                //{
+                //    Information.Show("Main App IS open", "DEBUG");
+                //    // main app is open.
+                //    string parms = string.Join(" ", appArgs);
+                //    string[] arguments = parms.Split('\"');
+                //    Communicator.SendMessageToMainApp(arguments);
+                //    ShutdownApp();
+                //    //CreateAndShowApplicationStartupNotepadWindowAndPreviewAndOpenUnclosedFiles(arguments);
+                //}
+                //else
+                //{
+                //Information.Show("Main App NOT open", "DEBUG");
+                // this is the only instance open so open files in this instance
+                //TheRMutex.SetAsMainApp();
+                //TheRMutex.OnMessageReceived -= TheRMutex_OnMessageReceived;
+                //TheRMutex.OnMessageReceived += TheRMutex_OnMessageReceived;
+
                 string parms = string.Join(" ", appArgs);
                 string[] arguments = parms.Split('\"');
                 CreateAndShowApplicationStartupNotepadWindowAndPreviewAndOpenUnclosedFiles(arguments);
+                //}
             }
 
             else
             {
+                //Information.Show("Has NO args", "DEBUG");
+                // might want a completely new window. this does mean it wont be
+                // able to receive messages anymore
                 CreateAndShowStartupNotepadWindowAndPreviewAndOpenUnclosedFiles();
+            }
+        }
+
+        private void TheRMutex_OnMessageReceived(ApplicationMessage messageType, string message)
+        {
+            if (messageType == ApplicationMessage.OpenFiles)
+            {
+                WindowManager.FocusedWindow.Notepad.OpenNotepadFromPath(message, true, false, false);
             }
         }
 

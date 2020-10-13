@@ -851,7 +851,8 @@
                                     </Grid>
                                     <Grid Visibility="{Binding FindViewVisibility, UpdateSourceTrigger=PropertyChanged, FallbackValue=Visible}" 
                                           HorizontalAlignment="Right" VerticalAlignment="Top" Height="70" Width="400" 
-                                          Margin="0,5,25,0" Background="{DynamicResource ContainerBackground}">
+                                          Margin="0,5,25,0" Background="{DynamicResource ContainerBackground}"
+                                          FocusManager.IsFocusScope="True">
                                         <Grid.BitmapEffect>
                                             <DropShadowBitmapEffect Direction="300" Opacity="0.75" ShadowDepth="4" Softness="0.4"/>
                                         </Grid.BitmapEffect>

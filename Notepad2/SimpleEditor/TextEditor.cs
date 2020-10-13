@@ -237,9 +237,29 @@ namespace Notepad2.SimpleEditor
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (!this.IsFocused)
-                this.Focus();
+            //if (!this.IsFocused)
+            //    this.Focus();
             base.OnMouseMove(e);
         }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            //if (!this.IsFocused)
+            //{
+            //    this.Focus();
+            //    base.OnMouseWheel(e);
+            //    this.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
+            //}
+            //else
+            //{
+                base.OnMouseWheel(e);
+            //}
+        }
+
+        //protected override void OnLostFocus(RoutedEventArgs e)
+        //{
+        //    e.Handled = true;
+        //    //base.OnLostFocus(e);
+        //}
     }
 }

@@ -15,6 +15,7 @@
              ToolTip="Notepad Item. Click and Drag to DragDrop."
              AllowDrop="False">
     <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:FileSizeFormatConverter x:Key="FileSizeFormatConverter"/>
         <converters:TextChangedToUnsavedIndicatorConverter x:Key="BoolTohasChanged"/>
         <converters:FileSizeToColourConverter x:Key="fileSizeToColour"/>
@@ -46,7 +47,7 @@
             <MenuItem Header="Refresh File Contents" Command="{Binding RefreshContentsCommand}" ToolTip="Re-fetch text from the file path. (e.g. if you want to undo all changes). Does nothing if this item's path doesn't exist." Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Rename File" Click="RenameFileClick" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
-                    <Image Source="/SharpPad;component/Resources/cut.png"/>
+                    <TextBlock Text="I" FontFamily="Consolas" Height="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem Header="Set File Extension" Template="{DynamicResource DropDownMenuItemStyle}">
@@ -108,19 +109,24 @@
             </Rectangle.Fill>
         </Rectangle>
         <Grid Background="Transparent" Margin="11,0,3,0" MouseMove="Grid_MouseMove" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-            <TextBox Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}" 
-                     ToolTip="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}"
-                     VerticalScrollBarVisibility="Disabled"
-                     AcceptsReturn="False"
-                     Name="fileNameBox"
-                     TextWrapping="NoWrap"
-                     FontSize="14"
-                     Background="Transparent"
-                     BorderBrush="Transparent"
-                     Margin="2,3,40,0" Height="21"
-                     VerticalAlignment="Top"
-                     AllowDrop="False"
-                     VerticalContentAlignment="Center"/>
+            <DockPanel Margin="2,3,55,0" Height="21" VerticalAlignment="Top">
+                <Image Width="16" DockPanel.Dock="Left"
+                       SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="Fant"
+                       ToolTip="Changes have not been changed"
+                       Source="/SharpPad;component/Resources/alertSaveFile.png"
+                       Visibility="{Binding Notepad.HasMadeChanges, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}" 
+                         ToolTip="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}"
+                         VerticalScrollBarVisibility="Disabled"
+                         AcceptsReturn="False"
+                         Name="fileNameBox"
+                         TextWrapping="NoWrap"
+                         FontSize="14"
+                         Background="Transparent"
+                         BorderBrush="Transparent"
+                         AllowDrop="False"
+                         VerticalContentAlignment="Center"/>
+            </DockPanel>
 
             <Button Background="Transparent" BorderBrush="Transparent" 
                     HorizontalAlignment="Right" Margin="0,3,0,0" VerticalAlignment="Top" 

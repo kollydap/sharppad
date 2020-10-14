@@ -1,11 +1,7 @@
 ﻿using Notepad2.InformationStuff;
 using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Notepad2.SerialCommunication
 {
@@ -31,10 +27,10 @@ namespace Notepad2.SerialCommunication
                     return sp.ReadLine() == "T";
                 }
                 catch (TimeoutException) { Information.Show("FAILED to write to main app", "DEBUG"); return false; }
-                catch(Exception e) { Information.Show($"Error: {e.Message}" , "DEBUG"); return false; }
+                catch (Exception e) { Information.Show($"Error: {e.Message}", "DEBUG"); return false; }
                 finally { sp.Close(); }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Information.Show(e.Message, "SerialComs");
                 return false;

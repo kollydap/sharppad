@@ -1,12 +1,9 @@
-﻿using Microsoft.Win32;
-using Notepad2.InformationStuff;
-using Notepad2.Utilities;
+﻿using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -72,7 +69,7 @@ namespace Notepad2.Notepad.DragDropping
 
         public static void StartRenameQue()
         {
-            Task.Run(async() =>
+            Task.Run(async () =>
             {
                 QueCountdown = QueCooldown;
                 QueRunning = true;

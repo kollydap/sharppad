@@ -1,6 +1,5 @@
 ﻿using Notepad2.Notepad;
 using Notepad2.Utilities;
-using Notepad2.ViewModels;
 using System;
 
 namespace Notepad2.Finding.NotepadItemFinding

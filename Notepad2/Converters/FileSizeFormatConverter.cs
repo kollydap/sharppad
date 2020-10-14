@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Data;
 
 namespace Notepad2.Converters
@@ -14,17 +11,17 @@ namespace Notepad2.Converters
         {
             if (decimalPlaces < 0) return "No decimals";
             if (value == 0) { return string.Format("{0:n" + decimalPlaces + "} bytes", 0); }
-        
+
             // mag is 0 for bytes, 1 for KB, 2, for MB, etc.
             int mag = (int)Math.Log(value, 1024);
             decimal adjustedSize = (decimal)value / (1L << (mag * 10));
-        
+
             if (Math.Round(adjustedSize, decimalPlaces) >= 1000)
             {
                 mag += 1;
                 adjustedSize /= 1024;
             }
-        
+
             return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 

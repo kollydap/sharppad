@@ -1,6 +1,4 @@
 ﻿using Notepad2.CClipboard;
-using Notepad2.Finding.NotepadItemFinding;
-using Notepad2.Finding.TextFinding;
 using Notepad2.Notepad.FileProperties;
 using Notepad2.Preferences.Views;
 using Notepad2.ViewModels;

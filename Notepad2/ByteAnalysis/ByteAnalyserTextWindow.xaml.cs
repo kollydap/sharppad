@@ -9,7 +9,7 @@ namespace Notepad2.ByteAnalysis
     {
         public ByteAnalyserTextViewModel ViewModel
         {
-            get => DataContext as ByteAnalyserTextViewModel; 
+            get => DataContext as ByteAnalyserTextViewModel;
             set => DataContext = value;
         }
 

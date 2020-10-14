@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-
-namespace Notepad2.AttachedProperties
+﻿namespace Notepad2.AttachedProperties
 {
     // Not being used; dont really have enough attached properties
     // for this to be useful tbh. but feel free to steal this if you want

@@ -1,12 +1,7 @@
 ﻿using Notepad2.Applications;
-using Notepad2.Views;
-using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Interop;
 using System.Windows.Threading;
 
 namespace Notepad2

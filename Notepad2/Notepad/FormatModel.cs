@@ -1,5 +1,4 @@
 ﻿using Notepad2.Utilities;
-using System;
 using System.Windows;
 using System.Windows.Media;
 

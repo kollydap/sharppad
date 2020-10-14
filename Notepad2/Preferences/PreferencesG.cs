@@ -1,6 +1,4 @@
-﻿using Microsoft.SqlServer.Server;
-
-namespace Notepad2.Preferences
+﻿namespace Notepad2.Preferences
 {
     /// <summary>
     /// A static class for holding application-wide preferences.
@@ -32,27 +30,27 @@ namespace Notepad2.Preferences
 
         public static void SavePropertiesToFile()
         {
-            Properties.Settings.Default.horzScrlShfMWhl    = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
-            Properties.Settings.Default.horzScrlCtrlArrKy  = SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
-            Properties.Settings.Default.vertScrlCtrlArrKy  = SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS;
-                                                           
-            Properties.Settings.Default.cutLnCtrlX         = CAN_CUT_ENTIRE_LINE_CTRL_X;
-            Properties.Settings.Default.cpyLnCtrlC         = CAN_COPY_ENTIRE_LINE_CTRL_C;
-            Properties.Settings.Default.SlctLnCtrSftA      = CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
-            Properties.Settings.Default.newLnCtrlEntr      = CAN_ADD_ENTIRE_LINES;
-                                                           
-            Properties.Settings.Default.zoomCtrlMWhel      = CAN_ZOOM_EDITOR_CTRL_MWHEEL;
-                                                           
-            Properties.Settings.Default.wrapByDefault      = WRAP_TEXT_BY_DEFAULT;
-                                                           
-            Properties.Settings.Default.closeWinWithCtrlW  = CAN_CLOSE_WIN_WITH_CTRL_W;
+            Properties.Settings.Default.horzScrlShfMWhl = SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
+            Properties.Settings.Default.horzScrlCtrlArrKy = SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
+            Properties.Settings.Default.vertScrlCtrlArrKy = SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS;
+
+            Properties.Settings.Default.cutLnCtrlX = CAN_CUT_ENTIRE_LINE_CTRL_X;
+            Properties.Settings.Default.cpyLnCtrlC = CAN_COPY_ENTIRE_LINE_CTRL_C;
+            Properties.Settings.Default.SlctLnCtrSftA = CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
+            Properties.Settings.Default.newLnCtrlEntr = CAN_ADD_ENTIRE_LINES;
+
+            Properties.Settings.Default.zoomCtrlMWhel = CAN_ZOOM_EDITOR_CTRL_MWHEEL;
+
+            Properties.Settings.Default.wrapByDefault = WRAP_TEXT_BY_DEFAULT;
+
+            Properties.Settings.Default.closeWinWithCtrlW = CAN_CLOSE_WIN_WITH_CTRL_W;
             Properties.Settings.Default.canOpnWndCtrlShftT = CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T;
 
-            Properties.Settings.Default.closeNLstOnStrt    = CLOSE_NOTEPADLIST_BY_DEFAULT;
+            Properties.Settings.Default.closeNLstOnStrt = CLOSE_NOTEPADLIST_BY_DEFAULT;
 
-            Properties.Settings.Default.useNewDDSys        = USE_NEW_DRAGDROP_SYSTEM;
+            Properties.Settings.Default.useNewDDSys = USE_NEW_DRAGDROP_SYSTEM;
 
-            Properties.Settings.Default.saveOpnUnsvdFiles  = SAVE_OPEN_UNCLOSED_FILES;
+            Properties.Settings.Default.saveOpnUnsvdFiles = SAVE_OPEN_UNCLOSED_FILES;
 
             Properties.Settings.Default.Save();
         }
@@ -60,26 +58,26 @@ namespace Notepad2.Preferences
         public static void LoadFromPropertiesFile()
         {
             SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL = Properties.Settings.Default.horzScrlShfMWhl;
-            SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS   = Properties.Settings.Default.horzScrlCtrlArrKy;
-            SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS     = Properties.Settings.Default.vertScrlCtrlArrKy;
+            SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS = Properties.Settings.Default.horzScrlCtrlArrKy;
+            SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS = Properties.Settings.Default.vertScrlCtrlArrKy;
 
-            CAN_CUT_ENTIRE_LINE_CTRL_X              = Properties.Settings.Default.cutLnCtrlX;
-            CAN_COPY_ENTIRE_LINE_CTRL_C             = Properties.Settings.Default.cpyLnCtrlC;
-            CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A     = Properties.Settings.Default.SlctLnCtrSftA;
-            CAN_ADD_ENTIRE_LINES          = Properties.Settings.Default.newLnCtrlEntr;
+            CAN_CUT_ENTIRE_LINE_CTRL_X = Properties.Settings.Default.cutLnCtrlX;
+            CAN_COPY_ENTIRE_LINE_CTRL_C = Properties.Settings.Default.cpyLnCtrlC;
+            CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A = Properties.Settings.Default.SlctLnCtrSftA;
+            CAN_ADD_ENTIRE_LINES = Properties.Settings.Default.newLnCtrlEntr;
 
-            CAN_ZOOM_EDITOR_CTRL_MWHEEL             = Properties.Settings.Default.zoomCtrlMWhel;
+            CAN_ZOOM_EDITOR_CTRL_MWHEEL = Properties.Settings.Default.zoomCtrlMWhel;
 
-            WRAP_TEXT_BY_DEFAULT                    = Properties.Settings.Default.wrapByDefault;
+            WRAP_TEXT_BY_DEFAULT = Properties.Settings.Default.wrapByDefault;
 
-            CAN_CLOSE_WIN_WITH_CTRL_W               = Properties.Settings.Default.closeWinWithCtrlW;
-            CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T        = Properties.Settings.Default.canOpnWndCtrlShftT;
+            CAN_CLOSE_WIN_WITH_CTRL_W = Properties.Settings.Default.closeWinWithCtrlW;
+            CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T = Properties.Settings.Default.canOpnWndCtrlShftT;
 
-            CLOSE_NOTEPADLIST_BY_DEFAULT            = Properties.Settings.Default.closeNLstOnStrt;
+            CLOSE_NOTEPADLIST_BY_DEFAULT = Properties.Settings.Default.closeNLstOnStrt;
 
-            USE_NEW_DRAGDROP_SYSTEM                 = Properties.Settings.Default.useNewDDSys;
+            USE_NEW_DRAGDROP_SYSTEM = Properties.Settings.Default.useNewDDSys;
 
-            SAVE_OPEN_UNCLOSED_FILES                = Properties.Settings.Default.saveOpnUnsvdFiles;
+            SAVE_OPEN_UNCLOSED_FILES = Properties.Settings.Default.saveOpnUnsvdFiles;
         }
     }
 }

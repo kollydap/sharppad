@@ -3,7 +3,6 @@ using Notepad2.FileExplorer;
 using Notepad2.Finding.TextFinding;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
-using System;
 using System.IO;
 
 namespace Notepad2.ViewModels

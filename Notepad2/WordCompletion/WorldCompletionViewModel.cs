@@ -1,12 +1,6 @@
 ﻿using Notepad2.Utilities;
 using Notepad2.WordCompletion.Words;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notepad2.WordCompletion
 {

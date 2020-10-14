@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Notepad2.Utilities
 {
@@ -12,14 +12,14 @@ namespace Notepad2.Utilities
 
         [DllImport("kernel32.dll")]
         static extern uint GetCompressedFileSizeW(
-            [In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName, 
+            [In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
             [Out, MarshalAs(UnmanagedType.U4)] out uint lpFileSizeHigh);
 
         [DllImport("kernel32.dll", SetLastError = true, PreserveSig = true)]
         static extern int GetDiskFreeSpaceW(
             [In, MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName,
-            out uint lpSectorsPerCluster, 
-            out uint lpBytesPerSector, 
+            out uint lpSectorsPerCluster,
+            out uint lpBytesPerSector,
             out uint lpNumberOfFreeClusters,
             out uint lpTotalNumberOfClusters);
 

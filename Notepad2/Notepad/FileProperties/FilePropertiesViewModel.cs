@@ -1,14 +1,8 @@
-﻿using Microsoft.Win32.SafeHandles;
-using Notepad2.FileExplorer;
+﻿using Notepad2.FileExplorer;
 using Notepad2.Interfaces;
 using Notepad2.Utilities;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Notepad2.Notepad.FileProperties
@@ -30,7 +24,7 @@ namespace Notepad2.Notepad.FileProperties
 
         public string FileName
         {
-            get => _fileName; 
+            get => _fileName;
             set => RaisePropertyChanged(ref _fileName, value);
         }
 

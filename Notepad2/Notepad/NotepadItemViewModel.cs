@@ -62,7 +62,7 @@ namespace Notepad2.Notepad
 
         public void SetFileExtension(string extensionID)
         {
-            Notepad.Document.FileName = 
+            Notepad.Document.FileName =
                 FileExtensionsHelper.GetFileExtension(Notepad.Document.FileName, extensionID);
         }
 

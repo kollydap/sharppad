@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Notepad2.Notepad.DragDropping
+﻿namespace Notepad2.Notepad.DragDropping
 {
     public static class DragDropNameHelper
     {

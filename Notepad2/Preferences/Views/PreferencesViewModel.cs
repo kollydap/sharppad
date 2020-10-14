@@ -139,51 +139,51 @@ namespace Notepad2.Preferences.Views
         public void LoadPreferencesPropertiesIntoView()
         {
             ScrollHorizontallyShiftMouseWheel = PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL;
-            ScrollHorizontallyCtrlArrowKeys   = PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
-            ScrollVerticallyCtrlArrowKeys     = PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS;
+            ScrollHorizontallyCtrlArrowKeys = PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS;
+            ScrollVerticallyCtrlArrowKeys = PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS;
 
-            CutEntireLineCtrlX               = PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X;
-            CopyEntireLineCtrlC              = PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C;
-            SelectEntireLineCtrlShiftA       = PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
-            AddEntireLineCtrlEnter           = PreferencesG.CAN_ADD_ENTIRE_LINES;
+            CutEntireLineCtrlX = PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X;
+            CopyEntireLineCtrlC = PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C;
+            SelectEntireLineCtrlShiftA = PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A;
+            AddEntireLineCtrlEnter = PreferencesG.CAN_ADD_ENTIRE_LINES;
 
-            ZoomEditorCtrlScrollwheel        = PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL;
-                                             
-            WrapTextByDefault                = PreferencesG.WRAP_TEXT_BY_DEFAULT;
+            ZoomEditorCtrlScrollwheel = PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL;
+
+            WrapTextByDefault = PreferencesG.WRAP_TEXT_BY_DEFAULT;
 
             CanCloseWindowsWithCtrlWAndShift = PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W;
-            CanReopenWindowWithCtrlShiftT    = PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T;
+            CanReopenWindowWithCtrlShiftT = PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T;
 
-            CloseNotepadListByDefault        = PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT;
+            CloseNotepadListByDefault = PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT;
 
-            UseNewDragDropSystem             = PreferencesG.USE_NEW_DRAGDROP_SYSTEM;
+            UseNewDragDropSystem = PreferencesG.USE_NEW_DRAGDROP_SYSTEM;
 
-            SaveOpenUnclosedFiles            = PreferencesG.SAVE_OPEN_UNCLOSED_FILES;
+            SaveOpenUnclosedFiles = PreferencesG.SAVE_OPEN_UNCLOSED_FILES;
         }
 
         public void SetPreferencesPropertiesFromView()
         {
             PreferencesG.SCROLL_HORIZONTAL_WITH_SHIFT_MOUSEWHEEL = ScrollHorizontallyShiftMouseWheel;
-            PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS   = ScrollHorizontallyCtrlArrowKeys;
-            PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS     = ScrollVerticallyCtrlArrowKeys;
+            PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS = ScrollHorizontallyCtrlArrowKeys;
+            PreferencesG.SCROLL_VERTICAL_WITH_CTRL_ARROWKEYS = ScrollVerticallyCtrlArrowKeys;
 
-            PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X              = CutEntireLineCtrlX;
-            PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C             = CopyEntireLineCtrlC;
-            PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A     = SelectEntireLineCtrlShiftA;
-            PreferencesG.CAN_ADD_ENTIRE_LINES          = AddEntireLineCtrlEnter;
+            PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X = CutEntireLineCtrlX;
+            PreferencesG.CAN_COPY_ENTIRE_LINE_CTRL_C = CopyEntireLineCtrlC;
+            PreferencesG.CAN_SELECT_ENTIRE_LINE_CTRL_SHIFT_A = SelectEntireLineCtrlShiftA;
+            PreferencesG.CAN_ADD_ENTIRE_LINES = AddEntireLineCtrlEnter;
 
-            PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL             = ZoomEditorCtrlScrollwheel;
+            PreferencesG.CAN_ZOOM_EDITOR_CTRL_MWHEEL = ZoomEditorCtrlScrollwheel;
 
-            PreferencesG.WRAP_TEXT_BY_DEFAULT                    = WrapTextByDefault;
+            PreferencesG.WRAP_TEXT_BY_DEFAULT = WrapTextByDefault;
 
-            PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W               = CanCloseWindowsWithCtrlWAndShift;
-            PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T        = CanReopenWindowWithCtrlShiftT;
+            PreferencesG.CAN_CLOSE_WIN_WITH_CTRL_W = CanCloseWindowsWithCtrlWAndShift;
+            PreferencesG.CAN_REOPEN_WIN_WITH_CTRL_SHIFT_T = CanReopenWindowWithCtrlShiftT;
 
-            PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT            = CloseNotepadListByDefault;
+            PreferencesG.CLOSE_NOTEPADLIST_BY_DEFAULT = CloseNotepadListByDefault;
 
-            PreferencesG.USE_NEW_DRAGDROP_SYSTEM                 = UseNewDragDropSystem;
+            PreferencesG.USE_NEW_DRAGDROP_SYSTEM = UseNewDragDropSystem;
 
-            PreferencesG.SAVE_OPEN_UNCLOSED_FILES                = SaveOpenUnclosedFiles;
+            PreferencesG.SAVE_OPEN_UNCLOSED_FILES = SaveOpenUnclosedFiles;
         }
 
         public void SaveAndClosePreferencesView()

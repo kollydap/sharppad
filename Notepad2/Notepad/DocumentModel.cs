@@ -1,6 +1,5 @@
 ﻿using Notepad2.Utilities;
 using System;
-using System.Runtime.Remoting.Messaging;
 
 namespace Notepad2.Notepad
 {
@@ -10,7 +9,7 @@ namespace Notepad2.Notepad
     public class DocumentModel : BaseViewModel
     {
         // Used for telling the Text Document that text has changed
-        internal Action TextChanged { private get; set; } 
+        internal Action TextChanged { private get; set; }
 
         private string _text;
         private string _filePath;

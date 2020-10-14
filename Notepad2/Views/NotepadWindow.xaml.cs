@@ -9,7 +9,6 @@ using Notepad2.Preferences;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,7 +47,7 @@ namespace Notepad2.Views
         //  not a plain textbox to allow formatting text to looks nice, but obviously not saving any
         //  of the formats because txt isn't a formateed doc. but eh it would be waay too hard to convert
         //  this app from what it is, into a rich editor, due to how the DocumentModel and stuff works).
-        //  and its open source because why not. atleast some others might learn from it :)
+        //  and its open source because why not. atleast some others might learn from it :))))
         //  
         //
 
@@ -224,9 +223,9 @@ namespace Notepad2.Views
                     double offsetHeight = 1;
                     double scrollBarWidth = 18;
                     Thickness t = new Thickness(
-                        0, 
-                        p.Y - offsetHeight, 
-                        scrollBarWidth, 
+                        0,
+                        p.Y - offsetHeight,
+                        scrollBarWidth,
                         MainTextBox.ActualHeight - p.Bottom - offsetHeight);
                     if (t.Top >= -1 && t.Bottom >= 0)
                     {

@@ -1,18 +1,23 @@
 ﻿using Notepad2.CClipboard;
-using Notepad2.Finding;
 using Notepad2.Finding.TextFinding;
+using Notepad2.InformationStuff;
 using Notepad2.Preferences;
+using Notepad2.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup.Localizer;
 
 namespace Notepad2.SimpleEditor
 {
     public class TextEditor : TextBox
     {
+        private NotepadViewModel Model
+        {
+            get => this.DataContext as NotepadViewModel;
+        }
+
         public TextEditor()
         {
 
@@ -93,6 +98,13 @@ namespace Notepad2.SimpleEditor
                             if (!PreferencesG.SCROLL_HORIZONTAL_WITH_CTRL_ARROWKEYS)
                                 break;
                             LineRight(); e.Handled = true;
+                            break;
+
+                        case Key.Z:
+                            // This prevents a bug with undo-ing causing the FindResults
+                            // to sort of be offset. This could be quite laggy though
+                            // with lots of text and text still in the find bit...
+                            Model.Find.StartFind();
                             break;
                     }
                 }
@@ -211,12 +223,15 @@ namespace Notepad2.SimpleEditor
 
         public void ReplaceText(FindResult result, string toReplaceWith)
         {
-            SelectionStart = result.StartIndex;
-            SelectionLength = result.WordLength;
-            SelectedText = toReplaceWith;
-            //StringBuilder sb = new StringBuilder(heapText);
-            //sb.Remove(result.StartIndex, result.WordLength);
-            //sb.Insert(result.StartIndex, replaceWith);
+            if (!string.IsNullOrEmpty(toReplaceWith))
+            {
+                SelectionStart = result.StartIndex;
+                SelectionLength = result.WordLength;
+                SelectedText = toReplaceWith;
+                //StringBuilder sb = new StringBuilder(heapText);
+                //sb.Remove(result.StartIndex, result.WordLength);
+                //sb.Insert(result.StartIndex, replaceWith);
+            }
         }
 
         public Rect GetCaretLocation()
@@ -252,7 +267,7 @@ namespace Notepad2.SimpleEditor
             //}
             //else
             //{
-                base.OnMouseWheel(e);
+            base.OnMouseWheel(e);
             //}
         }
 
@@ -261,5 +276,27 @@ namespace Notepad2.SimpleEditor
         //    e.Handled = true;
         //    //base.OnLostFocus(e);
         //}
+
+        public int GetCaretIndexWithinLine(int line)
+        {
+            return CaretIndex - GetCharacterIndexFromLineIndex(line);
+        }
+
+        protected override void OnSelectionChanged(RoutedEventArgs e)
+        {
+            try
+            {
+                int line = GetLineIndexFromCharacterIndex(CaretIndex);
+                int column = GetCaretIndexWithinLine(line);
+
+                Model.Line = line;
+                Model.Column = column;
+            }
+            catch
+            {
+                Information.Show("Failed to get Line/Colum", "TextEditor");
+            }
+            base.OnSelectionChanged(e);
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Notepad2.Applications.Controls;
 using Notepad2.Applications.History;
-using Notepad2.InformationStuff;
 using Notepad2.Preferences;
 using Notepad2.SerialCommunication;
 using Notepad2.Utilities;
@@ -8,7 +7,6 @@ using Notepad2.ViewModels;
 using Notepad2.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Notepad2.Applications
@@ -119,10 +117,10 @@ namespace Notepad2.Applications
         /// <param name="loadWindowPosition"></param>
         /// <returns></returns>
         public NotepadWindow CreateNotepadWindowAndOpenFiles(
-            string[] fileNames, 
-            bool loadAndSetAppTheme = false, 
-            bool loadWindowPosition = false, 
-            bool clearPath = false, 
+            string[] fileNames,
+            bool loadAndSetAppTheme = false,
+            bool loadWindowPosition = false,
+            bool clearPath = false,
             bool useStartupDelay = false)
         {
             NotepadWindow window = new NotepadWindow(fileNames, clearPath: clearPath, useStartupDelay: useStartupDelay);
@@ -498,7 +496,7 @@ namespace Notepad2.Applications
 
         public void CheckForAnyOpenFilesInEveryWindowAndWriteToUnsavedFilesStorage()
         {
-            foreach(NotepadWindow window in WindowManager.NotepadWindows)
+            foreach (NotepadWindow window in WindowManager.NotepadWindows)
             {
                 ThisApplication.SaveAllUnclosedFilesToStorageLocation(window);
             }

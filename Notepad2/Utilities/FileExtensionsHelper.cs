@@ -45,13 +45,9 @@
                     string fileNameNoExtension = fileName.Substring(0, fileName.Length - charsToRemoveCount);
                     return fileNameNoExtension + extUid;
                 }
-                else
-                {
-                    return finalName += extUid;
-                }
+                else return finalName += extUid;
             }
-            else
-                return finalName += extUid;
+            else return finalName += extUid;
         }
 
         public static bool CheckIsValidExtension(string possibleExtension)
@@ -65,6 +61,28 @@
             }
 
             return false;
+        }
+
+        public static string GetReadable(string fileNameExtension)
+        {
+            switch (fileNameExtension)
+            {
+                case ".txt": return "Plain Text";
+                case ".text": return "'Text' (Sort of)";
+                case ".cs": return "C#";
+                case ".c": return "C";
+                case ".cpp": return "C++";
+                case ".h": return "C/C++ Header";
+                case ".hpp": return "C++ Header";
+                case ".xaml": return "XAML";
+                case ".xml": return "XML";
+                case ".htm": return "HTM";
+                case ".html": return "HTML";
+                case ".css": return "CSS";
+                case ".js": return "Java Script";
+                case ".exe": return "Executable (EXE)";
+                default: return "Unknown";
+            }
         }
     }
 }

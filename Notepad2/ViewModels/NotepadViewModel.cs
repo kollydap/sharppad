@@ -33,6 +33,8 @@ namespace Notepad2.ViewModels
         private FindReplaceViewModel _find;
         private Visibility _findViewVisibilty;
         private int _selectedIndex;
+        private int _line;
+        private int _column;
         private bool _notepadAvaliable;
         private bool _topTabsExpanded;
         private bool _leftTabsExpanded;
@@ -65,6 +67,24 @@ namespace Notepad2.ViewModels
         {
             get => _selectedIndex;
             set => RaisePropertyChanged(ref _selectedIndex, value);
+        }
+
+        /// <summary>
+        /// The line which the caret is at
+        /// </summary>
+        public int Line
+        {
+            get => _line;
+            set => RaisePropertyChanged(ref _line, value);
+        }
+
+        /// <summary>
+        /// The position of the caret within the current line
+        /// </summary>
+        public int Column
+        {
+            get => _column;
+            set => RaisePropertyChanged(ref _column, value);
         }
 
         /// <summary>
@@ -170,7 +190,7 @@ namespace Notepad2.ViewModels
         /// <summary>
         /// A ViewModel used for binding to the clipboard
         /// </summary>
-        public ClipboardViewModel OurClipboard { get;}
+        public ClipboardViewModel OurClipboard { get; }
 
         /// <summary>
         /// A ViewModel for dealing with the history of recently closed files.

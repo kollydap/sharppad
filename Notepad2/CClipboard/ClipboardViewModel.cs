@@ -1,8 +1,6 @@
 ﻿using Notepad2.Applications;
 using Notepad2.Utilities;
 using System;
-using System.Linq;
-using System.Windows;
 
 namespace Notepad2.CClipboard
 {

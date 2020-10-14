@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <SuiteName>wat</SuiteName>
     <ApplicationRevision>133</ApplicationRevision>
-    <ApplicationVersion>2.9.200.%2a</ApplicationVersion>
+    <ApplicationVersion>2.9.200.133</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -105,6 +105,7 @@
     <Compile Include="CClipboard\CustomClipboard.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\FileExistsToBoolConverter.cs" />
+    <Compile Include="Converters\FileExtensionNameConverter.cs" />
     <Compile Include="Converters\FileSizeFormatConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\InvertedBoolToVisibilityConverter.cs" />
@@ -148,6 +149,8 @@
     <Compile Include="SerialCommunication\ApplicationMessage.cs" />
     <Compile Include="SerialCommunication\Communicator.cs" />
     <Compile Include="SerialCommunication\TheRMutex.cs" />
+    <Compile Include="Utilities\AsyncUtility.cs" />
+    <Compile Include="Utilities\ExtensionNameConverter.cs" />
     <Compile Include="Utilities\FilePropertiesHelper.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">

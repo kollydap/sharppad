@@ -2,11 +2,7 @@
 using Notepad2.Notepad;
 using Notepad2.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Notepad2.Finding.TextFinding
@@ -141,6 +137,11 @@ namespace Notepad2.Finding.TextFinding
 
         public void ReplaceNext()
         {
+            ReplaceNext(false);
+        }
+
+        public void ReplaceNext(bool isReplacingAll = false)
+        {
             int index = Position - 1;
             if (Count > 0 && index >= 0)
             {
@@ -153,14 +154,13 @@ namespace Notepad2.Finding.TextFinding
 
                 for (int i = index; i < FoundItems.Count; i++)
                 {
-                    FindResult result2 = FoundItems[i];
-                    int difference = replaceWith.Length - result.WordLength;
-                    IncrementFindResult(result2, difference);
+                    IncrementFindResult(FoundItems[i], replaceWith.Length - result.WordLength);
                 }
 
                 if (Position <= Count)
                 {
-                    HighlightResultAtIndex(Position);
+                    if (!isReplacingAll)
+                        HighlightResultAtIndex(Position);
                 }
                 else
                 {
@@ -177,7 +177,7 @@ namespace Notepad2.Finding.TextFinding
                 Position = 1;
                 for (int i = 0; i < count; i++)
                 {
-                    ReplaceNext();
+                    ReplaceNext(true);
                 }
             }
 
@@ -230,8 +230,8 @@ namespace Notepad2.Finding.TextFinding
                     // combine the enums using the OR thing
                     // if match whole word and case are true, it ends up being 2 | 1 which is 3
                     // can extract either of the settings by doing settings & FindSettings.MatchCase...
-                    FindSettings settings = 
-                        (MatchWholeWord ? FindSettings.MatchWholeWord : FindSettings.None) | 
+                    FindSettings settings =
+                        (MatchWholeWord ? FindSettings.MatchWholeWord : FindSettings.None) |
                         (MatchCase ? FindSettings.MatchCase : FindSettings.None);
                     foreach (FindResult result in text.FindTextOccurrences(FindWhatText, settings))
                     {

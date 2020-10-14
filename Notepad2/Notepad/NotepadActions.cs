@@ -1,10 +1,4 @@
-﻿using Notepad2.InformationStuff;
-using Notepad2.ViewModels;
-using System.Diagnostics;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+﻿using System.IO;
 
 namespace Notepad2.Notepad
 {

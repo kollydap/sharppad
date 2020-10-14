@@ -30,6 +30,7 @@
         somehow "cleaner"/easier to access things.
     -->
     <Window.Resources>
+        <converters:FileExtensionNameConverter x:Key="FileExtensionNameConverter"/>
         <converters:LeftPaneOpenedToImageSourceConverter x:Key="LeftPaneOpenedToImageSourceConverter"/>
         <converters:TopPaneOpenedToImageSourceConverter x:Key="TopPaneOpenedToImageSourceConverter"/>
         <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
@@ -205,7 +206,7 @@
         </Menu>
         <DockPanel Margin="5,18,5,5" Background="{DynamicResource BackgroundColour}">
             <StackPanel DockPanel.Dock="Top" Background="{DynamicResource BackgroundColour}">
-                <DockPanel HorizontalAlignment="Stretch" Height="28">
+                <DockPanel RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Stretch" Height="28">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left" >
                         <Button Command="{Binding NewCommand, Mode=OneTime}" ToolTip="Add New Blank File (Ctrl + N)" 
                                 BorderBrush="Transparent" Background="Transparent" 
@@ -367,7 +368,7 @@
             </StackPanel>
             <DockPanel Margin="0,4,0,0" Background="{DynamicResource BackgroundColour}">
                 <Expander ExpandDirection="Up" 
-                          Header="Information and History"
+                          Header="Information/Errors and History"
                           VerticalAlignment="Bottom"
                           DockPanel.Dock="Bottom"
                           IsExpanded="False"
@@ -380,7 +381,7 @@
                         <GroupBox DataContext="{Binding InformationView, UpdateSourceTrigger=PropertyChanged}" Height="180" Margin="0,0,4,0">
                             <GroupBox.Header>
                                 <StackPanel Orientation="Horizontal" Height="24">
-                                    <TextBlock Text="Information, Statuses and errors" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Application-wide information, statuses, errors and debug stuff" VerticalAlignment="Center"/>
                                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
                                     <Button Content="Clear List" Command="{Binding ClearInfoItemsCommand, Mode=OneTime}" ToolTip="Clear all info/warnings/errors" Width="75" Background="{DynamicResource ControlBrightDefaultBackground}" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
                                     <Separator Style="{DynamicResource VerticalSeparator}" Margin="10 0"/>
@@ -824,13 +825,27 @@
                                                 </Grid>
                                             </DockPanel>
                                         </Border>
-                                        <DockPanel DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Height="20" VerticalAlignment="Bottom">
-                                            <Grid Width="55">
+                                        <DockPanel Height="20" VerticalAlignment="Bottom">
+                                            <Grid DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Width="55">
                                                 <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1"/>
                                                 <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Margin="4,3,0,3" Height="14" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
                                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10.5"/>
                                                     <TextBlock VerticalAlignment="Center" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10" Height="14"/>
                                                 </Grid>
+                                            </Grid>
+                                            <Grid DockPanel.Dock="Right" HorizontalAlignment="Right" >
+                                                <Border Background="{DynamicResource BackgroundColour}" 
+                                                        BorderBrush="{DynamicResource ControlDefaultBorderBrush}" 
+                                                        BorderThickness="0 1 1 1"/>
+                                                <DockPanel Margin="0 1 1 1">
+                                                    <TextBlock Text="Line" VerticalAlignment="Center" Padding="0 0 2 0" Margin="2 0 0 0" ToolTip="Line Number"/>
+                                                    <TextBlock Text="{Binding Line, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0 0 5 0" ToolTip="Line Number"/>
+                                                    <TextBlock Text="Column" VerticalAlignment="Center" Padding="0 0 2 0" ToolTip="Caret index within current line"/>
+                                                    <TextBlock Text="{Binding Column, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" ToolTip="Caret index within current line"/>
+                                                    <Separator Style="{DynamicResource VerticalSeparator}" Margin="5 2" Width="1"/>
+                                                    <TextBlock Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileExtensionNameConverter}}" 
+                                                               VerticalAlignment="Center" Margin="0 0 5 0" ToolTip="File Extension"/>
+                                                </DockPanel>
                                             </Grid>
                                             <Grid>
                                                 <Border Background="{DynamicResource BackgroundColour}" 
@@ -850,11 +865,11 @@
                                         </DockPanel>
                                     </Grid>
                                     <Grid Visibility="{Binding FindViewVisibility, UpdateSourceTrigger=PropertyChanged, FallbackValue=Visible}" 
-                                          HorizontalAlignment="Right" VerticalAlignment="Top" Height="70" Width="400" 
-                                          Margin="0,5,25,0" Background="{DynamicResource ContainerBackground}"
-                                          FocusManager.IsFocusScope="True">
+                                          HorizontalAlignment="Right" VerticalAlignment="Top" Height="65" Width="385" 
+                                          Margin="0,0,27,0" Background="{DynamicResource ContainerBackground}"
+                                          FocusManager.IsFocusScope="True" RenderOptions.BitmapScalingMode="HighQuality">
                                         <Grid.BitmapEffect>
-                                            <DropShadowBitmapEffect Direction="300" Opacity="0.75" ShadowDepth="4" Softness="0.4"/>
+                                            <DropShadowBitmapEffect Opacity="0.5" ShadowDepth="4"/>
                                         </Grid.BitmapEffect>
                                         <Grid DataContext="{Binding Find, UpdateSourceTrigger=PropertyChanged}">
                                             <Grid.RowDefinitions>
@@ -866,61 +881,69 @@
                                             </Grid.ColumnDefinitions>
                                             <Grid>
                                                 <TextBox Focusable="True" Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
-                                                         Padding="2 4" Margin="5,5,275,3" BorderThickness="1" Name="findBox" ToolTip="Find"
+                                                         Padding="2 4" Margin="4,4,262,2" BorderThickness="1" Name="findBox" ToolTip="Find"
                                                          VerticalContentAlignment="Center" Background="{DynamicResource ControlDefaultBackground}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}">
                                                     <TextBox.InputBindings>
                                                         <KeyBinding Key="Enter" Command="{Binding HighlightNextMatchCommand, Mode=OneTime}"/>
                                                     </TextBox.InputBindings>
                                                 </TextBox>
                                                 <Button Focusable="False" Command="{Binding FindOccourancesCommand, Mode=OneTime}"
-                                                        HorizontalAlignment="Right" Margin="0,5,244,3" Width="31" 
+                                                        HorizontalAlignment="Right" Margin="0,4,234,2" Width="28" 
                                                         Background="{DynamicResource ContainerBackground}" BorderThickness="0 1 0 1"
                                                         ToolTip="Search">
-                                                    <Image Source="/SharpPad;component/Resources/findReplace.png"/>
+                                                    <Image Source="/SharpPad;component/Resources/findReplace.png" Margin="-1" />
                                                 </Button>
                                                 <ToggleButton Focusable="False" IsChecked="{Binding MatchCase, UpdateSourceTrigger=PropertyChanged}"  
-                                                              HorizontalAlignment="Right" Margin="0,5,212,3" Width="32" 
+                                                              HorizontalAlignment="Right" Margin="0,4,206,2" Width="28" 
                                                               Background="{DynamicResource ContainerBackground}" BorderThickness="0 1 0 1"
                                                               ToolTip="Case Sensitive">
-                                                    <Image Source="/SharpPad;component/Resources/matchCaseIcon.png"/>
+                                                    <Image Source="/SharpPad;component/Resources/matchCaseIcon.png" Margin="-1" />
                                                 </ToggleButton>
                                                 <ToggleButton Focusable="False" IsChecked="{Binding MatchWholeWord, UpdateSourceTrigger=PropertyChanged}" 
-                                                              HorizontalAlignment="Right" Margin="0,5,180,3" Width="32" Background="{DynamicResource ContainerBackground}" 
+                                                              HorizontalAlignment="Right" Margin="0,4,179,2" Width="27" Background="{DynamicResource ContainerBackground}" 
                                                               BorderThickness="0 1 1 1" ToolTip="Match whole words (searching for 'ab', 'abc' returns false, but 'ab c' returns true)">
-                                                    <Image Source="/SharpPad;component/Resources/matchWholeWordIcon.png"/>
+                                                    <Image Source="/SharpPad;component/Resources/matchWholeWordIcon.png" Margin="-1" />
                                                 </ToggleButton>
-                                                <StackPanel Orientation="Horizontal" Margin="0,5,83,3" HorizontalAlignment="Right" Width="79">
-                                                    <TextBlock Text="{Binding Position, UpdateSourceTrigger=PropertyChanged, FallbackValue=0}" Padding="2 5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                                    <TextBlock Text="of" Padding="2 5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                                    <TextBlock Text="{Binding FoundItems.Count, UpdateSourceTrigger=PropertyChanged, FallbackValue=0}" Padding="2 5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                <StackPanel Orientation="Horizontal" Margin="0,4,83,2" HorizontalAlignment="Right" Width="91">
+                                                    <TextBlock Text="{Binding Position, UpdateSourceTrigger=PropertyChanged, FallbackValue=0}" 
+                                                               Padding="2 5" HorizontalAlignment="Left"/>
+                                                    <TextBlock Text="of" Padding="2 5" HorizontalAlignment="Left"/>
+                                                    <TextBlock Text="{Binding FoundItems.Count, UpdateSourceTrigger=PropertyChanged, FallbackValue=0}"
+                                                               Padding="2 5" HorizontalAlignment="Left"/>
                                                 </StackPanel>
                                                 <Button Focusable="False" Command="{Binding HighlightPreviousMatchCommand, Mode=OneTime}" 
-                                                        Background="Transparent" BorderBrush="Transparent" Margin="0,5,57,3" 
+                                                        Background="Transparent" BorderBrush="Transparent" Margin="0,4,57,2" 
                                                         HorizontalAlignment="Right" Width="26" ToolTip="Highlight previously found item">
-                                                    <Image Source="/SharpPad;component/Resources/upIcon.png"/>
+                                                    <Image Source="/SharpPad;component/Resources/upIcon.png" Margin="-1" />
                                                 </Button>
                                                 <Button Focusable="False" Command="{Binding HighlightNextMatchCommand, Mode=OneTime}" Background="Transparent" 
-                                                        BorderBrush="Transparent" Margin="0,5,31,3" HorizontalAlignment="Right" Width="26"
+                                                        BorderBrush="Transparent" Margin="0,4,31,2" HorizontalAlignment="Right" Width="26"
                                                         ToolTip="Highlight next item">
-                                                    <Image Source="/SharpPad;component/Resources/downIcon.png"/>
+                                                    <Image Source="/SharpPad;component/Resources/downIcon.png" Margin="-1" />
                                                 </Button>
                                                 <Button Command="{Binding CancelCommand, Mode=OneTime}" Background="Transparent" BorderBrush="Transparent"
-                                                        HorizontalAlignment="Right" Width="26" Margin="0,5,5,3" ToolTip="Hide the find tab">
-                                                    <TextBlock Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" Width="9" FontSize="15" Height="21"/>
+                                                        HorizontalAlignment="Right" Width="26" Margin="0,4,5,2" ToolTip="Hide the find tab">
+                                                    <TextBlock Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" Width="10" FontSize="16" Foreground="#FFFA1919" Height="22"/>
                                                 </Button>
                                             </Grid>
                                             <Grid Grid.Row="1">
                                                 <TextBox Focusable="True" Text="{Binding ReplaceWithText, UpdateSourceTrigger=PropertyChanged}"
-                                                         Padding="2 4" Margin="5,2,181,5" VerticalContentAlignment="Center" ToolTip="Replace" Background="{DynamicResource ControlDefaultBackground}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}"/>
+                                                         Padding="2 4" Margin="4,2,179,4" VerticalContentAlignment="Center" ToolTip="Replace" 
+                                                         Background="{DynamicResource ControlDefaultBackground}" 
+                                                         BorderBrush="{DynamicResource ControlDefaultBorderBrush}">
+                                                    <TextBox.InputBindings>
+                                                        <KeyBinding Key="Enter" Command="{Binding ReplaceNextCommand, Mode=OneTime}"/>
+                                                    </TextBox.InputBindings>
+                                                </TextBox>
                                                 <Button Focusable="False" Command="{Binding ReplaceNextCommand, Mode=OneTime}" Background="Transparent" 
-                                                        BorderBrush="Transparent" Margin="0,2,146,5" HorizontalAlignment="Right" Width="30"
+                                                        BorderBrush="Transparent" Margin="0,2,148,4" HorizontalAlignment="Right" Width="26"
                                                         ToolTip="Replace the currently selected word and then select the next word">
-                                                    <Image Source="/SharpPad;component/Resources/replaceIcon.png"/>
+                                                    <Image Source="/SharpPad;component/Resources/replaceIcon.png" Margin="-1" />
                                                 </Button>
                                                 <Button Focusable="False" Command="{Binding ReplaceAllCommand, Mode=OneTime}" Background="Transparent" 
-                                                        BorderBrush="Transparent" Margin="0,2,111,5" HorizontalAlignment="Right" Width="30"
+                                                        BorderBrush="Transparent" Margin="0,2,117,4" HorizontalAlignment="Right" Width="26"
                                                         ToolTip="Replace ALL">
-                                                    <Image Source="/SharpPad;component/Resources/replaceAllIcon.png"/>
+                                                    <Image Source="/SharpPad;component/Resources/replaceAllIcon.png" Margin="-1" />
                                                 </Button>
                                             </Grid>
                                         </Grid>

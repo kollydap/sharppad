@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Notepad2.Preferences.Views
 {

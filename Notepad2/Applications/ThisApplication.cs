@@ -2,7 +2,6 @@
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Notepad.DragDropping;
-using Notepad2.SerialCommunication;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System;
@@ -20,9 +19,9 @@ namespace Notepad2.Applications
 
         static ThisApplication()
         {
-            UnclosedFilesStorageLocation = 
+            UnclosedFilesStorageLocation =
                 Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     "sharppadTempFiles");
 
             if (!Directory.Exists(UnclosedFilesStorageLocation))
@@ -154,7 +153,7 @@ namespace Notepad2.Applications
 
             if (Directory.Exists(UnclosedFilesStorageLocation))
             {
-                foreach(string file in Directory.GetFiles(UnclosedFilesStorageLocation))
+                foreach (string file in Directory.GetFiles(UnclosedFilesStorageLocation))
                 {
                     paths.Add(file);
                 }

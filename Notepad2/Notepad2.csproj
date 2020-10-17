@@ -150,7 +150,6 @@
     <Compile Include="SerialCommunication\Communicator.cs" />
     <Compile Include="SerialCommunication\TheRMutex.cs" />
     <Compile Include="Utilities\AsyncUtility.cs" />
-    <Compile Include="Utilities\ExtensionNameConverter.cs" />
     <Compile Include="Utilities\FilePropertiesHelper.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesViewModel.cs" />
     <Compile Include="Notepad\FileProperties\FilePropertiesWindow.xaml.cs">
@@ -211,6 +210,7 @@
     <Compile Include="Utilities\FileExtensionsHelper.cs" />
     <Compile Include="Utilities\GlobalPreferences.cs" />
     <Compile Include="Utilities\MouseLocationHelper.cs" />
+    <Compile Include="Utilities\StringHelper.cs" />
     <Compile Include="Utilities\TextBoxLineNumbers.cs" />
     <Compile Include="CClipboard\ClipboardViewModel.cs" />
     <Compile Include="Finding\TextFinding\FindReplaceViewModel.cs" />

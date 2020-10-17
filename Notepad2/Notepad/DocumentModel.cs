@@ -15,6 +15,8 @@ namespace Notepad2.Notepad
         private string _filePath;
         private string _fileName;
         private long _fileSize;
+        private int _wordCount;
+        private bool _useWordCount;
 
         /// <summary>
         /// The text of the document
@@ -27,6 +29,8 @@ namespace Notepad2.Notepad
                 RaisePropertyChanged(ref _text, value);
                 TextChanged?.Invoke();
                 FileSizeBytes = value.Length;
+                if (UseWordCount)
+                    WordCount = value.CollapseSpaces().Split(' ').Length;
             }
         }
 
@@ -55,6 +59,23 @@ namespace Notepad2.Notepad
         {
             get => _fileSize;
             set => RaisePropertyChanged(ref _fileSize, value);
+        }
+
+        public int WordCount
+        {
+            get => _wordCount;
+            set => RaisePropertyChanged(ref _wordCount, value);
+        }
+
+        public bool UseWordCount
+        {
+            get => _useWordCount;
+            set => RaisePropertyChanged(ref _useWordCount, value);
+        }
+
+        public DocumentModel()
+        {
+            UseWordCount = true;
         }
     }
 }

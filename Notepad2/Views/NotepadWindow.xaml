@@ -30,6 +30,7 @@
         somehow "cleaner"/easier to access things.
     -->
     <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:FileExtensionNameConverter x:Key="FileExtensionNameConverter"/>
         <converters:LeftPaneOpenedToImageSourceConverter x:Key="LeftPaneOpenedToImageSourceConverter"/>
         <converters:TopPaneOpenedToImageSourceConverter x:Key="TopPaneOpenedToImageSourceConverter"/>
@@ -735,6 +736,9 @@
                                         <CheckBox Margin="5,2,0,2" Content="Auto-Word Select" 
                                               IsChecked="{Binding AutoWordSelection, ElementName=MainTextBox}"
                                               ToolTip="Auto-select words when you select text" Width="114"/>
+                                        <CheckBox Margin="5,2,0,2" Content="Word Count" 
+                                                  IsChecked="{Binding Notepad.Document.UseWordCount, UpdateSourceTrigger=PropertyChanged}"
+                                                  ToolTip="Auto-select words when you select text" Width="114"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <Grid Margin="0,0,0,0">
@@ -838,6 +842,8 @@
                                                         BorderBrush="{DynamicResource ControlDefaultBorderBrush}" 
                                                         BorderThickness="0 1 1 1"/>
                                                 <DockPanel Margin="0 1 1 1">
+                                                    <TextBlock Text="Words" VerticalAlignment="Center" Padding="0 0 2 0" Margin="2 0 0 0" ToolTip="Number of words (aka lettes separated by spaces)" Visibility="{Binding Notepad.Document.UseWordCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                    <TextBlock Text="{Binding Notepad.Document.WordCount, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Padding="0 0 2 0" Margin="2 0 0 0" ToolTip="Number of words (aka lettes separated by spaces)" Visibility="{Binding Notepad.Document.UseWordCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                                     <TextBlock Text="Line" VerticalAlignment="Center" Padding="0 0 2 0" Margin="2 0 0 0" ToolTip="Line Number"/>
                                                     <TextBlock Text="{Binding Line, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0 0 5 0" ToolTip="Line Number"/>
                                                     <TextBlock Text="Column" VerticalAlignment="Center" Padding="0 0 2 0" ToolTip="Caret index within current line"/>

@@ -22,7 +22,7 @@
         MinWidth="875"
         Height="576" 
         Width="900"
-        Icon="/SharpPad;component/notepadIcon.ico"
+        Icon="/SharpPad;component/Resources/sharpPadIcon.ico"
         Title="SharpPad">
     <!-- 
         Not separating large chunks of the UI into smaller usercontrols 

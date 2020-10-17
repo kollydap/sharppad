@@ -44,7 +44,7 @@
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>file.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\sharpPadIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debugging\</OutputPath>
@@ -362,13 +362,7 @@
     <Resource Include="Resources\file.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="notepadIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="file.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\sharpPadIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\closeAllFiles.png" />
@@ -473,6 +467,15 @@
   <ItemGroup>
     <Resource Include="Resources\matchCaseIcon.png" />
     <Resource Include="Resources\matchWholeWordIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\oldSharpPadIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\sharpPadIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\sharpPadIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

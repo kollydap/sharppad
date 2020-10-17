@@ -862,11 +862,10 @@
                                                            Margin="2 0 0 0" 
                                                            VerticalAlignment="Center"/>
                                                 <TextBox VerticalAlignment="Center" Background="Transparent"
-                                                         DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}" 
                                                          Margin="33,1,2,2"
                                                          BorderBrush="Transparent"
                                                          Height="17"
-                                                         Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}"/>
+                                                         Text="{Binding Notepad.Document.FilePath, UpdateSourceTrigger=PropertyChanged}"/>
                                             </Grid>
                                         </DockPanel>
                                     </Grid>

@@ -143,7 +143,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator Style="{DynamicResource MenuItemSeparator}" />
-                <MenuItem Header="Clear Unclosed storage directory" ToolTip="Clear the folder which contains files that have not been saved yet (in MyDocuments). This is normally done automatically when they're opened." Template="{DynamicResource SingleDropDownMenuItem}" Click="MenuItem_Click">
+                <MenuItem Header="Clear Temp Unsaved files" ToolTip="Clear the folder which contains files that have not been saved yet (in MyDocuments). This is normally done automatically when they're opened." Template="{DynamicResource SingleDropDownMenuItem}" Click="MenuItem_Click">
                     <MenuItem.Icon>
                         <Image Source="/SharpPad;component/Resources/binCan.png"/>
                     </MenuItem.Icon>

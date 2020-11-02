@@ -409,7 +409,7 @@ namespace Notepad2.ViewModels
         /// </summary>
         public void AddDefaultNotepad()
         {
-            AddNotepadItem(CreateNotepad(CreateDefaultStyleNotepadDocument("", $"new{NotepadItems.Count}.txt", null)), true);
+            AddNotepadItem(CreateNotepad(CreateDefaultStyleNotepadDocument("", $"new{NotepadItems.Count}.txt", "")), true);
         }
 
         /// <summary>
@@ -439,7 +439,7 @@ namespace Notepad2.ViewModels
         /// </summary>
         public void AddStartupItem()
         {
-            AddNotepadItem(CreateNotepad(CreateDefaultStyleNotepadDocument("", $"new{NotepadItems.Count}.txt", null)), true);
+            AddNotepadItem(CreateNotepad(CreateDefaultStyleNotepadDocument("", $"new{NotepadItems.Count}.txt", "")), true);
         }
 
         public void AddNotepadFromViewModel(NotepadItemViewModel notepad, bool selectItem = true)
@@ -759,17 +759,9 @@ namespace Notepad2.ViewModels
                     FileInfo fInfo = new FileInfo(path);
                     if (fInfo.Length > GlobalPreferences.MAX_FILE_SIZE)
                     {
-                        MessageBox.Show("File size too big (20+MB): Cannot open because a file this big would be extremely laggy");
+                        Information.Show("File size too big (75+ MB): Cannot open because a file this big would be extremely laggy");
                         return;
                     }
-
-                    if (fInfo.Length > GlobalPreferences.WARN_FILE_SIZE_BYTES &&
-                        MessageBox.Show(
-                            "The file is very big in size and might lag the program (especially with text " +
-                            "wrapping or when resizing windows). Continue to open?",
-                            "File very big. Open anyway?",
-                            MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.No)
-                        return;
 
                     string text = NotepadActions.ReadFile(path);
                     NotepadItemViewModel item = CreateNotepad(CreateDefaultStyleNotepadDocument(text, Path.GetFileName(path), clearPath ? "" : path));

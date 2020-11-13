@@ -1,4 +1,5 @@
-﻿using Notepad2.Utilities;
+﻿using Notepad2.Preferences;
+using Notepad2.Utilities;
 using System;
 
 namespace Notepad2.Notepad
@@ -40,7 +41,13 @@ namespace Notepad2.Notepad
         public string FilePath
         {
             get => _filePath;
-            set => RaisePropertyChanged(ref _filePath, value);
+            set
+            {
+                if (value == "")
+                    RaisePropertyChanged(ref _filePath, "(No path avaliable)");
+                else
+                    RaisePropertyChanged(ref _filePath, value);
+            }
         }
 
         /// <summary>
@@ -75,7 +82,7 @@ namespace Notepad2.Notepad
 
         public DocumentModel()
         {
-            UseWordCount = true;
+            UseWordCount = PreferencesG.USE_WORD_COUNTER_BY_DEFAULT;
         }
     }
 }

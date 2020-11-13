@@ -1,4 +1,5 @@
 ﻿using Notepad2.InformationStuff;
+using Notepad2.Utilities;
 using Shell32;
 using System.Diagnostics;
 using System.IO;
@@ -20,6 +21,30 @@ namespace Notepad2.FileExplorer
         public static bool IsDrive(this string path)
         {
             return !string.IsNullOrEmpty(path) && path.Length < 3;
+        }
+
+        /// <summary>
+        /// Checks whether a path is a valid path and can exist as a file. Will only return true
+        /// if the file doesn't already exist, and if the path can actually be a real file.
+        /// C:\idk\h.txt will return true
+        /// </summary>
+        /// <param name="possiblePath"></param>
+        /// <returns></returns>
+        public static bool CanNonExistantButPossiblePathExist(this string possiblePath)
+        {
+            if (!possiblePath.IsEmpty() && possiblePath.Contains("\\"))
+            {
+                if (File.Exists(possiblePath)) return false;
+                try
+                {
+                    File.WriteAllText(possiblePath, "t");
+                    File.Delete(possiblePath);
+                    return true;
+                }
+                catch { return false; }
+            }
+
+            return false;
         }
 
         public static void OpenInFileExplorer(this string path)

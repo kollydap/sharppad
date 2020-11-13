@@ -157,12 +157,25 @@ namespace Notepad2.Notepad
             Model.SetFileExtension(extension);
         }
 
+        /// <summary>
+        /// Returns wheter the controls (which can freeze the app due to bugs) are not going to freeze the app.
+        /// e.g, filename/path box isn't focused nor is the app currently dragging.
+        /// </summary>
+        /// <returns></returns>
+        private bool CanStartDragDrop()
+        {
+            return
+                !IsDragging &&
+                !fileNameBox.IsMouseOver &&
+                !fileNameBox.IsFocused;
+        }
+
         private void Grid_MouseMove(object sender, MouseEventArgs e)
         {
             // Wrapping the entire thing in a try catch block just incase
             // Had to add a check to the textbox because it can freeze the entire UI
             // if you click and drag over the textbox. idk why though, calls a COM exception.
-            if (!IsDragging && !fileNameBox.IsMouseOver && !fileNameBox.IsFocused)
+            if (CanStartDragDrop())
             {
                 try
                 {

@@ -274,5 +274,89 @@ namespace Notepad2.Properties {
                 this["closeTopNLstOnStrt"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool useWordCounterByDefault {
+            get {
+                return ((bool)(this["useWordCounterByDefault"]));
+            }
+            set {
+                this["useWordCounterByDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool unset1 {
+            get {
+                return ((bool)(this["unset1"]));
+            }
+            set {
+                this["unset1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool unset2 {
+            get {
+                return ((bool)(this["unset2"]));
+            }
+            set {
+                this["unset2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool unset3 {
+            get {
+                return ((bool)(this["unset3"]));
+            }
+            set {
+                this["unset3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool unset4 {
+            get {
+                return ((bool)(this["unset4"]));
+            }
+            set {
+                this["unset4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool unset5 {
+            get {
+                return ((bool)(this["unset5"]));
+            }
+            set {
+                this["unset5"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool unset6 {
+            get {
+                return ((bool)(this["unset6"]));
+            }
+            set {
+                this["unset6"] = value;
+            }
+        }
     }
 }

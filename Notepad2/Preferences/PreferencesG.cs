@@ -27,6 +27,15 @@
 
         public static bool SAVE_OPEN_UNCLOSED_FILES { get; set; }
 
+        public static bool USE_WORD_COUNTER_BY_DEFAULT { get; set; }
+
+        public static bool UNSET_SETTINGS_AAAAHLOL1 { get; set; }
+        public static bool UNSET_SETTINGS_AAAAHLOL2 { get; set; }
+        public static bool UNSET_SETTINGS_AAAAHLOL3 { get; set; }
+        public static bool UNSET_SETTINGS_AAAAHLOL4 { get; set; }
+        public static bool UNSET_SETTINGS_AAAAHLOL5 { get; set; }
+        public static bool UNSET_SETTINGS_AAAAHLOL6 { get; set; }
+
 
         public static void SavePropertiesToFile()
         {
@@ -51,6 +60,15 @@
             Properties.Settings.Default.useNewDDSys = USE_NEW_DRAGDROP_SYSTEM;
 
             Properties.Settings.Default.saveOpnUnsvdFiles = SAVE_OPEN_UNCLOSED_FILES;
+
+            Properties.Settings.Default.useWordCounterByDefault = USE_WORD_COUNTER_BY_DEFAULT;
+
+            Properties.Settings.Default.unset1 = UNSET_SETTINGS_AAAAHLOL1;
+            Properties.Settings.Default.unset2 = UNSET_SETTINGS_AAAAHLOL2;
+            Properties.Settings.Default.unset3 = UNSET_SETTINGS_AAAAHLOL3;
+            Properties.Settings.Default.unset4 = UNSET_SETTINGS_AAAAHLOL4;
+            Properties.Settings.Default.unset5 = UNSET_SETTINGS_AAAAHLOL5;
+            Properties.Settings.Default.unset6 = UNSET_SETTINGS_AAAAHLOL6;
 
             Properties.Settings.Default.Save();
         }
@@ -78,6 +96,15 @@
             USE_NEW_DRAGDROP_SYSTEM = Properties.Settings.Default.useNewDDSys;
 
             SAVE_OPEN_UNCLOSED_FILES = Properties.Settings.Default.saveOpnUnsvdFiles;
+
+            USE_WORD_COUNTER_BY_DEFAULT = Properties.Settings.Default.useWordCounterByDefault;
+
+            UNSET_SETTINGS_AAAAHLOL1 = Properties.Settings.Default.unset1;
+            UNSET_SETTINGS_AAAAHLOL2 = Properties.Settings.Default.unset2;
+            UNSET_SETTINGS_AAAAHLOL3 = Properties.Settings.Default.unset3;
+            UNSET_SETTINGS_AAAAHLOL4 = Properties.Settings.Default.unset4;
+            UNSET_SETTINGS_AAAAHLOL5 = Properties.Settings.Default.unset5;
+            UNSET_SETTINGS_AAAAHLOL6 = Properties.Settings.Default.unset6;
         }
     }
 }

@@ -36,6 +36,7 @@
                 <Separator/>
                 <CheckBox Content="Ctrl + Mouse Wheel Up/Down to increase/decrease Font size (aka Zoom in/out)" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
                 <CheckBox Content="Use Text Wrapping by default (when opening new notepads)"                    IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Use word counter by default (laggy with LOTS of text... 50kb+)"           IsChecked="{Binding UseWordCounterByDefault, UpdateSourceTrigger=PropertyChanged}"/>
                 <Separator/>
                 <Label Content="Other Preferences"/>
                 <CheckBox Content="Save/Open unclosed files to a temporary location (in MyDocuments)"           IsChecked="{Binding SaveOpenUnclosedFiles, UpdateSourceTrigger=PropertyChanged}"/>

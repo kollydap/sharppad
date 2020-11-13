@@ -19,5 +19,10 @@ namespace Notepad2.Utilities
         {
             return Regex.Replace(value, @"\s+", " ");
         }
+
+        public static bool IsEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
     }
 }

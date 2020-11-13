@@ -8,12 +8,31 @@
              MouseDown="ControlMouseDown" 
              Focusable="True"
              mc:Ignorable="d" 
-             d:DesignWidth="200" Height="56" 
-             MaxHeight="56" MinHeight="54"
+             d:DesignWidth="200" Height="57" 
+             MaxHeight="57" MinHeight="57"
              Padding="0" BorderThickness="0"
              Background="Transparent"
              ToolTip="Notepad Item. Click and Drag to DragDrop."
              AllowDrop="False">
+    <!--e
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="MouseEnter">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Duration="0:0:0.1" To="90" Storyboard.TargetProperty="Height" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="MouseLeave">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Duration="0:0:0.1" To="57" Storyboard.TargetProperty="Height" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    -->
+   
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:FileSizeFormatConverter x:Key="FileSizeFormatConverter"/>
@@ -43,7 +62,7 @@
             </MenuItem>
 
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
-
+            
             <MenuItem Header="Refresh File Contents" Command="{Binding RefreshContentsCommand}" ToolTip="Re-fetch text from the file path. (e.g. if you want to undo all changes). Does nothing if this item's path doesn't exist." Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Rename File" Click="RenameFileClick" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
@@ -82,7 +101,9 @@
             </MenuItem>
 
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
-
+            <CheckBox Margin="5,2,0,2" Content="Word Counter"
+                      IsChecked="{Binding Notepad.Document.UseWordCount, UpdateSourceTrigger=PropertyChanged}"
+                      ToolTip="Auto-select words when you select text" Width="114"/>
             <MenuItem Header="Show Properties" Command="{Binding ShowPropertiesCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
                     <Image Source="/SharpPad;component/Resources/preferencesIcon.png"/>
@@ -111,11 +132,25 @@
         </Rectangle>
         <Grid Background="Transparent" Margin="11,0,3,0" MouseMove="Grid_MouseMove" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
             <DockPanel Margin="2,3,55,0" Height="21" VerticalAlignment="Top">
-                <Image Width="16" DockPanel.Dock="Left"
-                       SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="Fant"
-                       ToolTip="Changes have not been changed"
-                       Source="/SharpPad;component/Resources/alertSaveFile.png"
-                       Visibility="{Binding Notepad.HasMadeChanges, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                <Grid Width="20" DockPanel.Dock="Left"
+                      SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="Fant"
+                      ToolTip="Changes have not been changed"
+                      Visibility="{Binding Notepad.HasMadeChanges, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                    <Image Source="/SharpPad;component/Resources/alertSaveFile.png" Width="16"
+                           ToolTip="You have unsaved work!">
+                        <!--
+                        <Image.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.8" To="20" AutoReverse="True" Storyboard.TargetProperty="Width" RepeatBehavior="Forever"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                        -->
+                    </Image>
+                </Grid>
                 <TextBox Text="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}" 
                          ToolTip="{Binding Notepad.Document.FileName, UpdateSourceTrigger=PropertyChanged, FallbackValue=FileName.txt}"
                          VerticalScrollBarVisibility="Disabled"
@@ -140,7 +175,13 @@
                       Data="F1 M 26.9166,22.1667L 37.9999,33.25L 49.0832,22.1668L 53.8332,26.9168L 42.7499,38L 53.8332,49.0834L 49.0833,53.8334L 37.9999,42.75L 26.9166,53.8334L 22.1666,49.0833L 33.25,38L 22.1667,26.9167L 26.9166,22.1667 Z " 
                       Fill="#FFE82020" />
             </Button>
-
+            <Button Background="Transparent" BorderBrush="Transparent" 
+                    HorizontalAlignment="Right" Margin="0,23,0,0" VerticalAlignment="Top" 
+                    Width="20" Height="17" 
+                    ToolTip="Rename the file (highlight the file name, not extension)"
+                    Click="RenameFileClick">
+                <TextBlock Text="I" FontFamily="Consolas" Height="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
             <Button Background="Transparent" BorderBrush="Transparent" 
                     HorizontalAlignment="Right" Margin="0,3,20,0" VerticalAlignment="Top" 
                     Width="20" Height="20"
@@ -159,11 +200,11 @@
             </Button>
 
             <TextBlock Text="{Binding Notepad.HasMadeChanges, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolTohasChanged},FallbackValue=SavedOrUnsaved}" 
-                       Width="80" HorizontalAlignment="Left" Margin="3,0,0,18" 
+                       Width="80" HorizontalAlignment="Left" Margin="3,24,0,0" 
                        TextWrapping="NoWrap"
-                       FontSize="10" Height="14" VerticalAlignment="Bottom"/>
+                       FontSize="10" Height="14" VerticalAlignment="Top"/>
 
-            <Grid Margin="3,0,2,3" Height="15" VerticalAlignment="Bottom">
+            <Grid Margin="3,38,2,0" Height="15" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="6*"/>
                     <ColumnDefinition Width="5*"/>
@@ -175,13 +216,6 @@
                 <TextBlock Text="{Binding Notepad.Document.Text.Length, UpdateSourceTrigger=PropertyChanged, FallbackValue=NoOfChars}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
                 <TextBlock Text="{Binding Notepad.Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatConverter}, FallbackValue=SizeBytes}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="1,0,0,0" FontSize="10" TextAlignment="Right" Grid.Column="1"/>
             </Grid>
-            <Button Background="Transparent" BorderBrush="Transparent" 
-                    HorizontalAlignment="Right" Margin="0,23,0,0" VerticalAlignment="Top" 
-                    Width="20" Height="17" 
-                    ToolTip="Rename the file (highlight the file name, not extension)"
-                    Click="RenameFileClick">
-                <TextBlock Text="I" FontFamily="Consolas" Height="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Button>
         </Grid>
     </Grid>
 </UserControl>

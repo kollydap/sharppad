@@ -12,7 +12,7 @@
         xmlns:notepad="clr-namespace:Notepad2.Notepad" 
         xmlns:history="clr-namespace:Notepad2.History" 
         xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff" 
-        xmlns:textfinding="clr-namespace:Notepad2.Finding.TextFinding"
+        xmlns:textfinding="clr-namespace:Notepad2.Finding.TextFinding" xmlns:my="clr-namespace:Notepad2.Utilities"
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
@@ -210,8 +210,26 @@
                 <DockPanel RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Stretch" Height="28">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left" >
                         <Button Command="{Binding NewCommand, Mode=OneTime}" ToolTip="Add New Blank File (Ctrl + N)" 
-                                BorderBrush="Transparent" Background="Transparent" 
-                                Focusable="False" Width="28" Margin="0 0 2 0">
+                                BorderBrush="Transparent" Background="Transparent" VerticalAlignment="Center"
+                                Focusable="False" Width="28" Height="28" Margin="0 0 2 0">
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.1" To="32" Storyboard.TargetProperty="Width" />
+                                            <DoubleAnimation Duration="0:0:0.1" To="32" Storyboard.TargetProperty="Height" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.1" To="28" Storyboard.TargetProperty="Width" />
+                                            <DoubleAnimation Duration="0:0:0.1" To="28" Storyboard.TargetProperty="Height" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
                             <Image Margin="1" Source="/SharpPad;component/Resources/newFile.png"/>
                         </Button>
                         <Button Command="{Binding OpenCommand, Mode=OneTime}" ToolTip="Open File from File Explorer (Ctrl + O)"
@@ -221,14 +239,32 @@
                         </Button>
                         <StackPanel IsEnabled="{Binding NotepadAvaliable, UpdateSourceTrigger=PropertyChanged}" Orientation="Horizontal">
                             <Button Command="{Binding SaveCommand, Mode=OneTime}" ToolTip="Save current File (Ctrl + S)" 
-                                    BorderBrush="Transparent" 
+                                    BorderBrush="Transparent"  VerticalAlignment="Center"
                                     Background="Transparent" Focusable="False"
-                                    Width="28" Margin="0 0 2 0">
+                                    Width="28" Height="28" Margin="0 0 2 0">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.1" To="32" Storyboard.TargetProperty="Width" />
+                                                <DoubleAnimation Duration="0:0:0.1" To="32" Storyboard.TargetProperty="Height" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.1" To="28" Storyboard.TargetProperty="Width" />
+                                                <DoubleAnimation Duration="0:0:0.1" To="28" Storyboard.TargetProperty="Height" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
                                 <Image Margin="1" Source="/SharpPad;component/Resources/saveFile.png"/>
                             </Button>
                             <Button Command="{Binding SaveAsCommand, Mode=OneTime}" ToolTip="Save current File As..." 
-                                    BorderBrush="Transparent" Background="Transparent" 
-                                    Focusable="False" Width="28" Margin="0 0 2 0">
+                                    BorderBrush="Transparent" Background="Transparent" Width="28"
+                                    Focusable="False" Margin="0 0 2 0">
                                 <Image Margin="1" Source="/SharpPad;component/Resources/saveFileAs.png"/>
                             </Button>
                             <Button Command="{Binding SaveAllCommand, Mode=OneTime}" ToolTip="Save every file currently open (Ctrl + Shift + S)"
@@ -736,7 +772,7 @@
                                         <CheckBox Margin="5,2,0,2" Content="Auto-Word Select" 
                                               IsChecked="{Binding AutoWordSelection, ElementName=MainTextBox}"
                                               ToolTip="Auto-select words when you select text" Width="114"/>
-                                        <CheckBox Margin="5,2,0,2" Content="Word Count" 
+                                        <CheckBox Margin="5,2,0,2" Content="Word Counter" 
                                                   IsChecked="{Binding Notepad.Document.UseWordCount, UpdateSourceTrigger=PropertyChanged}"
                                                   ToolTip="Auto-select words when you select text" Width="114"/>
                                     </StackPanel>

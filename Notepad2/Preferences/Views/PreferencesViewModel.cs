@@ -29,6 +29,8 @@ namespace Notepad2.Preferences.Views
 
         private bool _saveOpenUnclosedFiles;
 
+        private bool _useWordCounterByDefault;
+
         public bool ScrollVerticallyCtrlArrowKeys
         {
             get => _scrollVerticalCtrlArrows;
@@ -117,6 +119,12 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _saveOpenUnclosedFiles, value);
         }
 
+        public bool UseWordCounterByDefault
+        {
+            get => _useWordCounterByDefault;
+            set => RaisePropertyChanged(ref _useWordCounterByDefault, value);
+        }
+
         public ICommand RefreshCommand { get; private set; }
         public ICommand SavePreferencesCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
@@ -159,6 +167,8 @@ namespace Notepad2.Preferences.Views
             UseNewDragDropSystem = PreferencesG.USE_NEW_DRAGDROP_SYSTEM;
 
             SaveOpenUnclosedFiles = PreferencesG.SAVE_OPEN_UNCLOSED_FILES;
+
+            UseWordCounterByDefault = PreferencesG.USE_WORD_COUNTER_BY_DEFAULT;
         }
 
         public void SetPreferencesPropertiesFromView()
@@ -184,6 +194,8 @@ namespace Notepad2.Preferences.Views
             PreferencesG.USE_NEW_DRAGDROP_SYSTEM = UseNewDragDropSystem;
 
             PreferencesG.SAVE_OPEN_UNCLOSED_FILES = SaveOpenUnclosedFiles;
+
+            PreferencesG.USE_WORD_COUNTER_BY_DEFAULT = UseWordCounterByDefault;
         }
 
         public void SaveAndClosePreferencesView()

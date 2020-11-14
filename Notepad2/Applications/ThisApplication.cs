@@ -1,4 +1,5 @@
 ﻿using Notepad2.CClipboard;
+using Notepad2.FileChangeWatcher;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Notepad.DragDropping;
@@ -33,6 +34,7 @@ namespace Notepad2.Applications
             App = new ApplicationViewModel(args);
             WindowManager.WindowPreviews.ThisApp = App;
             DragDropFileWatchers.Initialise();
+            ApplicationFileWatcher.RunDocumentWatcher();
         }
 
         public static void CreateUnclosedFilesStorageDirectory()
@@ -73,6 +75,7 @@ namespace Notepad2.Applications
             //TheRMutex.MainAppClosing();
             ClipboardNotification.ShutdownListener();
             DragDropFileWatchers.Shutdown();
+            ApplicationFileWatcher.StopDocumentWatcher();
             Application.Current?.Shutdown();
         }
 

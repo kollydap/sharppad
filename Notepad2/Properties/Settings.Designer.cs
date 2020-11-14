@@ -290,12 +290,12 @@ namespace Notepad2.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool unset1 {
+        public bool chkFNameInDocWatch {
             get {
-                return ((bool)(this["unset1"]));
+                return ((bool)(this["chkFNameInDocWatch"]));
             }
             set {
-                this["unset1"] = value;
+                this["chkFNameInDocWatch"] = value;
             }
         }
         

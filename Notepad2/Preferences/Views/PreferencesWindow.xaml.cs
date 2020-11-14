@@ -30,6 +30,7 @@ namespace Notepad2.Preferences.Views
             this.Hide();
         }
 
+        // i still cant be bothered to make this MVVMey rip
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (DataContext is PreferencesViewModel prefs)
@@ -48,6 +49,7 @@ namespace Notepad2.Preferences.Views
                 prefs.WrapTextByDefault = false;
                 prefs.CloseNotepadListByDefault = false;
                 prefs.SaveOpenUnclosedFiles = true;
+                prefs.CheckFileNamesForChangesInDocumentWatcher = true;
 
                 prefs.SaveAndClosePreferencesView();
             }

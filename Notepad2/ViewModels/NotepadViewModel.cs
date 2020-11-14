@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Notepad2.Applications;
 using Notepad2.CClipboard;
+using Notepad2.FileChangeWatcher;
 using Notepad2.FileExplorer;
 using Notepad2.Finding.NotepadItemFinding;
 using Notepad2.Finding.TextFinding;

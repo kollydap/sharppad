@@ -29,7 +29,7 @@
 
         public static bool USE_WORD_COUNTER_BY_DEFAULT { get; set; }
 
-        public static bool UNSET_SETTINGS_AAAAHLOL1 { get; set; }
+        public static bool CHECK_FILENAME_CHANGES_IN_DOCUMENT_WATCHER { get; set; }
         public static bool UNSET_SETTINGS_AAAAHLOL2 { get; set; }
         public static bool UNSET_SETTINGS_AAAAHLOL3 { get; set; }
         public static bool UNSET_SETTINGS_AAAAHLOL4 { get; set; }
@@ -63,7 +63,7 @@
 
             Properties.Settings.Default.useWordCounterByDefault = USE_WORD_COUNTER_BY_DEFAULT;
 
-            Properties.Settings.Default.unset1 = UNSET_SETTINGS_AAAAHLOL1;
+            Properties.Settings.Default.chkFNameInDocWatch = CHECK_FILENAME_CHANGES_IN_DOCUMENT_WATCHER;
             Properties.Settings.Default.unset2 = UNSET_SETTINGS_AAAAHLOL2;
             Properties.Settings.Default.unset3 = UNSET_SETTINGS_AAAAHLOL3;
             Properties.Settings.Default.unset4 = UNSET_SETTINGS_AAAAHLOL4;
@@ -99,7 +99,7 @@
 
             USE_WORD_COUNTER_BY_DEFAULT = Properties.Settings.Default.useWordCounterByDefault;
 
-            UNSET_SETTINGS_AAAAHLOL1 = Properties.Settings.Default.unset1;
+            CHECK_FILENAME_CHANGES_IN_DOCUMENT_WATCHER = Properties.Settings.Default.chkFNameInDocWatch;
             UNSET_SETTINGS_AAAAHLOL2 = Properties.Settings.Default.unset2;
             UNSET_SETTINGS_AAAAHLOL3 = Properties.Settings.Default.unset3;
             UNSET_SETTINGS_AAAAHLOL4 = Properties.Settings.Default.unset4;

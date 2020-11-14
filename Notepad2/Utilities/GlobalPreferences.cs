@@ -12,14 +12,14 @@ namespace Notepad2.Utilities
         public static double ANIMATION_SPEED_SEC = 0.15;
         public static double NOTEPADLIST_ANIMATION_SPEED_SEC = 0.15;
 
-        // 75mb... why would you try to load that :/
-        public const double MAX_FILE_SIZE = 75000000.0d;
+        // 50mb... why would you try to load that :/
+        public const double MAX_FILE_SIZE = 50000000.0d;
         public const double WARN_FILE_SIZE_BYTES = 100000.0d;
         public const double ALERT_FILE_SIZE_BYTES = 250000.0d;
         public static Color WARN_FILE_TOO_BIG_COLOUR = Colors.Orange;
         public static Color ALERT_FILE_TOO_BIG_COLOUR = Colors.Red;
 
-        public static bool ENABLE_FILE_WATCHER;
+        public static bool ENABLE_FILE_WATCHER = true;
         public static int FILEWATCHER_FILE_RENAME_DELAY_MS = 100;
 
         //this is big for no reason other than why not lol

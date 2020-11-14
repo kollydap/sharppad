@@ -37,6 +37,7 @@
                 <CheckBox Content="Ctrl + Mouse Wheel Up/Down to increase/decrease Font size (aka Zoom in/out)" IsChecked="{Binding ZoomEditorCtrlScrollwheel, UpdateSourceTrigger=PropertyChanged}"/>
                 <CheckBox Content="Use Text Wrapping by default (when opening new notepads)"                    IsChecked="{Binding WrapTextByDefault, UpdateSourceTrigger=PropertyChanged}"/>
                 <CheckBox Content="Use word counter by default (laggy with LOTS of text... 50kb+)"           IsChecked="{Binding UseWordCounterByDefault, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Auto-rename file name if it's different to the path file name"            IsChecked="{Binding CheckFileNamesForChangesInDocumentWatcher, UpdateSourceTrigger=PropertyChanged}" ToolTip="The Document watcher (which watches for file content changes) will auto-rename the file name if it doesn't match the filename of the path, e.g. if you copy-paste a new path into the notepad's path"/>
                 <Separator/>
                 <Label Content="Other Preferences"/>
                 <CheckBox Content="Save/Open unclosed files to a temporary location (in MyDocuments)"           IsChecked="{Binding SaveOpenUnclosedFiles, UpdateSourceTrigger=PropertyChanged}"/>

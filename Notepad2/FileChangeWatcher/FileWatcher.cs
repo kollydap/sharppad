@@ -13,13 +13,15 @@ namespace Notepad2.FileChangeWatcher
     /// </summary>
     public class FileWatcher
     {
-        public Action<string> FileContentsChanged { get; set; }
+        // Doesn't have text as a param because that could be
+        // very laggy if the file is very big 
+        public Action FileContentsChanged { get; set; }
+        public Action<string> FileNameChanged { get; set; }
         //public Action FilePathChanged { get; set; }
 
-        public bool Running { get; set; }
-        public bool Paused { get; set; }
+        public bool IsEnabled { get; set; }
 
-        private DocumentModel Document { get; set; }
+        public DocumentModel Document { get; set; }
 
         public FileWatcher(DocumentModel doc)
         {
@@ -28,50 +30,14 @@ namespace Notepad2.FileChangeWatcher
 
         public void StartWatching()
         {
-            Running = true;
-            Task.Run(async () =>
-            {
-                while (Running)
-                {
-                    if (GlobalPreferences.ENABLE_FILE_WATCHER)
-                    {
-                        if (Document.FilePath.IsFile())
-                        {
-                            string content = File.ReadAllText(Document.FilePath);
-
-                            if (content != Document.Text)
-                            {
-                                // Changed
-                                FileContentsChanged?.Invoke(content);
-                            }
-                        }
-                        // Breaks the special drag drop. not using.
-                        //else
-                        //{
-                        //    FilePathChanged?.Invoke();
-                        //}
-                    }
-
-                    while (Paused) { await Task.Delay(100); }
-
-                    await Task.Delay(2000);
-                }
-            });
+            IsEnabled = true;
+            ApplicationFileWatcher.AddDocumentToWatcher(this);
         }
 
         public void StopWatching()
         {
-            Running = false;
-        }
-
-        public void Pause()
-        {
-            Paused = true;
-        }
-
-        public void UnPause()
-        {
-            Paused = false;
+            IsEnabled = false;
+            ApplicationFileWatcher.RemoveDocumentFromWatcher(this);
         }
     }
 }

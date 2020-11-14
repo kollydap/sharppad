@@ -31,6 +31,13 @@ namespace Notepad2.Preferences.Views
 
         private bool _useWordCounterByDefault;
 
+        private bool _checkFileNamesForChanges;
+        private bool _unsetSetting2;
+        private bool _unsetSetting3;
+        private bool _unsetSetting4;
+        private bool _unsetSetting5;
+        private bool _unsetSetting6;
+
         public bool ScrollVerticallyCtrlArrowKeys
         {
             get => _scrollVerticalCtrlArrows;
@@ -125,6 +132,42 @@ namespace Notepad2.Preferences.Views
             set => RaisePropertyChanged(ref _useWordCounterByDefault, value);
         }
 
+        public bool CheckFileNamesForChangesInDocumentWatcher
+        {
+            get => _checkFileNamesForChanges;
+            set => RaisePropertyChanged(ref _checkFileNamesForChanges, value);
+        }
+
+        public bool UnsetSetting2
+        {
+            get => _unsetSetting2;
+            set => RaisePropertyChanged(ref _unsetSetting2, value);
+        }
+
+        public bool UnsetSetting3
+        {
+            get => _unsetSetting3;
+            set => RaisePropertyChanged(ref _unsetSetting3, value);
+        }
+
+        public bool UnsetSetting4
+        {
+            get => _unsetSetting4;
+            set => RaisePropertyChanged(ref _unsetSetting4, value);
+        }
+
+        public bool UnsetSetting5
+        {
+            get => _unsetSetting5;
+            set => RaisePropertyChanged(ref _unsetSetting5, value);
+        }
+
+        public bool UnsetSetting6
+        {
+            get => _unsetSetting6;
+            set => RaisePropertyChanged(ref _unsetSetting6, value);
+        }
+
         public ICommand RefreshCommand { get; private set; }
         public ICommand SavePreferencesCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
@@ -169,6 +212,13 @@ namespace Notepad2.Preferences.Views
             SaveOpenUnclosedFiles = PreferencesG.SAVE_OPEN_UNCLOSED_FILES;
 
             UseWordCounterByDefault = PreferencesG.USE_WORD_COUNTER_BY_DEFAULT;
+
+            CheckFileNamesForChangesInDocumentWatcher = PreferencesG.CHECK_FILENAME_CHANGES_IN_DOCUMENT_WATCHER;
+            UnsetSetting2 = PreferencesG.UNSET_SETTINGS_AAAAHLOL2;
+            UnsetSetting3 = PreferencesG.UNSET_SETTINGS_AAAAHLOL3;
+            UnsetSetting4 = PreferencesG.UNSET_SETTINGS_AAAAHLOL4;
+            UnsetSetting5 = PreferencesG.UNSET_SETTINGS_AAAAHLOL5;
+            UnsetSetting6 = PreferencesG.UNSET_SETTINGS_AAAAHLOL6;
         }
 
         public void SetPreferencesPropertiesFromView()
@@ -196,6 +246,13 @@ namespace Notepad2.Preferences.Views
             PreferencesG.SAVE_OPEN_UNCLOSED_FILES = SaveOpenUnclosedFiles;
 
             PreferencesG.USE_WORD_COUNTER_BY_DEFAULT = UseWordCounterByDefault;
+
+            PreferencesG.CHECK_FILENAME_CHANGES_IN_DOCUMENT_WATCHER = CheckFileNamesForChangesInDocumentWatcher;
+            PreferencesG.UNSET_SETTINGS_AAAAHLOL2 = UnsetSetting2;
+            PreferencesG.UNSET_SETTINGS_AAAAHLOL3 = UnsetSetting3;
+            PreferencesG.UNSET_SETTINGS_AAAAHLOL4 = UnsetSetting4;
+            PreferencesG.UNSET_SETTINGS_AAAAHLOL5 = UnsetSetting5;
+            PreferencesG.UNSET_SETTINGS_AAAAHLOL6 = UnsetSetting6;
         }
 
         public void SaveAndClosePreferencesView()

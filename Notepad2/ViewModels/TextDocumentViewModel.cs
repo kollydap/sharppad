@@ -1,8 +1,10 @@
 ﻿using Notepad2.FileChangeWatcher;
 using Notepad2.FileExplorer;
 using Notepad2.Finding.TextFinding;
+using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
+using System;
 using System.IO;
 
 namespace Notepad2.ViewModels
@@ -68,19 +70,28 @@ namespace Notepad2.ViewModels
             FindResults = new FindReplaceViewModel(Document);
             Watcher = new FileWatcher(Document);
             Watcher.FileContentsChanged = FileContentsChanged;
+            Watcher.FileNameChanged = FileNameChanged;
             //Watcher.FilePathChanged = FilePathChangedToEmpty;
             Watcher.StartWatching();
             HasMadeChanges = false;
             Document.TextChanged = TextChanged;
         }
 
-        public void FileContentsChanged(string newText)
+        public void FileContentsChanged()
         {
+            // will only update the file if there's no changes made
+            // meaning... it wont change your unsaved work.
             if (!HasMadeChanges)
             {
-                Document.Text = newText;
-                HasMadeChanges = false;
+                if (Document.FilePath.IsFile())
+                    Document.Text = File.ReadAllText(Document.FilePath);
+                //HasMadeChanges = false;
             }
+        }
+
+        private void FileNameChanged(string newName)
+        {
+            Document.FileName = newName;
         }
 
         public void FilePathChangedToEmpty()
@@ -91,12 +102,21 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void UpdateFileContents(bool shouldDisplayChanges = false)
+        public void UpdateFileContents(bool displayHasMadeChanges = false)
         {
             if (Document.FilePath.IsFile())
             {
-                Document.Text = File.ReadAllText(Document.FilePath);
-                HasMadeChanges = shouldDisplayChanges;
+                FileInfo fInfo = new FileInfo(Document.FilePath);
+                if (Document.FileSizeBytes != fInfo.Length)
+                {
+                    Document.Text = File.ReadAllText(Document.FilePath);
+                    HasMadeChanges = displayHasMadeChanges;
+                    Information.Show($"Refreshed the contents of [{Document.FileName}]", InfoTypes.FileIO);
+                }
+                else
+                {
+                    Information.Show("Tried to refresh file, but there were no changes!", InfoTypes.FileIO);
+                }
             }
         }
 

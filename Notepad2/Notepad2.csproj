@@ -114,6 +114,7 @@
     <Compile Include="Converters\TopPaneOpenedToImageSourceConverter.cs" />
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
+    <Compile Include="FileChangeWatcher\ApplicationFileWatcher.cs" />
     <Compile Include="FileChangeWatcher\FileWatcher.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
     <Compile Include="Finding\TextFinding\FindSettings.cs" />

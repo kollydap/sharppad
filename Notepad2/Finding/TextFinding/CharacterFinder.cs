@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Notepad2.Utilities;
+using System.Collections.Generic;
 
 namespace Notepad2.Finding.TextFinding
 {
@@ -12,7 +13,7 @@ namespace Notepad2.Finding.TextFinding
         /// <returns></returns>
         public static List<FindResult> FindTextOccurrences(this string heapOfText, string toFind, FindSettings settings)
         {
-            if (string.IsNullOrEmpty(heapOfText))
+            if (heapOfText.IsEmpty())
                 return null;
             string heapText = heapOfText;
             string tofind = toFind;

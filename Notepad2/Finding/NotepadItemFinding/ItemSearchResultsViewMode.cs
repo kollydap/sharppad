@@ -57,7 +57,7 @@ namespace Notepad2.Finding.NotepadItemFinding
 
         public void Search(ICollection<NotepadItemViewModel> docs, string findText)
         {
-            if (!string.IsNullOrEmpty(findText))
+            if (!findText.IsEmpty())
             {
                 ClearItems();
                 foreach (NotepadItemViewModel doc in docs)

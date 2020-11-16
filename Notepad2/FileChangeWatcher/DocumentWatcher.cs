@@ -1,9 +1,5 @@
-﻿using Notepad2.FileExplorer;
-using Notepad2.Notepad;
-using Notepad2.Utilities;
+﻿using Notepad2.Notepad;
 using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Notepad2.FileChangeWatcher
 {
@@ -11,19 +7,20 @@ namespace Notepad2.FileChangeWatcher
     /// A class for constantly checking if a file's contents 
     /// have changed, and calling a callback if so
     /// </summary>
-    public class FileWatcher
+    public class DocumentWatcher
     {
+        public bool IsEnabled { get; set; }
+
+        public DocumentViewModel Document { get; set; }
+
         // Doesn't have text as a param because that could be
         // very laggy if the file is very big 
         public Action FileContentsChanged { get; set; }
         public Action<string> FileNameChanged { get; set; }
+
         //public Action FilePathChanged { get; set; }
 
-        public bool IsEnabled { get; set; }
-
-        public DocumentModel Document { get; set; }
-
-        public FileWatcher(DocumentModel doc)
+        public DocumentWatcher(DocumentViewModel doc)
         {
             Document = doc;
         }
@@ -34,7 +31,7 @@ namespace Notepad2.FileChangeWatcher
             ApplicationFileWatcher.AddDocumentToWatcher(this);
         }
 
-        public void StopWatching()
+        public void FullyStopWatching()
         {
             IsEnabled = false;
             ApplicationFileWatcher.RemoveDocumentFromWatcher(this);

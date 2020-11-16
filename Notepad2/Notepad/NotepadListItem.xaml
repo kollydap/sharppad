@@ -9,17 +9,16 @@
              Focusable="True"
              mc:Ignorable="d" 
              d:DesignWidth="200" Height="57" 
-             MaxHeight="57" MinHeight="57"
+             MinHeight="57" MaxHeight="80"
              Padding="0" BorderThickness="0"
              Background="Transparent"
              ToolTip="Notepad Item. Click and Drag to DragDrop."
              AllowDrop="False">
-    <!--e
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="MouseEnter">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Duration="0:0:0.1" To="90" Storyboard.TargetProperty="Height" />
+                    <DoubleAnimation Duration="0:0:0.1" To="80" Storyboard.TargetProperty="Height" />
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
@@ -31,7 +30,6 @@
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
-    -->
    
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -216,6 +214,8 @@
                 <TextBlock Text="{Binding Notepad.Document.Text.Length, UpdateSourceTrigger=PropertyChanged, FallbackValue=NoOfChars}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
                 <TextBlock Text="{Binding Notepad.Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatConverter}, FallbackValue=SizeBytes}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="1,0,0,0" FontSize="10" TextAlignment="Right" Grid.Column="1"/>
             </Grid>
+            <CheckBox Content="Read Only" IsChecked="{Binding Notepad.Document.IsReadOnly, UpdateSourceTrigger=PropertyChanged}" Margin="2,58,2,2"
+                      ToolTip="Immidiately sets this file as read only. If the path doesn't exist, when you goto save, it will save the save and then set the file as read only. Meaning, once you save/set this as true, you can't save again until you set this to false (not read only)"/>
         </Grid>
     </Grid>
 </UserControl>

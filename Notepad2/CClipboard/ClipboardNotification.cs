@@ -12,17 +12,17 @@ namespace Notepad2.CClipboard
         /// <summary>
         /// Occurs when the contents of the clipboard is updated.
         /// </summary>
-        public static event EventHandler ClipboardUpdate;
+        public static event EventHandler ClipboardUpdated;
 
         private static readonly NotificationForm _form = new NotificationForm();
 
         /// <summary>
-        /// Raises the <see cref="ClipboardUpdate"/> event.
+        /// Raises the <see cref="ClipboardUpdated"/> event.
         /// </summary>
         /// <param name="e">Event arguments for the event.</param>
         private static void OnClipboardUpdate(EventArgs e)
         {
-            ClipboardUpdate?.Invoke(null, e);
+            ClipboardUpdated?.Invoke(null, e);
         }
 
         public static void ShutdownListener()
@@ -45,7 +45,7 @@ namespace Notepad2.CClipboard
             {
                 if (m.Msg == NativeMethods.WM_CLIPBOARDUPDATE)
                 {
-                    OnClipboardUpdate(null);
+                    OnClipboardUpdate(EventArgs.Empty);
                 }
                 base.WndProc(ref m);
             }

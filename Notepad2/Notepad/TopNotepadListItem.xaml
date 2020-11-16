@@ -113,21 +113,21 @@
         <Grid x:Name="grd" Margin="10,0,2,0" Background="Transparent" MouseMove="Grid_MouseMove" MouseLeftButtonDown="Grid_MouseLeftButtonDown" VerticalAlignment="Stretch">
             <DockPanel Margin="2,3,40,0" Height="22" VerticalAlignment="Top">
                 <Image Width="16" DockPanel.Dock="Left" 
-                    ToolTip="Changes have not been changed"
-                    Margin="0,0"
-                    Source="/SharpPad;component/Resources/alertSaveFile.png"
-                    Visibility="{Binding Notepad.HasMadeChanges, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                       ToolTip="Changes have not been changed"
+                       Margin="0,0"
+                       Source="/SharpPad;component/Resources/alertSaveFile.png"
+                       Visibility="{Binding Notepad.HasMadeChanges, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBox Text="{Binding Notepad.Document.FileName, FallbackValue=FileName.txt, UpdateSourceTrigger=PropertyChanged}" 
-                    ToolTip="{Binding Notepad.Document.FileName, FallbackValue=FileName.txt, UpdateSourceTrigger=PropertyChanged}"
-                    VerticalScrollBarVisibility="Disabled"
-                    AcceptsReturn="False"
-                    x:Name="fileNameBox"
-                    TextWrapping="NoWrap"
-                    FontSize="14"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    AllowDrop="False"
-                    VerticalContentAlignment="Center"/>
+                         ToolTip="{Binding Notepad.Document.FileName, FallbackValue=FileName.txt, UpdateSourceTrigger=PropertyChanged}"
+                         VerticalScrollBarVisibility="Disabled"
+                         AcceptsReturn="False"
+                         x:Name="fileNameBox"
+                         TextWrapping="NoWrap"
+                         FontSize="14"
+                         Background="Transparent"
+                         BorderBrush="Transparent"
+                         AllowDrop="False"
+                         VerticalContentAlignment="Center"/>
             </DockPanel>
 
             <Button Background="Transparent" BorderBrush="Transparent" 

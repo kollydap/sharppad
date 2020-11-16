@@ -3,6 +3,7 @@ using Notepad2.FileChangeWatcher;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Notepad.DragDropping;
+using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System;
@@ -34,7 +35,7 @@ namespace Notepad2.Applications
             App = new ApplicationViewModel(args);
             WindowManager.WindowPreviews.ThisApp = App;
             DragDropFileWatchers.Initialise();
-            ApplicationFileWatcher.RunDocumentWatcher();
+            ApplicationFileWatcher.StartDocumentWatcher();
         }
 
         public static void CreateUnclosedFilesStorageDirectory()
@@ -140,7 +141,7 @@ namespace Notepad2.Applications
             {
                 TextDocumentViewModel doc = item.Notepad;
 
-                if (!string.IsNullOrEmpty(doc.Document.Text) && doc.HasMadeChanges)
+                if (!doc.Document.Text.IsEmpty() && doc.HasMadeChanges)
                 {
                     if (CheckUnclosedStorageDirectoryExistsElseCreateIt())
                     {

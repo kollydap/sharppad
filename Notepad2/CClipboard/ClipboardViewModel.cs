@@ -25,7 +25,7 @@ namespace Notepad2.CClipboard
         public ClipboardViewModel()
         {
             GetClipboard();
-            ClipboardNotification.ClipboardUpdate += ClipboardNotification_ClipboardUpdate;
+            SetupUpdaterHook();
         }
 
         private void ClipboardNotification_ClipboardUpdate(object sender, EventArgs e)
@@ -48,12 +48,17 @@ namespace Notepad2.CClipboard
             ThisApplication.ShowClipboard();
         }
 
+        public void SetupUpdaterHook()
+        {
+            ClipboardNotification.ClipboardUpdated += ClipboardNotification_ClipboardUpdate;
+        }
+
         public void ShutdownUpdaterHook()
         {
             // Application will shutdown the clipboard listener when the
             // app shuts down, because other windows will need the listener.
             //ClipboardNotification.ShutdownListener();
-            ClipboardNotification.ClipboardUpdate -= ClipboardNotification_ClipboardUpdate;
+            ClipboardNotification.ClipboardUpdated -= ClipboardNotification_ClipboardUpdate;
         }
     }
 }

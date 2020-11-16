@@ -7,17 +7,17 @@ namespace Notepad2.ViewModels
 {
     public class TextEditorLinesViewModel : BaseViewModel
     {
-        private FormatModel _documentFormat;
-        private DocumentModel _document;
+        private FormatViewModel _documentFormat;
+        private DocumentViewModel _document;
         private string _lineCounterText;
 
-        public FormatModel DocumentFormat
+        public FormatViewModel DocumentFormat
         {
             get => _documentFormat;
             set => RaisePropertyChanged(ref _documentFormat, value);
         }
 
-        public DocumentModel Document
+        public DocumentViewModel Document
         {
             get => _document;
             set => RaisePropertyChanged(ref _document, value);
@@ -33,8 +33,8 @@ namespace Notepad2.ViewModels
 
         public TextEditorLinesViewModel()
         {
-            Document = new DocumentModel();
-            DocumentFormat = new FormatModel();
+            Document = new DocumentViewModel();
+            DocumentFormat = new FormatViewModel();
             Render();
         }
 
@@ -59,7 +59,7 @@ namespace Notepad2.ViewModels
         public void Render()
         {
             ClearText();
-            if (Document != null && !string.IsNullOrEmpty(Document.Text))
+            if (Document != null && !Document.Text.IsEmpty())
             {
                 //string text = Document.Text;
                 //string[] lines = text.Split('\n');
@@ -84,11 +84,11 @@ namespace Notepad2.ViewModels
 
         public int GetLinesCount()
         {
-            if (!string.IsNullOrEmpty(Document?.Text))
+            if (Document?.Text.IsEmpty() == false)
                 return Document.Text.Split('\n').Length;
             return 0;
         }
-        public void UpdateDocuments(DocumentModel dm, FormatModel fm)
+        public void UpdateDocuments(DocumentViewModel dm, FormatViewModel fm)
         {
             if (dm != null && fm != null)
             {

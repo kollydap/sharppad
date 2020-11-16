@@ -5,14 +5,14 @@ namespace Notepad2.ViewModels
 {
     public class RichNotepadViewModel : BaseViewModel
     {
-        private FormatModel _documentFormat;
-        private DocumentModel _document;
-        public FormatModel DocumentFormat
+        private FormatViewModel _documentFormat;
+        private DocumentViewModel _document;
+        public FormatViewModel DocumentFormat
         {
             get => _documentFormat;
             set => RaisePropertyChanged(ref _documentFormat, value);
         }
-        public DocumentModel Document
+        public DocumentViewModel Document
         {
             get => _document;
             set => RaisePropertyChanged(ref _document, value);
@@ -20,8 +20,8 @@ namespace Notepad2.ViewModels
 
         public RichNotepadViewModel()
         {
-            DocumentFormat = new FormatModel();
-            Document = new DocumentModel();
+            DocumentFormat = new FormatViewModel();
+            Document = new DocumentViewModel();
         }
 
         public void SetNotepad(TextDocumentViewModel fivm)

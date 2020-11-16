@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Notepad2.Utilities;
+using System;
 using System.Windows;
+using System.Windows.Media;
 
 namespace TheRThemes
 {
@@ -37,10 +39,23 @@ namespace TheRThemes
 
             try
             {
-                if (!string.IsNullOrEmpty(themeName))
+                if (!themeName.IsEmpty())
                     ChangeTheme(new Uri($"Themes/{themeName}.xaml", UriKind.Relative));
             }
             catch { }
+        }
+
+        public static object GetResource(object key)
+        {
+            return ThemeDictionary[key];
+        }
+
+        public static SolidColorBrush GetBrush(string name)
+        {
+            if (GetResource(name) is SolidColorBrush brush)
+                return brush;
+            else 
+                return new SolidColorBrush(Colors.White);
         }
     }
 }

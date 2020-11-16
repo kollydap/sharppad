@@ -115,7 +115,7 @@
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
     <Compile Include="FileChangeWatcher\ApplicationFileWatcher.cs" />
-    <Compile Include="FileChangeWatcher\FileWatcher.cs" />
+    <Compile Include="FileChangeWatcher\DocumentWatcher.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
     <Compile Include="Finding\TextFinding\FindSettings.cs" />
     <Compile Include="Finding\NotepadItemFinding\FoundNotepadItemControl.xaml.cs">
@@ -179,8 +179,8 @@
     <Compile Include="Finding\TextFinding\FindResult.cs" />
     <Compile Include="InformationStuff\InformationModel.cs" />
     <Compile Include="InformationStuff\InfoTypes.cs" />
-    <Compile Include="Notepad\DocumentModel.cs" />
-    <Compile Include="Notepad\FormatModel.cs" />
+    <Compile Include="Notepad\DocumentViewModel.cs" />
+    <Compile Include="Notepad\FormatViewModel.cs" />
     <Compile Include="Notepad\NotepadActions.cs" />
     <Compile Include="Notepad\NotepadListItem.xaml.cs">
       <DependentUpon>NotepadListItem.xaml</DependentUpon>

@@ -10,17 +10,17 @@ namespace Notepad2.FileExplorer
     {
         public static bool IsFile(this string path)
         {
-            return !string.IsNullOrEmpty(path) && File.Exists(path);
+            return !path.IsEmpty() && File.Exists(path);
         }
 
         public static bool IsDirectory(this string path)
         {
-            return !string.IsNullOrEmpty(path) && Directory.Exists(path);
+            return !path.IsEmpty() && Directory.Exists(path);
         }
 
         public static bool IsDrive(this string path)
         {
-            return !string.IsNullOrEmpty(path) && path.Length < 3;
+            return !path.IsEmpty() && path.Length < 3;
         }
 
         /// <summary>

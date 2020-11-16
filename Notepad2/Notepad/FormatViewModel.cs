@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Notepad2.Notepad
 {
-    public class FormatModel : BaseViewModel
+    public class FormatViewModel : BaseViewModel
     {
         private double _size;
         private FontFamily _family;
@@ -102,7 +102,7 @@ namespace Notepad2.Notepad
         //public Action<double> FontSizeChanged { get; set; }
         //public Action<FontFamily> FontFamilyChanged { get; set; }
 
-        public FormatModel()
+        public FormatViewModel()
         {
             DecorationReadable = "None";
             Style = FontStyles.Normal;

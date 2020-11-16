@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Notepad2.Utilities;
+using System;
 using System.Collections.Generic;
 
 namespace Notepad2.FileExplorer
@@ -16,7 +17,7 @@ namespace Notepad2.FileExplorer
 
         private object GetValue(string key)
         {
-            if (string.IsNullOrEmpty(key))
+            if (key.IsEmpty())
             {
                 return null;
             }

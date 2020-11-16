@@ -3,16 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Notepad2"
         xmlns:ap="clr-namespace:Notepad2.AttachedProperties"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:fileExplorerShell="clr-namespace:Notepad2.FileExplorer.ShellClasses"
         xmlns:converters="clr-namespace:Notepad2.Converters"
-        xmlns:se="clr-namespace:Notepad2.SimpleEditor" 
-        xmlns:notepad="clr-namespace:Notepad2.Notepad" 
-        xmlns:history="clr-namespace:Notepad2.History" 
-        xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff" 
-        xmlns:textfinding="clr-namespace:Notepad2.Finding.TextFinding" xmlns:my="clr-namespace:Notepad2.Utilities"
+        xmlns:se="clr-namespace:Notepad2.SimpleEditor"
+        xmlns:notepad="clr-namespace:Notepad2.Notepad"
+        xmlns:history="clr-namespace:Notepad2.History"
+        xmlns:informationstuff="clr-namespace:Notepad2.InformationStuff"
+        xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
@@ -28,6 +27,12 @@
         Not separating large chunks of the UI into smaller usercontrols 
         mainly because i prefer not to because it's sort of easier and 
         somehow "cleaner"/easier to access things.
+    -->
+    <!--
+    // using for testing
+    <Window.DataContext>
+        <viewmodels:NotepadViewModel/>
+    </Window.DataContext>
     -->
     <Window.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>

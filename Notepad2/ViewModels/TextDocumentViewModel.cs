@@ -14,19 +14,19 @@ namespace Notepad2.ViewModels
     /// </summary>
     public class TextDocumentViewModel : BaseViewModel
     {
-        private FormatModel _documentFormat;
-        private DocumentModel _document;
+        private FormatViewModel _documentFormat;
+        private DocumentViewModel _document;
         private FindReplaceViewModel _findResults;
         //private TextEditorLinesViewModel _linesCounter;
         private bool _hasMadeChanges;
 
-        public FormatModel DocumentFormat
+        public FormatViewModel DocumentFormat
         {
             get => _documentFormat;
             set => RaisePropertyChanged(ref _documentFormat, value /*, Update*/);
         }
 
-        public DocumentModel Document
+        public DocumentViewModel Document
         {
             get => _document;
             set => RaisePropertyChanged(ref _document, value /*, Update*/);
@@ -44,7 +44,7 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _hasMadeChanges, value);
         }
 
-        public FileWatcher Watcher { get; set; }
+        public DocumentWatcher Watcher { get; set; }
 
         ///// <summary>
         ///// Used for showing the lines count
@@ -65,10 +65,10 @@ namespace Notepad2.ViewModels
         public TextDocumentViewModel()
         {
             //LinesCounter = new TextEditorLinesViewModel();
-            DocumentFormat = new FormatModel();
-            Document = new DocumentModel();
+            DocumentFormat = new FormatViewModel();
+            Document = new DocumentViewModel();
             FindResults = new FindReplaceViewModel(Document);
-            Watcher = new FileWatcher(Document);
+            Watcher = new DocumentWatcher(Document);
             Watcher.FileContentsChanged = FileContentsChanged;
             Watcher.FileNameChanged = FileNameChanged;
             //Watcher.FilePathChanged = FilePathChangedToEmpty;
@@ -84,7 +84,7 @@ namespace Notepad2.ViewModels
             if (!HasMadeChanges)
             {
                 if (Document.FilePath.IsFile())
-                    Document.Text = File.ReadAllText(Document.FilePath);
+                    Document.Text = NotepadActions.ReadFile(Document.FilePath);
                 //HasMadeChanges = false;
             }
         }
@@ -92,14 +92,6 @@ namespace Notepad2.ViewModels
         private void FileNameChanged(string newName)
         {
             Document.FileName = newName;
-        }
-
-        public void FilePathChangedToEmpty()
-        {
-            if (!HasMadeChanges)
-            {
-                Document.FilePath = "";
-            }
         }
 
         public void UpdateFileContents(bool displayHasMadeChanges = false)
@@ -112,10 +104,6 @@ namespace Notepad2.ViewModels
                     Document.Text = File.ReadAllText(Document.FilePath);
                     HasMadeChanges = displayHasMadeChanges;
                     Information.Show($"Refreshed the contents of [{Document.FileName}]", InfoTypes.FileIO);
-                }
-                else
-                {
-                    Information.Show("Tried to refresh file, but there were no changes!", InfoTypes.FileIO);
                 }
             }
         }

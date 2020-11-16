@@ -78,10 +78,7 @@ namespace Notepad2.Notepad
                 WindowManager.PropertiesView.Properties.Show();
                 if (Notepad.Document.FilePath.IsFile())
                 {
-                    if (!Notepad.HasMadeChanges)
-                        WindowManager.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
-                    else
-                        WindowManager.PropertiesView.Properties.FetchFromDocument(Notepad.Document);
+                    WindowManager.PropertiesView.Properties.FetchProperties(Notepad.Document.FilePath);
                 }
                 else
                 {

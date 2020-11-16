@@ -145,7 +145,7 @@ namespace Notepad2.Notepad.DragDropping
             try
             {
                 string droppedFilePath = e.FullPath;
-                if (!string.IsNullOrEmpty(droppedFilePath.Trim()))
+                if (!droppedFilePath.Trim().IsEmpty())
                 {
                     string fileName = Path.GetFileName(droppedFilePath);
                     string realName = DragDropNameHelper.GetNonPrefixedFileName(fileName);

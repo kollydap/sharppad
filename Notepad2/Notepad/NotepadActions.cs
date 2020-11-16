@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Notepad2.FileExplorer;
+using System.IO;
 
 namespace Notepad2.Notepad
 {
@@ -36,14 +37,34 @@ namespace Notepad2.Notepad
         //    }
         //}
 
-        public static void SaveFile(string fileName, string fileContent)
+        public static void SaveFile(string filePath, string fileContent, bool isReadOnly = false)
         {
-            File.WriteAllText(fileName, fileContent);
+            File.WriteAllText(filePath, fileContent);
+            SetFileReadOnly(filePath, isReadOnly);
         }
 
         public static string ReadFile(string fileName)
         {
             return File.ReadAllText(fileName);
+        }
+
+        public static void SetFileReadOnly(string path, bool isReadOnly)
+        {
+            if (path.IsFile())
+            {
+                FileAttributes attribs = File.GetAttributes(path);
+
+                if (isReadOnly)
+                {
+                    attribs = attribs | FileAttributes.ReadOnly;
+                    File.SetAttributes(path, attribs);
+                }
+                else
+                {
+                    attribs = attribs & ~FileAttributes.ReadOnly;
+                    File.SetAttributes(path, attribs);
+                }
+            }
         }
     }
 }

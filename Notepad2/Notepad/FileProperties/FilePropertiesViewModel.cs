@@ -129,7 +129,7 @@ namespace Notepad2.Notepad.FileProperties
             }
         }
 
-        public void FetchFromDocument(DocumentModel model)
+        public void FetchFromDocument(DocumentViewModel model)
         {
             FileName = model.FileName;
             FileNameWithoutExtension = Path.GetFileNameWithoutExtension(model.FileName);

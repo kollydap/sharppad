@@ -60,7 +60,7 @@ namespace Notepad2.Finding.TextFinding
             get => FoundItems.Count;
         }
 
-        public DocumentModel Document { get; set; }
+        public DocumentViewModel Document { get; set; }
 
         public bool HasSearched { get; set; }
 
@@ -75,7 +75,7 @@ namespace Notepad2.Finding.TextFinding
         public Action<FindResult, string> ReplaceTextCallback { get; set; }
         public Action<bool> SetFindViewIsVisibleCallback { get; set; }
 
-        public FindReplaceViewModel(DocumentModel document)
+        public FindReplaceViewModel(DocumentViewModel document)
         {
             FoundItems = new ObservableCollection<FindResult>();
             FindOccourancesCommand = new Command(StartFind);
@@ -220,12 +220,12 @@ namespace Notepad2.Finding.TextFinding
             FetchResultsInDocument(Document);
         }
 
-        public void FetchResultsInDocument(DocumentModel doc)
+        public void FetchResultsInDocument(DocumentViewModel doc)
         {
             if (doc != null)
             {
                 string text = doc.Text;
-                if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(FindWhatText))
+                if (!text.IsEmpty() && !FindWhatText.IsEmpty())
                 {
                     // combine the enums using the OR thing
                     // if match whole word and case are true, it ends up being 2 | 1 which is 3

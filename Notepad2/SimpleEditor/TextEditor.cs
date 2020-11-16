@@ -2,6 +2,7 @@
 using Notepad2.Finding.TextFinding;
 using Notepad2.InformationStuff;
 using Notepad2.Preferences;
+using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 using System.Windows;
@@ -223,7 +224,7 @@ namespace Notepad2.SimpleEditor
 
         public void ReplaceText(FindResult result, string toReplaceWith)
         {
-            if (!string.IsNullOrEmpty(toReplaceWith))
+            if (!toReplaceWith.IsEmpty())
             {
                 SelectionStart = result.StartIndex;
                 SelectionLength = result.WordLength;

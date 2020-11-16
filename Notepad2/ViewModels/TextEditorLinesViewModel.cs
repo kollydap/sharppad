@@ -29,6 +29,8 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _lineCounterText, value);
         }
 
+        public int LinesCount { get; set; }
+
         public Size TextEditorSize { get; set; }
 
         public TextEditorLinesViewModel()
@@ -72,11 +74,6 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void WriteLine(string text)
-        {
-
-        }
-
         public void ClearText()
         {
             LineCounterText = "";
@@ -87,24 +84,6 @@ namespace Notepad2.ViewModels
             if (Document?.Text.IsEmpty() == false)
                 return Document.Text.Split('\n').Length;
             return 0;
-        }
-        public void UpdateDocuments(DocumentViewModel dm, FormatViewModel fm)
-        {
-            if (dm != null && fm != null)
-            {
-                Document = dm;
-                DocumentFormat = fm;
-                //DocumentFormat.FontFamilyChanged = FontChanged;
-                //DocumentFormat.FontSizeChanged = FontSizeChanged;
-                //Document.TextChanged += Document_TextChanged;
-                Render();
-            }
-        }
-
-        private void Document_TextChanged(string newText)
-        {
-            if (curIndexes != GetLinesCount())
-                Render();
         }
     }
 }

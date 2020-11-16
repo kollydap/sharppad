@@ -18,19 +18,19 @@
         <EventTrigger RoutedEvent="MouseEnter">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Duration="0:0:0.1" To="80" Storyboard.TargetProperty="Height" />
+                    <DoubleAnimation Duration="0:0:0.2" To="80" Storyboard.TargetProperty="Height" DecelerationRatio="1" AccelerationRatio="0"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
         <EventTrigger RoutedEvent="MouseLeave">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Duration="0:0:0.1" To="57" Storyboard.TargetProperty="Height" />
+                    <DoubleAnimation Duration="0:0:0.2" To="57" Storyboard.TargetProperty="Height" DecelerationRatio="1" AccelerationRatio="0"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
-   
+
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:FileSizeFormatConverter x:Key="FileSizeFormatConverter"/>
@@ -60,7 +60,7 @@
             </MenuItem>
 
             <Separator Style="{DynamicResource MenuItemSeparator}"/>
-            
+
             <MenuItem Header="Refresh File Contents" Command="{Binding RefreshContentsCommand}" ToolTip="Re-fetch text from the file path. (e.g. if you want to undo all changes). Does nothing if this item's path doesn't exist." Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Rename File" Click="RenameFileClick" Template="{DynamicResource SingleDropDownMenuItem}">
                 <MenuItem.Icon>
@@ -214,8 +214,9 @@
                 <TextBlock Text="{Binding Notepad.Document.Text.Length, UpdateSourceTrigger=PropertyChanged, FallbackValue=NoOfChars}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="32,0,1,0" FontSize="11" TextAlignment="Left"/>
                 <TextBlock Text="{Binding Notepad.Document.FileSizeBytes, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FileSizeFormatConverter}, FallbackValue=SizeBytes}" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="1,0,0,0" FontSize="10" TextAlignment="Right" Grid.Column="1"/>
             </Grid>
-            <CheckBox Content="Read Only" IsChecked="{Binding Notepad.Document.IsReadOnly, UpdateSourceTrigger=PropertyChanged}" Margin="2,58,2,2"
-                      ToolTip="Immidiately sets this file as read only. If the path doesn't exist, when you goto save, it will save the save and then set the file as read only. Meaning, once you save/set this as true, you can't save again until you set this to false (not read only)"/>
+            <CheckBox Content="Read Only" IsChecked="{Binding Notepad.Document.IsReadOnly, UpdateSourceTrigger=PropertyChanged}" Margin="2, 58, 2, 0"
+                      ToolTip="Immidiately sets this file as read only. If the path doesn't exist, when you goto save, it will save the file and then set the file as read only. Meaning, once you save/set this as true, you can't save the file again until you set this to false (not read only)"
+                      ToolTipService.ShowDuration="10000" Height="20" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </UserControl>

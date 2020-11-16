@@ -11,7 +11,7 @@
             <StackPanel>
                 <TextBlock Text="SharpPad" FontSize="28" HorizontalAlignment="Center" FontWeight="Bold"/>
                 <TextBlock FontSize="20" FontWeight="SemiBold" Text="Made by"/>
-                <TextBlock TextWrapping="Wrap" FontSize="13" Text="TheR/quad5914/Kettlesimulator"/>
+                <TextBlock TextWrapping="Wrap" FontSize="13"><Run Text="TheR/quad5914"/><Run Text="/tea-vs-coffee"/><Run Text="/Kettlesimulator"/></TextBlock>
                 <Separator/>
                 <TextBlock Text="About" FontSize="20" FontWeight="SemiBold"/>
                 <TextBlock TextWrapping="Wrap" Text="Notepad but with tabs, allowing you to switch between them. also has multiple light/dark themes" FontSize="13"/>

@@ -75,6 +75,10 @@ namespace Notepad2.ViewModels
             Watcher.StartWatching();
             HasMadeChanges = false;
             Document.TextChanged = TextChanged;
+
+            //LinesCounter = new TextEditorLinesViewModel();
+            //LinesCounter.Document = Document;
+            //LinesCounter.DocumentFormat = DocumentFormat;
         }
 
         public void FileContentsChanged()

@@ -26,6 +26,7 @@ namespace Notepad2.SimpleEditor
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
+            //Model.Notepad.LinesCounter.LinesCount = this.LineCount;
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 if (Keyboard.IsKeyDown(Key.LeftShift))

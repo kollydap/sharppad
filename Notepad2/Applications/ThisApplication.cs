@@ -3,6 +3,7 @@ using Notepad2.FileChangeWatcher;
 using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Notepad.DragDropping;
+using Notepad2.SingleInstance;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
@@ -19,12 +20,12 @@ namespace Notepad2.Applications
 
         public static string UnclosedFilesStorageLocation { get; }
 
+        public static string SharpPadFolderLocation { get; }
+
         static ThisApplication()
         {
-            UnclosedFilesStorageLocation =
-                Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    "sharppadTempFiles");
+            SharpPadFolderLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SharpPadFiles");
+            UnclosedFilesStorageLocation = Path.Combine(SharpPadFolderLocation, "UnclosedFiles");
 
             if (!Directory.Exists(UnclosedFilesStorageLocation))
                 CreateUnclosedFilesStorageDirectory();
@@ -34,8 +35,23 @@ namespace Notepad2.Applications
         {
             App = new ApplicationViewModel(args);
             WindowManager.WindowPreviews.ThisApp = App;
+
+            ClipboardNotification.StartListener();
             DragDropFileWatchers.Initialise();
             ApplicationFileWatcher.StartDocumentWatcher();
+            //TheRInstance.StartWatcher();
+        }
+
+        public static void ShutdownApplication()
+        {
+            Information.Show("Shutting down application", "App");
+
+            ClipboardNotification.ShutdownListener();
+            DragDropFileWatchers.Shutdown();
+            ApplicationFileWatcher.StopDocumentWatcher();
+            //TheRInstance.StopWatcher();
+
+            Application.Current?.Shutdown();
         }
 
         public static void CreateUnclosedFilesStorageDirectory()
@@ -68,16 +84,6 @@ namespace Notepad2.Applications
         public static void OpenNewWindow()
         {
             App.CreateAndShowNotepadWindowAndPreviewWithDefaultItem();
-        }
-
-        public static void ShutdownApplication()
-        {
-            Information.Show("Shutting down application", "App");
-            //TheRMutex.MainAppClosing();
-            ClipboardNotification.ShutdownListener();
-            DragDropFileWatchers.Shutdown();
-            ApplicationFileWatcher.StopDocumentWatcher();
-            Application.Current?.Shutdown();
         }
 
         public static void ReopenLastWindow()

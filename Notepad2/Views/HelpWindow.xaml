@@ -39,12 +39,14 @@
                 <TextBlock><Run Text="CTRL +"/><Run Text=" Shift +"/><Run Text=" "/><Run Text="R - Highlight file name (not extension) "/></TextBlock>
                 <TextBlock FontSize="20"><Run Text="Text Editor HotKey"/><Run Text="s/Shortcuts"/></TextBlock>
                 <TextBlock Text="CTRL + X                - Cut Text or Line" ToolTip="Dont select any text to cut the entire line"/>
+                <TextBlock Text="CTRL + Shift + X        - Delete entire Line"/>
                 <TextBlock Text="CTRL + C                - Copy Text or Line" ToolTip="Dont select any text to copy the entire line"/>
                 <TextBlock Text="CTRL + Shift + A        - Select entire Line"/>
-                <TextBlock Text="CTRL + Shift + Del      - Delete entire Line"/>
                 <TextBlock Text="CTRL + Up Arrow         - Scroll Up"/>
                 <TextBlock Text="CTRL + Down Arrow       - Scroll Down"/>
+                <TextBlock Text="(These are disabled by default. File>Preferences)" FontSize="14"/>
                 <TextBlock Text="CTRL + Left Arrow       - Scroll Left"/>
+                <TextBlock Text="CTRL + Right Arrow      - Scroll Right"/>
                 <TextBlock Text="(These 2 are similar to VSCode)" FontSize="14"/>
                 <TextBlock Text="CTRL + Enter            - Add NewLine above current line"/>
                 <TextBlock Text="CTRL + Shift + Enter    - Add NewLine below current line"/>

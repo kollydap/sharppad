@@ -40,7 +40,9 @@ namespace Notepad2.SimpleEditor
                             SelectEntireCurrentLine();
                             break;
 
-                        case Key.Delete:
+                        case Key.X:
+                            if (!PreferencesG.CAN_CUT_ENTIRE_LINE_CTRL_X)
+                                break;
                             SelectEntireCurrentLine();
                             SelectedText = "";
                             break;
@@ -101,11 +103,11 @@ namespace Notepad2.SimpleEditor
                                 break;
                             LineRight(); e.Handled = true;
                             break;
-
+                        // This prevents a bug with undo-ing causing the FindResults
+                        // to sort of be offset. This could be quite laggy though
+                        // with lots of text and text still in the find bit...
                         case Key.Z:
-                            // This prevents a bug with undo-ing causing the FindResults
-                            // to sort of be offset. This could be quite laggy though
-                            // with lots of text and text still in the find bit...
+                        case Key.Y:
                             Model.Find.StartFind();
                             break;
                     }
@@ -120,6 +122,13 @@ namespace Notepad2.SimpleEditor
             //        case Key.Right: LineRight(); e.Handled = true; break;
             //    }
             //}
+
+            // This prevents a bug with undo-ing causing the FindResults
+            // to sort of be offset. This could be quite laggy though
+            // with lots of text and text still in the find bit...
+            // this in unneeded now because it's re-done after
+            // the find box is focused
+            //Model.Find.StartFind();
         }
 
         public void InsertText(string text, int charIndex, bool setCaretAfterText = false)

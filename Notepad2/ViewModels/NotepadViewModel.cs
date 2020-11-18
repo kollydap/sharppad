@@ -345,7 +345,7 @@ namespace Notepad2.ViewModels
         /// <see cref="TextDocumentViewModel"/> is null
         /// </summary>
         /// <returns>a bool. xdddd</returns>
-        public bool IsNotepadNull()
+        public bool IsNotepadDocumentsNull()
         {
             return Notepad == null || Notepad.Document == null || Notepad.DocumentFormat == null;
         }
@@ -805,6 +805,7 @@ namespace Notepad2.ViewModels
                         if (SaveFile(fivm.Document.FilePath, fivm.Document.Text, fivm.Document.IsReadOnly))
                         {
                             fivm.HasMadeChanges = false;
+                            fivm.Document.FileName = Path.GetFileName(fivm.Document.FilePath);
                         }
                     }
                     catch (Exception exception)
@@ -812,7 +813,7 @@ namespace Notepad2.ViewModels
                         Information.Show($"Error when saving file from non-existant but valid path: {exception.Message}", InfoTypes.FileIO);
                     }
                 }
-                else if (File.Exists(fivm.Document.FilePath))
+                else if (fivm.Document.FilePath.IsFile())
                 {
                     // Check if the path is the same but if the name has changed
                     string oldFileName = Path.GetFileName(fivm.Document.FilePath);
@@ -828,16 +829,15 @@ namespace Notepad2.ViewModels
                     {
                         if (MessageBox.Show($"You are about to overwrite {oldFileName} " +
                             $"with {newFileName}, do you want to continue?", "Overrite file?",
-                            MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                         {
                             if (SaveFile(fivm.Document.FilePath, fivm.Document.Text, fivm.Document.IsReadOnly))
                             {
                                 fivm.HasMadeChanges = false;
+                                File.Move(fivm.Document.FilePath, newFilePath);
+                                fivm.Document.FileName = newFileName;
+                                fivm.Document.FilePath = newFilePath;
                             }
-
-                            File.Move(fivm.Document.FilePath, newFilePath);
-                            fivm.Document.FileName = newFileName;
-                            fivm.Document.FilePath = newFilePath;
 
                             Information.Show($"Renamed [{oldFileName}] to [{newFileName}] successfully, and saved", "File IO");
                         }
@@ -911,7 +911,7 @@ namespace Notepad2.ViewModels
                 Information.Show($"Attempted to save [{Notepad.Document.FileName}]", InfoTypes.FileIO);
                 try
                 {
-                    if (!IsNotepadNull())
+                    if (!IsNotepadDocumentsNull())
                     {
                         if (Notepad.Document.FilePath.IsFile())
                         {
@@ -925,9 +925,9 @@ namespace Notepad2.ViewModels
                                     "File doesn't exist, but the notepad's path is valid. " +
                                     "Create and save this notepad to the path?",
                                     "File Doesn't exist, but could exist",
-                                    MessageBoxButton.YesNo,
+                                    MessageBoxButton.OKCancel,
                                     MessageBoxImage.Question,
-                                    MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                                    MessageBoxResult.OK) == MessageBoxResult.OK)
                                 {
                                     try
                                     {
@@ -937,6 +937,10 @@ namespace Notepad2.ViewModels
                                     {
                                         Information.Show($"Error when saving file from non-existant but valid path: {exception.Message}", InfoTypes.FileIO);
                                     }
+                                }
+                                else
+                                {
+                                    SaveNotepadAs(Notepad);
                                 }
                             }
                             else
@@ -962,7 +966,7 @@ namespace Notepad2.ViewModels
         {
             try
             {
-                if (!IsNotepadNull() && NotepadAvaliable)
+                if (!IsNotepadDocumentsNull() && NotepadAvaliable)
                     SaveNotepadAs(Notepad);
             }
             catch (Exception e)
@@ -996,8 +1000,7 @@ namespace Notepad2.ViewModels
                 // Check if the file is read only
                 if (path.IsFile())
                 {
-                    FileInfo fInfo = new FileInfo(path);
-                    if (!fInfo.IsReadOnly)
+                    if (!isReadOnly)
                     {
                         NotepadActions.SaveFile(path, text, isReadOnly);
                         Information.Show($"Successfully saved [{path}]", InfoTypes.FileIO);
@@ -1034,12 +1037,14 @@ namespace Notepad2.ViewModels
             if (show)
             {
                 FindViewVisibility = Visibility.Visible;
+                GlobalPreferences.IS_FIND_VISIBLE = true;
                 View.FocusFindInput();
             }
 
             else
             {
                 FindViewVisibility = Visibility.Collapsed;
+                GlobalPreferences.IS_FIND_VISIBLE = false;
             }
         }
 

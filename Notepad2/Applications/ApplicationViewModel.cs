@@ -1,7 +1,6 @@
 ﻿using Notepad2.Applications.Controls;
 using Notepad2.Applications.History;
 using Notepad2.Preferences;
-using Notepad2.SerialCommunication;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
@@ -81,9 +80,14 @@ namespace Notepad2.Applications
         public WindowPreviewControlViewModel CreatePreviewControlFromDataContext(NotepadViewModel notepad)
         {
             WindowPreviewControlViewModel winPrev = new WindowPreviewControlViewModel(notepad);
+            SetupPreviewControlCallbacks(winPrev);
+            return winPrev;
+        }
+
+        public void SetupPreviewControlCallbacks(WindowPreviewControlViewModel winPrev)
+        {
             winPrev.FocusNotepadCallback = FocusWindowFromDataContext;
             winPrev.CloseNotepadCallback = CloseWindowFromPreviewControl;
-            return winPrev;
         }
 
         /// <summary>
@@ -93,7 +97,7 @@ namespace Notepad2.Applications
         public NotepadWindow CreateBlankNotepadWindow()
         {
             NotepadWindow window = new NotepadWindow();
-            SetupNotepadWindow(window);
+            SetupNotepadWindow(window, false,  false);
             return window;
         }
 
@@ -110,11 +114,13 @@ namespace Notepad2.Applications
         }
 
         /// <summary>
-        /// Create a Notepad window and open multiple files. does not load theme and position by default
+        /// Create a Notepad window and open multiple files
         /// </summary>
         /// <param name="fileNames"></param>
         /// <param name="loadAndSetAppTheme"></param>
         /// <param name="loadWindowPosition"></param>
+        /// <param name="clearPath">States whether the paths of the items should be cleared</param>
+        /// <param name="useStartupDelay"></param>
         /// <returns></returns>
         public NotepadWindow CreateNotepadWindowAndOpenFiles(
             string[] fileNames,
@@ -228,8 +234,8 @@ namespace Notepad2.Applications
         }
 
         /// <summary>
-        /// Creates and shows a Notepad window with no items. Loads
-        /// them theme and preferences.
+        /// Creates and shows a Notepad window with no items. Does not 
+        /// load them theme nor preferences.
         /// </summary>
         public void CreateAndShowBlankNotepadWindowAndPreview()
         {
@@ -258,7 +264,7 @@ namespace Notepad2.Applications
         #region Setting up windows
 
         /// <summary>
-        /// Sets up a Notepad window's callbacks, does not load the theme by default but does load
+        /// Sets up a Notepad window's callbacks
         /// the preferencesG by default.
         /// </summary>
         /// <param name="window"></param>
@@ -288,29 +294,29 @@ namespace Notepad2.Applications
         #region Getting Windows and Previews
 
         /// <summary>
-        /// Shows a given Notepad window
+        /// Adds and shows a given Notepad window
         /// </summary>
-        /// <param name="notepad"></param>
-        public void AddNewNotepadAndPreviewWindowFromWindow(NotepadWindow notepad)
+        /// <param name="window"></param>
+        public void AddNewNotepadAndPreviewWindowFromWindow(NotepadWindow window)
         {
-            WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(notepad.Notepad);
+            WindowPreviewControlViewModel wpc = CreatePreviewControlFromDataContext(window.Notepad);
             AddPreviewItem(wpc);
-            SetupNotepadWindowCallbacksAndProperties(notepad);
-            AddWindow(notepad);
-            ShowWindow(notepad);
+            SetupNotepadWindowCallbacksAndProperties(window);
+            AddWindow(window);
+            ShowWindow(window);
         }
 
         /// <summary>
-        /// Gets a preview item using a Notepad window's view model
+        /// Gets a preview view model using a Notepad window's view model
         /// </summary>
         /// <param name="notepad"></param>
         /// <returns>null if there's no windows with the given viewmodel. else returns the preview</returns>
         public WindowPreviewControlViewModel GetPreviewControlFromNotepad(NotepadViewModel notepad)
         {
-            foreach (WindowPreviewControlViewModel control in WindowPreviews)
+            foreach (WindowPreviewControlViewModel wpcvm in WindowPreviews)
             {
-                if (control.Notepad == notepad)
-                    return control;
+                if (wpcvm.Notepad == notepad)
+                    return wpcvm;
             }
 
             return null;
@@ -320,15 +326,15 @@ namespace Notepad2.Applications
 
         #region Closing Windows and Previews
 
-        public void CloseWindowFromPreviewControl(WindowPreviewControlViewModel wpc)
+        public void CloseWindowFromPreviewControl(WindowPreviewControlViewModel wpcvm)
         {
-            CloseWindowAndRemovePreviewFromPreview(wpc);
+            CloseWindowAndRemovePreviewFromPreview(wpcvm);
         }
 
-        public void CloseWindowAndRemovePreviewFromPreview(WindowPreviewControlViewModel wpc)
+        public void CloseWindowAndRemovePreviewFromPreview(WindowPreviewControlViewModel wpcvm)
         {
-            RemovePreviewItem(wpc);
-            NotepadWindow nw = WindowManager.GetNotepadWindowFromNotepad(wpc.Notepad);
+            RemovePreviewItem(wpcvm);
+            NotepadWindow nw = WindowManager.GetNotepadWindowFromNotepad(wpcvm.Notepad);
             if (nw != null)
                 CloseWindow(nw);
         }
@@ -345,10 +351,10 @@ namespace Notepad2.Applications
             }
         }
 
-        public void RemoveWindowAndPreviewFromWindow(NotepadWindow wind)
+        public void RemoveWindowAndPreviewFromWindow(NotepadWindow window)
         {
-            RemoveWindow(wind);
-            WindowPreviewControlViewModel wpc = GetPreviewControlFromNotepad(wind.Notepad);
+            RemoveWindow(window);
+            WindowPreviewControlViewModel wpc = GetPreviewControlFromNotepad(window.Notepad);
             if (wpc != null)
                 RemovePreviewItem(wpc);
         }
@@ -392,19 +398,17 @@ namespace Notepad2.Applications
             else
             {
                 //Information.Show("Has NO args", "DEBUG");
-                // might want a completely new window. this does mean it wont be
-                // able to receive messages anymore
                 CreateAndShowStartupNotepadWindowAndPreviewAndOpenUnclosedFiles();
             }
         }
 
-        private void TheRMutex_OnMessageReceived(ApplicationMessage messageType, string message)
-        {
-            if (messageType == ApplicationMessage.OpenFiles)
-            {
-                WindowManager.FocusedWindow.Notepad.OpenNotepadFromPath(message, true, false, false);
-            }
-        }
+        //rivate void TheRMutex_OnMessageReceived(ApplicationMessage messageType, string message)
+        //
+        //   if (messageType == ApplicationMessage.OpenFiles)
+        //   {
+        //       WindowManager.FocusedWindow.Notepad.OpenNotepadFromPath(message, true, false, false);
+        //   }
+        //
 
         public void OpenFileInNewWindow(string path, bool clearPath = false, bool useStartupDelay = false)
         {

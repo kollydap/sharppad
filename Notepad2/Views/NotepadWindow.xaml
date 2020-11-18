@@ -675,7 +675,11 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Notepad Items" TextWrapping="NoWrap" VerticalAlignment="Center"/>
                                         <Separator Margin="3,0" Style="{DynamicResource VerticalSeparator}"/>
-                                        <Button Command="{Binding RefreshFileContentsCommand, Mode=OneTime}" Content="Refresh File Contents" ToolTip="Forces all files to re-fetch all their text from your system (if the file exists that is). Does nothing to items that have no path (that exists)" Height="24" Width="119" Background="{DynamicResource ControlBrightDefaultBackground}" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
+                                        <Button Command="{Binding RefreshFileContentsCommand, Mode=OneTime}" Content="Refresh File Contents" 
+                                                ToolTip="Forces all files to re-fetch all their text from your system (if the file exists that is). Does nothing to items that have no path (that exists)" 
+                                                Height="24" Width="119" ToolTipService.ShowDuration="12000"
+                                                Background="{DynamicResource ControlBrightDefaultBackground}" 
+                                                BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
                                     </StackPanel>
                                 </GroupBox.Header>
                                 <Grid>
@@ -928,7 +932,10 @@
                                             <Grid>
                                                 <TextBox Focusable="True" Text="{Binding FindWhatText, UpdateSourceTrigger=PropertyChanged}" 
                                                          Padding="2 4" Margin="4,4,262,2" BorderThickness="1" Name="findBox" ToolTip="Find"
-                                                         VerticalContentAlignment="Center" Background="{DynamicResource ControlDefaultBackground}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}">
+                                                         VerticalContentAlignment="Center" 
+                                                         Background="{DynamicResource ControlDefaultBackground}" 
+                                                         BorderBrush="{DynamicResource ControlDefaultBorderBrush}"
+                                                         GotFocus="findBox_GotFocus">
                                                     <TextBox.InputBindings>
                                                         <KeyBinding Key="Enter" Command="{Binding HighlightNextMatchCommand, Mode=OneTime}"/>
                                                     </TextBox.InputBindings>

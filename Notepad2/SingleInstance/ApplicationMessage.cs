@@ -1,4 +1,4 @@
-﻿namespace Notepad2.SerialCommunication
+﻿namespace Notepad2.SingleInstance
 {
     public enum ApplicationMessage
     {

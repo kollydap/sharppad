@@ -43,13 +43,7 @@ namespace Notepad2.Notepad
         public string FilePath
         {
             get => _filePath;
-            set
-            {
-                if (value == "")
-                    RaisePropertyChanged(ref _filePath, "(No path avaliable)");
-                else
-                    RaisePropertyChanged(ref _filePath, value);
-            }
+            set => RaisePropertyChanged(ref _filePath, value);
         }
 
         /// <summary>

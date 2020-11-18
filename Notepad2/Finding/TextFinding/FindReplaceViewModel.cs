@@ -60,6 +60,8 @@ namespace Notepad2.Finding.TextFinding
             get => FoundItems.Count;
         }
 
+        public bool IsVisibileAndFocused { get; set; }
+
         public DocumentViewModel Document { get; set; }
 
         public bool HasSearched { get; set; }
@@ -196,6 +198,7 @@ namespace Notepad2.Finding.TextFinding
             FindWhatText = "";
 
             SetFindViewIsVisibleCallback?.Invoke(false);
+            IsVisibileAndFocused = false;
         }
 
         public void HighlightResultAtIndex(int position)
@@ -206,6 +209,7 @@ namespace Notepad2.Finding.TextFinding
                 FindResult result = FoundItems[index];
                 HighlightResultCallback?.Invoke(result, true);
                 SetFindViewIsVisibleCallback?.Invoke(true);
+                IsVisibileAndFocused = true;
             }
         }
 

@@ -53,6 +53,10 @@ namespace Notepad2.Views
 
         private Point MouseDownPoint { get; set; }
 
+        /// <summary>
+        /// Used for telling if a window can save to the properties file after it closes. this should
+        /// only be enabled for the main window, of the last window opened.
+        /// </summary>
         public bool CanSavePreferences { get; set; }
 
         private ItemSearchResultsWindow SearchResultsWindow { get; set; }
@@ -103,17 +107,17 @@ namespace Notepad2.Views
                     await Task.Delay(GlobalPreferences.STARTUP_NOTEPAD_ACTIONS_DELAY_MS);
                     Application.Current?.Dispatcher?.Invoke(() =>
                     {
-                        LoadFile(filePaths, clearPath);
+                        LoadFiles(filePaths, clearPath);
                     });
                 });
             }
             else
             {
-                LoadFile(filePaths, clearPath);
+                LoadFiles(filePaths, clearPath);
             }
         }
 
-        private void LoadFile(string[] paths, bool clearPath = false)
+        private void LoadFiles(string[] paths, bool clearPath = false)
         {
             try
             {
@@ -432,7 +436,7 @@ namespace Notepad2.Views
                         case ThemeTypes.ColourfulLight: Properties.Settings.Default.Theme = 3; break;
                         case ThemeTypes.ColourfulDark: Properties.Settings.Default.Theme = 4; break;
                     }
-                    if (!this.Notepad.IsNotepadNull())
+                    if (!this.Notepad.IsNotepadDocumentsNull())
                     {
                         if (Notepad.Notepad.DocumentFormat != null)
                         {
@@ -554,6 +558,11 @@ namespace Notepad2.Views
         public void ReplaceEditorText(FindResult result, string replaceWith)
         {
             MainTextBox.ReplaceText(result, replaceWith);
+        }
+
+        private void findBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Notepad?.Notepad?.FindResults?.StartFind();
         }
     }
 }

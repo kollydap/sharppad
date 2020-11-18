@@ -42,5 +42,7 @@ namespace Notepad2.Utilities
             ".js"    ,
             ".exe"
         };
+
+        public static bool IS_FIND_VISIBLE;
     }
 }

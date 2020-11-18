@@ -7,14 +7,14 @@ namespace Notepad2.CClipboard
     /// <summary>
     /// Provides notifications when the contents of the clipboard is updated.
     /// </summary>
-    public sealed class ClipboardNotification
+    public static class ClipboardNotification
     {
         /// <summary>
         /// Occurs when the contents of the clipboard is updated.
         /// </summary>
         public static event EventHandler ClipboardUpdated;
 
-        private static readonly NotificationForm _form = new NotificationForm();
+        private static NotificationForm Listener;
 
         /// <summary>
         /// Raises the <see cref="ClipboardUpdated"/> event.
@@ -25,9 +25,14 @@ namespace Notepad2.CClipboard
             ClipboardUpdated?.Invoke(null, e);
         }
 
+        public static void StartListener()
+        {
+            Listener = new NotificationForm();
+        }
+
         public static void ShutdownListener()
         {
-            NativeMethods.RemoveClipboardFormatListener(_form.Handle);
+            NativeMethods.RemoveClipboardFormatListener(Listener.Handle);
         }
 
         /// <summary>

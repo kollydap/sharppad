@@ -27,11 +27,13 @@ namespace Notepad2.Notepad.DragDropping
         {
             public string From { get; set; }
             public string To { get; set; }
+            public TextDocumentViewModel TextDocument { get; set; }
 
-            public FileRenameContainer(string from, string to)
+            public FileRenameContainer(string from, string to, TextDocumentViewModel doc)
             {
                 From = from;
                 To = to;
+                TextDocument = doc;
             }
         }
 
@@ -105,6 +107,11 @@ namespace Notepad2.Notepad.DragDropping
                 foreach (FileRenameContainer rename in FileRenamingQue)
                 {
                     File.Move(rename.From, rename.To);
+                    if (rename.TextDocument != null && rename.TextDocument.Document != null)
+                    {
+                        rename.TextDocument.Document.FilePath = rename.To;
+                        rename.TextDocument.HasMadeChanges = false;
+                    }
                 }
 
                 FileRenamingQue.Clear();
@@ -154,14 +161,8 @@ namespace Notepad2.Notepad.DragDropping
                     //// Renames the file
                     if (!File.Exists(realPath))
                     {
-                        FileRenamingQue.Add(new FileRenameContainer(droppedFilePath, realPath));
                         ResetQueCountdown();
-
-                        if (DroppingDocument != null && DroppingDocument.Document != null)
-                        {
-                            DroppingDocument.Document.FilePath = realPath;
-                            DroppingDocument.HasMadeChanges = false;
-                        }
+                        FileRenamingQue.Add(new FileRenameContainer(droppedFilePath, realPath, DroppingDocument));
                     }
                     else if (MessageBox.Show("File already exists. Override?", "File Exists", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {

@@ -18,14 +18,14 @@
         <EventTrigger RoutedEvent="MouseEnter">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Duration="0:0:0.2" To="80" Storyboard.TargetProperty="Height" DecelerationRatio="1" AccelerationRatio="0"/>
+                    <DoubleAnimation Duration="0:0:0.08" To="80" Storyboard.TargetProperty="Height" DecelerationRatio="1" AccelerationRatio="0"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
         <EventTrigger RoutedEvent="MouseLeave">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Duration="0:0:0.2" To="57" Storyboard.TargetProperty="Height" DecelerationRatio="1" AccelerationRatio="0"/>
+                    <DoubleAnimation Duration="0:0:0.08" To="57" Storyboard.TargetProperty="Height" DecelerationRatio="1" AccelerationRatio="0"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>

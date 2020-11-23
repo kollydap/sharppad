@@ -1,8 +1,8 @@
-﻿using Notepad2.Applications;
-using Notepad2.Utilities;
+﻿using SharpPad.Applications;
+using SharpPad.Utilities;
 using System;
 
-namespace Notepad2.CClipboard
+namespace SharpPad.CClipboard
 {
     /// <summary>
     /// A ViewModel that automatically listens for clipboard changes

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Notepad2.Converters
+namespace SharpPad.Converters
 {
     public class TextToFontDecorationConverter : IValueConverter
     {

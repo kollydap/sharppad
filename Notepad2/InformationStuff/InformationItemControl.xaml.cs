@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Notepad2.InformationStuff
+namespace SharpPad.InformationStuff
 {
     /// <summary>
     /// Interaction logic for InformationItemControl.xaml

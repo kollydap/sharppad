@@ -1,15 +1,15 @@
-﻿using Notepad2.FileExplorer;
-using Notepad2.InformationStuff;
-using Notepad2.Notepad.DragDropping;
-using Notepad2.Preferences;
-using Notepad2.Utilities;
+﻿using SharpPad.FileExplorer;
+using SharpPad.InformationStuff;
+using SharpPad.Notepad.DragDropping;
+using SharpPad.Preferences;
+using SharpPad.Utilities;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Path = System.IO.Path;
 
-namespace Notepad2.Notepad
+namespace SharpPad.Notepad
 {
     /// <summary>
     /// A user control containing a ViewModel containing 

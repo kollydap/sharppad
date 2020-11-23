@@ -1,8 +1,8 @@
-﻿using Notepad2.Notepad;
-using Notepad2.Utilities;
+﻿using SharpPad.Notepad;
+using SharpPad.Utilities;
 using System;
 
-namespace Notepad2.History
+namespace SharpPad.History
 {
     public class HistoryItemViewModel : BaseViewModel
     {

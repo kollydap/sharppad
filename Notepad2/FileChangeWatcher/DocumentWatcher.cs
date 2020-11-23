@@ -1,7 +1,7 @@
-﻿using Notepad2.Notepad;
+﻿using SharpPad.Notepad;
 using System;
 
-namespace Notepad2.FileChangeWatcher
+namespace SharpPad.FileChangeWatcher
 {
     /// <summary>
     /// A class for constantly checking if a file's contents 

@@ -1,9 +1,9 @@
-﻿using Notepad2.ViewModels;
+﻿using SharpPad.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Notepad2.Applications.Controls
+namespace SharpPad.Applications.Controls
 {
     /// <summary>
     /// Interaction logic for WindowPreviewControl.xaml

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Notepad2.WordCompletion
+namespace SharpPad.WordCompletion
 {
     /// <summary>
     /// Interaction logic for WordCompletionControl.xaml

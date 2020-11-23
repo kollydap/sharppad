@@ -1,16 +1,16 @@
-﻿using Notepad2.CClipboard;
-using Notepad2.Finding.TextFinding;
-using Notepad2.InformationStuff;
-using Notepad2.Preferences;
-using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using SharpPad.CClipboard;
+using SharpPad.Finding.TextFinding;
+using SharpPad.InformationStuff;
+using SharpPad.Preferences;
+using SharpPad.Utilities;
+using SharpPad.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup.Localizer;
 
-namespace Notepad2.SimpleEditor
+namespace SharpPad.SimpleEditor
 {
     public class TextEditor : TextBox
     {

@@ -1,10 +1,10 @@
-﻿using Notepad2.InformationStuff;
-using Notepad2.Utilities;
+﻿using SharpPad.InformationStuff;
+using SharpPad.Utilities;
 using Shell32;
 using System.Diagnostics;
 using System.IO;
 
-namespace Notepad2.FileExplorer
+namespace SharpPad.FileExplorer
 {
     public static class ExplorerHelper
     {

@@ -1,10 +1,10 @@
-﻿using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using SharpPad.Utilities;
+using SharpPad.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Notepad2.Applications.History
+namespace SharpPad.Applications.History
 {
     /// <summary>
     /// A class for dealing with the history of Notepads (Aka the Notepad windows' DataContext). 

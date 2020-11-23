@@ -1,4 +1,4 @@
-﻿namespace Notepad2.SingleInstance
+﻿namespace SharpPad.SingleInstance
 {
     public enum ApplicationMessage
     {

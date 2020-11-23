@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Notepad2.RecyclingBin
+namespace SharpPad.RecyclingBin
 {
     public static class RecycleBin
     {

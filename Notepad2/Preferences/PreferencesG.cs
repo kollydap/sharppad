@@ -1,4 +1,4 @@
-﻿namespace Notepad2.Preferences
+﻿namespace SharpPad.Preferences
 {
     /// <summary>
     /// A static class for holding application-wide preferences.

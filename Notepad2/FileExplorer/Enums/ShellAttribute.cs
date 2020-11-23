@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Notepad2.FileExplorer.Enums
+namespace SharpPad.FileExplorer.Enums
 {
     [Flags]
     public enum ShellAttribute : uint

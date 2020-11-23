@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Notepad2.Utilities
+namespace SharpPad.Utilities
 {
     public class TextBoxLineNumbers
     {

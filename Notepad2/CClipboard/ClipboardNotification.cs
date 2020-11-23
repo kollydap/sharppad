@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Notepad2.CClipboard
+namespace SharpPad.CClipboard
 {
     /// <summary>
     /// Provides notifications when the contents of the clipboard is updated.

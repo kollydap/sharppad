@@ -1,5 +1,5 @@
-﻿using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using SharpPad.Utilities;
+using SharpPad.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Notepad2.Notepad.DragDropping
+namespace SharpPad.Notepad.DragDropping
 {
     public static class DragDropFileWatchers
     {

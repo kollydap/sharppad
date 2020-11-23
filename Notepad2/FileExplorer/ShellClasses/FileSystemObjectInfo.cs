@@ -1,5 +1,5 @@
-﻿using Notepad2.FileExplorer.Enums;
-using Notepad2.InformationStuff;
+﻿using SharpPad.FileExplorer.Enums;
+using SharpPad.InformationStuff;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Notepad2.FileExplorer.ShellClasses
+namespace SharpPad.FileExplorer.ShellClasses
 {
     public class FileSystemObjectInfo : BaseObject, IDisposable
     {

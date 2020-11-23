@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Notepad2.AttachedProperties
+namespace SharpPad.AttachedProperties
 {
     public static class ListBoxBehaviour
     {

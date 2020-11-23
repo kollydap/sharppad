@@ -1,14 +1,14 @@
-﻿using Notepad2.Applications;
-using Notepad2.CClipboard;
-using Notepad2.FileExplorer;
-using Notepad2.RecyclingBin;
-using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using SharpPad.Applications;
+using SharpPad.CClipboard;
+using SharpPad.FileExplorer;
+using SharpPad.RecyclingBin;
+using SharpPad.Utilities;
+using SharpPad.ViewModels;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Notepad2.Notepad
+namespace SharpPad.Notepad
 {
     public class NotepadItemViewModel : BaseViewModel
     {

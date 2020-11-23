@@ -1,8 +1,8 @@
-﻿using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using SharpPad.Utilities;
+using SharpPad.ViewModels;
 using System;
 
-namespace Notepad2.Applications.Controls
+namespace SharpPad.Applications.Controls
 {
     public class WindowPreviewControlViewModel : BaseViewModel
     {

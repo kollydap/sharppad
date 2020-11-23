@@ -1,11 +1,11 @@
-﻿using Notepad2.FileExplorer;
-using Notepad2.Interfaces;
-using Notepad2.Utilities;
+﻿using SharpPad.FileExplorer;
+using SharpPad.Interfaces;
+using SharpPad.Utilities;
 using System;
 using System.IO;
 using System.Windows.Input;
 
-namespace Notepad2.Notepad.FileProperties
+namespace SharpPad.Notepad.FileProperties
 {
     public class FilePropertiesViewModel : BaseViewModel
     {

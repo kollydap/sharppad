@@ -1,13 +1,13 @@
-﻿using Notepad2.Applications;
-using Notepad2.FileExplorer;
-using Notepad2.FileExplorer.ShellClasses;
-using Notepad2.Finding.NotepadItemFinding;
-using Notepad2.Finding.TextFinding;
-using Notepad2.InformationStuff;
-using Notepad2.Interfaces;
-using Notepad2.Preferences;
-using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using SharpPad.Applications;
+using SharpPad.FileExplorer;
+using SharpPad.FileExplorer.ShellClasses;
+using SharpPad.Finding.NotepadItemFinding;
+using SharpPad.Finding.TextFinding;
+using SharpPad.InformationStuff;
+using SharpPad.Interfaces;
+using SharpPad.Preferences;
+using SharpPad.Utilities;
+using SharpPad.ViewModels;
 using System;
 using System.IO;
 using System.Linq;
@@ -19,7 +19,7 @@ using System.Windows.Media.Animation;
 using static TheRThemes.ThemesController;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
-namespace Notepad2.Views
+namespace SharpPad.Views
 {
     /// <summary>
     /// Interaction logic for NotepadWindow.xaml

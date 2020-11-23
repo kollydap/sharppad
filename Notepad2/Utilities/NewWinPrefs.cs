@@ -1,4 +1,4 @@
-﻿namespace Notepad2.Views
+﻿namespace SharpPad.Views
 {
     /// <summary>
     /// idk tbh

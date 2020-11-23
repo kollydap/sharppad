@@ -1,10 +1,10 @@
-﻿using Notepad2.FileExplorer.Enums;
-using Notepad2.FileExplorer.Structs;
+﻿using SharpPad.FileExplorer.Enums;
+using SharpPad.FileExplorer.Structs;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Notepad2.FileExplorer
+namespace SharpPad.FileExplorer
 {
     public class ShellManager
     {

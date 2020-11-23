@@ -1,4 +1,4 @@
-﻿using Notepad2.Preferences;
+﻿using SharpPad.Preferences;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Forms = System.Windows.Forms;
 
-namespace Notepad2.AttachedProperties
+namespace SharpPad.AttachedProperties
 {
     /// <summary>
     /// A class for allowing horizontal scrolling on any control that has a scrollviewer 

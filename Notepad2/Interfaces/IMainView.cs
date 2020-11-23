@@ -1,6 +1,6 @@
-﻿using Notepad2.Finding.TextFinding;
+﻿using SharpPad.Finding.TextFinding;
 
-namespace Notepad2.Interfaces
+namespace SharpPad.Interfaces
 {
     public interface IMainView
     {

@@ -1,8 +1,8 @@
-﻿using Notepad2.Preferences;
-using Notepad2.Utilities;
+﻿using SharpPad.Preferences;
+using SharpPad.Utilities;
 using System;
 
-namespace Notepad2.Notepad
+namespace SharpPad.Notepad
 {
     /// <summary>
     /// A ViewModel containing common data a notepad document/file contains

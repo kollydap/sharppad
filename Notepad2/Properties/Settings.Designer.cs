@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Notepad2.Properties {
+namespace SharpPad.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

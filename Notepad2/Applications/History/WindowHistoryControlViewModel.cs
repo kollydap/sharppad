@@ -1,8 +1,8 @@
-﻿using Notepad2.Utilities;
-using Notepad2.ViewModels;
+﻿using SharpPad.Utilities;
+using SharpPad.ViewModels;
 using System;
 
-namespace Notepad2.Applications.History
+namespace SharpPad.Applications.History
 {
     /// <summary>
     /// A ViewModel for a history item. Contains a Notepad Window's DataContext

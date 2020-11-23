@@ -1,4 +1,4 @@
-﻿namespace Notepad2.InformationStuff
+﻿namespace SharpPad.InformationStuff
 {
     public enum InfoTypes
     {

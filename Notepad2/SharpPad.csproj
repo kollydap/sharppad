@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4441374D-B286-4D17-8AB8-F906F01E4ECD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Notepad2</RootNamespace>
+    <RootNamespace>SharpPad</RootNamespace>
     <AssemblyName>SharpPad</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -52,7 +52,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Notepad2.App</StartupObject>
+    <StartupObject>SharpPad.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero2" />
@@ -477,6 +477,7 @@
   <ItemGroup>
     <Resource Include="Resources\sharpPadIcon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

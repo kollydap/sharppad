@@ -1,8 +1,8 @@
-﻿using Notepad2.InformationStuff;
+﻿using SharpPad.InformationStuff;
 using System;
 using System.Windows;
 
-namespace Notepad2.CClipboard
+namespace SharpPad.CClipboard
 {
     public static class CustomClipboard
     {

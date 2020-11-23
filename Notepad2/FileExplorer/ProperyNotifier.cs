@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Notepad2.FileExplorer
+namespace SharpPad.FileExplorer
 {
     [Serializable]
     public abstract class PropertyNotifier : INotifyPropertyChanged

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Notepad2.FileExplorer.Structs
+namespace SharpPad.FileExplorer.Structs
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     public struct ShellFileInfo

@@ -1,4 +1,4 @@
-﻿namespace Notepad2.Utilities
+﻿namespace SharpPad.Utilities
 {
     public static class FileExtensionsHelper
     {

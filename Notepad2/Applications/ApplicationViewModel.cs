@@ -1,14 +1,14 @@
-﻿using Notepad2.Applications.Controls;
-using Notepad2.Applications.History;
-using Notepad2.Preferences;
-using Notepad2.Utilities;
-using Notepad2.ViewModels;
-using Notepad2.Views;
+﻿using SharpPad.Applications.Controls;
+using SharpPad.Applications.History;
+using SharpPad.Preferences;
+using SharpPad.Utilities;
+using SharpPad.ViewModels;
+using SharpPad.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Notepad2.Applications
+namespace SharpPad.Applications
 {
     /// <summary>
     /// Not technically an MVVM view model because it directly interacts with window objects/instances, 

@@ -1,4 +1,4 @@
-﻿namespace Notepad2.RecyclingBin
+﻿namespace SharpPad.RecyclingBin
 {
     /// <summary>
     /// File Operation Function Type for SHFileOperation

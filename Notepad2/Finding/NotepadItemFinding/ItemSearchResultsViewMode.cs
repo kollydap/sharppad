@@ -1,11 +1,11 @@
-﻿using Notepad2.Notepad;
-using Notepad2.Utilities;
+﻿using SharpPad.Notepad;
+using SharpPad.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Notepad2.Finding.NotepadItemFinding
+namespace SharpPad.Finding.NotepadItemFinding
 {
     public class ItemSearchResultsViewMode : BaseViewModel
     {

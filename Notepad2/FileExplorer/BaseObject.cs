@@ -1,8 +1,8 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System;
 using System.Collections.Generic;
 
-namespace Notepad2.FileExplorer
+namespace SharpPad.FileExplorer
 {
     [Serializable]
     public abstract class BaseObject : PropertyNotifier

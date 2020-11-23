@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Notepad2.Utilities
+namespace SharpPad.Utilities
 {
     public static class StringHelper
     {

@@ -1,7 +1,7 @@
-﻿using Notepad2.Interfaces;
+﻿using SharpPad.Interfaces;
 using System.Windows;
 
-namespace Notepad2.Notepad.FileProperties
+namespace SharpPad.Notepad.FileProperties
 {
     /// <summary>
     /// Interaction logic for FilePropertiesWindow.xaml

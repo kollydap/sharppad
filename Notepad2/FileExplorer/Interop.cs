@@ -1,8 +1,8 @@
-﻿using Notepad2.FileExplorer.Structs;
+﻿using SharpPad.FileExplorer.Structs;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Notepad2.FileExplorer
+namespace SharpPad.FileExplorer
 {
     public static class Interop
     {

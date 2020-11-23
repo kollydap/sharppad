@@ -1,18 +1,18 @@
-﻿using Notepad2.CClipboard;
-using Notepad2.FileChangeWatcher;
-using Notepad2.InformationStuff;
-using Notepad2.Notepad;
-using Notepad2.Notepad.DragDropping;
-using Notepad2.SingleInstance;
-using Notepad2.Utilities;
-using Notepad2.ViewModels;
-using Notepad2.Views;
+﻿using SharpPad.CClipboard;
+using SharpPad.FileChangeWatcher;
+using SharpPad.InformationStuff;
+using SharpPad.Notepad;
+using SharpPad.Notepad.DragDropping;
+using SharpPad.SingleInstance;
+using SharpPad.Utilities;
+using SharpPad.ViewModels;
+using SharpPad.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
-namespace Notepad2.Applications
+namespace SharpPad.Applications
 {
     public static class ThisApplication
     {

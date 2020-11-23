@@ -1,9 +1,9 @@
-﻿using Notepad2.InformationStuff;
-using Notepad2.Utilities;
+﻿using SharpPad.InformationStuff;
+using SharpPad.Utilities;
 using System;
 using System.Windows.Input;
 
-namespace Notepad2.Preferences.Views
+namespace SharpPad.Preferences.Views
 {
     public class PreferencesViewModel : BaseViewModel
     {

@@ -1,9 +1,9 @@
-﻿using Notepad2.Notepad;
-using Notepad2.Utilities;
+﻿using SharpPad.Notepad;
+using SharpPad.Utilities;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Notepad2.ViewModels
+namespace SharpPad.ViewModels
 {
     public class TextEditorLinesViewModel : BaseViewModel
     {

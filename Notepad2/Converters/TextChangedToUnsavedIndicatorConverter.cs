@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Notepad2.Converters
+namespace SharpPad.Converters
 {
     /// <summary>
     /// I know the name of this converter is really long... i couldnt think of anything

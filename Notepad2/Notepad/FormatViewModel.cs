@@ -1,8 +1,8 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Notepad2.Notepad
+namespace SharpPad.Notepad
 {
     public class FormatViewModel : BaseViewModel
     {

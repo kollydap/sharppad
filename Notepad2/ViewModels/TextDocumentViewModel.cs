@@ -1,13 +1,13 @@
-﻿using Notepad2.FileChangeWatcher;
-using Notepad2.FileExplorer;
-using Notepad2.Finding.TextFinding;
-using Notepad2.InformationStuff;
-using Notepad2.Notepad;
-using Notepad2.Utilities;
+﻿using SharpPad.FileChangeWatcher;
+using SharpPad.FileExplorer;
+using SharpPad.Finding.TextFinding;
+using SharpPad.InformationStuff;
+using SharpPad.Notepad;
+using SharpPad.Utilities;
 using System;
 using System.IO;
 
-namespace Notepad2.ViewModels
+namespace SharpPad.ViewModels
 {
     /// <summary>
     /// Contains everything a notepad would contain; text, wrapping, font size, font, ect

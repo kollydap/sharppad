@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Notepad2.Utilities
+namespace SharpPad.Utilities
 {
     public static class FilePropertiesHelper
     {

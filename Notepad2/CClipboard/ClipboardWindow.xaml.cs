@@ -1,8 +1,8 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Notepad2.CClipboard
+namespace SharpPad.CClipboard
 {
     /// <summary>
     /// Interaction logic for ClipboardWindow.xaml

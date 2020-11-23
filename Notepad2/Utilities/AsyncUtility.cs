@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Notepad2.Utilities
+namespace SharpPad.Utilities
 {
     public static class AsyncUtility
     {

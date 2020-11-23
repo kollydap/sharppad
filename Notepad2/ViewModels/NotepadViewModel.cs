@@ -1,16 +1,16 @@
 ﻿using Microsoft.Win32;
-using Notepad2.Applications;
-using Notepad2.CClipboard;
-using Notepad2.FileChangeWatcher;
-using Notepad2.FileExplorer;
-using Notepad2.Finding.NotepadItemFinding;
-using Notepad2.Finding.TextFinding;
-using Notepad2.History;
-using Notepad2.InformationStuff;
-using Notepad2.Interfaces;
-using Notepad2.Notepad;
-using Notepad2.Preferences;
-using Notepad2.Utilities;
+using SharpPad.Applications;
+using SharpPad.CClipboard;
+using SharpPad.FileChangeWatcher;
+using SharpPad.FileExplorer;
+using SharpPad.Finding.NotepadItemFinding;
+using SharpPad.Finding.TextFinding;
+using SharpPad.History;
+using SharpPad.InformationStuff;
+using SharpPad.Interfaces;
+using SharpPad.Notepad;
+using SharpPad.Preferences;
+using SharpPad.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +23,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace Notepad2.ViewModels
+namespace SharpPad.ViewModels
 {
     public class NotepadViewModel : BaseViewModel
     {

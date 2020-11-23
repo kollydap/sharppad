@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Notepad2.Utilities
+namespace SharpPad.Utilities
 {
     /// <summary>
     /// A command capiable of passing parameters and capiable of being executable or not

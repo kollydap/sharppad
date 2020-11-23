@@ -1,4 +1,4 @@
-﻿namespace Notepad2.FileExplorer.Enums
+﻿namespace SharpPad.FileExplorer.Enums
 {
     public enum FileAttribute : uint
     {

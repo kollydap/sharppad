@@ -1,5 +1,5 @@
-﻿using Notepad2.Applications;
-using Notepad2.FileExplorer;
+﻿using SharpPad.Applications;
+using SharpPad.FileExplorer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Notepad2.SingleInstance
+namespace SharpPad.SingleInstance
 {
     public static class TheRInstance
     {

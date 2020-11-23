@@ -1,7 +1,7 @@
-﻿using Notepad2.Notepad;
-using Notepad2.Utilities;
+﻿using SharpPad.Notepad;
+using SharpPad.Utilities;
 
-namespace Notepad2.ViewModels
+namespace SharpPad.ViewModels
 {
     public class RichNotepadViewModel : BaseViewModel
     {

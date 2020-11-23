@@ -1,11 +1,11 @@
-﻿using Notepad2.InformationStuff;
-using Notepad2.Notepad;
-using Notepad2.Utilities;
+﻿using SharpPad.InformationStuff;
+using SharpPad.Notepad;
+using SharpPad.Utilities;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Notepad2.Finding.TextFinding
+namespace SharpPad.Finding.TextFinding
 {
     public class FindReplaceViewModel : BaseViewModel
     {

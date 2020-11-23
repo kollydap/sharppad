@@ -1,4 +1,4 @@
-﻿namespace Notepad2.Interfaces
+﻿namespace SharpPad.Interfaces
 {
     public interface IView
     {

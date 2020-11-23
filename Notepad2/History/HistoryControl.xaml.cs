@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Notepad2.History
+namespace SharpPad.History
 {
     /// <summary>
     /// Interaction logic for HistoryControl.xaml

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Notepad2.Utilities
+namespace SharpPad.Utilities
 {
     /// <summary>
     /// A base class used by view models for raising Property Changed events

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace Notepad2.Utilities
+namespace SharpPad.Utilities
 {
     public static class GlobalPreferences
     {

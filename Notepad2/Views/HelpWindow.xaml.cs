@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Notepad2.Views
+namespace SharpPad.Views
 {
     /// <summary>
     /// Interaction logic for HelpBox.xaml

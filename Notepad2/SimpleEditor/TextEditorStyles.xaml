@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Notepad2.SimpleEditor">
+                    xmlns:local="clr-namespace:SharpPad.SimpleEditor">
     <Style TargetType="local:TextEditor">
         <Setter Property="Background" Value="{DynamicResource ContainerBackground}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource ControlDefaultBorderBrush}"/>

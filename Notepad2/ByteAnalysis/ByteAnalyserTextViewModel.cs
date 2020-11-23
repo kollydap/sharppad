@@ -1,7 +1,7 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System.Collections.ObjectModel;
 
-namespace Notepad2.ByteAnalysis
+namespace SharpPad.ByteAnalysis
 {
     public class ByteAnalyserTextViewModel : BaseViewModel
     {

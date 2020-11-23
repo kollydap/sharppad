@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace Notepad2.Finding.NotepadItemFinding
+namespace SharpPad.Finding.NotepadItemFinding
 {
     /// <summary>
     /// Interaction logic for ItemSearchResultsWindow.xaml

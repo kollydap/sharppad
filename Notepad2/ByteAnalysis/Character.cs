@@ -1,4 +1,4 @@
-﻿namespace Notepad2.ByteAnalysis
+﻿namespace SharpPad.ByteAnalysis
 {
     public class Character
     {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Notepad2.FileExplorer.ShellClasses
+namespace SharpPad.FileExplorer.ShellClasses
 {
     internal class DummyFileSystemObjectInfo : FileSystemObjectInfo
     {

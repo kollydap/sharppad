@@ -1,4 +1,4 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System;
 using System.Windows;
 using System.Windows.Media;

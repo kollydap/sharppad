@@ -1,10 +1,10 @@
-﻿using Notepad2.Applications;
+﻿using SharpPad.Applications;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Notepad2
+namespace SharpPad
 {
     /// <summary>
     /// Interaction logic for App.xaml

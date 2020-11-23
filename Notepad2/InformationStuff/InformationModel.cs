@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Notepad2.InformationStuff
+namespace SharpPad.InformationStuff
 {
     public class InformationModel
     {

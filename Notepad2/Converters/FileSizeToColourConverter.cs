@@ -1,10 +1,10 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Notepad2.Converters
+namespace SharpPad.Converters
 {
     public class FileSizeToColourConverter : IValueConverter
     {

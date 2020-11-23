@@ -1,9 +1,9 @@
-﻿using Notepad2.FileExplorer;
+﻿using SharpPad.FileExplorer;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Notepad2.Converters
+namespace SharpPad.Converters
 {
     public class FileExistsToBoolConverter : IValueConverter
     {

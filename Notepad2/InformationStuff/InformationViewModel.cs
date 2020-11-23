@@ -1,8 +1,8 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Notepad2.InformationStuff
+namespace SharpPad.InformationStuff
 {
     public class InformationViewModel : BaseViewModel
     {

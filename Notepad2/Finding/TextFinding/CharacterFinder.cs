@@ -1,7 +1,7 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System.Collections.Generic;
 
-namespace Notepad2.Finding.TextFinding
+namespace SharpPad.Finding.TextFinding
 {
     public static class CharacterFinder
     {

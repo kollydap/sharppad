@@ -1,11 +1,11 @@
-﻿using Notepad2.CClipboard;
-using Notepad2.Notepad.FileProperties;
-using Notepad2.Preferences.Views;
-using Notepad2.ViewModels;
-using Notepad2.Views;
+﻿using SharpPad.CClipboard;
+using SharpPad.Notepad.FileProperties;
+using SharpPad.Preferences.Views;
+using SharpPad.ViewModels;
+using SharpPad.Views;
 using System.Collections.Generic;
 
-namespace Notepad2.Applications
+namespace SharpPad.Applications
 {
     public static class WindowManager
     {

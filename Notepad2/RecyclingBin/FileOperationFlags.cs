@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Notepad2.RecyclingBin
+namespace SharpPad.RecyclingBin
 {
     /// <summary>
     /// Possible flags for the SHFileOperation method.

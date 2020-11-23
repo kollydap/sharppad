@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace Notepad2.InformationStuff
+namespace SharpPad.InformationStuff
 {
     public static class Information
     {

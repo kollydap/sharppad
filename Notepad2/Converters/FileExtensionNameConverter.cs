@@ -1,4 +1,4 @@
-﻿using Notepad2.Utilities;
+﻿using SharpPad.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Notepad2.Converters
+namespace SharpPad.Converters
 {
     public class FileExtensionNameConverter : IValueConverter
     {

@@ -1,10 +1,10 @@
-﻿using Notepad2.FileExplorer.Enums;
+﻿using SharpPad.FileExplorer.Enums;
 using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Notepad2.FileExplorer
+namespace SharpPad.FileExplorer
 {
     public static class FolderManager
     {

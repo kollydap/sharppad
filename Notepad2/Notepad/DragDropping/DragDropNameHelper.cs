@@ -1,4 +1,4 @@
-﻿namespace Notepad2.Notepad.DragDropping
+﻿namespace SharpPad.Notepad.DragDropping
 {
     public static class DragDropNameHelper
     {

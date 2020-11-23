@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Notepad2.Applications
+namespace SharpPad.Applications
 {
     /// <summary>
     /// Interaction logic for WindowsPrviewWindow.xaml

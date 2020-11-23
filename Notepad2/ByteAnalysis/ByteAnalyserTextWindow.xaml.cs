@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Notepad2.ByteAnalysis
+namespace SharpPad.ByteAnalysis
 {
     /// <summary>
     /// Interaction logic for ByteAnalyserTextWindow.xaml

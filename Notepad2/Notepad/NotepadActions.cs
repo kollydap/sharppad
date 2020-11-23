@@ -1,7 +1,7 @@
-﻿using Notepad2.FileExplorer;
+﻿using SharpPad.FileExplorer;
 using System.IO;
 
-namespace Notepad2.Notepad
+namespace SharpPad.Notepad
 {
     public static class NotepadActions
     {

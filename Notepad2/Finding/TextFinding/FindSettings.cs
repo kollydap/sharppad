@@ -1,4 +1,4 @@
-﻿namespace Notepad2.Finding.TextFinding
+﻿namespace SharpPad.Finding.TextFinding
 {
     public enum FindSettings
     {

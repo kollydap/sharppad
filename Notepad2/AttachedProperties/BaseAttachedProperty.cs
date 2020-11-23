@@ -1,4 +1,4 @@
-﻿namespace Notepad2.AttachedProperties
+﻿namespace SharpPad.AttachedProperties
 {
     // Not being used; dont really have enough attached properties
     // for this to be useful tbh. but feel free to steal this if you want

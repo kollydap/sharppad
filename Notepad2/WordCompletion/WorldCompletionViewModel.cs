@@ -1,8 +1,8 @@
-﻿using Notepad2.Utilities;
-using Notepad2.WordCompletion.Words;
+﻿using SharpPad.Utilities;
+using SharpPad.WordCompletion.Words;
 using System.Collections.ObjectModel;
 
-namespace Notepad2.WordCompletion
+namespace SharpPad.WordCompletion
 {
     public class WorldCompletionViewModel : BaseViewModel
     {

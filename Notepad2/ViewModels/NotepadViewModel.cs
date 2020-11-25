@@ -94,14 +94,11 @@ namespace SharpPad.ViewModels
         public NotepadItemViewModel SelectedNotepadItem
         {
             get => _selectedNotepadItem;
-            set => RaisePropertyChanged(ref _selectedNotepadItem, value, () =>
+            set
             {
-                if (value?.Notepad != null)
-                {
-                    Notepad = value.Notepad;
-                    UpdateAndOpenSelectedNotepad();
-                }
-            });
+                RaisePropertyChanged(ref _selectedNotepadItem, value);
+                UpdateAndOpenSelectedNotepad();
+            }
         }
 
         /// <summary>
@@ -659,7 +656,7 @@ namespace SharpPad.ViewModels
         public void UpdateNotepadAvaliability()
         {
             NotepadAvaliable = NotepadItems.Count > 0;
-            if (NotepadItems.Count == 0)
+            if (!NotepadAvaliable)
                 Notepad = null;
         }
 

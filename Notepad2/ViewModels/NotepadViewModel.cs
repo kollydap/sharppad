@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using SharpPad.Applications;
 using SharpPad.CClipboard;
-using SharpPad.FileChangeWatcher;
 using SharpPad.FileExplorer;
 using SharpPad.Finding.NotepadItemFinding;
 using SharpPad.Finding.TextFinding;
@@ -14,6 +13,7 @@ using SharpPad.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -21,7 +21,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-
+using System.Windows.Media.Animation;
 
 namespace SharpPad.ViewModels
 {

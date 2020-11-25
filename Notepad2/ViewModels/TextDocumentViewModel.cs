@@ -4,7 +4,6 @@ using SharpPad.Finding.TextFinding;
 using SharpPad.InformationStuff;
 using SharpPad.Notepad;
 using SharpPad.Utilities;
-using System;
 using System.IO;
 
 namespace SharpPad.ViewModels

@@ -114,6 +114,7 @@
     <Compile Include="Converters\TopPaneOpenedToImageSourceConverter.cs" />
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Converters\TextToFontDecorationConverter.cs" />
+    <Compile Include="Editor\TheREditor.cs" />
     <Compile Include="FileChangeWatcher\ApplicationFileWatcher.cs" />
     <Compile Include="FileChangeWatcher\DocumentWatcher.cs" />
     <Compile Include="FileExplorer\ExplorerHelper.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Notepad\TopNotepadListItem.xaml.cs">
       <DependentUpon>TopNotepadListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SimpleEditor\TheRTextEditor.cs" />
     <Compile Include="SingleInstance\ApplicationMessage.cs" />
     <Compile Include="SingleInstance\TheRInstance.cs" />
     <Compile Include="Utilities\AsyncUtility.cs" />

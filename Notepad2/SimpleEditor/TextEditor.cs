@@ -8,7 +8,6 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Markup.Localizer;
 
 namespace SharpPad.SimpleEditor
 {
@@ -293,15 +292,94 @@ namespace SharpPad.SimpleEditor
             return CaretIndex - GetCharacterIndexFromLineIndex(line);
         }
 
+        public int CountCharacters(string text, char character)
+        {
+            int count = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == character)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int CustomGetLineCount()
+        {
+            return CountCharacters(Text, '\n');
+        }
+
+        public int CustomGetLineCountUptoCaretIndex(int caret)
+        {
+            int count = 0;
+            for (int i = 0; i < caret; i++)
+            {
+                if (Text[i] == '\n')
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int CustomGetLineStartIndexFromCaret(int caretIndex)
+        {
+            for (int i = caretIndex; i < 0; i--)
+            {
+                if (Text[i] == '\n')
+                {
+                    return i + 1;
+                }
+            }
+            return 0;
+        }
+        public int CustomGetLineEndIndexFromCaret(int caretIndex)
+        {
+            for (int i = caretIndex; i > Text.Length - 1; i++)
+            {
+                if (Text[i] == '\n')
+                {
+                    return i - 1;
+                }
+            }
+            return 0;
+        }
+
+        public int CustomGetLineIndexFromCaret(int caretIndex)
+        {
+            string tempText = Text.Substring(0, caretIndex);
+            int newLineCharacters = 0;
+            for (int i = 0; i < tempText.Length; i++)
+            {
+                if (tempText[i] == '\n')
+                {
+                    newLineCharacters++;
+                }
+            }
+            return newLineCharacters;
+        }
+
+
+        public int CustomGetCurrentLineLength()
+        {
+            return CustomGetLineStartIndexFromCaret(CaretIndex) - CustomGetLineEndIndexFromCaret(CaretIndex);
+        }
+
+        public int CustomGetCaretPositionWithinLineFromLineStartIndex()
+        {
+            return CustomGetCurrentLineLength() - CaretIndex;
+        }
+
         protected override void OnSelectionChanged(RoutedEventArgs e)
         {
             try
             {
-                int line = GetLineIndexFromCharacterIndex(CaretIndex);
-                int column = GetCaretIndexWithinLine(line);
-
-                Model.Line = line;
-                Model.Column = column;
+                //int line = GetLineIndexFromCharacterIndex(CaretIndex);
+                //int column = GetCaretIndexWithinLine(line);
+                //
+                //Model.Line = line;
+                //Model.Column = column;
             }
             catch
             {

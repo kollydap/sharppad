@@ -1,13 +1,10 @@
 ﻿using SharpPad.FileExplorer;
 using SharpPad.InformationStuff;
-using SharpPad.Notepad;
 using SharpPad.Preferences;
 using SharpPad.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SharpPad.FileChangeWatcher

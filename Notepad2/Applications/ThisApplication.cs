@@ -3,7 +3,6 @@ using SharpPad.FileChangeWatcher;
 using SharpPad.InformationStuff;
 using SharpPad.Notepad;
 using SharpPad.Notepad.DragDropping;
-using SharpPad.SingleInstance;
 using SharpPad.Utilities;
 using SharpPad.ViewModels;
 using SharpPad.Views;

@@ -88,6 +88,8 @@ namespace SharpPad.Finding.TextFinding
             CancelCommand = new Command(Cancel);
             Document = document;
             Position = 0;
+            ReplaceWithText = "";
+            FindWhatText = "";
         }
 
         public void StartFind()

@@ -146,6 +146,10 @@ namespace SharpPad.Finding.TextFinding
 
         public void ReplaceNext(bool isReplacingAll = false)
         {
+            if (Position <= 0) {
+                HighlightNextMatch();
+                Position = 1;
+            }
             int index = Position - 1;
             if (Count > 0 && index >= 0)
             {

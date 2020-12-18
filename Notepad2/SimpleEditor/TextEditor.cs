@@ -210,7 +210,7 @@ namespace SharpPad.SimpleEditor
             if (result.StartIndex >= 0 &&
                 result.StartIndex < Text.Length &&
                 result.WordLength > 0 &&
-                result.StartIndex + result.WordLength < Text.Length)
+                result.StartIndex + result.WordLength <= Text.Length)
             {
                 try
                 {

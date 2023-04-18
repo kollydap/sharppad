@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Closing="Window_Closing"
         Title="Help" Height="570" Width="1180"
+        WindowStartupLocation="CenterScreen"
         Style="{DynamicResource CustomToolWindowStyle}" Foreground="{DynamicResource ControlDefaultForeground}">
     <Grid Margin="10">
         <Grid Margin="0,0,405,0">

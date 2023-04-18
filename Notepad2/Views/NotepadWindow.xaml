@@ -15,6 +15,7 @@
         mc:Ignorable="d"
         Closing="Window_Closing"
         GotFocus="Window_GotFocus"
+        WindowStartupLocation="CenterScreen"
         Style="{DynamicResource CustomWindowStyle}"
         BorderBrush="{DynamicResource ControlDefaultBackground}"
         MinHeight="535" 
